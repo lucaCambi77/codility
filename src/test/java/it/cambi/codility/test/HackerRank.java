@@ -14,18 +14,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class HackerRank {
-
-	private static final Logger log = LoggerFactory.getLogger(HackerRank.class);
 
 	public static String[] ones = { "o' clock", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
 			"ten", "eleven", "twelve", "thirteen", "fourteen", "quarter", "sixteen", "seventeen", "eighteen",
@@ -37,6 +35,31 @@ public class HackerRank {
 			"half", // 30 min
 			"forty", // 40 min
 	};
+
+	@Test
+	public void hourglassSum() {
+		int arr[][] = new int[][] { { 1, 1, 1, 0, 0, 0 }, { 0, 1, 0, 0, 0, 0 }, { 1, 1, 1, 0, 0, 0 },
+				{ 0, 0, 2, 4, 4, 0 }, { 0, 0, 0, 2, 0, 0 }, { 0, 0, 1, 2, 4, 0 } };
+
+		SortedSet<Long> set = new TreeSet<Long>();
+
+		for (int i = 0; i < arr.length - 2; i++) {
+
+			for (int j = 0; j < arr.length - 2; j++) {
+				List<Integer> list1 = Arrays.stream(arr[i]).boxed().collect(Collectors.toCollection(LinkedList::new))
+						.subList(j, j + 3);
+				Integer middle = Arrays.stream(arr[i + 1]).boxed().collect(Collectors.toCollection(LinkedList::new))
+						.get(j + 2 / 2);
+				List<Integer> list3 = Arrays.stream(arr[i + 2]).boxed()
+						.collect(Collectors.toCollection(LinkedList::new)).subList(j, j + 3);
+
+				set.add(list1.stream().reduce((x, y) -> x + y).get() + list3.stream().reduce((x, y) -> x + y).get()
+						+ middle.longValue());
+			}
+		}
+		assertEquals(19, set.last().intValue());
+
+	}
 
 	@Test
 	public void luckBalance() {
