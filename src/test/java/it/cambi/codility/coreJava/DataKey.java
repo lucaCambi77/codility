@@ -1,0 +1,30 @@
+/**
+ * 
+ */
+package it.cambi.codility.coreJava;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+/**
+ * @author luca
+ *
+ */
+
+@Getter
+@Setter
+@NoArgsConstructor
+public class DataKey {
+
+	protected String name;
+	protected int id;
+
+	// getter and setter methods
+
+	@Override
+	public String toString() {
+		return "DataKey [name=" + name + ", id=" + id + "]";
+	}
+
+}
