@@ -22,8 +22,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 public class EqualsTest {
 
 	/**
-	 * Object are not equals as no {@link java.lang.Object#equals(Object)}} is
-	 * implemented so the differente integers are returned for 2 objects
+	 * Object are not equals as no {@link java.lang.Object#equals(Object)}} is not
+	 * implemented so two different integers are returned for 2 objects
 	 */
 	@Test
 	@Order(1)
@@ -55,8 +55,9 @@ public class EqualsTest {
 
 	/**
 	 * Object are not equals even if {@link java.lang.Object#equals(Object)}} is
-	 * implemented. Anonymous class are used so equals will fail as 2 objects have
-	 * different classes
+	 * implemented and {@link java.lang.Object#hashCode()}} should be the same
+	 * integers for objects. Anonymous class are used so equals will fail objects
+	 * have different classes
 	 */
 	@Test
 	@Order(2)
