@@ -1,4 +1,4 @@
-package it.cambi.codility.test;
+package it.cambi.codility.hackerRank;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

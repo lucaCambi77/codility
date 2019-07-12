@@ -1,4 +1,4 @@
-package it.cambi.codility.test;
+package it.cambi.codility.codility;
 
 import static org.junit.jupiter.api.Assertions.*;
 
