@@ -55,7 +55,7 @@ public class EqualsTest {
 
 	/**
 	 * Object are not equals even if {@link java.lang.Object#equals(Object)}} is
-	 * implemented and {@link java.lang.Object#hashCode()}} should be the same
+	 * implemented and {@link java.lang.Object#hashCode()}} is the same
 	 * integers for objects. Anonymous class are used so equals will fail objects
 	 * have different classes
 	 */
