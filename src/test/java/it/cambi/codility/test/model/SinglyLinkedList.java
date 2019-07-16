@@ -27,7 +27,7 @@ public class SinglyLinkedList {
 
 	// function to insert a node
 	// at the begining of the list
-	void InsertAtStart(int data) {
+	public void insertAtStart(int data) {
 		// create a node
 		Node new_node = new Node(data);
 
@@ -37,7 +37,7 @@ public class SinglyLinkedList {
 
 	// function to insert node
 	// at the end of the list
-	void InsertAtLast(int data) {
+	public void insertAtLast(int data) {
 
 		Node new_node = new Node(data);
 		if (head == null) {
@@ -57,7 +57,7 @@ public class SinglyLinkedList {
 
 	// function to delete a node
 	// at the beginning of the list
-	void DeleteAtStart() {
+	public void deleteAtStart() {
 		if (head == null) {
 			System.out.println("List is empty");
 			return;
@@ -67,22 +67,56 @@ public class SinglyLinkedList {
 
 	// function to delete a node at
 	// a given position in the list
-	void DeleteAtPos(int pos) throws Exception {
+	public void deleteAtPos(int pos) throws Exception {
 		int position = 0;
-		if (pos > Count() || pos < 0) {
+		if (pos > count() || pos < 0) {
 			throw new Exception("Incorrect position exception");
 		}
 		Node temp = head;
+
+		if (position == 0) {
+			head = head.next;
+			return;
+		}
+
 		while (position != pos - 1) {
 			temp = temp.next;
 			position++;
 		}
+
 		temp.next = temp.next.next;
+	}
+
+	public void insertAtPos(int position, int data) throws Exception {
+		int pos = 0;
+		if (position > count() || position < 0) {
+			throw new Exception("Incorrect position exception");
+		}
+
+		Node nextAtInsert = new Node(data);
+		Node temp = head;
+
+		if (position == 0) {
+			nextAtInsert.next = head;
+			return;
+		}
+
+		while (pos != position - 1) {
+			temp = temp.next;
+			pos++;
+		}
+
+		Node nextAfterInsert = temp.next;
+
+		nextAtInsert.next = nextAfterInsert;
+
+		temp.next = nextAtInsert;
+
 	}
 
 	// function to delete a node
 	// from the end of the list
-	void DeleteAtLast() {
+	void deleteAtLast() {
 		Node delete = head;
 		while (delete.next != null && delete.next.next != null) {
 			delete = delete.next;
@@ -91,7 +125,7 @@ public class SinglyLinkedList {
 	}
 
 	// function to display all the nodes of the list
-	void Display() {
+	void display() {
 		Node disp = head;
 		while (disp != null) {
 			System.out.print(disp.data + "->");
@@ -100,7 +134,7 @@ public class SinglyLinkedList {
 	}
 
 	// function to return the total nodes in the list
-	int Count() {
+	int count() {
 		int elements = 0;
 		Node count = head;
 		while (count != null) {
