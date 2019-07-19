@@ -3,16 +3,8 @@
  */
 package it.cambi.codility.hackerRank;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.Test;
 
@@ -25,43 +17,50 @@ public class HackerRankArrays {
 	@Test
 	public void arrayManipulation() throws IOException {
 
-		int n = 30000;
-		int[][] queries = new int[n][3];
-		InputStream is = new FileInputStream("src/test/resources/arrayManip.txt");
-		BufferedReader buf = new BufferedReader(new InputStreamReader(is));
-		String line = buf.readLine();
+		/*
+		 * int n = 30000;
+		 * 
+		 * int[][] queries = new int[n][3];
+		 * 
+		 * InputStream is = new FileInputStream("src/test/resources/arrayManip.txt");
+		 * BufferedReader buf = new BufferedReader(new InputStreamReader(is)); String
+		 * line = buf.readLine();
+		 * 
+		 * int x = 0; while (line != null) { String[] scoresString = line.split(" ");
+		 * for (int i = 0; i < scoresString.length; i++) { queries[x][0] =
+		 * Integer.parseInt(scoresString[0]); queries[x][1] =
+		 * Integer.parseInt(scoresString[1]); queries[x][2] =
+		 * Integer.parseInt(scoresString[2]);
+		 * 
+		 * } x++; line = buf.readLine(); }
+		 * 
+		 * buf.close();
+		 */
+		int n = 5;
 
-		int x = 0;
-		while (line != null) {
-			String[] scoresString = line.split(" ");
-			for (int i = 0; i < scoresString.length; i++) {
-				queries[x][0] = Integer.parseInt(scoresString[0]);
-				queries[x][1] = Integer.parseInt(scoresString[1]);
-				queries[x][2] = Integer.parseInt(scoresString[2]);
+		int[][] queries = new int[][] { { 1, 2, 100 }, { 2, 5, 100 }, { 3, 4, 100 } };
 
-			}
-			x++;
-			line = buf.readLine();
-		}
-
-		buf.close();
-
-		Arrays.sort(queries, new Comparator<int[]>() {
-			public int compare(int[] a, int[] b) {
-				return Integer.compare(a[0], b[0]);
-			}
-		});
-
-		long[] arr = new long[n];
+		long[] arr = new long[n + 1];
 
 		for (int i = 0; i < queries.length; i++) {
 			long summond = (long) queries[i][2];
-			for (int j = queries[i][0] - 1; j <= queries[i][1] - 1; j++) {
-				arr[j] = arr[j] + summond;
-			}
+
+			arr[queries[i][0]] = arr[queries[i][0]] + summond;
+
+			if ((queries[i][1] + 1) <= n)
+				arr[queries[i][1] + 1] -= summond;
 		}
 
-		System.out.println(Collections.max(LongStream.of(arr).boxed().collect(Collectors.toList())));
+		long k = 0, max = 0;
+
+		for (int i = 1; i <= n; i++) {
+			k = k + arr[i];
+			if (max < k)
+				max = k;
+
+		}
+
+		System.out.println(max);
 	}
 
 	@Test
