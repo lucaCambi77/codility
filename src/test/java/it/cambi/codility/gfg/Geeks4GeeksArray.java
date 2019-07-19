@@ -216,6 +216,8 @@ public class Geeks4GeeksArray {
 
 		List<Integer> list = new LinkedList<Integer>();
 
+		list.add(1);
+		list.add(2);
 		list.add(2);
 		list.add(2);
 		list.add(3);
@@ -223,9 +225,9 @@ public class Geeks4GeeksArray {
 
 		Collections.sort(list);
 
-		int index = findFirstOccurrence(list.stream().mapToInt(i -> i).toArray(), 0, list.size() - 1, 4);
+		int index = findFirstOccurrence(list.stream().mapToInt(i -> i).toArray(), 0, list.size() - 1, 2);
 
-		assertTrue(index == 3);
+		assertTrue(index == 0);
 	}
 
 	/**
