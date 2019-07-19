@@ -89,6 +89,7 @@ public class SinglyLinkedList {
 
 	public void insertAtPos(int position, int data) throws Exception {
 		int pos = 0;
+		
 		if (position > count() || position < 0) {
 			throw new Exception("Incorrect position exception");
 		}
