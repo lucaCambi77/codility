@@ -1,6 +1,7 @@
 package it.cambi.codility.codility;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -575,34 +576,34 @@ public class Codility {
 	public void fish() {
 
 		int[] A = { 4, 3, 2, 1, 5 };
-		int[] B = { 1, 0, 0, 0, 0 };
+		int[] B = { 0, 1, 0, 0, 0 };
 
 		if (A.length != B.length)
 			return;
 
-		Stack<Integer> s = new Stack<Integer>();
-		boolean isEating = false;
+		int result = 0;
 
-		s.push(A[0]);
+		Stack<Integer> downFishes = new Stack<Integer>();
 
-		for (int i = 1; i < A.length; i++) {
+		// O(N)
+		for (int i = 0; i < A.length; i++) {
+			result++;
 
-			if (A[i - 1] > A[i] && (B[i - 1] == 1 && B[i] == 0)) {
-				isEating = true;
+			if (B[i] == 1) {
+				downFishes.push(A[i]);
+			} else if (!downFishes.empty()) {
+				while (result != 0 && !downFishes.empty()) {
+					result--;
 
-			} else if (isEating && s.peek() > A[i]) {
-
-			} else if (isEating && s.peek() < A[i] && B[i] == 0) {
-				s.pop();
-				s.push(A[i]);
-				isEating = false;
-			} else if (!isEating) {
-				s.push(A[i]);
-
+					if (downFishes.peek() < A[i])
+						downFishes.pop();
+					else
+						break;
+				}
 			}
-
 		}
 
+		assertEquals(2, result);
 		// Assert.assertTrue(!s.isEmpty());
 		// Assert.assertTrue(s.size() == 2);
 
