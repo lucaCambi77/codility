@@ -5,6 +5,13 @@ package it.cambi.codility.hackerRank;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
 
 import org.junit.jupiter.api.Test;
@@ -24,6 +31,58 @@ public class HackerRankLinkedList {
 		 */
 		public SinglyLinkedListNode(int data) {
 			this.data = data;
+		}
+	}
+
+	@Test
+	public void removeDuplicates() throws IOException {
+
+		InputStream is = new FileInputStream("src/test/resources/listWithDuplicate.txt");
+		BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+
+		String line = buf.readLine();
+		SinglyLinkedListNode head2 = new SinglyLinkedListNode(1);
+
+		int pos = 0;
+
+		while (line != null) {
+			insertAtPos(pos, new Integer(line), head2);
+
+			line = buf.readLine();
+			pos++;
+		}
+
+		buf.close();
+		Set<Integer> seen = new HashSet<Integer>();
+
+		seen.add(head2.data);
+
+		SinglyLinkedListNode head = head2;
+
+		int position = 0;
+		while (head.next != null) {
+			if (seen.contains(head.next.data)) {
+				head2 = deleteNodeAtPosition(position, head2);
+				// decrease position to match the actual linked list
+				position--;
+			}
+
+			if (head.next == null)
+				break;
+
+			seen.add(head.next.data);
+
+			position++;
+			head = head.next;
+		}
+
+		// check no duplicates
+		seen = new HashSet<Integer>();
+		boolean check = true;
+		while (head2 != null) {
+			check = seen.add(head2.data);
+			assertEquals(check, true);
+			head2 = head2.next;
 		}
 	}
 
@@ -166,11 +225,20 @@ public class HackerRankLinkedList {
 		int position = 1;
 		SinglyLinkedListNode head = getLinkedListExample1();
 
+		deleteNodeAtPosition(position, head);
+
+	}
+
+	/**
+	 * @param position
+	 * @param head
+	 * @return
+	 */
+	private SinglyLinkedListNode deleteNodeAtPosition(int position, SinglyLinkedListNode head) {
 		if (position == 0) {
 			head = head.next;
-			assertEquals(13, head.data);
 
-			return;
+			return head;
 		}
 
 		int pos = 0;
@@ -182,8 +250,7 @@ public class HackerRankLinkedList {
 
 		temp.next = temp.next.next;
 
-		assertEquals(17, temp.next.data);
-
+		return head;
 	}
 
 	@Test
@@ -309,6 +376,31 @@ public class HackerRankLinkedList {
 
 		sll.next = slln;
 
+		return sll;
+	}
+
+	private SinglyLinkedListNode getLinkedListWithDuplicates() {
+		SinglyLinkedListNode sll = new SinglyLinkedListNode(3);
+
+		SinglyLinkedListNode slln = new SinglyLinkedListNode(3);
+
+		sll.next = slln;
+
+		SinglyLinkedListNode sllnn = new SinglyLinkedListNode(3);
+
+		slln.next = sllnn;
+
+		SinglyLinkedListNode sllnnn = new SinglyLinkedListNode(4);
+
+		sllnn.next = sllnnn;
+
+		SinglyLinkedListNode sllnnnn = new SinglyLinkedListNode(5);
+
+		sllnnn.next = sllnnnn;
+
+		SinglyLinkedListNode sllnnnnn = new SinglyLinkedListNode(5);
+
+		sllnnnn.next = sllnnnnn;
 		return sll;
 	}
 }
