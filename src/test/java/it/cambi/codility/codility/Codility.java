@@ -604,8 +604,6 @@ public class Codility {
 		}
 
 		assertEquals(2, result);
-		// Assert.assertTrue(!s.isEmpty());
-		// Assert.assertTrue(s.size() == 2);
 
 	}
 
