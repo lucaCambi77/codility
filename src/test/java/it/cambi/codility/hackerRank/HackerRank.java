@@ -36,7 +36,54 @@ public class HackerRank {
 			"forty", // 40 min
 	};
 
+	@Test
+	public void anagram() {
 
+		assertEquals(3, anagram("aaabbb"));
+
+		assertEquals(-1, anagram("abc"));
+
+		assertEquals(1, anagram("xaxbbbxx"));
+
+		assertEquals(5, anagram("fdhlvosfpafhalll"));
+
+		assertEquals(0, anagram("xyyx"));
+
+	}
+
+	/**
+	 * @param s
+	 * @return
+	 */
+	private int anagram(String s) {
+		if (s.length() % 2 != 0)
+			return -1;
+
+		int middle = s.length() / 2;
+
+		String firstPart = s.substring(0, middle);
+		String secPart = s.substring(middle, s.length());
+		Map<Character, Integer> secPartMap = new HashMap<Character, Integer>();
+
+		for (int i = 0; i < secPart.toCharArray().length; i++) {
+			secPartMap.put(secPart.charAt(i), secPartMap.getOrDefault(secPart.charAt(i), 0) + 1);
+		}
+
+		int count = 0;
+
+		for (int i = 0; i < firstPart.toCharArray().length; i++) {
+			Character c = s.charAt(i);
+
+			if (secPartMap.get(c) != null && secPartMap.get(c) > 0) {
+
+				secPartMap.put(c, secPartMap.get(c) - 1);
+
+				continue;
+			}
+			count++;
+		}
+		return count;
+	}
 
 	@Test
 	public void hourglassSum() {
@@ -1283,6 +1330,5 @@ public class HackerRank {
 		System.out.println("nonDivisibleSum max array length" + res);
 
 	}
-
 
 }
