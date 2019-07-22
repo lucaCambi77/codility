@@ -49,7 +49,7 @@ public class Geeks4GeeksTree {
 		Bnode right = new Bnode(2);
 		root.setRight(right);
 
-		// Bnode root = getExampleNode();
+		// Bnode root = Bnode.getExampleNode();
 
 		System.out.println(isBalanced(root));
 	}
@@ -59,10 +59,10 @@ public class Geeks4GeeksTree {
 		if (root == null)
 			return true;
 
-		int ls = sumSubTrees(root.getLeft());
-		int rs = sumSubTrees(root.getRight());
+		int ls = sumSubTrees(root.left);
+		int rs = sumSubTrees(root.right);
 
-		if (rs - ls <= 1 && isBalanced(root.getLeft()) && isBalanced(root.getRight()))
+		if (rs - ls <= 1 && isBalanced(root.left) && isBalanced(root.right))
 			return true;
 
 		return false;
@@ -78,14 +78,14 @@ public class Geeks4GeeksTree {
 	 */
 	public int sumSubTrees(Bnode root) {
 
-		int ret = root == null ? 0 : 1 + Math.max(sumSubTrees(root.getLeft()), sumSubTrees(root.getRight()));
+		int ret = root == null ? 0 : 1 + Math.max(sumSubTrees(root.left), sumSubTrees(root.right));
 
 		return ret;
 	}
 
 	@Test
 	public void countLeaves() {
-		Bnode root = getExampleNode();
+		Bnode root = Bnode.getExampleNode();
 		Queue<Bnode> queue = new LinkedList<Bnode>();
 		queue.add(root);
 
@@ -100,10 +100,10 @@ public class Geeks4GeeksTree {
 		List<Bnode> list = new ArrayList<Bnode>();
 
 		for (Bnode root : queue) {
-			if (null != root.getRight())
-				list.add(root.getRight());
-			if (null != root.getLeft())
-				list.add(root.getLeft());
+			if (null != root.right)
+				list.add(root.right);
+			if (null != root.left)
+				list.add(root.left);
 		}
 
 		queue.addAll(list);
@@ -119,7 +119,7 @@ public class Geeks4GeeksTree {
 	@Test
 	public void reverseLevelOrderTrasv() {
 
-		Bnode root = getExampleNode();
+		Bnode root = Bnode.getExampleNode();
 		Queue<Bnode> queue = new LinkedList<Bnode>();
 		queue.add(root);
 		Stack<Bnode> stack = new Stack<Bnode>();
@@ -128,7 +128,7 @@ public class Geeks4GeeksTree {
 		int size = stack.size();
 
 		for (int i = 0; i < size; i++) {
-			System.out.print(stack.pop().getKey() + " ");
+			System.out.print(stack.pop().key + " ");
 		}
 	}
 
@@ -141,10 +141,10 @@ public class Geeks4GeeksTree {
 		List<Bnode> list = new ArrayList<Bnode>();
 
 		for (Bnode root : queue) {
-			if (null != root.getRight())
-				list.add(root.getRight());
-			if (null != root.getLeft())
-				list.add(root.getLeft());
+			if (null != root.right)
+				list.add(root.right);
+			if (null != root.left)
+				list.add(root.left);
 		}
 		queue.addAll(list);
 		for (int i = 0; i < size; i++) {
@@ -155,7 +155,7 @@ public class Geeks4GeeksTree {
 
 	@Test
 	public void levelOrderTrasversalLineByLin() {
-		Bnode root = getExampleNode();
+		Bnode root = Bnode.getExampleNode();
 
 		Queue<Bnode> queue = new LinkedList<Bnode>();
 		queue.add(root);
@@ -170,7 +170,7 @@ public class Geeks4GeeksTree {
 	@Test
 	public void levelOderTrasversal() {
 
-		Bnode root = getExampleNode();
+		Bnode root = Bnode.getExampleNode();
 
 		Queue<Bnode> queue = new LinkedList<Bnode>();
 		queue.add(root);
@@ -186,16 +186,16 @@ public class Geeks4GeeksTree {
 			return;
 
 		for (Bnode root : queue) {
-			System.out.print(root.getKey() + " ");
+			System.out.print(root.key + " ");
 		}
 		System.out.print(message);
 		List<Bnode> list = new ArrayList<Bnode>();
 
 		for (Bnode root : queue) {
-			if (null != root.getLeft())
-				list.add(root.getLeft());
-			if (null != root.getRight())
-				list.add(root.getRight());
+			if (null != root.left)
+				list.add(root.left);
+			if (null != root.right)
+				list.add(root.right);
 		}
 		queue.addAll(list);
 		for (int i = 0; i < size; i++) {
@@ -207,52 +207,52 @@ public class Geeks4GeeksTree {
 
 	@Test
 	public void postOrderTrasveral() {
-		Bnode root = getExampleNode();
+		Bnode root = Bnode.getExampleNode();
 		postOrderTrasvPrint(root);
 	}
 
 	private void postOrderTrasvPrint(Bnode root) {
 
 		if (root != null) {
-			postOrderTrasvPrint(root.getLeft());
-			postOrderTrasvPrint(root.getRight());
-			System.out.print(root.getKey() + " ");
+			postOrderTrasvPrint(root.left);
+			postOrderTrasvPrint(root.right);
+			System.out.print(root.key + " ");
 		}
 	}
 
 	@Test
 	public void preOrderTrasveral() {
-		Bnode root = getExampleNode();
+		Bnode root = Bnode.getExampleNode();
 		preOrderTrasvPrint(root);
 	}
 
 	private void preOrderTrasvPrint(Bnode root) {
 
 		if (root != null) {
-			System.out.print(root.getKey() + " ");
-			preOrderTrasvPrint(root.getLeft());
-			preOrderTrasvPrint(root.getRight());
+			System.out.print(root.key + " ");
+			preOrderTrasvPrint(root.left);
+			preOrderTrasvPrint(root.right);
 		}
 	}
 
 	@Test
 	public void inOrderTrasveral() {
-		Bnode root = getExampleNode();
+		Bnode root = Bnode.getExampleNode();
 		inOrderTrasvPrint(root);
 	}
 
 	private void inOrderTrasvPrint(Bnode root) {
 
 		if (root != null) {
-			inOrderTrasvPrint(root.getLeft());
-			System.out.print(root.getKey() + " ");
-			inOrderTrasvPrint(root.getRight());
+			inOrderTrasvPrint(root.left);
+			System.out.print(root.key + " ");
+			inOrderTrasvPrint(root.right);
 		}
 	}
 
 	@Test
 	public void sizeOfTree() {
-		Bnode root = getExampleNode();
+		Bnode root = Bnode.getExampleNode();
 		/**
 		 * Atomic integer is not working in G4G cause you can't import it, but it is
 		 * interesting to use it
@@ -272,9 +272,9 @@ public class Geeks4GeeksTree {
 
 		if (null != root) {
 			count.incrementAndGet();
-			setSizeofTree(root.getLeft(), count);
+			setSizeofTree(root.left, count);
 
-			setSizeofTree(root.getRight(), count);
+			setSizeofTree(root.right, count);
 
 		}
 
@@ -284,9 +284,9 @@ public class Geeks4GeeksTree {
 	private void setSizeofTree1(Bnode root, List<Bnode> list) {
 
 		if (root != null) {
-			setSizeofTree1(root.getLeft(), list);
+			setSizeofTree1(root.left, list);
 			list.add(root);
-			setSizeofTree1(root.getRight(), list);
+			setSizeofTree1(root.right, list);
 		}
 	}
 
@@ -298,11 +298,11 @@ public class Geeks4GeeksTree {
 	@Test
 	public void twoIdenticalTrees() {
 
-		Bnode root = getExampleNode();
+		Bnode root = Bnode.getExampleNode();
 		LinkedList<Integer> list = new LinkedList<Integer>();
 		inOrderTrasv(root, list);
 
-		Bnode root1 = getExampleNode();
+		Bnode root1 = Bnode.getExampleNode();
 		LinkedList<Integer> list1 = new LinkedList<Integer>();
 		inOrderTrasv(root1, list1);
 
@@ -314,7 +314,7 @@ public class Geeks4GeeksTree {
 	 */
 	@Test
 	public void heightOfBinaryTree() {
-		Bnode root = getExampleNode();
+		Bnode root = Bnode.getExampleNode();
 		assertEquals(4, getMaxHeight(root, 0));
 	}
 
@@ -324,9 +324,9 @@ public class Geeks4GeeksTree {
 			return count;
 
 		int tmp = count + 1;
-		int left = getMaxHeight(root.getLeft(), tmp);
+		int left = getMaxHeight(root.left, tmp);
 		int tmp1 = count + 1;
-		int right = getMaxHeight(root.getRight(), tmp1);
+		int right = getMaxHeight(root.right, tmp1);
 		return Math.max(left, right);
 
 	}
@@ -336,9 +336,9 @@ public class Geeks4GeeksTree {
 	 */
 	@Test
 	public void rootToLeafPaths() {
-		Bnode root = getExampleNode();
+		Bnode root = Bnode.getExampleNode();
 
-		String rootKey = Integer.toString(root.getKey());
+		String rootKey = Integer.toString(root.key);
 
 		printLeafPaths(root, rootKey);
 
@@ -351,16 +351,16 @@ public class Geeks4GeeksTree {
 	 */
 	private void printLeafPaths(Bnode root, String map) {
 		if (root != null) {
-			if (root.getLeft() != null) {
-				printLeafPaths(root.getLeft(), map + " " + Integer.toString(root.getLeft().getKey()));
+			if (root.left != null) {
+				printLeafPaths(root.left, map + " " + Integer.toString(root.left.key));
 			} else {
 
 				System.out.print(map + " #");
 				return;
 			}
 
-			if (root.getRight() != null) {
-				printLeafPaths(root.getRight(), map + " " + Integer.toString(root.getRight().getKey()));
+			if (root.right != null) {
+				printLeafPaths(root.right, map + " " + Integer.toString(root.right.key));
 			}
 		}
 
@@ -371,7 +371,7 @@ public class Geeks4GeeksTree {
 	 */
 	@Test
 	public void maximumWidthOfTree() {
-		Bnode root = getExampleNode();
+		Bnode root = Bnode.getExampleNode();
 
 		Map<Integer, Integer> map = new HashMap<>();
 
@@ -392,9 +392,9 @@ public class Geeks4GeeksTree {
 
 		int tmp = count + 1;
 
-		findMaxWidth(node.getLeft(), tmp, map);
+		findMaxWidth(node.left, tmp, map);
 
-		findMaxWidth(node.getRight(), tmp, map);
+		findMaxWidth(node.right, tmp, map);
 
 		if (map.get(tmp) == null) {
 			map.put(tmp, 1);
@@ -409,7 +409,7 @@ public class Geeks4GeeksTree {
 	 */
 	@Test
 	public void kDistanceFromRoot() {
-		Bnode root = getExampleNode();
+		Bnode root = Bnode.getExampleNode();
 
 		printKDistance(root, 2, 0);
 
@@ -421,13 +421,13 @@ public class Geeks4GeeksTree {
 			return;
 
 		if (data == count)
-			System.out.print(node.getKey() + " ");
+			System.out.print(node.key + " ");
 
 		int tmp = count + 1;
 
-		printKDistance(node.getLeft(), data, tmp);
+		printKDistance(node.left, data, tmp);
 
-		printKDistance(node.getRight(), data, tmp);
+		printKDistance(node.right, data, tmp);
 	}
 
 	/**
@@ -435,7 +435,7 @@ public class Geeks4GeeksTree {
 	 */
 	@Test
 	public void levelOfANodeInBinaryTree() {
-		Bnode root = getExampleNode();
+		Bnode root = Bnode.getExampleNode();
 
 		assertEquals(3, getLevelFunct(root, 5, 1));
 	}
@@ -450,7 +450,7 @@ public class Geeks4GeeksTree {
 
 		int tmp = count + 1;
 
-		return getLevelFunct(node.getLeft(), data, tmp) + getLevelFunct(node.getRight(), data, tmp);
+		return getLevelFunct(node.left, data, tmp) + getLevelFunct(node.right, data, tmp);
 	}
 
 	/**
@@ -459,47 +459,9 @@ public class Geeks4GeeksTree {
 	@Test
 	public void ancestorsInBinaryTree() {
 
-		Bnode root = getExampleNode();
+		Bnode root = Bnode.getExampleNode();
 
 		printAncestors(root, 3);
-	}
-
-	/**
-	 * @return
-	 */
-	private Bnode getExampleNode() {
-		Bnode root = new Bnode(0);
-
-		Bnode left = new Bnode(1);
-
-		Bnode leftSec = new Bnode(3);
-		leftSec.setLeft(new Bnode(7));
-		leftSec.setRight(new Bnode(8));
-
-		Bnode rightSec = new Bnode(4);
-		rightSec.setLeft(new Bnode(9));
-		rightSec.setRight(new Bnode(10));
-
-		left.setLeft(leftSec);
-		left.setRight(rightSec);
-
-		root.setLeft(left);
-
-		Bnode right = new Bnode(2);
-
-		Bnode leftSec1 = new Bnode(5);
-		leftSec1.setLeft(new Bnode(11));
-		leftSec1.setRight(new Bnode(12));
-
-		Bnode rightSec1 = new Bnode(6);
-		rightSec1.setLeft(new Bnode(13));
-		rightSec1.setRight(new Bnode(14));
-
-		right.setLeft(leftSec1);
-		right.setRight(rightSec1);
-
-		root.setRight(right);
-		return root;
 	}
 
 	boolean printAncestors(Bnode node, int target) {
@@ -507,15 +469,15 @@ public class Geeks4GeeksTree {
 		if (node == null)
 			return false;
 
-		if (node.getKey() == target)
+		if (node.key == target)
 			return true;
 
 		/*
 		 * If target is present in either left or right subtree of this node, then print
 		 * this node
 		 */
-		if (printAncestors(node.getLeft(), target) || printAncestors(node.getRight(), target)) {
-			System.out.print(node.getKey() + " ");
+		if (printAncestors(node.left, target) || printAncestors(node.right, target)) {
+			System.out.print(node.key + " ");
 			return true;
 		}
 
@@ -525,7 +487,7 @@ public class Geeks4GeeksTree {
 
 	private boolean isData(Bnode node, int data) {
 
-		return node.getKey() == data ? true : false;
+		return node.key == data ? true : false;
 	}
 
 	/**
@@ -544,9 +506,9 @@ public class Geeks4GeeksTree {
 		if (isData(node, data))
 			return finder;
 
-		String retLeft = printAncestors(node.getLeft(), node.getKey() + " ", data);
+		String retLeft = printAncestors(node.left, node.key + " ", data);
 		// rigth find
-		String retRight = printAncestors(node.getRight(), node.getKey() + " ", data);
+		String retRight = printAncestors(node.right, node.key + " ", data);
 
 		return retLeft + retRight;
 	}
@@ -568,7 +530,7 @@ public class Geeks4GeeksTree {
 	}
 
 	int sum(Bnode node) {
-		return node == null ? 0 : sum(node.getLeft()) + node.getKey() + sum(node.getRight());
+		return node == null ? 0 : sum(node.left) + node.key + sum(node.right);
 	}
 
 	int isSumTree(Bnode node) {
@@ -577,17 +539,17 @@ public class Geeks4GeeksTree {
 		/*
 		 * If node is NULL or it's a leaf node then return true
 		 */
-		if ((node == null) || (node.getLeft() == null && node.getRight() == null))
+		if ((node == null) || (node.left == null && node.right == null))
 			return 1;
 
 		/* Get sum of nodes in left and right subtrees */
-		ls = sum(node.getLeft());
-		rs = sum(node.getRight());
+		ls = sum(node.left);
+		rs = sum(node.right);
 
 		/*
 		 * if the node and both of its children satisfy the property return 1 else 0
 		 */
-		if ((node.getKey() == ls + rs) && (isSumTree(node.getLeft()) != 0) && (isSumTree(node.getRight())) != 0)
+		if ((node.key == ls + rs) && (isSumTree(node.left) != 0) && (isSumTree(node.right)) != 0)
 			return 1;
 
 		return 0;
@@ -617,9 +579,9 @@ public class Geeks4GeeksTree {
 	private void inOrderTrasv(Bnode root, List<Integer> list) {
 
 		if (root != null) {
-			inOrderTrasv(root.getLeft(), list);
-			list.add(root.getKey());
-			inOrderTrasv(root.getRight(), list);
+			inOrderTrasv(root.left, list);
+			list.add(root.key);
+			inOrderTrasv(root.right, list);
 		}
 	}
 

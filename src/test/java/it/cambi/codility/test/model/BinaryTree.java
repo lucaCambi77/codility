@@ -30,7 +30,7 @@ public class BinaryTree {
 		if (node == null)
 			return 0;
 		else
-			return (size(node.getLeft()) + 1 + size(node.getRight()));
+			return (size(node.left) + 1 + size(node.right));
 	}
 
 	// This method mainly calls insertRec()
@@ -48,10 +48,10 @@ public class BinaryTree {
 		}
 
 		/* Otherwise, recur down the tree */
-		if (key < root.getKey())
-			root.setLeft(insertRec(root.getLeft(), key));
-		else if (key > root.getKey())
-			root.setRight(insertRec(root.getRight(), key));
+		if (key < root.key)
+			root.setLeft(insertRec(root.left, key));
+		else if (key > root.key)
+			root.setRight(insertRec(root.right, key));
 
 		/* return the (unchanged) node pointer */
 		return root;
@@ -60,15 +60,15 @@ public class BinaryTree {
 	// A utility function to search a given key in BST
 	public Bnode search(Bnode root, int key) {
 		// Base Cases: root is null or key is present at root
-		if (root == null || root.getKey() == key)
+		if (root == null || root.key == key)
 			return root;
 
 		// val is greater than root's key
-		if (root.getKey() > key)
-			return search(root.getLeft(), key);
+		if (root.key > key)
+			return search(root.left, key);
 
 		// val is less than root's key
-		return search(root.getRight(), key);
+		return search(root.right, key);
 	}
 
 	/**
@@ -77,54 +77,54 @@ public class BinaryTree {
 	public void inOrderTrasv() {
 
 		if (root != null) {
-			inOrderTrasv(root.getLeft());
-			System.out.println(root.getKey());
-			inOrderTrasv(root.getRight());
+			inOrderTrasv(root.left);
+			System.out.println(root.key);
+			inOrderTrasv(root.right);
 		}
 	}
 
 	private void inOrderTrasv(Bnode root) {
 
 		if (root != null) {
-			inOrderTrasv(root.getLeft());
-			System.out.println(root.getKey());
-			inOrderTrasv(root.getRight());
+			inOrderTrasv(root.left);
+			System.out.println(root.key);
+			inOrderTrasv(root.right);
 		}
 	}
 
 	public void preOrderTrasv() {
 
 		if (root != null) {
-			System.out.println(root.getKey());
-			preOrderTrasv(root.getLeft());
-			preOrderTrasv(root.getRight());
+			System.out.println(root.key);
+			preOrderTrasv(root.left);
+			preOrderTrasv(root.right);
 		}
 	}
 
 	private void preOrderTrasv(Bnode root) {
 
 		if (root != null) {
-			System.out.println(root.getKey());
-			preOrderTrasv(root.getLeft());
-			preOrderTrasv(root.getRight());
+			System.out.println(root.key);
+			preOrderTrasv(root.left);
+			preOrderTrasv(root.right);
 		}
 	}
 
 	public void postOrderTrasv() {
 
 		if (root != null) {
-			postOrderTrasv(root.getLeft());
-			postOrderTrasv(root.getRight());
-			System.out.println(root.getKey());
+			postOrderTrasv(root.left);
+			postOrderTrasv(root.right);
+			System.out.println(root.key);
 		}
 	}
 
 	private void postOrderTrasv(Bnode root) {
 
 		if (root != null) {
-			preOrderTrasv(root.getLeft());
-			preOrderTrasv(root.getRight());
-			System.out.println(root.getKey());
+			preOrderTrasv(root.left);
+			preOrderTrasv(root.right);
+			System.out.println(root.key);
 		}
 	}
 
