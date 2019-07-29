@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test;
  */
 public class BinaryTree {
 
-	private Bnode root;
+	private Node root;
 
 	public BinaryTree(int key) {
-		root = new Bnode(key);
+		root = new Node(key);
 	};
 
 	/*
@@ -26,7 +26,7 @@ public class BinaryTree {
 	}
 
 	/* computes number of nodes in tree */
-	int size(Bnode node) {
+	int size(Node node) {
 		if (node == null)
 			return 0;
 		else
@@ -39,18 +39,18 @@ public class BinaryTree {
 	}
 
 	/* A recursive function to insert a new key in BST */
-	Bnode insertRec(Bnode root, int key) {
+	Node insertRec(Node root, int key) {
 
 		/* If the tree is empty, return a new node */
 		if (root == null) {
-			root = new Bnode(key);
+			root = new Node(key);
 			return root;
 		}
 
 		/* Otherwise, recur down the tree */
-		if (key < root.key)
+		if (key < root.data)
 			root.setLeft(insertRec(root.left, key));
-		else if (key > root.key)
+		else if (key > root.data)
 			root.setRight(insertRec(root.right, key));
 
 		/* return the (unchanged) node pointer */
@@ -58,13 +58,13 @@ public class BinaryTree {
 	}
 
 	// A utility function to search a given key in BST
-	public Bnode search(Bnode root, int key) {
+	public Node search(Node root, int key) {
 		// Base Cases: root is null or key is present at root
-		if (root == null || root.key == key)
+		if (root == null || root.data == key)
 			return root;
 
 		// val is greater than root's key
-		if (root.key > key)
+		if (root.data > key)
 			return search(root.left, key);
 
 		// val is less than root's key
@@ -78,16 +78,16 @@ public class BinaryTree {
 
 		if (root != null) {
 			inOrderTrasv(root.left);
-			System.out.println(root.key);
+			System.out.println(root.data);
 			inOrderTrasv(root.right);
 		}
 	}
 
-	private void inOrderTrasv(Bnode root) {
+	private void inOrderTrasv(Node root) {
 
 		if (root != null) {
 			inOrderTrasv(root.left);
-			System.out.println(root.key);
+			System.out.println(root.data);
 			inOrderTrasv(root.right);
 		}
 	}
@@ -95,16 +95,16 @@ public class BinaryTree {
 	public void preOrderTrasv() {
 
 		if (root != null) {
-			System.out.println(root.key);
+			System.out.println(root.data);
 			preOrderTrasv(root.left);
 			preOrderTrasv(root.right);
 		}
 	}
 
-	private void preOrderTrasv(Bnode root) {
+	private void preOrderTrasv(Node root) {
 
 		if (root != null) {
-			System.out.println(root.key);
+			System.out.println(root.data);
 			preOrderTrasv(root.left);
 			preOrderTrasv(root.right);
 		}
@@ -115,16 +115,16 @@ public class BinaryTree {
 		if (root != null) {
 			postOrderTrasv(root.left);
 			postOrderTrasv(root.right);
-			System.out.println(root.key);
+			System.out.println(root.data);
 		}
 	}
 
-	private void postOrderTrasv(Bnode root) {
+	private void postOrderTrasv(Node root) {
 
 		if (root != null) {
 			preOrderTrasv(root.left);
 			preOrderTrasv(root.right);
-			System.out.println(root.key);
+			System.out.println(root.data);
 		}
 	}
 
