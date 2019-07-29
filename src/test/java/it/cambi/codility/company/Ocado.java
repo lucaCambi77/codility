@@ -1,5 +1,6 @@
 package it.cambi.codility.company;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
@@ -9,8 +10,8 @@ import org.junit.jupiter.api.Test;
 public class Ocado {
 
 	private static String palindromeString = "aabaa";
-	private static String notPalindromeString = "aaba";
-	private static String canArrangePalindromeString = "baba";
+	private static String notPalindromeString = "cdefghmnopqrstuvw";
+	private static String canArrangePalindromeString = "aaabbbb";
 
 	@Test
 	public void isPalindrome() {
@@ -34,9 +35,16 @@ public class Ocado {
 	@Test
 	public void canArrangeAsPalindrome() {
 
-		boolean canArrange = true;
+		assertEquals(true, canArrangePalindrome(canArrangePalindromeString));
+		assertEquals(false, canArrangePalindrome(notPalindromeString));
 
-		int length = canArrangePalindromeString.length();
+	}
+
+	/**
+	 * @return
+	 */
+	private boolean canArrangePalindrome(String canArrangePalindromeString) {
+		boolean canArrange = true;
 
 		int count[] = new int[128];
 		Arrays.fill(count, 0);
@@ -47,20 +55,18 @@ public class Ocado {
 		for (int i = 0; i < canArrangePalindromeString.length(); i++)
 			count[(int) (canArrangePalindromeString.charAt(i))]++;
 
+		int alphabetCountLength = count.length;
+
 		// Count odd occurring characters
 		int odd = 0;
-		for (int i = 0; i < length; i++) {
+		for (int i = 0; i < alphabetCountLength; i++) {
 			if ((count[i] & 1) == 1)
 				odd++;
 
 			if (odd > 1)
 				canArrange = false;
 		}
-
-		assertTrue(canArrange);
-
-		// Return true if odd count is 0 or 1,
-		System.out.println("Can arrange palindrome" + canArrange);
+		return canArrange;
 	}
 
 	@Test
