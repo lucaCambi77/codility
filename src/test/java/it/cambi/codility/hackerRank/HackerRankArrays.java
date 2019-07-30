@@ -3,8 +3,14 @@
  */
 package it.cambi.codility.hackerRank;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +19,133 @@ import org.junit.jupiter.api.Test;
  *
  */
 public class HackerRankArrays {
+
+	@SuppressWarnings("serial")
+	@Test
+	public void diagonalDifference() {
+		List<List<Integer>> arr = new ArrayList<List<Integer>>() {
+			{
+				add(new ArrayList<Integer>() {
+					{
+						add(11);
+						add(2);
+						add(4);
+
+					}
+				});
+
+				add(new ArrayList<Integer>() {
+					{
+						add(4);
+						add(5);
+						add(6);
+
+					}
+				});
+
+				add(new ArrayList<Integer>() {
+					{
+						add(10);
+						add(8);
+						add(-12);
+
+					}
+				});
+			}
+		};
+
+		assertEquals(15, diagonalDifference(arr));
+	}
+
+	/**
+	 * @param arr
+	 */
+	private int diagonalDifference(List<List<Integer>> arr) {
+		double leftDiag = 0;
+		double righttDiag = 0;
+
+		int j = arr.size() - 1;
+
+		for (int i = 0; i < arr.size(); i++) {
+
+			List<Integer> innList = arr.get(i);
+
+			righttDiag += innList.get(j);
+			leftDiag += innList.get(arr.size() - 1 - j);
+
+			j--;
+		}
+
+		return (int) Math.abs(leftDiag - righttDiag);
+	}
+
+	@Test
+	public void aVeryBigSum() {
+
+		long[] ar = new long[] { 1000000001, 1000000002, 1000000003, 1000000004, 1000000005 };
+
+		assertEquals(5000000015L, LongStream.of(ar).sum());
+	}
+
+	@SuppressWarnings("serial")
+	@Test
+	public void compareTriplets() {
+
+		List<Integer> list = compareTriplets(new ArrayList<Integer>() {
+			{
+				add(17);
+				add(28);
+				add(30);
+
+			}
+		}, new ArrayList<Integer>() {
+			{
+				add(99);
+				add(16);
+				add(8);
+			}
+		});
+
+		Arrays.equals(new int[] { 2, 1 }, list.stream().mapToInt(Integer::intValue).toArray());
+
+		List<Integer> list1 = compareTriplets(new ArrayList<Integer>() {
+			{
+				add(5);
+				add(6);
+				add(7);
+
+			}
+		}, new ArrayList<Integer>() {
+			{
+				add(3);
+				add(6);
+				add(10);
+			}
+		});
+
+		Arrays.equals(new int[] { 1, 1 }, list1.stream().mapToInt(Integer::intValue).toArray());
+	}
+
+	private List<Integer> compareTriplets(List<Integer> a, List<Integer> b) {
+
+		int countAlice = 0;
+		int countBob = 0;
+
+		for (int i = 0; i < 3; i++) {
+
+			if (a.get(i) > b.get(i))
+				countAlice++;
+			else if (a.get(i) < b.get(i))
+				countBob++;
+
+		}
+
+		List<Integer> toReturn = new LinkedList<Integer>();
+		toReturn.add(countAlice);
+		toReturn.add(countBob);
+
+		return toReturn;
+	}
 
 	@Test
 	public void arrayManipulation() throws IOException {
