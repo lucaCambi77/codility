@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
  * @author luca
  *
  */
-public class HackerRankLinkedList {
+public class HackerRankLinkedListTest {
 
 	class SinglyLinkedListNode {
 		int data;

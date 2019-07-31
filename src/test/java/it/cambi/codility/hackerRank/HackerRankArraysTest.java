@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
  * @author luca
  *
  */
-public class HackerRankArrays {
+public class HackerRankArraysTest {
 
 	@SuppressWarnings("serial")
 	@Test

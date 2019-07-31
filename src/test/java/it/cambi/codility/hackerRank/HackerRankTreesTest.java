@@ -16,7 +16,7 @@ import it.cambi.codility.test.model.Node;
  * @author luca
  *
  */
-public class HackerRankTrees {
+public class HackerRankTreesTest {
 
 	/**
 	 * least common ancestor

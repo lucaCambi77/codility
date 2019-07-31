@@ -27,7 +27,7 @@ import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 
-public class HackerRank {
+public class HackerRankTest {
 
 	public static String[] ones = { "o' clock", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
 			"ten", "eleven", "twelve", "thirteen", "fourteen", "quarter", "sixteen", "seventeen", "eighteen",
