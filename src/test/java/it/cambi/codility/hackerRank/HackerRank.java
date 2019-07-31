@@ -1,7 +1,6 @@
 package it.cambi.codility.hackerRank;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -59,23 +58,16 @@ public class HackerRank {
 	 * @return
 	 */
 	private String isValidString(String s) {
-		Map<Character, Integer> map = new HashMap<Character, Integer>();
-		int length = s.toCharArray().length;
 
-		for (int i = 0; i < length; i++) {
-
-			map.put(s.charAt(i), map.getOrDefault(s.charAt(i), 0) + 1);
-
-		}
-
-		List<Entry<Character, Integer>> sortedEntries = new ArrayList<Entry<Character, Integer>>(map.entrySet());
-
-		Collections.sort(sortedEntries, new Comparator<Entry<Character, Integer>>() {
-			@Override
-			public int compare(Entry<Character, Integer> e1, Entry<Character, Integer> e2) {
-				return e2.getValue().compareTo(e1.getValue());
-			}
-		});
+		List<Entry<Character, Integer>> sortedEntries = s.chars().boxed().collect(Collectors.toMap(
+				// key = char
+				k -> Character.valueOf((char) k.intValue()), v -> 1, // 1 occurence
+				Integer::sum)).entrySet().stream().sorted(new Comparator<Entry<Character, Integer>>() {
+					@Override
+					public int compare(Entry<Character, Integer> e1, Entry<Character, Integer> e2) {
+						return e2.getValue().compareTo(e1.getValue());
+					}
+				}).collect(Collectors.toCollection(LinkedList::new));
 
 		int lastIndex = sortedEntries.size() - 1;
 
