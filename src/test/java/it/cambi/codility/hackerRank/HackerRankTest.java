@@ -41,6 +41,37 @@ public class HackerRankTest {
 	};
 
 	@Test
+	public void plusMinus() {
+
+		int[] arr = new int[] { -4, 3, -9, 0, 4, 1 };
+		plusMinus(arr);
+	}
+
+	/**
+	 * @param arr
+	 */
+	private void plusMinus(int[] arr) {
+		double size = arr.length;
+
+		double[] count = new double[3];
+
+		for (int i = 0; i < arr.length; i++) {
+
+			if (arr[i] > 0)
+				++count[0];
+			else if (arr[i] < 0)
+				++count[1];
+			else
+				++count[2];
+
+		}
+
+		for (int i = 0; i < count.length; i++) {
+			System.out.println(String.format("%.6f", (count[i] / size)));
+		}
+	}
+
+	@Test
 	public void isValid() {
 		assertEquals("YES", isValidString("abc"));
 		assertEquals("NO", isValidString("aaaabbcc"));
