@@ -41,6 +41,35 @@ public class HackerRankTest {
 	};
 
 	@Test
+	public void staircase() {
+		int n = 10;
+
+		stairCase(n);
+	}
+
+	/**
+	 * @param n
+	 */
+	private void stairCase(int n) {
+		int spaces = n - 1;
+
+		for (int i = 0; i < n; i++) {
+
+			for (int j = 0; j < spaces; j++) {
+				System.out.print(" ");
+			}
+
+			for (int h = 0; h < n - spaces; h++) {
+				System.out.print("#");
+
+			}
+			System.out.println("");
+
+			--spaces;
+		}
+	}
+
+	@Test
 	public void plusMinus() {
 
 		int[] arr = new int[] { -4, 3, -9, 0, 4, 1 };
