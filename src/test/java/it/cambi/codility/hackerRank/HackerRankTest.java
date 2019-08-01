@@ -41,6 +41,50 @@ public class HackerRankTest {
 	};
 
 	@Test
+	public void timeConversion() {
+
+		assertEquals("19:05:45", timeConversion("07:05:45PM"));
+		assertEquals("07:05:45", timeConversion("07:05:45AM"));
+		assertEquals("00:05:45", timeConversion("12:05:45AM"));
+
+	}
+
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String timeConversion(String s) {
+		String time = s.substring(0, 8);
+		String format = s.substring(8, 10);
+
+		Integer hour = Integer.parseInt(time.substring(0, 2));
+
+		switch (format) {
+
+		case "AM":
+
+			if (hour == 12) {
+				time = "00" + time.substring(2, 8);
+
+			} else {
+				if (hour < 10)
+					time = "0" + Integer.toString(hour) + time.substring(2, 8);
+
+			}
+
+			break;
+
+		default:
+
+			if (hour != 12)
+				time = Integer.toString(hour + 12) + time.substring(2, 8);
+
+			break;
+		}
+		return time;
+	}
+
+	@Test
 	public void staircase() {
 		int n = 10;
 
