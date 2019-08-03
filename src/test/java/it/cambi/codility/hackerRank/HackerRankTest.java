@@ -41,6 +41,28 @@ public class HackerRankTest {
 	};
 
 	@Test
+	public void kangaroo() {
+
+		assertEquals("YES", calculateIntersectionPoint(0, 3, 4, 2));
+		assertEquals("NO", calculateIntersectionPoint(0, 2, 5, 3));
+		assertEquals("NO", calculateIntersectionPoint(21, 6, 47, 3));
+		assertEquals("NO", calculateIntersectionPoint(35, 1, 45, 3));
+
+	}
+
+	private String calculateIntersectionPoint(int b1, int m1, int b2, int m2) {
+
+		double x = (double) (b2 - b1) / (m1 - m2);
+
+		if (x < 0 || !(x % 1 == 0))
+			return "NO";
+
+		double y = m1 * x + b1;
+
+		return y < 0 ? "NO" : "YES";
+	}
+
+	@Test
 	public void countApplesAndOranges() {
 
 		countApplesAndOranges(7, 11, 5, 15, new int[] { -2, 2, 1 }, new int[] { 5, -6 });
@@ -48,8 +70,7 @@ public class HackerRankTest {
 
 	}
 
-	@Test
-	public void countApplesAndOranges(int s, int t, int a, int b, int[] apples, int[] oranges) {
+	private void countApplesAndOranges(int s, int t, int a, int b, int[] apples, int[] oranges) {
 
 		int countApple = 0;
 		int countOrange = 0;
