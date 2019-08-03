@@ -41,6 +41,39 @@ public class HackerRankTest {
 	};
 
 	@Test
+	public void countApplesAndOranges() {
+
+		countApplesAndOranges(7, 11, 5, 15, new int[] { -2, 2, 1 }, new int[] { 5, -6 });
+		countApplesAndOranges(2, 3, 1, 1, new int[] { -2 }, new int[] { -1 });
+
+	}
+
+	@Test
+	public void countApplesAndOranges(int s, int t, int a, int b, int[] apples, int[] oranges) {
+
+		int countApple = 0;
+		int countOrange = 0;
+
+		for (int j = 0; j < apples.length; j++) {
+			int dist = a + apples[j];
+
+			if (dist >= s && dist <= t)
+				countApple++;
+		}
+
+		for (int i = 0; i < oranges.length; i++) {
+			int dist = b + oranges[i];
+
+			if (dist >= s && dist <= t)
+				countOrange++;
+		}
+
+		System.out.println(countApple);
+		System.out.println(countOrange);
+
+	}
+
+	@Test
 	public void timeConversion() {
 
 		assertEquals("19:05:45", timeConversion("07:05:45PM"));
