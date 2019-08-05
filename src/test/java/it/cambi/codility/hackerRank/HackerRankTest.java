@@ -41,6 +41,55 @@ public class HackerRankTest {
 	};
 
 	@Test
+	public void gradingStudent() {
+
+		LinkedList<Integer> list = gradingStudents(new ArrayList<Integer>() {
+			{
+				add(73);
+				add(67);
+				add(38);
+				add(33);
+
+			}
+		});
+
+		assertEquals(new ArrayList<Integer>() {
+			{
+				add(75);
+				add(67);
+				add(40);
+				add(33);
+
+			}
+		}, list);
+	}
+
+	/**
+	 * @param grades
+	 * @return
+	 */
+	private LinkedList<Integer> gradingStudents(List<Integer> grades) {
+		LinkedList<Integer> list = new LinkedList<Integer>();
+
+		for (Integer integer : grades) {
+
+			if (integer < 38) {
+				list.add(integer);
+				continue;
+			}
+
+			Integer round = 5 * (integer / 5);
+
+			if ((round + 5) - integer < 3)
+				list.add(round + 5);
+			else
+				list.add(integer);
+
+		}
+		return list;
+	}
+
+	@Test
 	public void timeConversion() {
 
 		assertEquals("19:05:45", timeConversion("07:05:45PM"));
