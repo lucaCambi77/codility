@@ -41,6 +41,173 @@ public class HackerRankTest {
 	};
 
 	@Test
+	public void birthday() {
+
+		assertEquals(2, birthday(new ArrayList<Integer>() {
+			{
+				add(1);
+				add(2);
+				add(1);
+				add(3);
+				add(2);
+			}
+		}, 3, 2));
+
+		assertEquals(0, birthday(new ArrayList<Integer>() {
+			{
+				add(1);
+				add(1);
+				add(1);
+				add(1);
+				add(1);
+				add(1);
+			}
+		}, 3, 2));
+
+		assertEquals(1, birthday(new ArrayList<Integer>() {
+			{
+				add(4);
+			}
+		}, 4, 1));
+	}
+
+	private int birthday(List<Integer> s, int d, int m) {
+
+		int count = 0;
+
+		for (int i = 0; i < s.size(); i++) {
+
+			if (i + m > s.size())
+				break;
+
+			int sum = s.subList(i, i + m).stream().mapToInt(Integer::intValue).sum();
+
+			if (sum == d)
+				count++;
+		}
+
+		return count;
+	}
+
+	@Test
+	public void breakingRecords() {
+
+		assertEquals(true,
+				Arrays.equals(new int[] { 2, 4 }, breakingRecords(new int[] { 10, 5, 20, 20, 4, 5, 2, 25, 1 })));
+	}
+
+	private int[] breakingRecords(int[] scores) {
+
+		int min = scores[0];
+		int max = scores[0];
+		int countMin = 0;
+		int countMax = 0;
+
+		for (int i = 1; i < scores.length; i++) {
+			if (scores[i] < min) {
+				countMin++;
+				min = scores[i];
+			} else if (scores[i] > max) {
+				countMax++;
+				max = scores[i];
+			}
+		}
+
+		return new int[] { countMax, countMin };
+	}
+
+	@Test
+	public void getTotalX() {
+
+		assertEquals(3, getTotalX(new ArrayList<Integer>() {
+			{
+				add(2);
+				add(4);
+
+			}
+		}, new ArrayList<Integer>() {
+			{
+				add(16);
+				add(32);
+				add(96);
+			}
+		}));
+
+		assertEquals(2, getTotalX(new ArrayList<Integer>() {
+			{
+				add(3);
+				add(4);
+
+			}
+		}, new ArrayList<Integer>() {
+			{
+				add(24);
+				add(48);
+			}
+		}));
+
+		assertEquals(1, getTotalX(new ArrayList<Integer>() {
+			{
+				add(2);
+
+			}
+		}, new ArrayList<Integer>() {
+			{
+				add(20);
+				add(30);
+				add(12);
+
+			}
+		}));
+	}
+
+	public int getTotalX(List<Integer> a, List<Integer> b) {
+
+		// We assume arrays are sorted ascending
+		int last = b.get(0);
+		int first = a.get(a.size() - 1);
+
+		int count = 0;
+
+		Set<Integer> set = new HashSet<Integer>();
+		Set<Integer> toRemove = new HashSet<Integer>();
+
+		for (int i = first; i <= last; i++) {
+
+			for (Integer integer : a) {
+				if (i % integer == 0)
+					set.add(i);
+			}
+		}
+
+		for (int i = 0; i < a.size(); i++) {
+
+			for (Integer integer : set) {
+				if (integer % a.get(i) != 0)
+					toRemove.add(integer);
+			}
+		}
+		set.removeAll(toRemove);
+
+		int countNotDiv = 0;
+
+		for (Integer integer2 : set) {
+
+			countNotDiv = 0;
+			for (int i = b.size() - 1; i >= 0; i--) {
+
+				if (b.get(i) % integer2 != 0)
+					countNotDiv++;
+			}
+
+			if (countNotDiv == 0)
+				count++;
+		}
+
+		return count;
+	}
+
+	@Test
 	public void gradingStudent() {
 
 		LinkedList<Integer> list = gradingStudents(new ArrayList<Integer>() {
