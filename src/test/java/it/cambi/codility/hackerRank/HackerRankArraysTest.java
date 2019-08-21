@@ -8,8 +8,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.Test;
@@ -19,6 +21,97 @@ import org.junit.jupiter.api.Test;
  *
  */
 public class HackerRankArraysTest {
+
+	@Test
+	public void bonAppetit() {
+
+		assertEquals(5, bonAppetit(Arrays.asList(new Integer[] { 3, 10, 2, 9 }), 1, 12));
+		assertEquals(0, bonAppetit(Arrays.asList(new Integer[] { 3, 10, 2, 9 }), 1, 7));
+
+
+	}
+
+	private int bonAppetit(List<Integer> bill, int k, int b) {
+
+		int sum = bill.stream().mapToInt(Integer::intValue).sum();
+
+		int actual = sum - bill.get(k);
+
+		if (actual / 2 == b)
+			System.out.println("Bon Appetit");
+
+		return b - (actual / 2);
+	}
+
+	@Test
+	public void migratoryBirds() {
+		assertEquals(4, migratoryBirds(Arrays.asList(new Integer[] { 1, 4, 4, 4, 5, 3 })));
+		assertEquals(3, migratoryBirds(Arrays.asList(new Integer[] { 1, 2, 3, 4, 5, 4, 3, 2, 1, 3, 4 })));
+
+	}
+
+	private int migratoryBirds(List<Integer> arr) {
+
+		int maxFreq = 0;
+		int birdOfMaxFreq = 0;
+
+		Map<Integer, Integer> birdToFreqMap = new HashMap<Integer, Integer>();
+
+		for (Integer integer : arr) {
+			birdToFreqMap.put(integer, birdToFreqMap.getOrDefault(integer, 0) + 1);
+
+			int freq = birdToFreqMap.get(integer);
+			if (freq > maxFreq) {
+				maxFreq = freq;
+				birdOfMaxFreq = integer;
+			} else if (freq == maxFreq) {
+				birdOfMaxFreq = Math.min(birdOfMaxFreq, integer);
+			}
+		}
+
+		return birdOfMaxFreq;
+	}
+
+	@Test
+	public void sherlockAndAnagrams() {
+		assertEquals(4, sherlockAndAnagrams("abba"));
+		assertEquals(3, sherlockAndAnagrams("ifailuhkqq"));
+		assertEquals(10, sherlockAndAnagrams("kkkk"));
+	}
+
+	private int sherlockAndAnagrams(String s) {
+		// go through a string and add every value to a hashmap
+		HashMap<String, Integer> map = new HashMap<>();
+
+		// total of anagrams
+		int total = 0;
+
+		// for each key, add one to value
+		for (int i = 0; i < s.length(); i++) {
+			for (int j = i + 1; j <= s.length(); j++) {
+				// get substring and sort it!
+				String sub = s.substring(i, j);
+
+				// sorting the string
+				char tempArray[] = sub.toCharArray();
+				Arrays.sort(tempArray);
+				sub = new String(tempArray);
+
+				if (map.containsKey(sub)) {
+					// adds one to last value
+					int oldValue = map.get(sub);
+					// total++ WRONG
+					// backtracking of previous equals values or combinations of elements
+					total += oldValue; // RIGHT
+					map.put(sub, ++oldValue);
+				} else {
+					// add to map if not seen
+					map.put(sub, 1);
+				}
+			}
+		}
+		return total;
+	}
 
 	@SuppressWarnings("serial")
 	@Test
