@@ -41,6 +41,32 @@ public class HackerRankTest {
 	};
 
 	@Test
+	public void pageCount() {
+		/*
+		 * Write your code here.
+		 */
+		assertEquals(1, pageCount(6, 2));
+		assertEquals(0, pageCount(5, 4));
+		assertEquals(1, pageCount(6, 5));
+		assertEquals(0, pageCount(5, 5));
+		assertEquals(0, pageCount(5, 1));
+
+	}
+
+	private int pageCount(int n, int p) {
+
+		// If pages is even number, add 1 to avoid edge cases 
+		int n1 = (n & 1) == 0 ? n + 1 : n;
+		
+		int fromStart = p / 2;
+		int fromEnd = (n1 - p) / 2;
+
+		return Math.min(fromStart, fromEnd);
+
+	}
+
+	@SuppressWarnings("serial")
+	@Test
 	public void birthday() {
 
 		assertEquals(2, birthday(new ArrayList<Integer>() {
@@ -116,6 +142,7 @@ public class HackerRankTest {
 		return new int[] { countMax, countMin };
 	}
 
+	@SuppressWarnings("serial")
 	@Test
 	public void getTotalX() {
 
@@ -207,18 +234,9 @@ public class HackerRankTest {
 		return count;
 	}
 
+	@SuppressWarnings("serial")
 	@Test
 	public void gradingStudent() {
-
-		LinkedList<Integer> list = gradingStudents(new ArrayList<Integer>() {
-			{
-				add(73);
-				add(67);
-				add(38);
-				add(33);
-
-			}
-		});
 
 		assertEquals(new ArrayList<Integer>() {
 			{
@@ -228,7 +246,15 @@ public class HackerRankTest {
 				add(33);
 
 			}
-		}, list);
+		}, gradingStudents(new ArrayList<Integer>() {
+			{
+				add(73);
+				add(67);
+				add(38);
+				add(33);
+
+			}
+		}));
 	}
 
 	/**
