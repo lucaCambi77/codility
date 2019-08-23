@@ -1,6 +1,7 @@
 package it.cambi.codility.codility;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -732,7 +733,15 @@ public class Codility {
 	@Test
 	public void brackets() {
 
-		String S = "}[])]";
+		assertFalse(brackets("{[()]").isEmpty());
+		assertFalse(brackets("}[])]").isEmpty());
+		assertTrue(brackets("{[()]}").isEmpty());
+
+	}
+
+	@Test
+	public Stack<Character> brackets(String S) {
+
 		Stack<Character> st = new Stack<Character>();
 
 		for (int i = 0; i < S.length(); i++) {
@@ -743,7 +752,7 @@ public class Codility {
 				continue;
 			}
 
-			if (!((char) st.peek() == '(' && c == ')' || (char) st.peek() == '[' && c == ']'
+			if (((char) st.peek() == '(' && c == ')' || (char) st.peek() == '[' && c == ']'
 					|| (char) st.peek() == '{' && c == '}')) {
 				st.pop();
 			} else {
@@ -751,7 +760,7 @@ public class Codility {
 			}
 		}
 
-		assertTrue(!st.isEmpty());
+		return st;
 	}
 
 	@Test
