@@ -42,9 +42,7 @@ public class HackerRankTest {
 
 	@Test
 	public void pageCount() {
-		/*
-		 * Write your code here.
-		 */
+
 		assertEquals(1, pageCount(6, 2));
 		assertEquals(0, pageCount(5, 4));
 		assertEquals(1, pageCount(6, 5));
@@ -55,9 +53,9 @@ public class HackerRankTest {
 
 	private int pageCount(int n, int p) {
 
-		// If pages is even number, add 1 to avoid edge cases 
+		// If pages is even number, add 1 to avoid edge cases
 		int n1 = (n & 1) == 0 ? n + 1 : n;
-		
+
 		int fromStart = p / 2;
 		int fromEnd = (n1 - p) / 2;
 
@@ -65,36 +63,14 @@ public class HackerRankTest {
 
 	}
 
-	@SuppressWarnings("serial")
 	@Test
 	public void birthday() {
 
-		assertEquals(2, birthday(new ArrayList<Integer>() {
-			{
-				add(1);
-				add(2);
-				add(1);
-				add(3);
-				add(2);
-			}
-		}, 3, 2));
+		assertEquals(2, birthday(Arrays.asList(new Integer[] { 1, 2, 1, 3, 2 }), 3, 2));
 
-		assertEquals(0, birthday(new ArrayList<Integer>() {
-			{
-				add(1);
-				add(1);
-				add(1);
-				add(1);
-				add(1);
-				add(1);
-			}
-		}, 3, 2));
+		assertEquals(0, birthday(Arrays.asList(new Integer[] { 1, 1, 1, 1, 1, 1 }), 3, 2));
 
-		assertEquals(1, birthday(new ArrayList<Integer>() {
-			{
-				add(4);
-			}
-		}, 4, 1));
+		assertEquals(1, birthday(Arrays.asList(new Integer[] { 4 }), 4, 1));
 	}
 
 	private int birthday(List<Integer> s, int d, int m) {
