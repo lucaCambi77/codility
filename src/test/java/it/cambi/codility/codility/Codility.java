@@ -740,12 +740,12 @@ public class Codility {
 	}
 
 	@Test
-	public Stack<Character> brackets(String S) {
+	public Stack<Character> brackets(String s) {
 
 		Stack<Character> st = new Stack<Character>();
 
-		for (int i = 0; i < S.length(); i++) {
-			char c = S.charAt(i);
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
 
 			if (c == '{' || c == '[' || c == '(' || st.isEmpty()) {
 				st.push(c);
