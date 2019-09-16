@@ -41,6 +41,57 @@ public class HackerRankTest {
 	};
 
 	@Test
+	public void minimumNumber() {
+
+		assertEquals(3, minimumNumber("Ab1"));
+		assertEquals(1, minimumNumber("#HackerRank"));
+		assertEquals(2, minimumNumber("LY!Z"));
+		assertEquals(1, minimumNumber("AUzs-nV"));
+	}
+
+	private int minimumNumber(String password) {
+
+		int length = password.length();
+
+		int requiredDigits = 6;
+
+		int miss = matchRegEx(password, "[0-9]+") + matchRegEx(password, "[!@#$%^&*\\(\\)\\-\\+]+")
+				+ matchRegEx(password, "[A-Z]+") + matchRegEx(password, "[a-z]+");
+
+		int lengthDiff = requiredDigits - length;
+
+		return lengthDiff > 0 ? Math.max(miss, lengthDiff) : miss;
+	}
+
+	private int matchRegEx(String input, String regEx) {
+
+		if (Pattern.compile(regEx).matcher(input).find())
+			return 0;
+
+		return 1;
+	}
+
+	@Test
+	public void camelcase() {
+		assertEquals(3, camelcase("oneTwoThree"));
+		assertEquals(5, camelcase("saveChangesInTheEditor"));
+
+	}
+
+	private int camelcase(String s) {
+
+		String regEx = "(\\p{Lu})";
+		Pattern pattern = Pattern.compile(regEx);
+		Matcher matcher = pattern.matcher(s);
+		int count = 1;
+
+		while (matcher.find())
+			count++;
+
+		return count;
+	}
+
+	@Test
 	public void pageCount() {
 
 		assertEquals(1, pageCount(6, 2));
