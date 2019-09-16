@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.Test;
 
-import it.cambi.codility.test.model.Node;
+import it.cambi.codility.model.Node;
 
 /**
  * @author luca To get input from standard input

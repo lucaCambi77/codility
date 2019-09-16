@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import it.cambi.codility.test.model.Node;
+import it.cambi.codility.model.Node;
 
 /**
  * @author luca

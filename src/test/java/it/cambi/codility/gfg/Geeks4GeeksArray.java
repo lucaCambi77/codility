@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -109,7 +110,7 @@ public class Geeks4GeeksArray {
 
 		int k = 3;
 
-		Queue<Integer> q = new LinkedList<Integer>();
+		Deque<Integer> q = new LinkedList<Integer>();
 
 		q.add(3);
 		q.add(1);
@@ -120,7 +121,7 @@ public class Geeks4GeeksArray {
 		int size = q.size();
 		int[] toReverseArray = new int[size];
 
-		Queue<Integer> queueOut = new LinkedList<Integer>();
+		Deque<Integer> queueOut = new LinkedList<Integer>();
 
 		for (int i = 0; i < size; i++) {
 
@@ -227,7 +228,7 @@ public class Geeks4GeeksArray {
 
 		int index = findFirstOccurrence(list.stream().mapToInt(i -> i).toArray(), 0, list.size() - 1, 2);
 
-		assertTrue(index == 0);
+		assertTrue(index == 1);
 	}
 
 	/**
