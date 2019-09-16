@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.cambi.codility.test.model;
+package it.cambi.codility.model;
 
 /**
  * @author luca

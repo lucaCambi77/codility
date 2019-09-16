@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.cambi.codility.test.model;
+package it.cambi.codility.model;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

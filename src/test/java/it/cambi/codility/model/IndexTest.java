@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.cambi.codility.test.model;
+package it.cambi.codility.model;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
