@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.Test;
@@ -23,11 +24,70 @@ import org.junit.jupiter.api.Test;
 public class HackerRankArraysTest {
 
 	@Test
+	public void alternate() {
+		assertEquals(5, alternate("beabeefeab"));
+		assertEquals(4, alternate("abaacdabd"));
+		assertEquals(8, alternate("asdcbsdcagfsdbgdfanfghbsfdab"));
+	}
+
+	private int alternate(String s) {
+
+		int result = 0;
+
+		List<Character> distinctCharacters = s.chars().distinct().mapToObj(c -> (char) c).collect(Collectors.toList());
+
+		for (int i = 0; i < distinctCharacters.size(); i++) {
+
+			for (int j = i + 1; j < distinctCharacters.size(); j++) {
+
+				String replace = s;
+				char first = distinctCharacters.get(i);
+				char second = distinctCharacters.get(j);
+
+				String filteredList = distinctCharacters.stream().filter(l -> l != first).filter(l -> l != second).map(String::valueOf)
+						.collect(Collectors.joining());
+
+				replace = s.replaceAll("[" + filteredList + "]", "");
+
+				if (checkConsecutive(replace))
+					result = Math.max(result, replace.length());
+			}
+		}
+
+		return result;
+
+	}
+
+	private boolean checkConsecutive(String s) {
+
+		int length = s.length();
+
+		char charToCompare = s.charAt(0);
+
+		for (int j = 0; j < length; j += 2) {
+
+			if (charToCompare != s.charAt(j))
+				return false;
+
+		}
+
+		charToCompare = s.charAt(1);
+
+		for (int j = 1; j < length; j += 2) {
+
+			if (charToCompare != s.charAt(j))
+				return false;
+
+		}
+
+		return true;
+	}
+
+	@Test
 	public void bonAppetit() {
 
 		assertEquals(5, bonAppetit(Arrays.asList(new Integer[] { 3, 10, 2, 9 }), 1, 12));
 		assertEquals(0, bonAppetit(Arrays.asList(new Integer[] { 3, 10, 2, 9 }), 1, 7));
-
 
 	}
 
