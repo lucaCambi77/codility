@@ -12,7 +12,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,24 @@ import org.junit.jupiter.api.Test;
  *
  */
 public class HackerRankArraysTest {
+
+	@Test
+	public void lonelyinteger() {
+		assertEquals(4, lonelyinteger(new int[] { 1, 2, 3, 4, 3, 2, 1 }));
+		assertEquals(1, lonelyinteger(new int[] { 1 }));
+		assertEquals(2, lonelyinteger(new int[] { 1, 1, 2 }));
+		assertEquals(2, lonelyinteger(new int[] { 0, 0, 1, 2, 1 }));
+
+	}
+
+	private int lonelyinteger(int[] a) {
+
+		Map<Integer, Long> map = IntStream.of(a).boxed()
+				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+		return map.entrySet().stream().filter(e -> e.getValue() == 1).findFirst().orElse(null).getKey();
+
+	}
 
 	@Test
 	public void alternate() {
@@ -44,8 +64,8 @@ public class HackerRankArraysTest {
 				char first = distinctCharacters.get(i);
 				char second = distinctCharacters.get(j);
 
-				String filteredList = distinctCharacters.stream().filter(l -> l != first).filter(l -> l != second).map(String::valueOf)
-						.collect(Collectors.joining());
+				String filteredList = distinctCharacters.stream().filter(l -> l != first).filter(l -> l != second)
+						.map(String::valueOf).collect(Collectors.joining());
 
 				replace = s.replaceAll("[" + filteredList + "]", "");
 
