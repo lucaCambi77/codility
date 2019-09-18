@@ -5,7 +5,11 @@ package it.cambi.codility.hackerRank;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,6 +28,140 @@ import org.junit.jupiter.api.Test;
  *
  */
 public class HackerRankArraysTest {
+
+	@SuppressWarnings("serial")
+	@Test
+	public void freqQuery() throws IOException {
+
+		assertEquals(Arrays.asList(new Integer[] { 0, 1, 1 }), freqQuery(new ArrayList<int[]>() {
+			{
+				add(new int[] { 1, 3 });
+				add(new int[] { 2, 3 });
+				add(new int[] { 3, 2 });
+				add(new int[] { 1, 4 });
+				add(new int[] { 1, 5 });
+				add(new int[] { 1, 5 });
+				add(new int[] { 1, 4 });
+				add(new int[] { 3, 2 });
+				add(new int[] { 2, 4 });
+				add(new int[] { 3, 2 });
+
+			}
+		}));
+
+		assertEquals(Arrays.asList(new Integer[] { 0, 1 }), freqQuery(new ArrayList<int[]>() {
+			{
+				add(new int[] { 3, 4 });
+				add(new int[] { 2, 1003 });
+				add(new int[] { 1, 16 });
+				add(new int[] { 3, 1 });
+
+			}
+		}));
+
+		assertEquals(new ArrayList<Integer>() {
+			{
+				InputStream is = new FileInputStream("src/test/resources/frequencies/frequenciesOutput.txt");
+				BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+
+				String line = buf.readLine();
+
+				while (line != null) {
+
+					add(Integer.valueOf(line));
+					line = buf.readLine();
+				}
+
+				buf.close();
+			}
+		}, freqQuery(new ArrayList<int[]>() {
+			{
+
+				InputStream is = new FileInputStream("src/test/resources/frequencies/frequencies.txt");
+				BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+
+				String line = buf.readLine();
+
+				while (line != null) {
+
+					String[] split = line.split(" ");
+
+					int[] list = new int[] { Integer.valueOf(split[0]), Integer.valueOf(split[1]) };
+					add(list);
+					line = buf.readLine();
+				}
+
+				buf.close();
+			}
+		}));
+	}
+
+	public List<Integer> freqQuery(List<int[]> queries) {
+
+		LinkedList<Integer> out = new LinkedList<Integer>();
+
+		Map<Integer, Integer> map = new HashMap<>();
+		Map<Integer, Integer> freqMap = new HashMap<>();
+
+		for (int[] list : queries) {
+			int value = list[1];
+			int query = list[0];
+			if (query == 1) {
+				int freq = map.getOrDefault(value, 0);
+
+				map.put(value, freq + 1);
+
+				freqMap.put(freq + 1, freqMap.getOrDefault(freq + 1, 0) + 1);
+				freqMap.put(freq, freqMap.getOrDefault(freq, 0) - 1);
+
+			} else if (query == 2) {
+
+				Integer mapGet = map.get(value);
+
+				if (mapGet != null) {
+
+					freqMap.put(mapGet, freqMap.getOrDefault(mapGet, 0) - 1);
+
+					int freq = Math.max(0, mapGet - 1);
+
+					freqMap.put(freq, freqMap.getOrDefault(freq, 0) + 1);
+
+					map.put(value, freq);
+				}
+			} else {
+
+				if (null == freqMap.get(value) || freqMap.get(value) == 0)
+					out.add(0);
+				else
+					out.add(1);
+			}
+		}
+
+		return out;
+	}
+
+	@Test
+	public void divisibleSumPairs() {
+		assertEquals(3, divisibleSumPairs(6, 5, new int[] { 1, 2, 3, 4, 5, 6 }));
+		assertEquals(5, divisibleSumPairs(6, 3, new int[] { 1, 3, 2, 6, 1, 2 }));
+
+	}
+
+	private int divisibleSumPairs(int n, int k, int[] ar) {
+
+		int count = 0;
+
+		for (int i = 0; i < n; i++) {
+
+			for (int j = i + 1; j < n; j++) {
+
+				if ((ar[i] + ar[j]) % k == 0)
+					++count;
+			}
+		}
+
+		return count;
+	}
 
 	@Test
 	public void lonelyinteger() {
@@ -64,10 +202,10 @@ public class HackerRankArraysTest {
 				char first = distinctCharacters.get(i);
 				char second = distinctCharacters.get(j);
 
-				String filteredList = distinctCharacters.stream().filter(l -> l != first).filter(l -> l != second)
-						.map(String::valueOf).collect(Collectors.joining());
+				String filteredListToString = distinctCharacters.stream().filter(l -> l != first)
+						.filter(l -> l != second).map(String::valueOf).collect(Collectors.joining());
 
-				replace = s.replaceAll("[" + filteredList + "]", "");
+				replace = s.replaceAll("[" + filteredListToString + "]", "");
 
 				if (checkConsecutive(replace))
 					result = Math.max(result, replace.length());
