@@ -20,6 +20,8 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
@@ -28,6 +30,49 @@ import org.junit.jupiter.api.Test;
  *
  */
 public class Geeks4GeeksArray {
+
+	@Test
+	public void checkIfFreqCanBeEqual() {
+
+		assertEquals(false, checkIfFreqCanBeEqual("xxxxyyzz"));
+		assertEquals(true, checkIfFreqCanBeEqual("xyyz"));
+		assertEquals(true, checkIfFreqCanBeEqual("ehuuroaidj"));
+		assertEquals(true, checkIfFreqCanBeEqual("cceea"));
+		assertEquals(false, checkIfFreqCanBeEqual("evjxpnqgmvfjl"));
+	}
+
+	public boolean checkIfFreqCanBeEqual(String s1) {
+
+		LinkedList<Long> list = s1.chars().boxed()
+				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).values().stream().sorted()
+				.collect(Collectors.toCollection(LinkedList::new));
+
+		long first = list.get(0);
+		long last = list.get(list.size() - 1);
+
+		/**
+		 * Diff greater than one
+		 */
+		if (last - first > 1)
+			return false;
+
+		/**
+		 * All values has same frequency
+		 */
+		if (last - first == 0)
+			return true;
+
+		int firstFrequency = Collections.frequency(list, first);
+		int lastFrequency = Collections.frequency(list, last);
+
+		if (last - first == 1)
+			if ((firstFrequency == 1 && lastFrequency == list.size() - 1)
+					|| (lastFrequency == 1 && firstFrequency == list.size() - 1))
+				return true;
+
+		return false;
+
+	}
 
 	@Test
 	public void permutationsOfAGivenString() {
