@@ -7,15 +7,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.Test;
 
+import it.cambi.codility.model.BinaryTree;
 import it.cambi.codility.model.Node;
 
 /**
@@ -29,6 +33,295 @@ import it.cambi.codility.model.Node;
  * 
  */
 public class Geeks4GeeksTree {
+
+	@Test
+	public void isBST() {
+
+		Node node = new Node(1);
+		node.setLeft(new Node(3));
+		node.setRight(new Node(2));
+
+		assertEquals(false, isBST(node, new LinkedHashSet<Integer>(), null, null));
+
+		assertEquals(true, isBST(BinaryTree.getBST(), new LinkedHashSet<Integer>(), null, null));
+
+		Node node1 = new Node(20);
+		Node nodeLeft = new Node(10);
+		Node nodeLeftA = new Node(5);
+		Node nodeLeftB = new Node(1);
+		nodeLeftB.setRight(new Node(50));
+		nodeLeft.setLeft(nodeLeftA);
+		nodeLeftA.setLeft(nodeLeftB);
+		node1.setLeft(nodeLeft);
+
+		assertEquals(false, isBST(node1, new LinkedHashSet<Integer>(), null, null));
+
+	}
+
+	public boolean isBST(Node root, LinkedHashSet<Integer> nodeList, Node previousLeft, Node previousright) {
+
+		if (null == root)
+			return true;
+
+		if (!nodeList.add(root.data))
+			return false;
+
+		if (checkDataLeft(root, previousLeft) && checkDataRight(root, previousright)
+				&& isBST(root.left, nodeList, root, null) && isBST(root.right, nodeList, null, root))
+			return true;
+
+		return false;
+	}
+
+	private boolean checkDataLeft(Node root, Node previous) {
+		if (null == root)
+			return true;
+
+		boolean checkLeft = false;
+		boolean checkRight = false;
+
+		if (null == root.left)
+			checkLeft = true;
+		else if (root.left.data < root.data)
+			checkLeft = true;
+
+		if (null == root.right)
+			checkRight = true;
+		else {
+			if (root.right.data > root.data)
+				checkRight = true;
+
+			if (null != previous && !(root.right.data < previous.data))
+				checkRight = false;
+		}
+
+		return checkRight && checkLeft;
+	}
+
+	private boolean checkDataRight(Node root, Node previous) {
+		if (null == root)
+			return true;
+
+		boolean checkLeft = false;
+		boolean checkRight = false;
+
+		if (null == root.left)
+			checkLeft = true;
+		else {
+			if (root.left.data < root.data)
+				checkLeft = true;
+
+			if (null != previous && !(root.left.data > previous.data))
+				checkLeft = false;
+
+		}
+
+		if (null == root.right)
+			checkRight = true;
+		else if (root.right.data > root.data)
+			checkRight = true;
+
+		return checkRight && checkLeft;
+	}
+
+	class Res {
+
+		private Node pre;
+		private Node succ;
+	}
+
+	@Test
+	public void predecessorSuccessor() {
+
+		Res p = new Res();
+		Res s = new Res();
+		int key = 65;
+		predecessorSuccessor(BinaryTree.getBST(), p, s, key);
+
+		assertEquals("60 70", p.pre.data + " " + s.succ.data);
+
+		Node root = new Node(78);
+
+		Node left = new Node(34);
+		left.setLeft(new Node(12));
+		left.setRight(new Node(45));
+		root.setLeft(left);
+
+		Node right = new Node(97);
+		root.setRight(right);
+
+		p = new Res();
+		s = new Res();
+
+		key = 34;
+		predecessorSuccessor(root, p, s, key);
+		assertEquals("12 45", p.pre.data + " " + s.succ.data);
+
+		Node root1 = new Node(78);
+
+		Node left1 = new Node(24);
+		left1.setLeft(new Node(18));
+		left1.setRight(new Node(55));
+		root1.setLeft(left1);
+
+		Node right1 = new Node(80);
+		right1.setRight(new Node(85));
+
+		root1.setRight(right1);
+
+		p = new Res();
+		s = new Res();
+
+		key = 40;
+
+		predecessorSuccessor(root1, p, s, key);
+		assertEquals("24 55", p.pre.data + " " + s.succ.data);
+
+		Node root2 = new Node(50);
+
+		Node left1a = new Node(30);
+		left1a.setLeft(new Node(20));
+		left1a.setRight(new Node(40));
+		root2.setLeft(left1a);
+
+		Node right1a = new Node(70);
+		right1a.setLeft(new Node(60));
+		right1a.setRight(new Node(80));
+
+		root2.setRight(right1a);
+
+		p = new Res();
+		s = new Res();
+
+		key = 80;
+
+		predecessorSuccessor(root2, p, s, key);
+		assertEquals("70 -1", p.pre.data + " " + (s.succ == null ? "-1" : s.succ.data));
+
+		p = new Res();
+		s = new Res();
+
+		key = 70;
+
+		predecessorSuccessor(root2, p, s, key);
+		assertEquals("60 80", p.pre.data + " " + (s.succ == null ? "-1" : s.succ.data));
+
+		p = new Res();
+		s = new Res();
+
+		key = 100;
+
+		predecessorSuccessor(root2, p, s, key);
+		assertEquals("80 -1", p.pre.data + " " + (s.succ == null ? "-1" : s.succ.data));
+
+		Node root3 = new Node(75);
+
+		Node left2a = new Node(7);
+		Node rightLeft2a = new Node(13);
+		Node rightLeft2aa = new Node(18);
+
+		Node rightLeft2aaa = new Node(44);
+		rightLeft2aaa.setRight(new Node(45));
+		rightLeft2aa.setRight(rightLeft2aaa);
+
+		rightLeft2a.setRight(rightLeft2aa);
+
+		rightLeft2a.setRight(rightLeft2aa);
+
+		left2a.setRight(rightLeft2a);
+		root3.setLeft(left2a);
+
+		Node right2a = new Node(79);
+		right2a.setRight(new Node(91));
+
+		root3.setRight(right2a);
+
+		p = new Res();
+		s = new Res();
+
+		key = 74;
+
+		predecessorSuccessor(root3, p, s, key);
+
+		assertEquals("45 75", p.pre.data + " " + (s.succ == null ? "-1" : s.succ.data));
+
+		p = new Res();
+		s = new Res();
+
+		key = 7;
+
+		predecessorSuccessor(root3, p, s, key);
+
+		assertEquals("-1 13", (p.pre == null ? "-1" : p.pre.data) + " " + (s.succ == null ? "-1" : s.succ.data));
+
+		Node root4 = new Node(75);
+
+		Node left3a = new Node(7);
+		Node rightLeft3a = new Node(13);
+		Node rightLeft3aa = new Node(18);
+
+		Node rightLeft3aaa = new Node(44);
+		rightLeft3aaa.setRight(new Node(45));
+		rightLeft3aa.setRight(rightLeft3aaa);
+
+		rightLeft3a.setRight(rightLeft3aa);
+
+		rightLeft3a.setRight(rightLeft3aa);
+
+		left3a.setRight(rightLeft3a);
+		root4.setLeft(left3a);
+
+		Node right3a = new Node(79);
+		right3a.setRight(new Node(91));
+
+		root4.setRight(right3a);
+
+		p = new Res();
+		s = new Res();
+
+		key = 44;
+
+		predecessorSuccessor(root4, p, s, key);
+
+		assertEquals("18 45", (p.pre == null ? "-1" : p.pre.data) + " " + (s.succ == null ? "-1" : s.succ.data));
+	}
+
+	public void predecessorSuccessor(Node root, Res p, Res s, int key) {
+
+		if (root == null)
+			return;
+
+		if (root.data < key) {
+			if (p.pre == null)
+				p.pre = root;
+
+			p.pre = p.pre.data > root.data ? p.pre : root;
+		}
+
+		if (root.data > key) {
+			if (s.succ == null)
+				s.succ = root;
+
+			s.succ = s.succ.data > root.data ? root : s.succ;
+		}
+
+		predecessorSuccessor(root.left, p, s, key);
+		predecessorSuccessor(root.right, p, s, key);
+
+	}
+
+	@Test
+	public void minValue() {
+
+		assertEquals(20, minValue(BinaryTree.getBST()));
+	}
+
+	public int minValue(Node node) {
+		while (node.left != null)
+			node = node.left;
+
+		return node.data;
+	}
 
 	@Test
 	public void isBalanced() {
@@ -514,7 +807,7 @@ public class Geeks4GeeksTree {
 	}
 
 	/**
-	 * Sum of subnodes must be equal to root node value
+	 * Sum of sub nodes must be equal to root node value
 	 */
 	@Test
 	public void sumOfBinaryTreeNodes() {

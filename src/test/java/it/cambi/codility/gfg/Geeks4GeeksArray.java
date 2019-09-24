@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -30,6 +31,92 @@ import org.junit.jupiter.api.Test;
  *
  */
 public class Geeks4GeeksArray {
+
+	@Test
+	public void multiplyLeftRightSum() {
+
+		assertEquals(21,
+				multiplyLeftRightSum(Arrays.stream("1 2 3 4".split(" ")).mapToInt(i -> Integer.valueOf(i)).toArray()));
+		assertEquals(44, multiplyLeftRightSum(new int[] { 4, 5, 6 }));
+
+	}
+
+	public int multiplyLeftRightSum(int[] array) {
+
+		int lengthOf = array.length;
+		int middlePoint = ((lengthOf & 1) == 1) ? lengthOf / 2 : (lengthOf + 1) / 2;
+
+		int sumLeft = 0;
+		int sumRight = 0;
+
+		for (int i = lengthOf - 1, j = 0; i >= middlePoint; i--, j++) {
+
+			if (j < middlePoint)
+				sumLeft += array[j];
+
+			sumRight += array[i];
+		}
+
+		return sumLeft * sumRight;
+	}
+
+	@Test
+	public void num() {
+		assertEquals(6, num(new int[] { 11, 12, 13, 14, 15 }, 5, 1));
+		assertEquals(4, num(new int[] { 0, 10, 20, 30 }, 4, 0));
+
+	}
+
+	public long num(int a[], int n, int k) {
+		Long count = 0L;
+		char match = Integer.toString(k).charAt(0);
+
+		for (int j = 0; j < n; j++) {
+
+			String s = Integer.toString(a[j]);
+
+			count = count + s.chars().filter(ch -> ch == match).count();
+		}
+
+		return count.intValue();
+	}
+
+	@Test
+	public void sortEmployee() {
+		assertEquals("geek 50 xbnnskd 100", sortEmployee("xbnnskd 100 geek 50"));
+		assertEquals("ram 50 shyam 50", sortEmployee("shyam 50 ram 50"));
+		assertEquals("ram 50 shyam 50 xbnnskd 100", sortEmployee("xbnnskd 100 shyam 50 ram 50"));
+
+	}
+
+	// TOFIX too slow
+	public String sortEmployee(String s) {
+
+		String[] split = s.split("(?<!\\G\\S+)\\s");
+
+		Arrays.sort(split, new Comparator<String>() {
+			@Override
+			public int compare(final String lhs, String rhs) {
+
+				String[] splitLeft = lhs.split(" ");
+				String[] splitRight = rhs.split(" ");
+
+				int a = splitLeft[1].compareTo(splitRight[1]);
+				int b = splitLeft[0].compareTo(splitRight[0]);
+
+				if (a == 0)
+					return b < 0 ? -1 : 1;
+
+				if (a > 0)
+					return -1;
+
+				return 1;
+
+			}
+		});
+
+		return Arrays.stream(split).collect(Collectors.joining(" "));
+	}
 
 	@Test
 	public void checkIfFreqCanBeEqual() {

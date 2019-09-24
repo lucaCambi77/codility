@@ -21,6 +21,36 @@ import org.junit.jupiter.api.Test;
 public class Geek4GeeksGreedy {
 
 	@Test
+	public void remainingString() {
+
+		assertEquals("folder3/", ordinalIndexOf("/folder1/folder2/folder3/", "/", 3));
+		assertEquals("Empty string", ordinalIndexOf("/folder1/folder2/folder3/", "/", 4));
+		assertEquals("ksforgeeks", ordinalIndexOf("geeksforgeeks", "e", 2));
+		assertEquals("ng", ordinalIndexOf("Thisisdemostring", "i", 3));
+		assertEquals("Empty string", ordinalIndexOf("Helloeveryone", "y", 2));
+
+	}
+
+	public String ordinalIndexOf(String str, String substr, int n) {
+
+		if (n == 0)
+			return str;
+
+		int pos = str.indexOf(substr);
+		while (--n > 0 && pos != -1)
+			pos = str.indexOf(substr, pos + 1);
+
+		/**
+		 * If i have found requested frequency and it is not the last occurrence and
+		 * there is at least one more possible character to match
+		 */
+		if (n == 0 && pos != -1 && pos != str.length() - 1)
+			return str.substring(pos + 1, str.length());
+
+		return "Empty string";
+	}
+
+	@Test
 	public void firstElementToOccourKTime() {
 		assertEquals(7, firstElementToOccourKTime(new String("1 7 4 3 4 8 7"), 2));
 		assertEquals(-1, firstElementToOccourKTime(new String("1 7 4 3 4 8 7"), 3));
