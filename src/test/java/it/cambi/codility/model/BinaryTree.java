@@ -3,8 +3,6 @@
  */
 package it.cambi.codility.model;
 
-import org.junit.jupiter.api.Test;
-
 /**
  * @author luca
  *
@@ -128,9 +126,20 @@ public class BinaryTree {
 		}
 	}
 
-	@Test
-	public void test() {
+	public static Node getBST() {
+		Node root = new Node(50);
 
-		System.out.println("topa");
+		Node left = new Node(30);
+		left.setLeft(new Node(20));
+		left.setRight(new Node(40));
+
+		root.setLeft(left);
+
+		Node right = new Node(70);
+		right.setRight(new Node(80));
+		right.setLeft(new Node(60));
+
+		root.setRight(right);
+		return root;
 	}
 }
