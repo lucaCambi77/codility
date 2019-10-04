@@ -27,557 +27,675 @@ import org.junit.jupiter.api.Test;
  * @author luca
  *
  */
-public class HackerRankArraysTest {
+public class HackerRankArraysTest
+{
+
+    @Test
+    public void equalStacks()
+    {
+        assertEquals(5, equalStacks(new int[] { 3, 2, 1, 1, 1 }, new int[] { 4, 3, 2 }, new int[] { 1, 1, 4, 1 }));
+        assertEquals(0, equalStacks(new int[] { 1, 1, 1, 1, 2 }, new int[] { 3, 7 }, new int[] { 1, 3, 1 }));
+
+    }
+
+    public int equalStacks(int[] h1, int[] h2, int[] h3)
+    {
+        int[] comul1 = new int[h1.length];
+        int[] comul2 = new int[h2.length];
+        int[] comul3 = new int[h3.length];
+
+        int start = h1.length - 1;
+        comul1[0] = h1[start];
+
+        for (int i = start; i > 0; i--)
+        {
+            comul1[start - i + 1] = comul1[start - i] + h1[i - 1];
+        }
+
+        start = h2.length - 1;
+        comul2[0] = h2[start];
+
+        for (int i = start; i > 0; i--)
+        {
+            comul2[start - i + 1] = comul2[start - i] + h2[i - 1];
+        }
+
+        start = h3.length - 1;
+        comul3[0] = h3[start];
+
+        for (int i = start; i > 0; i--)
+        {
+            comul3[start - i + 1] = comul3[start - i] + h3[i - 1];
+        }
+
+        for (int i = comul3.length - 1; i >= 0; i--)
+        {
+            int int3 = comul3[i];
+            for (int j = comul2.length - 1; j >= 0; j--)
+            {
+                if (int3 == comul2[j])
+                    for (int k = comul1.length - 1; k >= 0; k--)
+                    {
+                        if (int3 == comul1[k])
+                            return int3;
+                    }
+
+            }
+        }
+
+        return 0;
+    }
+
+    @SuppressWarnings("serial")
+    @Test
+    public void freqQuery() throws IOException
+    {
+
+        assertEquals(Arrays.asList(new Integer[] { 0, 1, 1 }), freqQuery(new ArrayList<int[]>()
+        {
+            {
+                add(new int[] { 1, 3 });
+                add(new int[] { 2, 3 });
+                add(new int[] { 3, 2 });
+                add(new int[] { 1, 4 });
+                add(new int[] { 1, 5 });
+                add(new int[] { 1, 5 });
+                add(new int[] { 1, 4 });
+                add(new int[] { 3, 2 });
+                add(new int[] { 2, 4 });
+                add(new int[] { 3, 2 });
+
+            }
+        }));
+
+        assertEquals(Arrays.asList(new Integer[] { 0, 1 }), freqQuery(new ArrayList<int[]>()
+        {
+            {
+                add(new int[] { 3, 4 });
+                add(new int[] { 2, 1003 });
+                add(new int[] { 1, 16 });
+                add(new int[] { 3, 1 });
+
+            }
+        }));
+
+        assertEquals(new ArrayList<Integer>()
+        {
+            {
+                InputStream is = new FileInputStream("src/test/resources/frequencies/frequenciesOutput.txt");
+                BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+
+                String line = buf.readLine();
+
+                while (line != null)
+                {
 
-	@SuppressWarnings("serial")
-	@Test
-	public void freqQuery() throws IOException {
+                    add(Integer.valueOf(line));
+                    line = buf.readLine();
+                }
 
-		assertEquals(Arrays.asList(new Integer[] { 0, 1, 1 }), freqQuery(new ArrayList<int[]>() {
-			{
-				add(new int[] { 1, 3 });
-				add(new int[] { 2, 3 });
-				add(new int[] { 3, 2 });
-				add(new int[] { 1, 4 });
-				add(new int[] { 1, 5 });
-				add(new int[] { 1, 5 });
-				add(new int[] { 1, 4 });
-				add(new int[] { 3, 2 });
-				add(new int[] { 2, 4 });
-				add(new int[] { 3, 2 });
+                buf.close();
+            }
+        }, freqQuery(new ArrayList<int[]>()
+        {
+            {
 
-			}
-		}));
+                InputStream is = new FileInputStream("src/test/resources/frequencies/frequencies.txt");
+                BufferedReader buf = new BufferedReader(new InputStreamReader(is));
 
-		assertEquals(Arrays.asList(new Integer[] { 0, 1 }), freqQuery(new ArrayList<int[]>() {
-			{
-				add(new int[] { 3, 4 });
-				add(new int[] { 2, 1003 });
-				add(new int[] { 1, 16 });
-				add(new int[] { 3, 1 });
+                String line = buf.readLine();
 
-			}
-		}));
+                while (line != null)
+                {
 
-		assertEquals(new ArrayList<Integer>() {
-			{
-				InputStream is = new FileInputStream("src/test/resources/frequencies/frequenciesOutput.txt");
-				BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+                    String[] split = line.split(" ");
 
-				String line = buf.readLine();
+                    int[] list = new int[] { Integer.valueOf(split[0]), Integer.valueOf(split[1]) };
+                    add(list);
+                    line = buf.readLine();
+                }
 
-				while (line != null) {
+                buf.close();
+            }
+        }));
+    }
 
-					add(Integer.valueOf(line));
-					line = buf.readLine();
-				}
+    public List<Integer> freqQuery(List<int[]> queries)
+    {
 
-				buf.close();
-			}
-		}, freqQuery(new ArrayList<int[]>() {
-			{
+        LinkedList<Integer> out = new LinkedList<Integer>();
 
-				InputStream is = new FileInputStream("src/test/resources/frequencies/frequencies.txt");
-				BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> freqMap = new HashMap<>();
 
-				String line = buf.readLine();
+        for (int[] list : queries)
+        {
+            int value = list[1];
+            int query = list[0];
+            if (query == 1)
+            {
+                int freq = map.getOrDefault(value, 0);
 
-				while (line != null) {
+                map.put(value, freq + 1);
 
-					String[] split = line.split(" ");
+                freqMap.put(freq + 1, freqMap.getOrDefault(freq + 1, 0) + 1);
+                freqMap.put(freq, freqMap.getOrDefault(freq, 0) - 1);
 
-					int[] list = new int[] { Integer.valueOf(split[0]), Integer.valueOf(split[1]) };
-					add(list);
-					line = buf.readLine();
-				}
+            }
+            else if (query == 2)
+            {
 
-				buf.close();
-			}
-		}));
-	}
+                Integer mapGet = map.get(value);
 
-	public List<Integer> freqQuery(List<int[]> queries) {
+                if (mapGet != null)
+                {
 
-		LinkedList<Integer> out = new LinkedList<Integer>();
+                    freqMap.put(mapGet, freqMap.getOrDefault(mapGet, 0) - 1);
 
-		Map<Integer, Integer> map = new HashMap<>();
-		Map<Integer, Integer> freqMap = new HashMap<>();
+                    int freq = Math.max(0, mapGet - 1);
 
-		for (int[] list : queries) {
-			int value = list[1];
-			int query = list[0];
-			if (query == 1) {
-				int freq = map.getOrDefault(value, 0);
+                    freqMap.put(freq, freqMap.getOrDefault(freq, 0) + 1);
 
-				map.put(value, freq + 1);
+                    map.put(value, freq);
+                }
+            }
+            else
+            {
 
-				freqMap.put(freq + 1, freqMap.getOrDefault(freq + 1, 0) + 1);
-				freqMap.put(freq, freqMap.getOrDefault(freq, 0) - 1);
+                if (null == freqMap.get(value) || freqMap.get(value) == 0)
+                    out.add(0);
+                else
+                    out.add(1);
+            }
+        }
 
-			} else if (query == 2) {
+        return out;
+    }
 
-				Integer mapGet = map.get(value);
+    @Test
+    public void divisibleSumPairs()
+    {
+        assertEquals(3, divisibleSumPairs(6, 5, new int[] { 1, 2, 3, 4, 5, 6 }));
+        assertEquals(5, divisibleSumPairs(6, 3, new int[] { 1, 3, 2, 6, 1, 2 }));
 
-				if (mapGet != null) {
+    }
 
-					freqMap.put(mapGet, freqMap.getOrDefault(mapGet, 0) - 1);
+    private int divisibleSumPairs(int n, int k, int[] ar)
+    {
 
-					int freq = Math.max(0, mapGet - 1);
+        int count = 0;
 
-					freqMap.put(freq, freqMap.getOrDefault(freq, 0) + 1);
+        for (int i = 0; i < n; i++)
+        {
 
-					map.put(value, freq);
-				}
-			} else {
+            for (int j = i + 1; j < n; j++)
+            {
 
-				if (null == freqMap.get(value) || freqMap.get(value) == 0)
-					out.add(0);
-				else
-					out.add(1);
-			}
-		}
+                if ((ar[i] + ar[j]) % k == 0)
+                    ++count;
+            }
+        }
 
-		return out;
-	}
+        return count;
+    }
 
-	@Test
-	public void divisibleSumPairs() {
-		assertEquals(3, divisibleSumPairs(6, 5, new int[] { 1, 2, 3, 4, 5, 6 }));
-		assertEquals(5, divisibleSumPairs(6, 3, new int[] { 1, 3, 2, 6, 1, 2 }));
+    @Test
+    public void lonelyinteger()
+    {
+        assertEquals(4, lonelyinteger(new int[] { 1, 2, 3, 4, 3, 2, 1 }));
+        assertEquals(1, lonelyinteger(new int[] { 1 }));
+        assertEquals(2, lonelyinteger(new int[] { 1, 1, 2 }));
+        assertEquals(2, lonelyinteger(new int[] { 0, 0, 1, 2, 1 }));
 
-	}
+    }
 
-	private int divisibleSumPairs(int n, int k, int[] ar) {
+    private int lonelyinteger(int[] a)
+    {
 
-		int count = 0;
+        Map<Integer, Long> map = IntStream.of(a).boxed()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-		for (int i = 0; i < n; i++) {
+        return map.entrySet().stream().filter(e -> e.getValue() == 1).findFirst().orElse(null).getKey();
 
-			for (int j = i + 1; j < n; j++) {
+    }
 
-				if ((ar[i] + ar[j]) % k == 0)
-					++count;
-			}
-		}
+    @Test
+    public void alternate()
+    {
+        assertEquals(5, alternate("beabeefeab"));
+        assertEquals(4, alternate("abaacdabd"));
+        assertEquals(8, alternate("asdcbsdcagfsdbgdfanfghbsfdab"));
+    }
 
-		return count;
-	}
+    private int alternate(String s)
+    {
 
-	@Test
-	public void lonelyinteger() {
-		assertEquals(4, lonelyinteger(new int[] { 1, 2, 3, 4, 3, 2, 1 }));
-		assertEquals(1, lonelyinteger(new int[] { 1 }));
-		assertEquals(2, lonelyinteger(new int[] { 1, 1, 2 }));
-		assertEquals(2, lonelyinteger(new int[] { 0, 0, 1, 2, 1 }));
+        int result = 0;
 
-	}
+        List<Character> distinctCharacters = s.chars().distinct().mapToObj(c -> (char) c).collect(Collectors.toList());
 
-	private int lonelyinteger(int[] a) {
+        for (int i = 0; i < distinctCharacters.size(); i++)
+        {
 
-		Map<Integer, Long> map = IntStream.of(a).boxed()
-				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+            for (int j = i + 1; j < distinctCharacters.size(); j++)
+            {
 
-		return map.entrySet().stream().filter(e -> e.getValue() == 1).findFirst().orElse(null).getKey();
+                String replace = s;
+                char first = distinctCharacters.get(i);
+                char second = distinctCharacters.get(j);
 
-	}
+                String filteredListToString = distinctCharacters.stream().filter(l -> l != first)
+                        .filter(l -> l != second).map(String::valueOf).collect(Collectors.joining());
 
-	@Test
-	public void alternate() {
-		assertEquals(5, alternate("beabeefeab"));
-		assertEquals(4, alternate("abaacdabd"));
-		assertEquals(8, alternate("asdcbsdcagfsdbgdfanfghbsfdab"));
-	}
+                replace = s.replaceAll("[" + filteredListToString + "]", "");
 
-	private int alternate(String s) {
+                if (checkConsecutive(replace))
+                    result = Math.max(result, replace.length());
+            }
+        }
 
-		int result = 0;
+        return result;
 
-		List<Character> distinctCharacters = s.chars().distinct().mapToObj(c -> (char) c).collect(Collectors.toList());
+    }
 
-		for (int i = 0; i < distinctCharacters.size(); i++) {
+    private boolean checkConsecutive(String s)
+    {
 
-			for (int j = i + 1; j < distinctCharacters.size(); j++) {
+        int length = s.length();
 
-				String replace = s;
-				char first = distinctCharacters.get(i);
-				char second = distinctCharacters.get(j);
+        char charToCompare = s.charAt(0);
 
-				String filteredListToString = distinctCharacters.stream().filter(l -> l != first)
-						.filter(l -> l != second).map(String::valueOf).collect(Collectors.joining());
+        for (int j = 0; j < length; j += 2)
+        {
 
-				replace = s.replaceAll("[" + filteredListToString + "]", "");
+            if (charToCompare != s.charAt(j))
+                return false;
 
-				if (checkConsecutive(replace))
-					result = Math.max(result, replace.length());
-			}
-		}
+        }
 
-		return result;
+        charToCompare = s.charAt(1);
 
-	}
+        for (int j = 1; j < length; j += 2)
+        {
 
-	private boolean checkConsecutive(String s) {
+            if (charToCompare != s.charAt(j))
+                return false;
 
-		int length = s.length();
+        }
 
-		char charToCompare = s.charAt(0);
+        return true;
+    }
 
-		for (int j = 0; j < length; j += 2) {
+    @Test
+    public void bonAppetit()
+    {
 
-			if (charToCompare != s.charAt(j))
-				return false;
+        assertEquals(5, bonAppetit(Arrays.asList(new Integer[] { 3, 10, 2, 9 }), 1, 12));
+        assertEquals(0, bonAppetit(Arrays.asList(new Integer[] { 3, 10, 2, 9 }), 1, 7));
 
-		}
+    }
 
-		charToCompare = s.charAt(1);
+    private int bonAppetit(List<Integer> bill, int k, int b)
+    {
 
-		for (int j = 1; j < length; j += 2) {
+        int sum = bill.stream().mapToInt(Integer::intValue).sum();
 
-			if (charToCompare != s.charAt(j))
-				return false;
+        int actual = sum - bill.get(k);
 
-		}
+        if (actual / 2 == b)
+            System.out.println("Bon Appetit");
 
-		return true;
-	}
+        return b - (actual / 2);
+    }
 
-	@Test
-	public void bonAppetit() {
+    @Test
+    public void migratoryBirds()
+    {
+        assertEquals(4, migratoryBirds(Arrays.asList(new Integer[] { 1, 4, 4, 4, 5, 3 })));
+        assertEquals(3, migratoryBirds(Arrays.asList(new Integer[] { 1, 2, 3, 4, 5, 4, 3, 2, 1, 3, 4 })));
 
-		assertEquals(5, bonAppetit(Arrays.asList(new Integer[] { 3, 10, 2, 9 }), 1, 12));
-		assertEquals(0, bonAppetit(Arrays.asList(new Integer[] { 3, 10, 2, 9 }), 1, 7));
+    }
 
-	}
+    private int migratoryBirds(List<Integer> arr)
+    {
 
-	private int bonAppetit(List<Integer> bill, int k, int b) {
+        int maxFreq = 0;
+        int birdOfMaxFreq = 0;
 
-		int sum = bill.stream().mapToInt(Integer::intValue).sum();
+        Map<Integer, Integer> birdToFreqMap = new HashMap<Integer, Integer>();
 
-		int actual = sum - bill.get(k);
+        for (Integer integer : arr)
+        {
+            birdToFreqMap.put(integer, birdToFreqMap.getOrDefault(integer, 0) + 1);
 
-		if (actual / 2 == b)
-			System.out.println("Bon Appetit");
+            int freq = birdToFreqMap.get(integer);
+            if (freq > maxFreq)
+            {
+                maxFreq = freq;
+                birdOfMaxFreq = integer;
+            }
+            else if (freq == maxFreq)
+            {
+                birdOfMaxFreq = Math.min(birdOfMaxFreq, integer);
+            }
+        }
 
-		return b - (actual / 2);
-	}
+        return birdOfMaxFreq;
+    }
 
-	@Test
-	public void migratoryBirds() {
-		assertEquals(4, migratoryBirds(Arrays.asList(new Integer[] { 1, 4, 4, 4, 5, 3 })));
-		assertEquals(3, migratoryBirds(Arrays.asList(new Integer[] { 1, 2, 3, 4, 5, 4, 3, 2, 1, 3, 4 })));
+    @Test
+    public void sherlockAndAnagrams()
+    {
+        assertEquals(4, sherlockAndAnagrams("abba"));
+        assertEquals(3, sherlockAndAnagrams("ifailuhkqq"));
+        assertEquals(10, sherlockAndAnagrams("kkkk"));
+    }
 
-	}
+    private int sherlockAndAnagrams(String s)
+    {
+        // go through a string and add every value to a hashmap
+        HashMap<String, Integer> map = new HashMap<>();
 
-	private int migratoryBirds(List<Integer> arr) {
+        // total of anagrams
+        int total = 0;
 
-		int maxFreq = 0;
-		int birdOfMaxFreq = 0;
+        // for each key, add one to value
+        for (int i = 0; i < s.length(); i++)
+        {
+            for (int j = i + 1; j <= s.length(); j++)
+            {
+                // get substring and sort it!
+                String sub = s.substring(i, j);
 
-		Map<Integer, Integer> birdToFreqMap = new HashMap<Integer, Integer>();
+                // sorting the string
+                char tempArray[] = sub.toCharArray();
+                Arrays.sort(tempArray);
+                sub = new String(tempArray);
 
-		for (Integer integer : arr) {
-			birdToFreqMap.put(integer, birdToFreqMap.getOrDefault(integer, 0) + 1);
+                if (map.containsKey(sub))
+                {
+                    // adds one to last value
+                    int oldValue = map.get(sub);
+                    // total++ WRONG
+                    // backtracking of previous equals values or combinations of elements
+                    total += oldValue; // RIGHT
+                    map.put(sub, ++oldValue);
+                }
+                else
+                {
+                    // add to map if not seen
+                    map.put(sub, 1);
+                }
+            }
+        }
+        return total;
+    }
 
-			int freq = birdToFreqMap.get(integer);
-			if (freq > maxFreq) {
-				maxFreq = freq;
-				birdOfMaxFreq = integer;
-			} else if (freq == maxFreq) {
-				birdOfMaxFreq = Math.min(birdOfMaxFreq, integer);
-			}
-		}
+    @SuppressWarnings("serial")
+    @Test
+    public void diagonalDifference()
+    {
+        List<List<Integer>> arr = new ArrayList<List<Integer>>()
+        {
+            {
+                add(new ArrayList<Integer>()
+                {
+                    {
+                        add(11);
+                        add(2);
+                        add(4);
 
-		return birdOfMaxFreq;
-	}
+                    }
+                });
 
-	@Test
-	public void sherlockAndAnagrams() {
-		assertEquals(4, sherlockAndAnagrams("abba"));
-		assertEquals(3, sherlockAndAnagrams("ifailuhkqq"));
-		assertEquals(10, sherlockAndAnagrams("kkkk"));
-	}
+                add(new ArrayList<Integer>()
+                {
+                    {
+                        add(4);
+                        add(5);
+                        add(6);
 
-	private int sherlockAndAnagrams(String s) {
-		// go through a string and add every value to a hashmap
-		HashMap<String, Integer> map = new HashMap<>();
+                    }
+                });
 
-		// total of anagrams
-		int total = 0;
+                add(new ArrayList<Integer>()
+                {
+                    {
+                        add(10);
+                        add(8);
+                        add(-12);
 
-		// for each key, add one to value
-		for (int i = 0; i < s.length(); i++) {
-			for (int j = i + 1; j <= s.length(); j++) {
-				// get substring and sort it!
-				String sub = s.substring(i, j);
+                    }
+                });
+            }
+        };
 
-				// sorting the string
-				char tempArray[] = sub.toCharArray();
-				Arrays.sort(tempArray);
-				sub = new String(tempArray);
+        assertEquals(15, diagonalDifference(arr));
+    }
 
-				if (map.containsKey(sub)) {
-					// adds one to last value
-					int oldValue = map.get(sub);
-					// total++ WRONG
-					// backtracking of previous equals values or combinations of elements
-					total += oldValue; // RIGHT
-					map.put(sub, ++oldValue);
-				} else {
-					// add to map if not seen
-					map.put(sub, 1);
-				}
-			}
-		}
-		return total;
-	}
+    /**
+     * @param arr
+     */
+    private int diagonalDifference(List<List<Integer>> arr)
+    {
+        double leftDiag = 0;
+        double righttDiag = 0;
 
-	@SuppressWarnings("serial")
-	@Test
-	public void diagonalDifference() {
-		List<List<Integer>> arr = new ArrayList<List<Integer>>() {
-			{
-				add(new ArrayList<Integer>() {
-					{
-						add(11);
-						add(2);
-						add(4);
+        int j = arr.size() - 1;
 
-					}
-				});
+        for (int i = 0; i < arr.size(); i++)
+        {
 
-				add(new ArrayList<Integer>() {
-					{
-						add(4);
-						add(5);
-						add(6);
+            List<Integer> innList = arr.get(i);
 
-					}
-				});
+            righttDiag += innList.get(j);
+            leftDiag += innList.get(arr.size() - 1 - j);
+
+            j--;
+        }
+
+        return (int) Math.abs(leftDiag - righttDiag);
+    }
+
+    @Test
+    public void aVeryBigSum()
+    {
+
+        long[] ar = new long[] { 1000000001, 1000000002, 1000000003, 1000000004, 1000000005 };
 
-				add(new ArrayList<Integer>() {
-					{
-						add(10);
-						add(8);
-						add(-12);
+        assertEquals(5000000015L, LongStream.of(ar).sum());
+    }
 
-					}
-				});
-			}
-		};
+    @SuppressWarnings("serial")
+    @Test
+    public void compareTriplets()
+    {
 
-		assertEquals(15, diagonalDifference(arr));
-	}
+        List<Integer> list = compareTriplets(new ArrayList<Integer>()
+        {
+            {
+                add(17);
+                add(28);
+                add(30);
 
-	/**
-	 * @param arr
-	 */
-	private int diagonalDifference(List<List<Integer>> arr) {
-		double leftDiag = 0;
-		double righttDiag = 0;
+            }
+        }, new ArrayList<Integer>()
+        {
+            {
+                add(99);
+                add(16);
+                add(8);
+            }
+        });
 
-		int j = arr.size() - 1;
+        Arrays.equals(new int[] { 2, 1 }, list.stream().mapToInt(Integer::intValue).toArray());
 
-		for (int i = 0; i < arr.size(); i++) {
+        List<Integer> list1 = compareTriplets(new ArrayList<Integer>()
+        {
+            {
+                add(5);
+                add(6);
+                add(7);
 
-			List<Integer> innList = arr.get(i);
+            }
+        }, new ArrayList<Integer>()
+        {
+            {
+                add(3);
+                add(6);
+                add(10);
+            }
+        });
 
-			righttDiag += innList.get(j);
-			leftDiag += innList.get(arr.size() - 1 - j);
+        Arrays.equals(new int[] { 1, 1 }, list1.stream().mapToInt(Integer::intValue).toArray());
+    }
 
-			j--;
-		}
-
-		return (int) Math.abs(leftDiag - righttDiag);
-	}
-
-	@Test
-	public void aVeryBigSum() {
-
-		long[] ar = new long[] { 1000000001, 1000000002, 1000000003, 1000000004, 1000000005 };
-
-		assertEquals(5000000015L, LongStream.of(ar).sum());
-	}
-
-	@SuppressWarnings("serial")
-	@Test
-	public void compareTriplets() {
-
-		List<Integer> list = compareTriplets(new ArrayList<Integer>() {
-			{
-				add(17);
-				add(28);
-				add(30);
-
-			}
-		}, new ArrayList<Integer>() {
-			{
-				add(99);
-				add(16);
-				add(8);
-			}
-		});
-
-		Arrays.equals(new int[] { 2, 1 }, list.stream().mapToInt(Integer::intValue).toArray());
-
-		List<Integer> list1 = compareTriplets(new ArrayList<Integer>() {
-			{
-				add(5);
-				add(6);
-				add(7);
-
-			}
-		}, new ArrayList<Integer>() {
-			{
-				add(3);
-				add(6);
-				add(10);
-			}
-		});
-
-		Arrays.equals(new int[] { 1, 1 }, list1.stream().mapToInt(Integer::intValue).toArray());
-	}
-
-	private List<Integer> compareTriplets(List<Integer> a, List<Integer> b) {
-
-		int countAlice = 0;
-		int countBob = 0;
-
-		for (int i = 0; i < 3; i++) {
-
-			if (a.get(i) > b.get(i))
-				countAlice++;
-			else if (a.get(i) < b.get(i))
-				countBob++;
-
-		}
-
-		List<Integer> toReturn = new LinkedList<Integer>();
-		toReturn.add(countAlice);
-		toReturn.add(countBob);
-
-		return toReturn;
-	}
-
-	@Test
-	public void arrayManipulation() throws IOException {
-
-		/*
-		 * int n = 30000;
-		 * 
-		 * int[][] queries = new int[n][3];
-		 * 
-		 * InputStream is = new FileInputStream("src/test/resources/arrayManip.txt");
-		 * BufferedReader buf = new BufferedReader(new InputStreamReader(is)); String
-		 * line = buf.readLine();
-		 * 
-		 * int x = 0; while (line != null) { String[] scoresString = line.split(" ");
-		 * for (int i = 0; i < scoresString.length; i++) { queries[x][0] =
-		 * Integer.parseInt(scoresString[0]); queries[x][1] =
-		 * Integer.parseInt(scoresString[1]); queries[x][2] =
-		 * Integer.parseInt(scoresString[2]);
-		 * 
-		 * } x++; line = buf.readLine(); }
-		 * 
-		 * buf.close();
-		 */
-		int n = 5;
-
-		int[][] queries = new int[][] { { 1, 2, 100 }, { 2, 5, 100 }, { 3, 4, 100 } };
-
-		long[] arr = new long[n + 1];
-
-		for (int i = 0; i < queries.length; i++) {
-			long summond = (long) queries[i][2];
-
-			arr[queries[i][0]] = arr[queries[i][0]] + summond;
-
-			if ((queries[i][1] + 1) <= n)
-				arr[queries[i][1] + 1] -= summond;
-		}
-
-		long k = 0, max = 0;
-
-		for (int i = 1; i <= n; i++) {
-			k = k + arr[i];
-			if (max < k)
-				max = k;
-
-		}
-
-		System.out.println(max);
-	}
-
-	@Test
-	public void equalizeTheArray() {
-
-		int[] arr = new int[] { 1, 2, 3, 1, 2, 3, 3, 3 };
-
-		int arrLength = arr.length;
-		Arrays.sort(arr);
-		int count = 1;
-		int maxFreq = 0;
-		int itemToDelete = 0;
-
-		for (int i = 1; i < arrLength; i++) {
-
-			if (arr[i] == arr[i - 1]) {
-				count++;
-				maxFreq = Math.max(count, maxFreq);
-				continue;
-			}
-			maxFreq = Math.max(count, maxFreq);
-			count = 1;
-		}
-
-		itemToDelete = arrLength - maxFreq;
-
-		/*
-		 * int[] freq = new int[arr.length];
-		 * 
-		 * for (int i = 0; i < arrLength; i++) { freq[arr[i]]++; maxFreq =
-		 * Math.max(maxFreq, freq[arr[i]]); }
-		 * 
-		 * itemToDelete = arrLength - maxFreq;
-		 */
-
-		System.out.println("Max freq is " + maxFreq);
-		System.out.println("Item to be deleted " + itemToDelete);
-	}
-
-	@Test
-	public void minimunTwoSwaps() {
-
-		int[] arr = new int[] { 1, 3, 5, 2, 4, 6, 7 };
-		/*
-		 * int[] arr = new int[] { 8, 45, 35, 84, 79, 12, 74, 92, 81, 82, 61, 32, 36, 1,
-		 * 65, 44, 89, 40, 28, 20, 97, 90, 22, 87, 48, 26, 56, 18, 49, 71, 23, 34, 59,
-		 * 54, 14, 16, 19, 76, 83, 95, 31, 30, 69, 7, 9, 60, 66, 25, 52, 5, 37, 27, 63,
-		 * 80, 24, 42, 3, 50, 6, 11, 64, 10, 96, 47, 38, 57, 2, 88, 100, 4, 78, 85, 21,
-		 * 29, 75, 94, 43, 77, 33, 86, 98, 68, 73, 72, 13, 91, 70, 41, 17, 15, 67, 93,
-		 * 62, 39, 53, 51, 55, 58, 99, 46 };
-		 */
-		/*
-		 * int count = 0;
-		 * 
-		 * for (int i = 0; i < arr.length; i++) {
-		 * 
-		 * if (arr[i] != i + 1) count++; }
-		 */
-
-		int swap = 0;
-		for (int i = 0; i < arr.length; i++) {
-			if (i + 1 != arr[i]) {
-				int t = i;
-				while (arr[t] != i + 1) {
-					t++;
-				}
-				int temp = arr[t];
-				arr[t] = arr[i];
-				arr[i] = temp;
-				swap++;
-			}
-		}
-
-		System.out.println("Min two swap required" + swap);
-	}
+    private List<Integer> compareTriplets(List<Integer> a, List<Integer> b)
+    {
+
+        int countAlice = 0;
+        int countBob = 0;
+
+        for (int i = 0; i < 3; i++)
+        {
+
+            if (a.get(i) > b.get(i))
+                countAlice++;
+            else if (a.get(i) < b.get(i))
+                countBob++;
+
+        }
+
+        List<Integer> toReturn = new LinkedList<Integer>();
+        toReturn.add(countAlice);
+        toReturn.add(countBob);
+
+        return toReturn;
+    }
+
+    @Test
+    public void arrayManipulation() throws IOException
+    {
+
+        /*
+         * int n = 30000;
+         * 
+         * int[][] queries = new int[n][3];
+         * 
+         * InputStream is = new FileInputStream("src/test/resources/arrayManip.txt"); BufferedReader buf = new BufferedReader(new
+         * InputStreamReader(is)); String line = buf.readLine();
+         * 
+         * int x = 0; while (line != null) { String[] scoresString = line.split(" "); for (int i = 0; i < scoresString.length; i++) { queries[x][0] =
+         * Integer.parseInt(scoresString[0]); queries[x][1] = Integer.parseInt(scoresString[1]); queries[x][2] = Integer.parseInt(scoresString[2]);
+         * 
+         * } x++; line = buf.readLine(); }
+         * 
+         * buf.close();
+         */
+        int n = 5;
+
+        int[][] queries = new int[][] { { 1, 2, 100 }, { 2, 5, 100 }, { 3, 4, 100 } };
+
+        long[] arr = new long[n + 1];
+
+        for (int i = 0; i < queries.length; i++)
+        {
+            long summond = (long) queries[i][2];
+
+            arr[queries[i][0]] = arr[queries[i][0]] + summond;
+
+            if ((queries[i][1] + 1) <= n)
+                arr[queries[i][1] + 1] -= summond;
+        }
+
+        long k = 0, max = 0;
+
+        for (int i = 1; i <= n; i++)
+        {
+            k = k + arr[i];
+            if (max < k)
+                max = k;
+
+        }
+
+        System.out.println(max);
+    }
+
+    @Test
+    public void equalizeTheArray()
+    {
+
+        int[] arr = new int[] { 1, 2, 3, 1, 2, 3, 3, 3 };
+
+        int arrLength = arr.length;
+        Arrays.sort(arr);
+        int count = 1;
+        int maxFreq = 0;
+        int itemToDelete = 0;
+
+        for (int i = 1; i < arrLength; i++)
+        {
+
+            if (arr[i] == arr[i - 1])
+            {
+                count++;
+                maxFreq = Math.max(count, maxFreq);
+                continue;
+            }
+            maxFreq = Math.max(count, maxFreq);
+            count = 1;
+        }
+
+        itemToDelete = arrLength - maxFreq;
+
+        /*
+         * int[] freq = new int[arr.length];
+         * 
+         * for (int i = 0; i < arrLength; i++) { freq[arr[i]]++; maxFreq = Math.max(maxFreq, freq[arr[i]]); }
+         * 
+         * itemToDelete = arrLength - maxFreq;
+         */
+
+        System.out.println("Max freq is " + maxFreq);
+        System.out.println("Item to be deleted " + itemToDelete);
+    }
+
+    @Test
+    public void minimunTwoSwaps()
+    {
+
+        int[] arr = new int[] { 1, 3, 5, 2, 4, 6, 7 };
+        /*
+         * int[] arr = new int[] { 8, 45, 35, 84, 79, 12, 74, 92, 81, 82, 61, 32, 36, 1, 65, 44, 89, 40, 28, 20, 97, 90, 22, 87, 48, 26, 56, 18, 49,
+         * 71, 23, 34, 59, 54, 14, 16, 19, 76, 83, 95, 31, 30, 69, 7, 9, 60, 66, 25, 52, 5, 37, 27, 63, 80, 24, 42, 3, 50, 6, 11, 64, 10, 96, 47, 38,
+         * 57, 2, 88, 100, 4, 78, 85, 21, 29, 75, 94, 43, 77, 33, 86, 98, 68, 73, 72, 13, 91, 70, 41, 17, 15, 67, 93, 62, 39, 53, 51, 55, 58, 99, 46
+         * };
+         */
+        /*
+         * int count = 0;
+         * 
+         * for (int i = 0; i < arr.length; i++) {
+         * 
+         * if (arr[i] != i + 1) count++; }
+         */
+
+        int swap = 0;
+        for (int i = 0; i < arr.length; i++)
+        {
+            if (i + 1 != arr[i])
+            {
+                int t = i;
+                while (arr[t] != i + 1)
+                {
+                    t++;
+                }
+                int temp = arr[t];
+                arr[t] = arr[i];
+                arr[i] = temp;
+                swap++;
+            }
+        }
+
+        System.out.println("Min two swap required" + swap);
+    }
 }
