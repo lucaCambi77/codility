@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
  */
 public class Geek4GeeksDynamic {
 
+    
 	@Test
 	public void reachAGivenNumber() {
 		int n = 20;
