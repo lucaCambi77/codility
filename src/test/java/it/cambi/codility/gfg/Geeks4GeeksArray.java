@@ -21,8 +21,11 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 
@@ -31,6 +34,74 @@ import org.junit.jupiter.api.Test;
  *
  */
 public class Geeks4GeeksArray {
+
+	@Test
+	public void checkTwoArraysEquals() {
+		assertEquals(true, checkTwoArraysEquals(Arrays.asList(new Integer[] { 1, 2, 4, 5, 0 }),
+				Arrays.asList(new Integer[] { 0, 5, 4, 2, 1 })));
+	      assertEquals(false, checkTwoArraysEquals(Arrays.asList(new Integer[] { 1, 4, 5, 0 }),
+	                Arrays.asList(new Integer[] { 0, 5, 4, 2, 1 })));
+	}
+
+	public boolean checkTwoArraysEquals(List<Integer> list, List<Integer> list1) {
+
+		Collections.sort(list);
+		Collections.sort(list1);
+
+		return Arrays.equals(list.toArray(), list1.toArray());
+	}
+
+	@Test
+	public void repeatChar() {
+		assertEquals("b", repeatChar("bbccdefbbaa"));
+		assertEquals("g", repeatChar("geeksforgeeks"));
+		assertEquals("-1", repeatChar("card"));
+
+	}
+
+	public String repeatChar(String s) {
+		Supplier<IntStream> stringChar = () -> s.chars();
+		char[] chars = s.toCharArray();
+		int length = chars.length;
+
+		AtomicInteger count = new AtomicInteger(0);
+
+		for (int i = 0; i < length; i++) {
+			char c = chars[count.getAndIncrement()];
+			Long charCount = stringChar.get().filter(ch -> ch == c).count();
+			if (charCount > 1)
+				return Character.toString(c);
+		}
+
+		return "-1";
+
+	}
+
+	@Test
+	public void sort() {
+		assertEquals("aabbbbccdef", sort("bbccdefbbaa"));
+		assertEquals("eeeefggkkorss", sort("geeksforgeeks"));
+
+	}
+
+	public String sort(String s) {
+		Supplier<IntStream> stringChar = () -> s.chars();
+		char[] alphaBet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+		int length = alphaBet.length;
+
+		AtomicInteger count = new AtomicInteger(0);
+
+		StringBuilder builder = new StringBuilder();
+
+		for (int i = 0; i < length; i++) {
+			char c = alphaBet[count.getAndIncrement()];
+			Long charCount = stringChar.get().filter(ch -> ch == c).count();
+			builder.append(String.join("", Collections.nCopies(charCount.intValue(), Character.toString(c))));
+		}
+
+		return builder.toString();
+
+	}
 
 	@Test
 	public void multiplyLeftRightSum() {
