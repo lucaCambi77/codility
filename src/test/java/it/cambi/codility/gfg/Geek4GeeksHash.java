@@ -3,11 +3,18 @@
  */
 package it.cambi.codility.gfg;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +23,26 @@ import org.junit.jupiter.api.Test;
  *
  */
 public class Geek4GeeksHash {
+
+	@Test
+	public void secondMostRepeatedString() {
+		assertEquals("bbb", secondMostRepeatedString(new String[] { "bbb", "aaa", "ccc", "bbb", "aaa", "aaa" }));
+		assertEquals("for", secondMostRepeatedString(new String[] { "geeks", "for", "geeks", "for", "geeks", "aaa" }));
+
+	}
+
+	public String secondMostRepeatedString(String[] array) {
+
+		Map<String, Long> map = Arrays.stream(array)
+				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+		Map<String, Long> map1 = map.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> {
+					throw new IllegalStateException();
+				}, LinkedHashMap::new));
+
+		return (String) map1.keySet().toArray()[1];
+	}
 
 	@Test
 	public void winner() {
