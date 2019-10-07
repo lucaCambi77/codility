@@ -38,7 +38,7 @@ public class Recursion {
 		double n = 2;
 		int p = 5;
 
-		assertEquals(32, power(n, p));
+		assertEquals(32.0, power(n, p));
 
 	}
 
