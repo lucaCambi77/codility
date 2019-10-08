@@ -17,6 +17,8 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InOrder;
+import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -172,7 +174,7 @@ public class JavaCoreTest
     public void testParseString()
     {
 
-        int a;
+        int a = 0;
         String b = "prova";
         try
         {
@@ -184,7 +186,7 @@ public class JavaCoreTest
         }
 
         verify(out).print("Exception");
-
+        assertEquals(0, a);
     }
 
     /**
@@ -249,50 +251,24 @@ public class JavaCoreTest
 
     }
 
-    public class Thread1 extends Thread
-    {
-        @Override
-        public void run()
-        {
-            try
-            {
-                Thread.sleep(2000);
-                System.out.println("Thread1");
-            }
-            catch (Exception e)
-            {
-                // TODO: handle exception
-            }
-        }
-    }
-
-    public class Thread2 extends Thread
-    {
-        @Override
-        public void run()
-        {
-            try
-            {
-                Thread.sleep(500);
-                System.out.println("Thread2");
-            }
-            catch (Exception e)
-            {
-                // TODO: handle exception
-            }
-        }
-    }
-
     @Test
     @Order(8)
-    public void threads()
+    public void threads() throws InterruptedException
     {
+        // start() not working, we need to mock it
+        Thread1 t1 = Mockito.spy(new Thread1());
+        Thread2 t2 = Mockito.spy(new Thread2());
+        t1.start();
+        t2.start();
+        // Wait until both threads has completed
+        Thread.sleep(2000);
 
-        Thread1 t1 = new Thread1();
-        Thread2 t2 = new Thread2();
-        t1.run();
-        t2.run();
-        // Print Thread1 and after Thread2
+        Mockito.verify(t1).run();
+        Mockito.verify(t2).run();
+
+        InOrder orderVerifier = Mockito.inOrder(out);
+        orderVerifier.verify(out, times(1)).print("Thread2");
+        orderVerifier.verify(out, times(1)).print("Thread1");
 
     }
 
@@ -311,5 +287,40 @@ public class JavaCoreTest
 
         assertEquals("Test 1", s.concat(" 1"));
 
+    }
+
+}
+
+class Thread1 extends Thread
+{
+    @Override
+    public void run()
+    {
+        try
+        {
+            Thread.sleep(2000);
+            System.out.print("Thread1");
+        }
+        catch (Exception e)
+        {
+            // TODO: handle exception
+        }
+    }
+}
+
+class Thread2 extends Thread
+{
+    @Override
+    public void run()
+    {
+        try
+        {
+            Thread.sleep(500);
+            System.out.print("Thread2");
+        }
+        catch (Exception e)
+        {
+            // TODO: handle exception
+        }
     }
 }
