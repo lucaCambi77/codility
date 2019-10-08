@@ -26,7 +26,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
  * @author luca
  *
  */
-@ExtendWith(SystemOutRule.class)
+//@ExtendWith(SystemOutRule.class)
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(OrderAnnotation.class)
 public class JavaCoreTest
@@ -35,7 +35,7 @@ public class JavaCoreTest
     private PrintStream out;
 
     @Spy
-    Quadrato quadrato = new Quadrato();
+    Square quadrato = new Square();
 
     @BeforeEach
     public void setUpStreams()
@@ -71,7 +71,7 @@ public class JavaCoreTest
 
     }
 
-    public abstract class Forma
+    public abstract class Shape
     {
         public void disegna(int anX, int anY)
         {
@@ -79,14 +79,13 @@ public class JavaCoreTest
         }
     }
 
-    public class Quadrato extends Forma
+    public class Square extends Shape
     {
         int unX = 1;
         int unY = 1;
 
-        public Quadrato()
+        public Square()
         {
-            // TODO Auto-generated constructor stub
         }
 
         public void disegna(int unX, int unY)
@@ -107,7 +106,7 @@ public class JavaCoreTest
         }
     }
 
-    public class Cerchio extends Forma
+    public class Circle extends Shape
     {
         public void disegna(int unX, int unY)
         {
@@ -138,7 +137,7 @@ public class JavaCoreTest
         }
     }
 
-    public class B extends Forma
+    public class B extends Shape
     {
         public void disegna()
         {
@@ -234,8 +233,6 @@ public class JavaCoreTest
         a.method2();
         verify(out).print("C1 method2");
 
-        // assertEquals("C1 method2", outContent.toString());
-
     }
 
     @Test
@@ -246,7 +243,7 @@ public class JavaCoreTest
         B1 b = new C1();
         // b.method1(); this is correct
         b.method2();
-        // assertEquals("C1 method2", outContent.toString());
+
         verify(out).print("C1 method2");
 
     }
