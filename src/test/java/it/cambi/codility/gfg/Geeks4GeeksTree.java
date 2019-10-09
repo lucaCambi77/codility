@@ -28,6 +28,12 @@ import it.cambi.codility.model.Node;
  *         sc.nextLine();
  * 
  *         while(sc.hasNext()){ System.out.println(sc.next()); }
+ *         
+ *         // Or From solution
+ *         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+ *         int t = Integer.parseInt(br.readLine().trim()); //Inputting the testcases
+ *         while(t > 0) {
+ *         }
  * 
  */
 public class Geeks4GeeksTree {

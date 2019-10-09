@@ -70,7 +70,7 @@ public class HackerRankTest
 
         while (counter > 1)
         {
-            if (counter > 0 && ((counter & (counter - 1)) == 0))
+            if (((counter & (counter - 1)) == 0))
             {
                 if (isPowerOfTwo)
                     counter = counter / 2;

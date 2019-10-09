@@ -173,7 +173,7 @@ public class JavaCoreTest
     public void testParseString()
     {
 
-        int a = 0;
+        int a = -1;
         String b = "prova";
         try
         {
@@ -185,7 +185,7 @@ public class JavaCoreTest
         }
 
         verify(out).print("Exception");
-        assertEquals(0, a);
+        assertEquals(-1, a);
     }
 
     /**
