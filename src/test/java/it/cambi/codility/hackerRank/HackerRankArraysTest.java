@@ -31,6 +31,109 @@ public class HackerRankArraysTest
 {
 
     @Test
+    public void twoStacks() throws IOException
+    {
+        boolean isFile = true;
+
+        if (isFile)
+        {
+            InputStream is = new FileInputStream("src/test/resources/gameOfTwoStacks/gameOfTwoStacksResult1.txt");
+            BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+
+            LinkedList<Integer> list = new LinkedList<Integer>();
+
+            String line = buf.readLine();
+
+            while (line != null)
+            {
+                list.add(Integer.valueOf(line));
+                line = buf.readLine();
+            }
+
+            buf.close();
+
+            InputStream is1 = new FileInputStream("src/test/resources/gameOfTwoStacks/gameOfTwoStacks1.txt");
+            BufferedReader buf1 = new BufferedReader(new InputStreamReader(is1));
+
+            String line1 = buf1.readLine();
+            line1 = buf1.readLine();
+
+            int count = 0;
+            int index = 0;
+            while (line1 != null)
+            {
+                System.out.println(line1 + " - " + (index + 1));
+                int x = Integer.valueOf(line1.split("\\s")[2]);
+
+                LinkedList<int[]> listInput = new LinkedList<int[]>();
+
+                while (count < 2)
+                {
+                    line1 = buf1.readLine();
+
+                    listInput.add(
+                            Arrays.stream(line1.split("\\s")).map(s -> Integer.valueOf(s)).collect(Collectors.toCollection(LinkedList::new)).stream()
+                                    .mapToInt(i -> i).toArray());
+
+                    count++;
+                }
+
+                assertEquals(list.get(index), twoStacks(x, listInput.get(0), listInput.get(1)));
+
+                count = 0;
+                index++;
+                line1 = buf1.readLine();
+
+            }
+
+            buf1.close();
+        }
+
+    }
+
+    private int twoStacks(int x, int[] a, int[] b)
+    {
+
+        int ai = 0;
+        int bi = 0;
+        int count = 0;
+        int sum = 0;
+        // move bi to the position where if only take elements from B, last element it can take
+        while (bi < b.length && sum + b[bi] <= x)
+        {
+            sum += b[bi];
+            bi++;
+        }
+        bi--; // loop exits only when bi reaches end or sum > x; in both case bi should decrease
+        count = bi + 1;
+        while (ai < a.length && bi < b.length)
+        {
+            sum += a[ai];
+            if (sum > x)
+            {
+                while (bi >= 0)
+                {
+                    sum -= b[bi];
+                    bi--;
+                    if (sum <= x)
+                        break;
+                }
+                // if even no elements taken from B, but still sum greater than x, then a[ai] should not be chosen
+                // and loop terminates
+                if (sum > x && bi < 0)
+                {
+                    ai--;
+                    break;
+                }
+            }
+            count = Math.max(ai + bi + 2, count);
+            ai++;
+        }
+
+        return count;
+    }
+
+    @Test
     public void equalStacks()
     {
         assertEquals(5, equalStacks(new int[] { 3, 2, 1, 1, 1 }, new int[] { 4, 3, 2 }, new int[] { 1, 1, 4, 1 }));
