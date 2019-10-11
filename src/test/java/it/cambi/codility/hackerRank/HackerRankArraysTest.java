@@ -150,26 +150,17 @@ public class HackerRankArraysTest
         int start = h1.length - 1;
         comul1[0] = h1[start];
 
-        for (int i = start; i > 0; i--)
-        {
-            comul1[start - i + 1] = comul1[start - i] + h1[i - 1];
-        }
+        setArray(h1, comul1, start);
 
         start = h2.length - 1;
         comul2[0] = h2[start];
 
-        for (int i = start; i > 0; i--)
-        {
-            comul2[start - i + 1] = comul2[start - i] + h2[i - 1];
-        }
+        setArray(h2, comul2, start);
 
         start = h3.length - 1;
         comul3[0] = h3[start];
 
-        for (int i = start; i > 0; i--)
-        {
-            comul3[start - i + 1] = comul3[start - i] + h3[i - 1];
-        }
+        setArray(h3, comul3, start);
 
         for (int i = comul3.length - 1; i >= 0; i--)
         {
@@ -187,6 +178,19 @@ public class HackerRankArraysTest
         }
 
         return 0;
+    }
+
+    /**
+     * @param h1
+     * @param comul1
+     * @param start
+     */
+    private void setArray(int[] h1, int[] comul1, int start)
+    {
+        for (int i = start; i > 0; i--)
+        {
+            comul1[start - i + 1] = comul1[start - i] + h1[i - 1];
+        }
     }
 
     @SuppressWarnings("serial")
