@@ -643,7 +643,7 @@ public class Geeks4GeeksTree {
 
 	/**
 	 * @param root
-	 * @param data
+	 * @param val
 	 * @param left
 	 */
 	private void printLeafPaths(Node root, String map) {
