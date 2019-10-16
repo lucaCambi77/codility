@@ -15,66 +15,74 @@ import org.junit.jupiter.api.Test;
  * @author luca
  *
  */
-public class Booking {
+public class Booking
+{
 
-	@Test
-	public void getLuckyFloorNumber() {
-		int n = 12;
+    @Test
+    public void getLuckyFloorNumber()
+    {
+        int n = 12;
 
-		for (int i = 0; i <= n; i++) {
+        for (int i = 0; i <= n; i++)
+        {
 
-			n = checkValue(new Integer(i), n);
-		}
+            n = checkValue(new Integer(i), n);
+        }
 
-		assertEquals(15, n);
-	}
+        assertEquals(15, n);
+    }
 
-	private Integer checkValue(Integer aInt, int n) {
-		return aInt.toString().indexOf("4") >= 0 || aInt.toString().indexOf("13") >= 0 ? ++n : n;
-	}
+    private Integer checkValue(Integer aInt, int n)
+    {
+        return aInt.toString().indexOf("4") >= 0 || aInt.toString().indexOf("13") >= 0 ? ++n : n;
+    }
 
-	@Test
-	public void packNumbers() {
+    @Test
+    public void packNumbers()
+    {
 
-		@SuppressWarnings("serial")
-		List<Integer> arr = new ArrayList<Integer>() {
-			{
-				add(5);
-				add(5);
-				add(5);
-				add(7);
-				add(7);
-				add(3);
-				add(4);
-				add(7);
+        @SuppressWarnings("serial")
+        List<Integer> arr = new ArrayList<Integer>()
+        {
+            {
+                add(5);
+                add(5);
+                add(5);
+                add(7);
+                add(7);
+                add(3);
+                add(4);
+                add(7);
 
-			}
-		};
+            }
+        };
 
-		List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<String>();
 
-		Integer compare = arr.get(0);
-		Integer count = 1;
-		Integer toCompare = 0;
-		for (int i = 1; i < arr.size(); i++) {
-			toCompare = arr.get(i);
+        Integer compare = arr.get(0);
+        Integer count = 1;
+        Integer toCompare = 0;
+        for (int i = 1; i < arr.size(); i++)
+        {
+            toCompare = arr.get(i);
 
-			if (toCompare - compare == 0) {
-				count++;
-				continue;
-			}
+            if (toCompare - compare == 0)
+            {
+                count++;
+                continue;
+            }
 
-			list.add(compare.toString() + (count == 1 ? "" : ":" + count.toString()));
-			count = 1;
-			compare = toCompare;
+            list.add(compare.toString() + (count == 1 ? "" : ":" + count.toString()));
+            count = 1;
+            compare = toCompare;
 
-		}
+        }
 
-		list.add(toCompare.toString() + (count == 1 ? "" : ":" + count.toString()));
+        list.add(toCompare.toString() + (count == 1 ? "" : ":" + count.toString()));
 
-		String s = list.stream().map(Object::toString).collect(Collectors.joining(" "));
+        String s = list.stream().map(Object::toString).collect(Collectors.joining(" "));
 
-		assertEquals("5:3 7:2 3 4 7", s);
-	}
+        assertEquals("5:3 7:2 3 4 7", s);
+    }
 
 }
