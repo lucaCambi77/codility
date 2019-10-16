@@ -6,6 +6,8 @@ package it.cambi.codility.leetcode;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigInteger;
+import java.util.Deque;
+import java.util.LinkedList;
 
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +15,7 @@ import org.junit.jupiter.api.Test;
  * @author luca
  *
  */
-public class LeetCodeLinkedList
+public class LeetCodeLinkedListTest
 {
 
     class ListNode
@@ -27,6 +29,48 @@ public class LeetCodeLinkedList
             this.val = val;
             this.next = null;
         }
+    }
+
+    @Test
+    public void isPalindrome()
+    {
+
+        ListNode l1 = new ListNode(2);
+        l1.next = new ListNode(4);
+        l1.next.next = new ListNode(4);
+        l1.next.next.next = new ListNode(2);
+
+        assertEquals(true, isPalindrome(l1));
+
+        ListNode l2 = new ListNode(-129);
+        l2.next = new ListNode(-129);
+
+        assertEquals(true, isPalindrome(l2));
+    }
+
+    public boolean isPalindrome(ListNode head)
+    {
+        Deque<Integer> queue = new LinkedList<Integer>();
+
+        while (head != null)
+        {
+            queue.push(head.val);
+            head = head.next;
+        }
+
+        int size = queue.size() / 2;
+
+        for (int i = 0; i < size; i++)
+        {
+            int first = queue.poll();
+            int last = queue.pollLast();
+
+            if (first != last)
+                return false;
+        }
+
+        return true;
+
     }
 
     @Test
