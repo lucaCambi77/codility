@@ -8,12 +8,10 @@ package it.cambi.codility.pattern.adapter;
  *
  */
 // Part of Extra-Geometric-Shape API
-
-public class Rhombus implements GeometricShape
+public class Rhombus extends BaseGeometricShape implements GeometricShape
 {
 
     // sides
-
     private final double a;
 
     private final double b;
@@ -35,7 +33,6 @@ public class Rhombus implements GeometricShape
     }
 
     @Override
-
     public double area()
     {
 
@@ -46,7 +43,6 @@ public class Rhombus implements GeometricShape
     }
 
     @Override
-
     public double perimeter()
     {
 
@@ -55,7 +51,6 @@ public class Rhombus implements GeometricShape
     }
 
     @Override
-
     public void drawShape()
     {
 

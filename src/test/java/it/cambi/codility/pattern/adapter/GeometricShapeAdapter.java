@@ -9,22 +9,19 @@ import it.cambi.codility.pattern.Shape;
  * @author luca
  *
  */
-public class GeometricShapeAdapter implements Shape
+public abstract class GeometricShapeAdapter<T extends BaseGeometricShape> implements Shape
 {
 
-    private GeometricShape adaptee;
+    private T adaptee;
 
-    public GeometricShapeAdapter(GeometricShape adaptee)
+    public GeometricShapeAdapter(T shape)
     {
 
         super();
-
-        this.adaptee = adaptee;
-
+        this.adaptee = shape;
     }
 
     @Override
-
     public void draw()
     {
 
@@ -33,47 +30,31 @@ public class GeometricShapeAdapter implements Shape
     }
 
     @Override
-
     public void resize()
     {
 
-        System.out.println(description() + " can't be resized. Please create new one with required values.");
-
+        System.out.println(description() + " can't be resized");
     }
 
     @Override
-
     public String description()
     {
 
-        if (adaptee instanceof Triangle)
-        {
-
-            return "Triangle object";
-
-        }
-        else if (adaptee instanceof Rhombus)
-        {
-
-            return "Rhombus object";
-
-        }
-        else
-        {
-
-            return "Unknown object";
-
-        }
+        return "Description";
 
     }
 
     @Override
-
     public boolean isHide()
     {
 
         return false;
 
+    }
+
+    public T getAdaptee()
+    {
+        return adaptee;
     }
 
 }

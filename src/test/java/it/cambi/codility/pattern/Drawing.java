@@ -10,12 +10,12 @@ import java.util.List;
  * @author luca
  *
  */
-public class Draw
+public class Drawing
 {
 
     List<Shape> shapes = new ArrayList<Shape>();
 
-    public Draw()
+    public Drawing()
     {
 
         super();
