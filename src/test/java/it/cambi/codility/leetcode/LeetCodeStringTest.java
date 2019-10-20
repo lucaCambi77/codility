@@ -28,7 +28,7 @@ public class LeetCodeStringTest
         StringBuilder builder = new StringBuilder(A);
         int count = 1;
 
-        while (builder.length() < 10000)
+        while (builder.length() <= 10000)
         {
             if (builder.indexOf(B) >= 0)
                 return count;
