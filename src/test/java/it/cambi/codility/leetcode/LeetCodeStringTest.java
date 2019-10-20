@@ -16,6 +16,80 @@ import it.cambi.codility.coreJava.StringTest;
 public class LeetCodeStringTest
 {
 
+    @Test
+    public void repeatedStringMatch()
+    {
+        assertEquals(3, repeatedStringMatch("abcd", "cdabcdab"));
+    }
+
+    public int repeatedStringMatch(String A, String B)
+    {
+        String aCopy = new String(A);
+        StringBuilder builder = new StringBuilder(A);
+        int count = 1;
+
+        while (builder.length() < 10000)
+        {
+            if (builder.indexOf(B) >= 0)
+                return count;
+
+            builder.append(aCopy);
+            count++;
+        }
+        return -1;
+    }
+
+    @Test
+    public void repeatedSubstringPattern()
+    {
+        assertEquals(true, repeatedSubstringPattern("abcabcabcabc"));
+        assertEquals(true, repeatedSubstringPattern("ababab"));
+        assertEquals(true, repeatedSubstringPattern("abab"));
+        assertEquals(false, repeatedSubstringPattern("abc"));
+        assertEquals(false, repeatedSubstringPattern("abcabcabcabcd"));
+
+    }
+
+    public boolean repeatedSubstringPattern(String s)
+    {
+        int length = s.length();
+
+        int div = 2;
+        int middle = (length / div) + 1;
+
+        while (--middle > 0)
+        {
+
+            if (length % middle == 0)
+            {
+                boolean checkAllChuncks = true;
+
+                int section = middle;
+                int start = 0;
+
+                String subString = s.substring(start, section);
+
+                while (section <= length)
+                {
+
+                    if (!subString.equals(s.substring(start, section)))
+                    {
+                        checkAllChuncks = false;
+                        break;
+                    }
+
+                    section += middle;
+                    start += middle;
+                }
+
+                if (checkAllChuncks)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Can arrange palindrome removing one character
      */
