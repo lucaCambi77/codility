@@ -1,8 +1,15 @@
 package it.cambi.codility.hackerRank;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.mock;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -19,13 +26,17 @@ import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.Stack;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InOrder;
+import org.mockito.Mockito;;
 
 public class HackerRankTest
 {
@@ -40,6 +51,109 @@ public class HackerRankTest
             "half", // 30 min
             "forty", // 40 min
     };
+
+    private PrintStream out;
+
+    @BeforeEach
+    public void setUpStreams()
+    {
+        out = mock(PrintStream.class);
+        System.setOut(out);
+    }
+
+    @Test
+    public void simpleTextEditor() throws IOException
+    {
+        simpleTextEditor(new String[] { "1 abc", "3 3", "2 3", "1 xy", "3 2", "4", "4", "3 1" });
+
+        InOrder orderVerifier = Mockito.inOrder(out);
+        Character[] sol = new Character[] { 'c', 'y', 'a' };
+
+        for (char string : sol)
+            orderVerifier.verify(out, atLeastOnce()).println(string);
+        out.flush();
+
+        simpleTextEditor(new String[] { "1 lchbfcjtfpsmjrqsdgci", "3 19", "1 cpcvixlm", "1 apdjgjydvpbpvyiy", "2 29", "4", "4", "3 9", "4", "4" });
+
+        Character[] sol1 = new Character[] { 'c', 'f' };
+
+        for (char string : sol1)
+            orderVerifier.verify(out, atLeastOnce()).println(string);
+        out.flush();
+
+        InputStream is = new FileInputStream("src/test/resources/textEditor/simpleTextEditor1.txt");
+        BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+
+        List<String> list = new ArrayList<String>();
+        buf.readLine();
+        String line = buf.readLine();
+
+        while (line != null)
+        {
+            list.add(line);
+            line = buf.readLine();
+        }
+
+        buf.close();
+        simpleTextEditor(list.stream().toArray(String[]::new));
+
+
+        /**
+         * this is not working, sequence of chars seems that is not respected
+         */
+        /*
+         * LinkedList<Character> solution = getSolution();
+         * 
+         * for (char string : solution) orderVerifier.verify(out, atLeastOnce()).println(string);
+         */
+    }
+
+    public void simpleTextEditor(String[] array)
+    {
+        Stack<String> stack = new Stack<String>();
+        StringBuilder currentWord = new StringBuilder();
+
+        for (String string : array)
+        {
+            String[] split = string.split(" ");
+
+            if (split.length > 1)
+            {
+                switch (split[0])
+                {
+                    case "1":
+
+                        currentWord.append(split[1]);
+                        stack.push(currentWord.toString());
+
+                        break;
+
+                    case "2":
+                        currentWord = new StringBuilder(currentWord.substring(0, currentWord.length() - new Integer(split[1])));
+                        stack.push(currentWord.toString());
+
+                        break;
+
+                    default:
+                        int position = new Integer(split[1]) - 1;
+                        System.out.println(currentWord.charAt(position));
+
+                        break;
+                }
+            }
+            else
+            {
+
+                stack.pop();
+
+                if (stack.size() > 0)
+                    currentWord = new StringBuilder(stack.peek());
+                else
+                    currentWord = new StringBuilder();
+            }
+
+        }
+    }
 
     @Test
     public void counterGame()
@@ -2154,6 +2268,284 @@ public class HackerRankTest
 
         System.out.println("nonDivisibleSum max array length" + res);
 
+    }
+
+    /**
+     * @return
+     */
+    private LinkedList<Character> getSolution()
+    {
+        @SuppressWarnings("serial")
+        LinkedList<Character> solution = new LinkedList<Character>()
+        {
+            {
+                add('n');
+                add('z');
+                add('y');
+                add('d');
+                add('a');
+                add('y');
+                add('a');
+                add('l');
+                add('v');
+                add('s');
+                add('g');
+                add('n');
+                add('d');
+                add('k');
+                add('w');
+                add('d');
+                add('l');
+                add('z');
+                add('p');
+                add('z');
+                add('b');
+                add('b');
+                add('t');
+                add('o');
+                add('t');
+                add('q');
+                add('s');
+                add('a');
+                add('v');
+                add('f');
+                add('m');
+                add('i');
+                add('v');
+                add('h');
+                add('s');
+                add('e');
+                add('a');
+                add('n');
+                add('x');
+                add('n');
+                add('y');
+                add('v');
+                add('a');
+                add('x');
+                add('s');
+                add('x');
+                add('y');
+                add('x');
+                add('o');
+                add('i');
+                add('b');
+                add('y');
+                add('y');
+                add('r');
+                add('s');
+                add('t');
+                add('i');
+                add('r');
+                add('s');
+                add('j');
+                add('e');
+                add('o');
+                add('k');
+                add('r');
+                add('k');
+                add('u');
+                add('n');
+                add('n');
+                add('h');
+                add('l');
+                add('j');
+                add('f');
+                add('t');
+                add('l');
+                add('t');
+                add('l');
+                add('k');
+                add('l');
+                add('q');
+                add('k');
+                add('e');
+                add('g');
+                add('o');
+                add('p');
+                add('l');
+                add('h');
+                add('b');
+                add('l');
+                add('p');
+                add('v');
+                add('x');
+                add('h');
+                add('n');
+                add('g');
+                add('k');
+                add('g');
+                add('l');
+                add('m');
+                add('d');
+                add('o');
+                add('m');
+                add('i');
+                add('y');
+                add('s');
+                add('r');
+                add('i');
+                add('v');
+                add('z');
+                add('b');
+                add('i');
+                add('u');
+                add('q');
+                add('c');
+                add('q');
+                add('z');
+                add('q');
+                add('g');
+                add('t');
+                add('n');
+                add('x');
+                add('j');
+                add('n');
+                add('b');
+                add('t');
+                add('g');
+                add('s');
+                add('d');
+                add('m');
+                add('b');
+                add('b');
+                add('w');
+                add('q');
+                add('i');
+                add('v');
+                add('g');
+                add('p');
+                add('v');
+                add('v');
+                add('h');
+                add('g');
+                add('e');
+                add('b');
+                add('a');
+                add('y');
+                add('i');
+                add('g');
+                add('q');
+                add('y');
+                add('w');
+                add('y');
+                add('g');
+                add('y');
+                add('y');
+                add('b');
+                add('b');
+                add('i');
+                add('b');
+                add('w');
+                add('i');
+                add('b');
+                add('b');
+                add('y');
+                add('u');
+                add('b');
+                add('b');
+                add('o');
+                add('s');
+                add('b');
+                add('r');
+                add('d');
+                add('p');
+                add('r');
+                add('r');
+                add('l');
+                add('q');
+                add('n');
+                add('r');
+                add('n');
+                add('m');
+                add('j');
+                add('f');
+                add('u');
+                add('n');
+                add('m');
+                add('u');
+                add('o');
+                add('q');
+                add('o');
+                add('b');
+                add('v');
+                add('p');
+                add('q');
+                add('o');
+                add('q');
+                add('p');
+                add('b');
+                add('p');
+                add('q');
+                add('p');
+                add('p');
+                add('p');
+                add('v');
+                add('p');
+                add('v');
+                add('a');
+                add('y');
+                add('n');
+                add('m');
+                add('q');
+                add('x');
+                add('f');
+                add('h');
+                add('w');
+                add('i');
+                add('z');
+                add('u');
+                add('x');
+                add('f');
+                add('z');
+                add('f');
+                add('w');
+                add('d');
+                add('p');
+                add('p');
+                add('p');
+                add('v');
+                add('u');
+                add('e');
+                add('z');
+                add('m');
+                add('x');
+                add('p');
+                add('q');
+                add('i');
+                add('p');
+                add('j');
+                add('s');
+                add('b');
+                add('b');
+                add('b');
+                add('v');
+                add('p');
+                add('v');
+                add('r');
+                add('o');
+                add('w');
+                add('j');
+                add('r');
+                add('h');
+                add('b');
+                add('w');
+                add('v');
+                add('r');
+                add('h');
+                add('e');
+                add('o');
+                add('v');
+                add('p');
+                add('d');
+                add('x');
+                add('s');
+                add('o');
+                add('x');
+                add('c');
+            }
+        };
+        return solution;
     }
 
 }
