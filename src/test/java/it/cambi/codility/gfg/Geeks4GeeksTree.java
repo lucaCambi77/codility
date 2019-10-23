@@ -480,7 +480,7 @@ public class Geeks4GeeksTree
         Queue<Node> queue = new LinkedList<Node>();
         queue.add(root);
 
-        levelOderTrasversal(queue, "$ ");
+        levelOrderTrasversal(queue, "$ ");
 
     }
 
@@ -488,7 +488,7 @@ public class Geeks4GeeksTree
      * Level trasversal of Tree, print all nodes on the same level
      */
     @Test
-    public void levelOderTrasversal()
+    public void levelOrderTrasversal()
     {
 
         Node root = Node.getExampleNode();
@@ -496,11 +496,11 @@ public class Geeks4GeeksTree
         Queue<Node> queue = new LinkedList<Node>();
         queue.add(root);
 
-        levelOderTrasversal(queue, "");
+        levelOrderTrasversal(queue, "");
 
     }
 
-    void levelOderTrasversal(Queue<Node> queue, String message)
+    void levelOrderTrasversal(Queue<Node> queue, String message)
     {
 
         while (!queue.isEmpty())
@@ -526,7 +526,7 @@ public class Geeks4GeeksTree
             {
                 queue.poll();
             }
-            levelOderTrasversal(queue, message);
+            levelOrderTrasversal(queue, message);
         }
 
     }
