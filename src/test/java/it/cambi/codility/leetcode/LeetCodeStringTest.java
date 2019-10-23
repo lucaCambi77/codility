@@ -17,7 +17,7 @@ public class LeetCodeStringTest
 {
 
     @Test
-    public void convert()
+    public void zigZagConversion()
     {
         assertEquals("PAHNAPLSIIGYIR", convert("PAYPALISHIRING", 3));
         assertEquals("PINALSIGYAHRPI", convert("PAYPALISHIRING", 4));
@@ -66,10 +66,11 @@ public class LeetCodeStringTest
 
         for (int[] characters : strings)
         {
-            for (int characters2 : characters)
+            for (int i = 0; i <= columns; i++)
             {
-                if (0 != characters2)
-                    out.append(Character.toString((char) characters2));
+
+                if (0 != characters[i])
+                    out.append(Character.toString((char) characters[i]));
             }
         }
 
