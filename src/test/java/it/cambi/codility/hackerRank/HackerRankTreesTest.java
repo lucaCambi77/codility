@@ -44,6 +44,61 @@ public class HackerRankTreesTest
     }
 
     @Test
+    public void binaryTreeInsertion()
+    {
+        List<Integer> list = new ArrayList<Integer>();
+        list.add(4);
+        list.add(2);
+        list.add(1);
+        list.add(3);
+        list.add(7);
+        list.add(6);
+
+        Node root = null;
+
+        for (Integer node : list)
+        {
+            root = binaryTreeInsertion(root, node);
+        }
+
+        preOrderTrasvPrint(root);
+
+        InOrder orderVerifier = Mockito.inOrder(out);
+
+        String[] solution = new String[] { "4 ", "2 ", "1 ", "3 ", "7 ", "6 " };
+
+        for (String sol : solution)
+            orderVerifier.verify(out, atLeastOnce()).print(sol);
+
+    }
+
+    private void preOrderTrasvPrint(Node root)
+    {
+
+        if (root != null)
+        {
+            System.out.print(root.data + " ");
+            preOrderTrasvPrint(root.left);
+            preOrderTrasvPrint(root.right);
+        }
+    }
+
+    public Node binaryTreeInsertion(Node root, int data)
+    {
+        if (root == null)
+            return new Node(data);
+
+        if (data < root.data)
+            root.left = binaryTreeInsertion(root.left, data);
+
+        if (data > root.data)
+            root.right = binaryTreeInsertion(root.right, data);
+
+        return root;
+
+    }
+
+    @Test
     public void levelOrderTrasv()
     {
         Node root = Node.getExampleNode();
