@@ -17,6 +17,67 @@ public class LeetCodeStringTest
 {
 
     @Test
+    public void convert()
+    {
+        assertEquals("PAHNAPLSIIGYIR", convert("PAYPALISHIRING", 3));
+        assertEquals("PINALSIGYAHRPI", convert("PAYPALISHIRING", 4));
+        assertEquals("AB", convert("AB", 1));
+        assertEquals("ABC", convert("ABC", 3));
+
+    }
+
+    public String convert(String s, int numRows)
+    {
+        int length = s.length();
+
+        int[][] strings = new int[numRows][1000];
+
+        int rows = 0;
+        int columns = 0;
+        int count = 0;
+
+        while (count < length)
+        {
+            strings[rows][columns] = s.charAt(count);
+
+            if (rows == numRows - 1)
+            {
+                count++;
+                columns++;
+                rows--;
+
+                while (rows > 0 && count < length)
+                {
+                    strings[rows][columns] = s.charAt(count);
+                    rows--;
+                    columns++;
+                    count++;
+                }
+
+                rows = 0;
+                continue;
+            }
+
+            count++;
+            rows++;
+        }
+
+        StringBuilder out = new StringBuilder();
+
+        for (int[] characters : strings)
+        {
+            for (int characters2 : characters)
+            {
+                if (0 != characters2)
+                    out.append(Character.toString((char) characters2));
+            }
+        }
+
+        return out.toString();
+
+    }
+
+    @Test
     public void repeatedStringMatch()
     {
         assertEquals(3, repeatedStringMatch("abcd", "cdabcdab"));
