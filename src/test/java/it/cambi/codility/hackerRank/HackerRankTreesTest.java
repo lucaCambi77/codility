@@ -4,12 +4,15 @@
 package it.cambi.codility.hackerRank;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.mock;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -18,7 +21,10 @@ import java.util.Queue;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InOrder;
+import org.mockito.Mockito;
 
 import it.cambi.codility.model.Node;
 
@@ -28,6 +34,60 @@ import it.cambi.codility.model.Node;
  */
 public class HackerRankTreesTest
 {
+    private PrintStream out;
+
+    @BeforeEach
+    public void setUpStreams()
+    {
+        out = mock(PrintStream.class);
+        System.setOut(out);
+    }
+
+    @Test
+    public void levelOrderTrasv()
+    {
+        Node root = Node.getExampleNode();
+        Queue<Node> queue = new LinkedList<Node>();
+        queue.add(root);
+
+        levelOrderTrasv(queue);
+
+        InOrder orderVerifier = Mockito.inOrder(out);
+
+        String[] solution = new String[] { "0 ", "1 ", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 ", "10 ", "11 ", "12 ", "13 ", "14 " };
+
+        for (String sol : solution)
+            orderVerifier.verify(out, atLeastOnce()).print(sol);
+    }
+
+    public void levelOrderTrasv(Queue<Node> queue)
+    {
+        while (!queue.isEmpty())
+        {
+            int size = queue.size();
+
+            for (Node root : queue)
+            {
+                System.out.print(root.data + " ");
+            }
+
+            List<Node> list = new ArrayList<Node>();
+
+            for (Node root : queue)
+            {
+                if (null != root.left)
+                    list.add(root.left);
+                if (null != root.right)
+                    list.add(root.right);
+            }
+            queue.addAll(list);
+            for (int i = 0; i < size; i++)
+            {
+                queue.poll();
+            }
+            levelOrderTrasv(queue);
+        }
+    }
 
     @Test
     public void topTreeView() throws NumberFormatException, IOException
@@ -46,17 +106,20 @@ public class HackerRankTreesTest
 
         buf.close();
 
-        // TreePrinter.printTree(root, "", true);
-
         Queue<QueueObj> queue = new LinkedList<QueueObj>();
         queue.add(new QueueObj(root, 0));
 
-        TreeMap<Integer, Node> map = topTreeView(queue, new TreeMap<Integer, Node>());
+        topTreeView(queue, new TreeMap<Integer, Node>());
 
-        map.entrySet().stream().forEach(queueObj -> System.out.print(queueObj.getValue().data + " "));
+        InOrder orderVerifier = Mockito.inOrder(out);
+
+        String[] solution = new String[] { "1 ", "2 ", "4 ", "14 ", "23 ", "37 ", "108 ", "111 ", "115 ", "116 ", "83 ", "84 ", "85 " };
+
+        for (String sol : solution)
+            orderVerifier.verify(out, atLeastOnce()).print(sol);
     }
 
-    public TreeMap<Integer, Node> topTreeView(Queue<QueueObj> queue, TreeMap<Integer, Node> map)
+    public void topTreeView(Queue<QueueObj> queue, TreeMap<Integer, Node> map)
     {
 
         while (!queue.isEmpty())
@@ -74,7 +137,7 @@ public class HackerRankTreesTest
                 queue.add(new QueueObj(obj.node.right, obj.hd + 1));
         }
 
-        return map;
+        map.entrySet().stream().forEach(queueObj -> System.out.print(queueObj.getValue().data + " "));
     }
 
     class QueueObj
