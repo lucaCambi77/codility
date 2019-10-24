@@ -6,6 +6,8 @@ package it.cambi.codility.leetcode;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import it.cambi.codility.coreJava.StringTest;
 
@@ -15,6 +17,33 @@ import it.cambi.codility.coreJava.StringTest;
  */
 public class LeetCodeStringTest
 {
+
+    @ParameterizedTest
+    @ValueSource(strings = "abc")
+    public void validString(String input)
+    {
+        assertEquals(true, validString("aabcbc", input));
+        assertEquals(true, validString("abcabcababcc", input));
+        assertEquals(false, validString("abccba", input));
+        assertEquals(false, validString("cababc", input));
+
+    }
+
+    private boolean validString(String s, String valid)
+    {
+
+        StringBuilder builder = new StringBuilder(s);
+
+        int index = builder.indexOf(valid);
+        while (index >= 0 && !builder.toString().equals(valid))
+        {
+            builder.replace(index, index + 3, "");
+            index = builder.indexOf(valid);
+
+        }
+
+        return builder.toString().equals(valid);
+    }
 
     @Test
     public void zigZagConversion()
@@ -26,7 +55,7 @@ public class LeetCodeStringTest
 
     }
 
-    public String convert(String s, int numRows)
+    private String convert(String s, int numRows)
     {
         int length = s.length();
 
@@ -84,7 +113,7 @@ public class LeetCodeStringTest
         assertEquals(3, repeatedStringMatch("abcd", "cdabcdab"));
     }
 
-    public int repeatedStringMatch(String A, String B)
+    private int repeatedStringMatch(String A, String B)
     {
         String aCopy = new String(A);
         StringBuilder builder = new StringBuilder(A);
@@ -112,7 +141,7 @@ public class LeetCodeStringTest
 
     }
 
-    public boolean repeatedSubstringPattern(String s)
+    private boolean repeatedSubstringPattern(String s)
     {
         int length = s.length();
 
@@ -173,7 +202,7 @@ public class LeetCodeStringTest
         return isPalindrome(palindromeString, 0);
     }
 
-    public static boolean isPalindrome(String palindromeString, int count)
+    private static boolean isPalindrome(String palindromeString, int count)
     {
         boolean isPalindrome = true;
 
@@ -210,7 +239,7 @@ public class LeetCodeStringTest
 
     }
 
-    public boolean isPalindromeOnlyAlphaNumeric(String s)
+    private boolean isPalindromeOnlyAlphaNumeric(String s)
     {
         s = s.replaceAll("[^a-zA-Z0-9]", "");
 
