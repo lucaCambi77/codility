@@ -61,7 +61,7 @@ public class Geeks4GeeksTree
 
     }
 
-    public boolean isBST(Node root, LinkedHashSet<Integer> nodeList, Node previousLeft, Node previousright)
+    private boolean isBST(Node root, LinkedHashSet<Integer> nodeList, Node previousLeft, Node previousright)
     {
 
         if (null == root)
@@ -296,7 +296,7 @@ public class Geeks4GeeksTree
         assertEquals("18 45", (p.pre == null ? "-1" : p.pre.data) + " " + (s.succ == null ? "-1" : s.succ.data));
     }
 
-    public void predecessorSuccessor(Node root, Res p, Res s, int key)
+    private void predecessorSuccessor(Node root, Res p, Res s, int key)
     {
 
         if (root == null)
@@ -330,7 +330,7 @@ public class Geeks4GeeksTree
         assertEquals(20, minValue(BinaryTree.getBST()));
     }
 
-    public int minValue(Node node)
+    private int minValue(Node node)
     {
         while (node.left != null)
             node = node.left;
@@ -363,7 +363,7 @@ public class Geeks4GeeksTree
         System.out.println(isBalanced(root));
     }
 
-    public boolean isBalanced(Node root)
+    private boolean isBalanced(Node root)
     {
 
         if (root == null)
@@ -385,7 +385,7 @@ public class Geeks4GeeksTree
      * @param root
      * @return
      */
-    public int sumSubTrees(Node root)
+    private int sumSubTrees(Node root)
     {
 
         int ret = root == null ? 0 : 1 + Math.max(sumSubTrees(root.left), sumSubTrees(root.right));
@@ -403,7 +403,7 @@ public class Geeks4GeeksTree
         System.out.println(countLeaves(queue, 0));
     }
 
-    public int countLeaves(Queue<Node> queue, int max)
+    private int countLeaves(Queue<Node> queue, int max)
     {
         int size = queue.size();
         if (size == 0)
@@ -448,7 +448,7 @@ public class Geeks4GeeksTree
         }
     }
 
-    void reverseLevelOrderTrasv(Queue<Node> queue, Stack<Node> stack)
+    private void reverseLevelOrderTrasv(Queue<Node> queue, Stack<Node> stack)
     {
 
         int size = queue.size();
@@ -500,7 +500,7 @@ public class Geeks4GeeksTree
 
     }
 
-    void levelOrderTrasversal(Queue<Node> queue, String message)
+    private void levelOrderTrasversal(Queue<Node> queue, String message)
     {
 
         while (!queue.isEmpty())
@@ -736,7 +736,7 @@ public class Geeks4GeeksTree
         assertEquals(8, max);
     }
 
-    void findMaxWidth(Node node, int count, Map<Integer, Integer> map)
+    private void findMaxWidth(Node node, int count, Map<Integer, Integer> map)
     {
 
         if (node == null)
@@ -771,7 +771,7 @@ public class Geeks4GeeksTree
 
     }
 
-    void printKDistance(Node node, int data, int count)
+    private void printKDistance(Node node, int data, int count)
     {
 
         if (node == null)
@@ -798,7 +798,7 @@ public class Geeks4GeeksTree
         assertEquals(3, getLevelFunct(root, 5, 1));
     }
 
-    int getLevelFunct(Node node, int data, int count)
+    private int getLevelFunct(Node node, int data, int count)
     {
 
         if (node == null)
@@ -824,7 +824,7 @@ public class Geeks4GeeksTree
         printAncestors(root, 3);
     }
 
-    boolean printAncestors(Node node, int target)
+    private boolean printAncestors(Node node, int target)
     {
         /* base cases */
         if (node == null)
@@ -893,12 +893,12 @@ public class Geeks4GeeksTree
         assertEquals(1, ret);
     }
 
-    int sum(Node node)
+    private int sum(Node node)
     {
         return node == null ? 0 : sum(node.left) + node.data + sum(node.right);
     }
 
-    int isSumTree(Node node)
+    private int isSumTree(Node node)
     {
         int ls, rs;
 

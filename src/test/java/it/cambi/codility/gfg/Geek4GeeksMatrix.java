@@ -50,7 +50,7 @@ public class Geek4GeeksMatrix
         System.out.println(bs);
     }
 
-    public int binarySearch(int[] a, int left, int right, int k)
+    private int binarySearch(int[] a, int left, int right, int k)
     {
 
         if (right < left)

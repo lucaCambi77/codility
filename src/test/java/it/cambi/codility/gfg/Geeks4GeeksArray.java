@@ -46,7 +46,7 @@ public class Geeks4GeeksArray
 
     }
 
-    public String leaderInArray(String array, int n)
+    private String leaderInArray(String array, int n)
     {
         int arr[] = new int[n];
         String inputLine[] = array.split(" ");
@@ -91,7 +91,7 @@ public class Geeks4GeeksArray
 
     }
 
-    public ArrayList<Integer> find3Numbers(int[] a, int n)
+    private ArrayList<Integer> find3Numbers(int[] a, int n)
     {
         ArrayList<Integer> list = new ArrayList<Integer>();
 
@@ -145,7 +145,7 @@ public class Geeks4GeeksArray
         assertEquals("8 12 34 90 3 9 45", segregateEvenOdd(7, new String[] { "12", "34", "45", "9", "8", "90", "3" }));
     }
 
-    public String segregateEvenOdd(int n, String[] input)
+    private String segregateEvenOdd(int n, String[] input)
     {
         List<Integer> setOdd = new ArrayList<Integer>();
         List<Integer> setEven = new ArrayList<Integer>();
@@ -176,7 +176,7 @@ public class Geeks4GeeksArray
 
     }
 
-    public String sortBinaryArray(int n, String[] values)
+    private String sortBinaryArray(int n, String[] values)
     {
         int countZero = 0;
         int countOne = 0;
@@ -217,7 +217,7 @@ public class Geeks4GeeksArray
                 Arrays.asList(new Integer[] { 0, 5, 4, 2, 1 })));
     }
 
-    public boolean checkTwoArraysEquals(List<Integer> list, List<Integer> list1)
+    private boolean checkTwoArraysEquals(List<Integer> list, List<Integer> list1)
     {
 
         Collections.sort(list);
@@ -235,7 +235,7 @@ public class Geeks4GeeksArray
 
     }
 
-    public String repeatChar(String s)
+    private String repeatChar(String s)
     {
         Supplier<IntStream> stringChar = () -> s.chars();
         char[] chars = s.toCharArray();
@@ -263,7 +263,7 @@ public class Geeks4GeeksArray
 
     }
 
-    public String sort(String s)
+    private String sort(String s)
     {
         Supplier<IntStream> stringChar = () -> s.chars();
         char[] alphaBet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
@@ -294,7 +294,7 @@ public class Geeks4GeeksArray
 
     }
 
-    public int multiplyLeftRightSum(int[] array)
+    private int multiplyLeftRightSum(int[] array)
     {
 
         int lengthOf = array.length;
@@ -323,7 +323,7 @@ public class Geeks4GeeksArray
 
     }
 
-    public long num(int a[], int n, int k)
+    private long num(int a[], int n, int k)
     {
         Long count = 0L;
         char match = Integer.toString(k).charAt(0);
@@ -348,8 +348,7 @@ public class Geeks4GeeksArray
 
     }
 
-    // TOFIX too slow
-    public String sortEmployee(String s)
+    private String sortEmployee(String s)
     {
 
         String[] split = s.split("(?<!\\G\\S+)\\s");
@@ -391,7 +390,7 @@ public class Geeks4GeeksArray
         assertEquals(false, checkIfFreqCanBeEqual("evjxpnqgmvfjl"));
     }
 
-    public boolean checkIfFreqCanBeEqual(String s1)
+    private boolean checkIfFreqCanBeEqual(String s1)
     {
 
         LinkedList<Long> list = s1.chars().boxed()

@@ -33,7 +33,7 @@ public class Geek4GeeksHash
 
     }
 
-    public String secondMostRepeatedString(String[] array)
+    private String secondMostRepeatedString(String[] array)
     {
 
         Map<String, Long> map = Arrays.stream(array)

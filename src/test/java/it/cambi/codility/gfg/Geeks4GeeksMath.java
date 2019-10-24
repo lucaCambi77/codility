@@ -27,7 +27,7 @@ public class Geeks4GeeksMath
 
     }
 
-    public int ishaanInternship(int n, int k)
+    private int ishaanInternship(int n, int k)
     {
         LinkedList<Integer> range = IntStream.rangeClosed(1, n)
                 .boxed().collect(Collectors.toCollection(LinkedList::new));
@@ -51,7 +51,7 @@ public class Geeks4GeeksMath
         assertEquals(2, floorSqrt(5));
     }
 
-    long floorSqrt(long x)
+    private long floorSqrt(long x)
     {
         double sqrt = Math.sqrt((double) x);
         return (long) Math.floor(sqrt);
