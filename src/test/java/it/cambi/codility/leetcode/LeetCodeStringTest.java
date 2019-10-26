@@ -5,6 +5,9 @@ package it.cambi.codility.leetcode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -17,6 +20,129 @@ import it.cambi.codility.coreJava.StringTest;
  */
 public class LeetCodeStringTest
 {
+
+    @Test
+    public void longestCommonPrefix()
+    {
+        assertEquals("fl", longestCommonPrefix(new String[] { "flower", "flow", "flight" }));
+        assertEquals("", longestCommonPrefix(new String[] { "dog", "racecar", "car" }));
+        assertEquals("", longestCommonPrefix(new String[] { "", "" }));
+        assertEquals("c", longestCommonPrefix(new String[] { "c", "c" }));
+        assertEquals("", longestCommonPrefix(new String[] { "caa", "", "a", "acb" }));
+        assertEquals("a", longestCommonPrefix(new String[] { "acc", "aaa", "aaba" }));
+    }
+
+    public String longestCommonPrefix(String[] strs)
+    {
+        if (strs.length == 0)
+            return "";
+
+        if (strs.length == 1)
+            return strs[0];
+
+        String word = strs[0];
+
+        String match = word;
+
+        for (int i = 1; i < strs.length; i++)
+        {
+            String s = strs[i];
+
+            if (s.startsWith(match))
+                continue;
+
+            while (!s.startsWith(word) && word.length() > 0)
+                word = word.substring(0, word.length() - 1);
+
+            if (word.isEmpty())
+                return "";
+
+            match = word;
+            word = s;
+        }
+
+        return match;
+    }
+
+    @Test
+    public void romanToInt()
+    {
+        assertEquals(3, romanToInt("III"));
+        assertEquals(4, romanToInt("IV"));
+        assertEquals(9, romanToInt("IX"));
+        assertEquals(58, romanToInt("LVIII"));
+        assertEquals(1994, romanToInt("MCMXCIV"));
+        assertEquals(621, romanToInt("DCXXI"));
+
+    }
+
+    private int romanToInt(String s)
+    {
+        @SuppressWarnings("serial")
+        Map<Character, Integer> romanToIntMap = new HashMap<Character, Integer>()
+        {
+            {
+                put('I', 1);
+                put('V', 5);
+                put('X', 10);
+                put('L', 50);
+                put('C', 100);
+                put('D', 500);
+                put('M', 1000);
+
+            }
+        };
+
+        int sum = 0;
+
+        for (int i = 0; i < s.length(); i++)
+        {
+            if (i == s.length() - 1)
+            {
+                sum += romanToIntMap.get(s.charAt(i));
+                break;
+            }
+
+            char c = s.charAt(i);
+            char c1 = s.charAt(i + 1);
+
+            switch (c)
+            {
+                case 'I':
+
+                    if (c1 == 'V' || c1 == 'X')
+                        sum += romanToIntMap.get(s.charAt(++i)) - romanToIntMap.get(c);
+                    else
+                        sum += romanToIntMap.get(c);
+
+                    break;
+
+                case 'X':
+
+                    if (c1 == 'L' || c1 == 'C')
+                        sum += romanToIntMap.get(s.charAt(++i)) - romanToIntMap.get(c);
+                    else
+                        sum += romanToIntMap.get(c);
+
+                    break;
+
+                case 'C':
+                    if (c1 == 'D' || c1 == 'M')
+                        sum += romanToIntMap.get(s.charAt(++i)) - romanToIntMap.get(c);
+                    else
+                        sum += romanToIntMap.get(c);
+
+                    break;
+
+                default:
+                    sum += romanToIntMap.get(c);
+
+                    break;
+            }
+        }
+
+        return sum;
+    }
 
     @ParameterizedTest
     @ValueSource(strings = "abc")
