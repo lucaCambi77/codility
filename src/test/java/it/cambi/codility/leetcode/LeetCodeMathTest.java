@@ -15,30 +15,6 @@ public class LeetCodeMathTest
 {
 
     @Test
-    public void multiply()
-    {
-
-    }
-
-    public String multiply(String num1, String num2)
-    {
-        
-        return "";
-    }
-
-    @Test
-    public void isNumber()
-    {
-
-    }
-
-    public boolean isNumber(String s)
-    {
-
-        return false;
-    }
-
-    @Test
     public void myAtoi()
     {
         assertEquals(-42, myAtoi("   -42"));
