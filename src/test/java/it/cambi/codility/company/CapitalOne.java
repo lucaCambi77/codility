@@ -12,107 +12,110 @@ import org.junit.jupiter.api.Test;
  * @author luca
  *
  */
-public class CapitalOne {
+public class CapitalOne
+{
 
-	/**
-	 * FizzBuzz If a number can be divided by
-	 * 
-	 * - 3 print "Fizz"
-	 * 
-	 * - 5 print "Buzz"
-	 * 
-	 * - 5 and 3 print "FizzBuzz"
-	 */
-	@Test
-	public void fizzBuzz() {
-		int n = 15;
-		int multThree = 3;
-		int multFive = 5;
+    /**
+     * FizzBuzz If a number can be divided by
+     * 
+     * - 3 print "Fizz"
+     * 
+     * - 5 print "Buzz"
+     * 
+     * - 5 and 3 print "FizzBuzz"
+     */
+    @Test
+    public void fizzBuzz()
+    {
 
-		for (int i = 1; i <= n; i++) {
-			String toPrint = "";
+        for (int i = 1; i <= 15; i++)
+        {
 
-			if (i == multThree) {
-				multThree = multThree + 3;
-				toPrint = "Fizz";
-			}
+            String output = "";
 
-			if (i == multFive) {
-				multFive = multFive + 5;
-				toPrint = !toPrint.isEmpty() ? "FizzBuzz" : "Buzz";
-			}
+            if (i % 3 == 0)
+                output += "Fizz";
 
-			if (toPrint == "")
-				System.out.println(i);
-			else
-				System.out.println(toPrint);
-		}
-	}
+            if (i % 5 == 0)
+                output += "Buzz";
 
-	/**
-	 * Given a string that is a number, reverse the string.
-	 * 
-	 * For every number sum all odds, sum all even but if the even number multiplied
-	 * by 2 is a 2 digit number then sum two digits.
-	 * 
-	 * Sum odds and even and if the reminder of 10 is zero print yes else no
-	 */
-	@Test
-	public void checkSum() {
+            if (output.isEmpty())
+                System.out.println(i);
+            else
+                System.out.println(output);
+        }
+    }
 
-		String input = new String("9795526789839145");
-		int inputLength = input.length();
+    /**
+     * Given a string that is a number, reverse the string.
+     * 
+     * For every number sum all odds, sum all even but if the even number multiplied by 2 is a 2 digit number then sum two digits.
+     * 
+     * Sum odds and even and if the reminder of 10 is zero print yes else no
+     */
+    @Test
+    public void checkSum()
+    {
 
-		int sumOdd = 0;
-		int sumEven = 0;
+        String input = new String("9795526789839145");
+        int inputLength = input.length();
 
-		for (int i = inputLength - 1; i >= 0; i--) {
+        int sumOdd = 0;
+        int sumEven = 0;
 
-			char c = input.charAt(i);
+        for (int i = inputLength - 1; i >= 0; i--)
+        {
 
-			int num = new Integer(Character.toString(c));
+            char c = input.charAt(i);
 
-			if ((num & 1) == 1) {
+            int num = new Integer(Character.toString(c));
 
-				sumOdd += num;
-				continue;
-			}
+            if ((num & 1) == 1)
+            {
 
-			int numTmp = num * 2;
+                sumOdd += num;
+                continue;
+            }
 
-			if (((numTmp > 9 && numTmp < 100))) {
+            int numTmp = num * 2;
 
-				int sum = 0;
-				while (numTmp > 0) {
-					sum = sum + numTmp % 10;
-					numTmp = numTmp / 10;
-				}
+            if (((numTmp > 9 && numTmp < 100)))
+            {
 
-				num = sum;
-			}
+                int sum = 0;
+                while (numTmp > 0)
+                {
+                    sum = sum + numTmp % 10;
+                    numTmp = numTmp / 10;
+                }
 
-			sumEven += num;
-		}
+                num = sum;
+            }
 
-		System.out.println((sumOdd + sumEven) % 10 == 0 ? "Yes" : "No");
+            sumEven += num;
+        }
 
-	}
+        System.out.println((sumOdd + sumEven) % 10 == 0 ? "Yes" : "No");
 
-	/**
-	 * Remove from a string the script tag
-	 */
-	@Test
-	public void removeScript() {
+    }
 
-		String luca = "Ciao <script>String I want to extract</script> luca";
+    /**
+     * Remove from a string the script tag
+     */
+    @Test
+    public void removeScript()
+    {
 
-		final Pattern pattern = Pattern.compile("<script>(.+?)</script>", Pattern.DOTALL);
-		final Matcher m = pattern.matcher(luca);
+        String luca = "Ciao <script>String I want to extract</script> luca";
 
-		while (m.find()) {
+        final Pattern pattern = Pattern.compile("<script>(.+?)</script>", Pattern.DOTALL);
+        final Matcher m = pattern.matcher(luca);
 
-			System.out.println(luca.substring(0, m.start()) + luca.substring(m.end(), luca.length()));
-		}
-	}
+        while (m.find())
+        {
+
+            System.out.println(luca.substring(0, m.start()) + luca.substring(m.end(), luca.length()));
+        }
+    }
 
 }
