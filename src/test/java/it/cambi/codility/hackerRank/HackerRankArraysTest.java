@@ -4,31 +4,128 @@
 package it.cambi.codility.hackerRank;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.mock;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Stack;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InOrder;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
  * @author luca
  *
  */
+@ExtendWith(MockitoExtension.class)
 public class HackerRankArraysTest
 {
+    private PrintStream out;
+
+    @BeforeEach
+    public void setUpStreams()
+    {
+        out = mock(PrintStream.class);
+        System.setOut(out);
+    }
+
+    @Test
+    public void maximumElement() throws IOException
+    {
+        InputStream is = new FileInputStream("src/test/resources/maximumElement/maximumElementInput.txt");
+        BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+
+        maximumElement(buf);
+
+        buf.close();
+        InputStream isOutput = new FileInputStream("src/test/resources/maximumElement/maximumElementOutput.txt");
+        BufferedReader bufOut = new BufferedReader(new InputStreamReader(isOutput));
+
+        String line = bufOut.readLine();
+
+        InOrder orderVerifier = Mockito.inOrder(out);
+
+        while (line != null)
+        {
+            orderVerifier.verify(out, atLeastOnce()).println(new Integer(line));
+            line = bufOut.readLine();
+
+        }
+
+        bufOut.close();
+    }
+
+    private void maximumElement(BufferedReader buf) throws IOException
+    {
+
+        buf.readLine();
+        String line = buf.readLine();
+
+        // A stack to keep track of values
+        Stack<Integer> stack = new Stack<Integer>();
+        // A priority queue in descending order to keep of all values and get maximum
+        PriorityQueue<Integer> tree = new PriorityQueue<Integer>(Collections.reverseOrder());
+
+        while (line != null)
+        {
+
+            String[] split = line.split(" ");
+
+            if (split.length > 1)
+            {
+                Integer add = Integer.valueOf(split[1]);
+                stack.push(Integer.valueOf(split[1]));
+                tree.add(add);
+            }
+            else
+            {
+                switch (split[0])
+                {
+                    case "2":
+
+                        if (!stack.isEmpty())
+                        {
+
+                            Integer remove = stack.pop();
+                            tree.remove(remove);
+                        }
+
+                        break;
+
+                    default:
+
+                        if (!stack.isEmpty())
+                            System.out.println(tree.peek());
+
+                        break;
+                }
+            }
+
+            line = buf.readLine();
+        }
+
+    }
 
     @Test
     public void twoStacks() throws IOException
