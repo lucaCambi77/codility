@@ -6,8 +6,11 @@ package it.cambi.codility.leetcode;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -29,6 +32,61 @@ public class LeetCodeLinkedListTest
             this.val = val;
             this.next = null;
         }
+    }
+
+    @Test
+    public void mergeTwoLists()
+    {
+        ListNode l1 = new ListNode(1);
+        l1.next = new ListNode(2);
+        l1.next.next = new ListNode(4);
+
+        ListNode l2 = new ListNode(1);
+        l2.next = new ListNode(3);
+        l2.next.next = new ListNode(4);
+
+        ListNode result = new ListNode(1);
+        result.next = new ListNode(1);
+        result.next.next = new ListNode(2);
+        result.next.next.next = new ListNode(3);
+        result.next.next.next.next = new ListNode(4);
+        result.next.next.next.next.next = new ListNode(4);
+
+        assertEquals(true, areIdentical(mergeTwoLists(l1, l2), result));
+    }
+
+    private ListNode mergeTwoLists(ListNode l1, ListNode l2)
+    {
+
+        List<Integer> list = new ArrayList<Integer>();
+
+        while (null != l1)
+        {
+            list.add(l1.val);
+            l1 = l1.next;
+        }
+
+        while (null != l2)
+        {
+            list.add(l2.val);
+            l2 = l2.next;
+        }
+
+        if (list.size() == 0)
+            return null;
+
+        Collections.sort(list);
+
+        ListNode node = new ListNode(list.get(0));
+        ListNode head = node;
+
+        for (int i = 1; i < list.size(); i++)
+        {
+            head.next = new ListNode(list.get(i));
+            head = head.next;
+        }
+
+        return node;
     }
 
     @Test
