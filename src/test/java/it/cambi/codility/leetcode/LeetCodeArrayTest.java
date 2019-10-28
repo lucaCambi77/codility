@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,8 +32,13 @@ public class LeetCodeArrayTest
     @Test
     public void moveZeroes()
     {
-        moveZeroes(new int[] { 0, 1, 0, 3, 12 });
-        moveZeroes(new int[] { 0, 0, 1 });
+        int[] nums = new int[] { 0, 1, 0, 3, 12 };
+        moveZeroes(nums);
+
+        assertEquals(true, Arrays.equals(nums, new int[] { 1, 3, 12, 0, 0 }));
+        nums = new int[] { 0, 1, 0 };
+        moveZeroes(nums);
+        assertEquals(true, Arrays.equals(nums, new int[] { 1, 0, 0 }));
 
     }
 
