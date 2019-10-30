@@ -29,6 +29,148 @@ public class LeetCodeArrayTest
 
     private ObjectMapper mapper = new ObjectMapper();
 
+    long k;
+
+    @Test
+    public void firstBadVersion()
+    {
+        int n = 5;
+        k = 4;
+        assertEquals(k, firstBadVersion(n - 1));
+
+        n = 10;
+        k = 4;
+        assertEquals(k, firstBadVersion(n - 1));
+
+        n = 10;
+        k = 2;
+        assertEquals(k, firstBadVersion(n - 1));
+
+        n = 1000000;
+        k = 1;
+        assertEquals(k, firstBadVersion(n - 1));
+
+        n = 1000000;
+        k = 1000000;
+        assertEquals(k, firstBadVersion(n));
+
+        n = 0;
+        k = 0;
+        assertEquals(k, firstBadVersion(n - 1));
+
+        n = 2126753390;
+        k = 1702766719;
+        assertEquals(k, firstBadVersion(n - 1));
+
+    }
+
+    public int firstBadVersion(int n)
+    {
+
+        if (n <= 0)
+            return 0;
+
+        long left = 0;
+        long right = n;
+
+        while (left <= right)
+        {
+
+            Long middle = (left + right) / 2;
+
+            boolean isBadVersion = isBadVersion(middle.intValue());
+
+            if (isBadVersion)
+            {
+
+                if (isBadVersion(middle.intValue() - 1))
+                    right = middle - 1;
+                else
+                    return middle.intValue();
+            }
+            else
+                left = middle + 1;
+        }
+
+        return 0;
+    }
+
+    private boolean isBadVersion(int n)
+    {
+        if (n >= k)
+            return true;
+
+        return false;
+    }
+
+    @Test
+    public void searchInsert()
+    {
+        assertEquals(0, searchInsert(new int[] { 1, 3, 5, 6 }, 0));
+        assertEquals(2, searchInsert(new int[] { 1, 3, 5, 6 }, 5));
+        assertEquals(1, searchInsert(new int[] { 1, 3, 5, 6 }, 2));
+        assertEquals(4, searchInsert(new int[] { 1, 3, 5, 6 }, 7));
+        assertEquals(1, searchInsert(new int[] { 1 }, 2));
+        assertEquals(0, searchInsert(new int[] {}, 1));
+        assertEquals(0, searchInsert(new int[] { 1, 3 }, 0));
+        assertEquals(1, searchInsert(new int[] { 1, 3 }, 2));
+        assertEquals(0, searchInsert(new int[] { 1, 3 }, 1));
+        assertEquals(2, searchInsert(new int[] { 1, 4, 6, 7, 8, 9 }, 6));
+
+    }
+
+    private int searchInsert(int[] nums, int target)
+    {
+        return search(nums, 0, nums.length - 1, target);
+    }
+
+    int search(int nums[], int left, int right, int target)
+    {
+        if (nums.length == 0)
+            return 0;
+
+        // Binary search
+        int middle = 0;
+        while (left <= right)
+        {
+
+            middle = (left + right) / 2;
+
+            int middleEl = nums[middle];
+
+            if (middleEl == target)
+                return middle;
+            else if (middleEl < target)
+                left = middle + 1;
+            else if (middleEl > target)
+                right = middle - 1;
+
+        }
+
+        int length = nums.length;
+
+        // If index not exists it is first, last or iterate to find the match between lower and higher
+        if (target >= nums[length - 1])
+            return length;
+        else if (target <= nums[0])
+            return 0;
+        else
+        {
+
+            int tmp = 0;
+
+            while (tmp < length)
+            {
+                if (target > nums[tmp] && target < nums[tmp + 1])
+                    return tmp + 1;
+
+                tmp++;
+            }
+        }
+
+        return -1;
+    }
+
     @Test
     public void moveZeroes()
     {
