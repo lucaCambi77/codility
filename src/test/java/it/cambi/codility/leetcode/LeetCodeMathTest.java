@@ -13,6 +13,58 @@ import org.junit.jupiter.api.Test;
  */
 public class LeetCodeMathTest
 {
+    long k;
+
+    @Test
+    public void guessNumber()
+    {
+        int n = 10;
+        k = 6;
+        assertEquals(k, guessNumber(n));
+
+        n = 2126753390;
+        k = 1702766719;
+        assertEquals(k, guessNumber(n));
+    }
+
+    public int guessNumber(int n)
+    {
+        long left = 0;
+        long right = n;
+
+        while (left <= right)
+        {
+            Long middle = (left + right) / 2;
+
+            int guess = guess(middle.intValue());
+
+            switch (guess)
+            {
+                case 1:
+                    left = middle + 1;
+                    break;
+
+                case -1:
+                    right = middle - 1;
+                    break;
+
+                default:
+                    return middle.intValue();
+            }
+        }
+
+        return 0;
+    }
+
+    private int guess(int n)
+    {
+        if ((long) n > k)
+            return -1;
+        else if ((long) n < k)
+            return 1;
+
+        return 0;
+    }
 
     @Test
     public void myAtoi()
