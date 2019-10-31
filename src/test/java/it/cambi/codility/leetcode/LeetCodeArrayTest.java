@@ -32,6 +32,145 @@ public class LeetCodeArrayTest
     long k;
 
     @Test
+    public void maxProfit()
+    {
+        assertEquals(5, maxProfit(new int[] { 7, 1, 5, 3, 6, 4 }));
+        assertEquals(5, maxProfitLinear(new int[] { 7, 3, 5, 1, 6, 4 }));
+
+    }
+
+    private int maxProfitLinear(int[] prices)
+    {
+
+        if (prices.length == 0)
+            return 0;
+
+        int maxProf = 0;
+        int minBuy = prices[0];
+
+        for (int i = 1; i < prices.length; i++)
+        {
+            int sell = prices[i];
+
+            if (minBuy >= sell)
+            {
+
+                minBuy = sell;
+                continue;
+            }
+
+            maxProf = Math.max(sell - minBuy, maxProf);
+        }
+
+        return maxProf;
+    }
+
+    private int maxProfit(int[] prices)
+    {
+
+        int maxProf = 0;
+
+        for (int i = 0; i < prices.length; i++)
+        {
+            int buy = prices[i];
+
+            for (int j = i; j < prices.length; j++)
+            {
+                int sell = prices[j];
+
+                if (buy < sell)
+                    maxProf = Math.max(maxProf, sell - buy);
+            }
+        }
+
+        return maxProf;
+    }
+
+    @Test
+    public void maxSubArray()
+    {
+        assertEquals(9, maxSubArrayGreedy(new int[] { -1, 2, -3, 4, 5 }));
+        assertEquals(9, maxSubArrayPrefSum(new int[] { -1, 2, -3, 4, 5 }));
+        assertEquals(9, maxSubArrayDivideConquer(new int[] { -1, 2, -3, 4, 5 }));
+
+    }
+
+    public int maxSubArrayGreedy(int[] nums)
+    {
+
+        int start = 0;
+        int end = start;
+        int sum = Integer.MIN_VALUE;
+        int currentSum = 0;
+        while (start < nums.length && end < nums.length)
+        {
+            currentSum += nums[end];
+            sum = Math.max(sum, currentSum);
+            if (currentSum < 0)
+            {
+                start = end + 1;
+                end = start;
+                currentSum = 0;
+            }
+            else
+            {
+                end++;
+            }
+        }
+        return sum;
+    }
+
+    public int maxSubArrayPrefSum(int[] nums)
+    {
+        int currentSum = 0;
+        int sum = Integer.MIN_VALUE;
+        for (int i = 0; i < nums.length; i++)
+        {
+            currentSum = Math.max(currentSum + nums[i], nums[i]);
+            sum = Math.max(currentSum, sum);
+        }
+
+        return sum;
+    }
+
+    public int maxSubArrayDivideConquer(int[] nums)
+    {
+        return maxSubArrayWithBoundries(nums, 0, nums.length - 1);
+    }
+
+    private int maxSubArrayWithBoundries(int[] nums, int start, int end)
+    {
+        if (start == end)
+            return nums[start];
+
+        int mid = (start + end) / 2;
+        int leftMax = maxSubArrayWithBoundries(nums, start, mid);
+        int rightMax = maxSubArrayWithBoundries(nums, mid + 1, end);
+        int crossingMidMax = crossingMidMax(nums, start, end);
+        return Math.max(Math.max(leftMax, rightMax), crossingMidMax);
+    }
+
+    private int crossingMidMax(int[] nums, int start, int end)
+    {
+        int mid = (start + end) / 2;
+        int leftMidMax = Integer.MIN_VALUE;
+        int rightMidMax = Integer.MIN_VALUE;
+        int sum = 0;
+        for (int i = mid; i >= start; i--)
+        {
+            sum += nums[i];
+            leftMidMax = Math.max(leftMidMax, sum);
+        }
+        sum = 0;
+        for (int i = mid + 1; i <= end; i++)
+        {
+            sum += nums[i];
+            rightMidMax = Math.max(rightMidMax, sum);
+        }
+        return leftMidMax + rightMidMax;
+    }
+
+    @Test
     public void firstBadVersion()
     {
         int n = 5;
