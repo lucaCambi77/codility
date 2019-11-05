@@ -59,30 +59,7 @@ public class HackerRankTest {
 	@BeforeEach
 	public void setUpStreams() {
 		out = mock(PrintStream.class);
-		// System.setOut(out);
-	}
-
-	@Test
-	public void minimumAbsoluteDifference() {
-		assertEquals(2, minimumAbsoluteDifference(new int[] { -2, 2, 4 }));
-		assertEquals(3, minimumAbsoluteDifference(new int[] { 3, -7, 0 }));
-		assertEquals(1, minimumAbsoluteDifference(new int[] { -59, -36, -13, 1, -53, -92, -2, -96, -54, 75 }));
-		assertEquals(3, minimumAbsoluteDifference(new int[] { 1, -3, 71, 68, 17 }));
-
-	}
-
-	private int minimumAbsoluteDifference(int[] arr) {
-		Arrays.sort(arr);
-
-		int minDiff = Integer.MAX_VALUE;
-		int value = arr[0];
-
-		for (int i = 1; i < arr.length; i++) {
-			minDiff = Math.min(minDiff, Math.abs(value - arr[i]));
-			value = arr[i];
-		}
-
-		return minDiff;
+		System.setOut(out);
 	}
 
 	@Test
