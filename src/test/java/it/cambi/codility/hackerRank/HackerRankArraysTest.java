@@ -124,6 +124,90 @@ public class HackerRankArraysTest
          */
     }
 
+    @Test
+    public void minimumAbsoluteDifference()
+    {
+        assertEquals(2, minimumAbsoluteDifference(new int[] { -2, 2, 4 }));
+        assertEquals(3, minimumAbsoluteDifference(new int[] { 3, -7, 0 }));
+        assertEquals(1, minimumAbsoluteDifference(new int[] { -59, -36, -13, 1, -53, -92, -2, -96, -54, 75 }));
+        assertEquals(3, minimumAbsoluteDifference(new int[] { 1, -3, 71, 68, 17 }));
+
+    }
+
+    private int minimumAbsoluteDifference(int[] arr)
+    {
+        Arrays.sort(arr);
+
+        int minDiff = Integer.MAX_VALUE;
+        int value = arr[0];
+
+        for (int i = 1; i < arr.length; i++)
+        {
+            minDiff = Math.min(minDiff, Math.abs(value - arr[i]));
+            value = arr[i];
+        }
+
+        return minDiff;
+    }
+
+    @Test
+    public void maxSumArray() throws IOException
+    {
+        int[] array = new int[] { -2, 1, 3, -4, 5 };
+
+        assertEquals(8, maxSumArray(array));
+
+        array = new int[] { 3, 7, 4, 6, 5 };
+
+        assertEquals(13, maxSumArray(array));
+
+        array = new int[] { 2, 1, 5, 8, 4 };
+
+        assertEquals(11, maxSumArray(array));
+
+        array = new int[] { 3, 5, -7, 8, 10 };
+
+        assertEquals(15, maxSumArray(array));
+
+        InputStream is = new FileInputStream("src/test/resources/maxSubsetSum/maxSubsetSum1.txt");
+        BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+
+        array = new int[new Integer(buf.readLine())];
+
+        String line = buf.readLine();
+
+        String[] split = line.split(" ");
+
+        int i = 0;
+        for (String string : split)
+        {
+            array[i] = new Integer(string);
+            i++;
+        }
+
+        buf.close();
+
+        assertEquals(151598486, maxSumArray(array));
+
+    }
+
+    private int maxSumArray(int[] arr)
+    {
+
+        int inc = arr[0];
+        int exc = 0;
+        int exc_new = 0;
+
+        for (int i = 1; i < arr.length; i++)
+        {
+            exc_new = Math.max(exc, inc);
+            inc = exc + arr[i];
+            exc = exc_new;
+        }
+
+        return Math.max(exc, inc);
+    }
+
     private void maximumElement(BufferedReader buf) throws IOException
     {
 
@@ -216,9 +300,8 @@ public class HackerRankArraysTest
                 {
                     line1 = buf1.readLine();
 
-                    listInput.add(
-                            Arrays.stream(line1.split("\\s")).map(s -> Integer.valueOf(s)).collect(Collectors.toCollection(LinkedList::new)).stream()
-                                    .mapToInt(i -> i).toArray());
+                    listInput.add(Arrays.stream(line1.split("\\s")).map(s -> Integer.valueOf(s))
+                            .collect(Collectors.toCollection(LinkedList::new)).stream().mapToInt(i -> i).toArray());
 
                     count++;
                 }
@@ -243,13 +326,15 @@ public class HackerRankArraysTest
         int bi = 0;
         int count = 0;
         int sum = 0;
-        // move bi to the position where if only take elements from B, last element it can take
+        // move bi to the position where if only take elements from B, last element it
+        // can take
         while (bi < b.length && sum + b[bi] <= x)
         {
             sum += b[bi];
             bi++;
         }
-        bi--; // loop exits only when bi reaches end or sum > x; in both case bi should decrease
+        bi--; // loop exits only when bi reaches end or sum > x; in both case bi should
+              // decrease
         count = bi + 1;
         while (ai < a.length && bi < b.length)
         {
@@ -263,7 +348,8 @@ public class HackerRankArraysTest
                     if (sum <= x)
                         break;
                 }
-                // if even no elements taken from B, but still sum greater than x, then a[ai] should not be chosen
+                // if even no elements taken from B, but still sum greater than x, then a[ai]
+                // should not be chosen
                 // and loop terminates
                 if (sum > x && bi < 0)
                 {
