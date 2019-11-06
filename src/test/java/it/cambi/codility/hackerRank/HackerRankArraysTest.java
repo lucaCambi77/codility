@@ -4,6 +4,7 @@
 package it.cambi.codility.hackerRank;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 import java.io.BufferedReader;
@@ -45,6 +46,68 @@ public class HackerRankArraysTest
     {
         out = mock(PrintStream.class);
         System.setOut(out);
+    }
+
+    @Test
+    public void permutationEquation()
+    {
+        assertTrue(Arrays.equals(new int[] { 2, 3, 1 }, permutationEquation(new int[] { 2, 3, 1 })));
+        assertTrue(Arrays.equals(new int[] { 1, 3, 5, 4, 2 }, permutationEquation(new int[] { 4, 3, 5, 1, 2 })));
+
+    }
+
+    private int[] permutationEquation(int[] p)
+    {
+        int[] sol = new int[p.length];
+
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+
+        for (int i = 0; i < p.length; i++)
+        {
+            map.put(p[i], i + 1);
+        }
+
+        for (int i = 0; i < sol.length; i++)
+        {
+            int value = map.get(i + 1);
+            sol[i] = map.get(value);
+        }
+
+        return sol;
+    }
+
+    @Test
+    public void circularArrayRotation()
+    {
+        assertTrue(Arrays.equals(new int[] { 5, 3 }, circularArrayRotation(new int[] { 3, 4, 5 }, 2, new int[] { 1, 2 })));
+    }
+
+    private int[] circularArrayRotation(int[] a, int k, int[] queries)
+    {
+        Stack<Integer> stack = new Stack<Integer>();
+
+        for (int i : a)
+        {
+            stack.push(i);
+        }
+
+        for (int i = 0; i < k; i++)
+        {
+            int peek = stack.pop();
+
+            stack.add(0, peek);
+        }
+
+        int numQueries = queries.length;
+
+        int result[] = new int[numQueries];
+
+        for (int i = 0; i < numQueries; i++)
+        {
+            result[i] = stack.get(queries[i]);
+        }
+
+        return result;
     }
 
     @Test
