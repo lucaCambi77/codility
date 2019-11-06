@@ -32,6 +32,56 @@ public class LeetCodeArrayTest
     long k;
 
     @Test
+    public void maxProfitII()
+    {
+        assertEquals(7, maxProfitII(new int[] { 7, 1, 5, 3, 6, 4 }));
+        assertEquals(22, maxProfitII(new int[] { 7, 1, 8, 5, 18, 20 }));
+        assertEquals(7, maxProfitII(new int[] { 7, 3, 5, 1, 6, 4 }));
+        assertEquals(4, maxProfitII(new int[] { 1, 2, 3, 4, 5 }));
+        assertEquals(0, maxProfitII(new int[] { 7, 6, 4, 3, 1 }));
+        assertEquals(4, maxProfitII(new int[] { 1, 2, 3, 4, 5, 4, 3, 2 }));
+        assertEquals(11, maxProfitII(new int[] { 7, 6, 4, 3, 1, 5, 3, 10 }));
+
+    }
+
+    private int maxProfitII(int[] prices)
+    {
+
+        // to hold profit
+
+        int profit = 0;
+        // to hold current minimum
+        int currentMin = Integer.MAX_VALUE;
+
+        // iterate thru prices
+        for (int price : prices)
+        {
+            // check if this price is smaller than current min
+            if (price < currentMin)
+            {
+                // set new current min
+                currentMin = price;
+            }
+            else
+            {
+                // check if we can profit by selling stock on this day
+                int currentProfit = price - currentMin;
+                // check if we can profit
+                if (currentProfit > 0)
+                {
+                    // add to profit
+                    profit += currentProfit;
+                    // set current min to current price
+                    currentMin = price;
+                }
+            }
+        }
+
+        // result
+        return profit;
+    }
+
+    @Test
     public void maxProfit()
     {
         assertEquals(5, maxProfit(new int[] { 7, 1, 5, 3, 6, 4 }));
