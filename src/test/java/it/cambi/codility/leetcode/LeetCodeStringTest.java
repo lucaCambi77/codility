@@ -5,10 +5,14 @@ package it.cambi.codility.leetcode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -18,8 +22,107 @@ import it.cambi.codility.coreJava.StringTest;
  * @author luca
  *
  */
+@TestMethodOrder(Alphanumeric.class)
 public class LeetCodeStringTest
 {
+
+    @Test
+    public void reverseString()
+    {
+        char[] array = new char[] { 'h', 'e', 'l', 'l', 'o' };
+        reverseString(array);
+        assertEquals(true, Arrays.equals(new char[] { 'o', 'l', 'l', 'e', 'h' }, array));
+
+        array = new char[] { 'H', 'a', 'n', 'n', 'a', 'h' };
+        reverseString(array);
+        assertEquals(true, Arrays.equals(new char[] { 'h', 'a', 'n', 'n', 'a', 'H' }, array));
+
+        array = new char[] { 'A', ' ', 'm', 'a', 'n', ',', ' ', 'a', ' ', 'p', 'l', 'a', 'n', ',', ' ', 'a', ' ', 'c', 'a', 'n', 'a', 'l', ':', ' ',
+                'P', 'a', 'n', 'a', 'm', 'a' };
+        reverseString(array);
+        assertEquals(true, Arrays.equals(new char[] { 'a', 'm', 'a', 'n', 'a', 'P', ' ', ':', 'l', 'a', 'n', 'a', 'c', ' ', 'a', ' ', ',', 'n', 'a',
+                'l', 'p', ' ', 'a', ' ', ',', 'n', 'a', 'm', ' ', 'A' }, array));
+
+    }
+
+    private void reverseString(char[] s)
+    {
+        int length = s.length;
+
+        int middle = (length & 1) == 1 ? length >>> 1 : (length >>> 1) - 1;
+        for (int i = length - 1; i > middle; i--)
+        {
+            char left = s[length - 1 - i];
+            char right = s[i];
+
+            char tmp = right;
+            s[i] = left;
+            s[length - 1 - i] = tmp;
+        }
+    }
+
+    @Test
+    public void reverseVowels()
+    {
+        assertEquals("holle", reverseVowels("hello"));
+        assertEquals("leotcede", reverseVowels("leetcode"));
+
+    }
+
+    private String reverseVowels(String s)
+    {
+
+        StringBuilder builder = new StringBuilder(s);
+
+        int length = s.length();
+
+        Stack<Character> stack = new Stack<Character>();
+
+        for (int i = 0; i < length; i++)
+        {
+            char ch = builder.charAt(i);
+
+            if (ch == 'a' || ch == 'A' || ch == 'e' || ch == 'E' ||
+                    ch == 'i' || ch == 'I' || ch == 'o' || ch == 'O' ||
+                    ch == 'u' || ch == 'U')
+            {
+
+                stack.push(ch);
+                builder.replace(i, i + 1, "~");
+            }
+
+        }
+
+        for (int i = 0; i < length; i++)
+        {
+            char ch = builder.charAt(i);
+
+            if (ch == '~')
+                builder.replace(i, i + 1, Character.toString(stack.pop()));
+        }
+
+        return builder.toString();
+    }
+
+    @Test
+    public void lengthOfLastWord()
+    {
+        assertEquals(5, lengthOfLastWord("Hello world"));
+    }
+
+    private int lengthOfLastWord(String s)
+    {
+
+        if (s == null)
+            return 0;
+
+        if (s.trim().isEmpty())
+            return 0;
+
+        String[] split = s.split(" ");
+        int lenght = split.length;
+        return split[lenght - 1].length();
+    }
 
     @Test
     public void longestCommonPrefix()
