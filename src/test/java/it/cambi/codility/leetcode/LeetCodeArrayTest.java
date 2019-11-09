@@ -5,7 +5,9 @@ package it.cambi.codility.leetcode;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,7 +17,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,12 +28,121 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author luca
  *
  */
+@TestMethodOrder(Alphanumeric.class)
 public class LeetCodeArrayTest
 {
 
     private ObjectMapper mapper = new ObjectMapper();
 
     long k;
+
+    @SuppressWarnings("serial")
+    @Test
+    public void addToArrayForm()
+    {
+        assertEquals(new ArrayList<Integer>()
+        {
+            {
+                add(1);
+                add(2);
+                add(3);
+                add(4);
+            }
+        }, addToArrayForm(new int[] { 1, 2, 0, 0 }, 34));
+    }
+
+    public List<Integer> addToArrayForm(int[] digits, int K)
+    {
+
+        String value = Arrays.stream(digits).mapToObj(String::valueOf).collect(Collectors.joining(""));
+
+        BigInteger retValue = new BigInteger(value).add(new BigInteger(new Integer(K).toString()));
+
+        return retValue.toString().chars().mapToObj(c -> new Integer(String.valueOf((char) c))).collect(Collectors.toList());
+    }
+
+    @Test
+    public void plusOne()
+    {
+        assertTrue(Arrays.equals(new int[] { 1, 2, 4 }, plusOne(new int[] { 1, 2, 3 })));
+        assertTrue(Arrays.equals(new int[] { 4, 3, 2, 2 }, plusOne(new int[] { 4, 3, 2, 1 })));
+        assertTrue(Arrays.equals(new int[] { 1, 0, 0, 0 }, plusOne(new int[] { 9, 9, 9 })));
+        assertTrue(Arrays.equals(new int[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 1 }, plusOne(new int[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 })));
+
+    }
+
+    private int[] plusOne(int[] digits)
+    {
+        String value = Arrays.stream(digits).mapToObj(String::valueOf).collect(Collectors.joining(""));
+
+        BigInteger retValue = new BigInteger(value).add(new BigInteger("1"));
+
+        return retValue.toString().chars().mapToObj(c -> String.valueOf((char) c)).mapToInt(x -> new Integer(x)).toArray();
+    }
+
+    @Test
+    public void updateMatrix()
+    {
+        assertTrue(Arrays.deepEquals(new int[][] { { 0, 0, 0 }, { 0, 1, 0 }, { 0, 0, 0 } },
+                updateMatrix(new int[][] { { 0, 0, 0 }, { 0, 1, 0 }, { 0, 0, 0 } })));
+        assertTrue(Arrays.deepEquals(new int[][] { { 0, 0, 0 }, { 0, 1, 0 }, { 1, 2, 1 } },
+                updateMatrix(new int[][] { { 0, 0, 0 }, { 0, 1, 0 }, { 1, 1, 1 } })));
+
+        assertTrue(Arrays.deepEquals(new int[][] {},
+                updateMatrix(new int[][] { { 0, 1, 0, 1, 1 }, { 1, 1, 0, 0, 1 }, { 0, 0, 0, 1, 0 }, { 1, 0, 1, 1, 1 }, { 1, 0, 0, 0, 1 } })));
+    }
+
+    private int[][] updateMatrix(int[][] matrix)
+    {
+        int matrixLength = matrix.length;
+
+        for (int i = 0; i < matrixLength; i++)
+        {
+            int[] row = matrix[i];
+
+            int rowLength = row.length;
+
+            for (int j = 0; j < rowLength; j++)
+            {
+
+                if (matrix[i][j] == 0)
+                    continue;
+
+                boolean hasFoundDistance = false;
+
+                while (!hasFoundDistance)
+                {
+
+                    int distance = 1;
+                    if (j - distance >= 0 && (matrix[i][j - distance] == 0)
+                            || (i - distance >= 0 && matrix[i - distance][j] == 0)
+                            || (j + distance < rowLength && matrix[i][j + distance] == 0)
+                            || (i + distance < matrixLength && matrix[i + distance][j] == 0))
+                    {
+                        matrix[i][j] = distance;
+                        hasFoundDistance = true;
+                    }
+                    else if (i - distance >= 0 && (j - distance >= 0 && matrix[i - distance][j - distance] == 0
+                            || j + distance < rowLength && matrix[i - distance][j + distance] == 0))
+                    {
+                        matrix[i][j] = distance + 1;
+                        hasFoundDistance = true;
+                    }
+                    else if (i + distance < matrixLength && (j - distance >= 0 && matrix[i + distance][j - distance] == 0
+                            || j + distance < rowLength && matrix[i + distance][j + distance] == 0))
+                    {
+                        matrix[i][j] = distance + 1;
+                        hasFoundDistance = true;
+                    }
+                    else
+                        distance++;
+                }
+
+            }
+        }
+
+        return matrix;
+    }
 
     @Test
     public void maxProfitII()
