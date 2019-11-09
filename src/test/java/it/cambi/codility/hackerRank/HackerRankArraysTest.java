@@ -48,6 +48,47 @@ public class HackerRankArraysTest
         System.setOut(out);
     }
 
+    int energy;
+
+    @Test
+    public void jumpingOnClouds()
+    {
+        assertEquals(92, jumpingOnClouds(new int[] { 0, 0, 1, 0, 0, 1, 1, 0 }, 2));
+        assertEquals(80, jumpingOnClouds(new int[] { 1, 1, 1, 0, 1, 1, 0, 0, 0, 0 }, 3));
+        assertEquals(97, jumpingOnClouds(new int[] { 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1 }, 19));
+
+    }
+
+    private int jumpingOnClouds(int[] c, int k)
+    {
+        int energy = 100;
+        int length = c.length;
+
+        int i = k;
+
+        int cloud = c[0];
+        while (i != length)
+        {
+
+            cloud = c[i];
+
+            --energy;
+
+            if (cloud == 1)
+                energy -= 2;
+
+            i += k;
+
+            if (i > length)
+                i = i - length;
+            else if (i == length)
+                cloud = c[0];
+        }
+
+        return cloud == 0 ? --energy : (energy -= 3);
+
+    }
+
     @Test
     public void permutationEquation()
     {
