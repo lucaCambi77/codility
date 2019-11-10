@@ -16,6 +16,46 @@ public class LeetCodeMathTest
     long k;
 
     @Test
+    public void isPerfectSquare()
+    {
+        assertEquals(true, isPerfectSquare(1));
+        assertEquals(false, isPerfectSquare(2));
+        assertEquals(true, isPerfectSquare(16));
+        assertEquals(false, isPerfectSquare(14));
+        assertEquals(false, isPerfectSquare(1000));
+        assertEquals(true, isPerfectSquare(100));
+        assertEquals(false, isPerfectSquare(10000000));
+        assertEquals(false, isPerfectSquare(2147483647));
+
+    }
+
+    private boolean isPerfectSquare(int num)
+    {
+        if (num == 1)
+            return true;
+
+        long left = 0;
+        long right = (long) num;
+
+        while (left < right)
+        {
+
+            long mid = (left + right) / 2;
+
+            if (mid * mid == num)
+                return true;
+            else if (num > mid * mid && num < (mid + 1) * (mid + 1))
+                return false;
+            else if (num < mid * mid)
+                right = mid;
+            else if (num > mid * mid)
+                left = mid;
+        }
+
+        return false;
+    }
+
+    @Test
     public void guessNumber()
     {
         int n = 10;
