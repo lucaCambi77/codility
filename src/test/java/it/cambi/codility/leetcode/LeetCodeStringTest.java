@@ -27,6 +27,19 @@ public class LeetCodeStringTest
 {
 
     @Test
+    public void defangIPaddr()
+    {
+        assertEquals("255[.]100[.]50[.]0", defangIPaddr("255.100.50.0"));
+        assertEquals("1[.]1[.]1[.]1", defangIPaddr("1.1.1.1"));
+
+    }
+
+    private String defangIPaddr(String address)
+    {
+        return address.replaceAll("\\.", "[.]");
+    }
+
+    @Test
     public void addBinary()
     {
         assertEquals("100", addBinary("11", "1"));
