@@ -24,6 +24,131 @@ public class LeetCodeTreeTest
 {
 
     @Test
+    public void mergeTrees()
+    {
+
+        Node t1 = new Node(1);
+
+        Node left = new Node(3);
+        left.setLeft(new Node(5));
+
+        t1.setLeft(left);
+
+        Node right = new Node(2);
+
+        t1.setRight(right);
+
+        Node t2 = new Node(2);
+
+        Node left1 = new Node(1);
+        left1.setRight(new Node(4));
+
+        t2.setLeft(left1);
+
+        Node right1 = new Node(3);
+        right1.setRight(new Node(7));
+
+        t2.setRight(right1);
+
+        mergeTrees(t1, t2);
+
+        Node t3 = new Node(3);
+
+        Node left2 = new Node(4);
+        left2.setLeft(new Node(5));
+        left2.setRight(new Node(4));
+
+        t3.setLeft(left2);
+
+        Node right3 = new Node(5);
+        right3.setRight(new Node(7));
+
+        t3.setRight(right3);
+
+        assertEquals(true, isSameTree(t1, t3));
+
+        Node node = new Node(1);
+
+        mergeTrees(node, null);
+
+        assertEquals(true, isSameTree(new Node(1), node));
+
+        Node nodeX = new Node(1);
+
+        Node node1 = new Node(2);
+        node1.setLeft(new Node(3));
+
+        nodeX.setLeft(node1);
+
+        Node node2 = new Node(1);
+
+        Node node3 = new Node(2);
+        node3.setRight(new Node(3));
+
+        node2.setRight(node3);
+
+        mergeTrees(nodeX, node2);
+
+        Node node4 = new Node(2);
+
+        Node node5 = new Node(2);
+        node5.setLeft(new Node(3));
+
+        node4.setLeft(node5);
+
+        Node node6 = new Node(2);
+        node6.setRight(new Node(3));
+
+        node4.setRight(node6);
+
+        assertEquals(true, isSameTree(nodeX, node4));
+    }
+
+    public Node mergeTrees(Node t1, Node t2)
+    {
+
+        if (null == t1 && null == t2)
+            return null;
+
+        if (null == t1 && null != t2)
+            return t2;
+
+        if (null != t1 && null == t2)
+            return t1;
+
+        if (null != t1 && null != t2)
+        {
+            t1.data = t2.data + t1.data;
+
+            t1.left = mergeTrees(t1.left, t2.left);
+
+            t1.right = mergeTrees(t1.right, t2.right);
+
+        }
+
+        return t1;
+
+    }
+
+    @Test
+    public void isSameTree()
+    {
+        assertEquals(true, isSameTree(BinaryTree.getBST(), BinaryTree.getBST()));
+    }
+
+    private boolean isSameTree(Node p, Node q)
+    {
+        if (p == null && q == null)
+            return true;
+
+        if (null != p && null != q && p.data == q.data &&
+                isSameTree(p.left, q.left) && isSameTree(p.right, q.right))
+            return true;
+
+        return false;
+    }
+
+    @Test
     public void rangeSumBST()
     {
         Node root = new Node(10);
