@@ -50,6 +50,16 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx -->
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-base</artifactId>
+			<version>13.0.1</version>
+			<type>pom</type>
+			<scope>test</scope>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
