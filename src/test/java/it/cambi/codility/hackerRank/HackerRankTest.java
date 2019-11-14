@@ -67,6 +67,107 @@ public class HackerRankTest
         System.setOut(out);
     }
 
+    @Test
+    public void flatlandSpaceStations()
+    {
+        assertEquals(2, flatlandSpaceStations(5, new int[] { 0, 4 }));
+        assertEquals(3, flatlandSpaceStations(8, new int[] { 0, 4 }));
+        assertEquals(5, flatlandSpaceStations(8, new int[] { 0, 2 }));
+        assertEquals(5, flatlandSpaceStations(8, new int[] { 2 }));
+        assertEquals(3, flatlandSpaceStations(8, new int[] { 0, 2, 4 }));
+        assertEquals(0, flatlandSpaceStations(6, new int[] { 0, 1, 2, 4, 3, 5 }));
+
+    }
+
+    private int flatlandSpaceStations(int n, int[] c)
+    {
+        int numOfGasStation = c.length;
+
+        if (n - 1 == numOfGasStation)
+            return 0;
+
+        int gasStationIndex = 0;
+        int lastGasStation = c[numOfGasStation - 1];
+        int nextGasStation = c[gasStationIndex];
+        int prevGasStation = nextGasStation;
+
+        int maxDistance = 0;
+
+        int city = 0;
+
+        while (gasStationIndex < numOfGasStation && city < n)
+        {
+            if (city >= lastGasStation)
+                return Math.max(maxDistance, n - lastGasStation - 1);
+
+            if (city == nextGasStation)
+            {
+                if (nextGasStation == n - 1)
+                    break;
+
+                prevGasStation = nextGasStation;
+                nextGasStation = c[++gasStationIndex];
+
+                city++;
+                continue;
+            }
+
+            maxDistance = Math.max(maxDistance, Math.min(Math.abs(city - nextGasStation), Math.abs(city - prevGasStation)));
+            city++;
+        }
+
+        return maxDistance;
+    }
+
+    @Test
+    public void appendAndDelete()
+    {
+        assertEquals("Yes", appendAndDelete("hackerhappy", "hackerrank", 9));
+        assertEquals("Yes", appendAndDelete("aba", "aba", 7));
+        assertEquals("No", appendAndDelete("ashley", "ash", 2));
+        assertEquals("No", appendAndDelete("y", "yu", 2));
+        assertEquals("Yes", appendAndDelete("aaaaaaaaaa", "aaaaa", 7));
+
+    }
+
+    public String appendAndDelete(String s, String t, int k)
+    {
+        int length1 = s.length();
+
+        int length = t.length();
+
+        boolean condition = true;
+
+        int common = 0;
+        while (condition && common < Math.min(length, length1))
+        {
+
+            if (s.charAt(common) == t.charAt(common))
+            {
+                common++;
+                continue;
+
+            }
+
+            condition = false;
+        }
+
+        int deleted = length1 - common;
+
+        int actualMissing = length - common;
+
+        if (deleted > k)
+            return "No";
+
+        int missing = k - deleted;
+
+        if (missing % 2 == 0)
+            return "Yes";
+        else
+            return "No";
+
+    }
+
     @ParameterizedTest
     @ValueSource(strings = { "src/test/resources/saveThePrisoner/saveThePrisoner1", "src/test/resources/saveThePrisoner/saveThePrisoner2" })
     public void saveThePrisoner(String path) throws IOException
