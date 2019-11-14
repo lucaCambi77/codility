@@ -16,6 +16,126 @@ public class LeetCodeMathTest
     long k;
 
     @Test
+    public void trailingZeroes()
+    {
+
+        assertEquals(2, factorial(10));
+        assertEquals(0, factorial(3));
+        assertEquals(1, factorial(5));
+        assertEquals(2, factorial(13));
+        assertEquals(7, factorial(30));
+        assertEquals(0, factorial(0));
+        assertEquals(206, factorial(832));
+        assertEquals(452137076, factorial(1808548329));
+
+    }
+
+    private int factorial(int n)
+    {
+        if (n < 5)
+        {
+            return 0;
+        }
+
+        int res = 0;
+        while (n >= 5)
+        {
+            res += n / 5;
+            n /= 5;
+        }
+        return res;
+    }
+
+    private int countZeros(String numberToString)
+    {
+
+        int count = 0;
+        int index = numberToString.length() - 1;
+        int end = numberToString.length();
+        while (numberToString.substring(index, end).indexOf("0") >= 0)
+        {
+            index--;
+            end--;
+            count++;
+        }
+        return count;
+    }
+
+    /**
+     * This runs in linear time but it is interesting to see. In creates an array of the factorial number in reverse order where a single digit is
+     * shifted by the reminder of 10
+     * 
+     * @param n
+     * @return
+     */
+    private int factorial1(int n)
+    {
+        int res[] = new int[1000];
+
+        // Initialize result
+        res[0] = 1;
+        int res_size = 1;
+
+        // Apply simple factorial formula
+        // n! = 1 * 2 * 3 * 4...*n
+        for (int x = 2; x <= n; x++)
+            res_size = multiply(x, res, res_size);
+
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = res_size - 1; i >= 0; i--)
+            builder.append(res[i]);
+
+        return countZeros(builder.toString());
+    }
+
+    static int multiply(int x, int res[], int res_size)
+    {
+        int carry = 0; // Initialize carry
+
+        // One by one multiply n with individual
+        // digits of res[]
+        for (int i = 0; i < res_size; i++)
+        {
+            int prod = res[i] * x + carry;
+            res[i] = prod % 10; // Store last digit of
+                                // 'prod' in res[]
+            carry = prod / 10; // Put rest in carry
+        }
+
+        // Put carry in res and increase result size
+        while (carry != 0)
+        {
+            res[res_size] = carry % 10;
+            carry = carry / 10;
+            res_size++;
+        }
+        return res_size;
+    }
+
+    @Test
+    public void climbStairs()
+    {
+        assertEquals(2, climbStairs(2));
+        assertEquals(3, climbStairs(3));
+        assertEquals(5, climbStairs(4));
+        assertEquals(8, climbStairs(5));
+
+        // assertEquals(1134903170, climbStairs(44));
+
+    }
+
+    private int climbStairs(int n)
+    {
+        if (n < 0)
+            return 0;
+        if (n == 0)
+            return 1;
+        else
+            return climbStairs(n - 1) + climbStairs(n - 2);
+    }
+
+    @Test
     public void isPerfectSquare()
     {
         assertEquals(true, isPerfectSquare(1));
