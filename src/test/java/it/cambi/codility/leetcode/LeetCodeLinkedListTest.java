@@ -9,8 +9,10 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -32,6 +34,51 @@ public class LeetCodeLinkedListTest
             this.val = val;
             this.next = null;
         }
+    }
+
+    @Test
+    public void deleteDuplicates()
+    {
+        ListNode l1 = new ListNode(1);
+        l1.next = new ListNode(1);
+        l1.next.next = new ListNode(2);
+
+        ListNode l2 = new ListNode(1);
+        l2.next = new ListNode(2);
+
+        assertEquals(true, areIdentical(l2,
+                deleteDuplicates(l1)));
+    }
+
+    public ListNode deleteDuplicates(ListNode head)
+    {
+        if (head == null)
+            return head;
+
+        Set<Integer> values = new HashSet<Integer>();
+
+        ListNode copy = head;
+        ListNode prev = head;
+
+        while (copy != null)
+        {
+
+            if (!values.add(copy.val))
+            {
+                ListNode tmp = copy;
+                copy = prev;
+                copy.next = tmp.next;
+                tmp = null;
+                prev = copy;
+                copy = copy.next;
+                continue;
+            }
+
+            prev = copy;
+            copy = copy.next;
+        }
+
+        return head;
     }
 
     @Test
