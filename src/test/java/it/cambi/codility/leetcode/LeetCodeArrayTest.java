@@ -11,10 +11,13 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
+import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -38,6 +41,514 @@ public class LeetCodeArrayTest
     private ObjectMapper mapper = new ObjectMapper();
 
     long k;
+
+    @Test
+    public void rob()
+    {
+        assertEquals(4, rob(new int[] { 1, 2, 3, 1 }));
+        assertEquals(12, rob(new int[] { 2, 7, 9, 3, 1 }));
+        assertEquals(4, rob(new int[] { 2, 1, 1, 2 }));
+        assertEquals(1, rob(new int[] { 1 }));
+        assertEquals(14, rob(new int[] { 4, 1, 2, 7, 5, 3, 1 }));
+        assertEquals(39, rob(new int[] { 6, 3, 10, 8, 2, 10, 3, 5, 10, 5, 3 }));
+    }
+
+    public int rob(int[] nums)
+    {
+        if (nums == null || nums.length == 0)
+            return 0;
+
+        if (nums.length == 1)
+            return nums[0];
+
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        dp[1] = Math.max(nums[0], nums[1]);
+
+        for (int i = 2; i < nums.length; i++)
+        {
+            dp[i] = Math.max(dp[i - 2] + nums[i], dp[i - 1]);
+        }
+
+        return dp[nums.length - 1];
+    }
+
+    public int rob2(int[] nums)
+    {
+
+        if (nums == null || nums.length == 0)
+            return 0;
+
+        int even = 0;
+        int odd = 0;
+
+        for (int i = 0; i < nums.length; i++)
+        {
+            if (i % 2 == 0)
+            {
+                even += nums[i];
+                even = even > odd ? even : odd;
+            }
+            else
+            {
+                odd += nums[i];
+                odd = even > odd ? even : odd;
+            }
+        }
+
+        return even > odd ? even : odd;
+    }
+
+    public int rob3(int[] nums)
+    {
+        if (nums.length == 0)
+        {
+            return 0;
+        }
+
+        int[] mem = new int[nums.length + 1];
+        Arrays.fill(mem, -1);
+
+        mem[0] = 0;
+
+        return helper(nums.length, mem, nums);
+    }
+
+    private int helper(int size, int[] mem, int[] nums)
+    {
+        if (size < 1)
+        {
+            return 0;
+        }
+
+        if (mem[size] != -1)
+        {
+            return mem[size];
+        }
+
+        // two cases
+        int firstSelected = helper(size - 2, mem, nums) + nums[nums.length - size];
+        int firstUnselected = helper(size - 1, mem, nums);
+
+        return mem[size] = Math.max(firstSelected, firstUnselected);
+    }
+
+    @Test
+    public void rotateArray()
+    {
+        int[] array = new int[] { 1, 2, 3, 4, 5, 6, 7 };
+        rotate(array, 3);
+        assertEquals(true, Arrays.equals(new int[] { 5, 6, 7, 1, 2, 3, 4 }, array));
+
+        array = new int[] { 1, 2, 3, 4, 5, 6, 7 };
+        rotate(array, 10);
+        assertEquals(true, Arrays.equals(new int[] { 5, 6, 7, 1, 2, 3, 4 }, array));
+
+        array = new int[] { -1, -100, 3, 99 };
+        rotate(array, 2);
+        assertEquals(true, Arrays.equals(new int[] { 3, 99, -1, -100 }, array));
+
+        array = new int[] { 1, 2, 3, 4, 5, 6 };
+        rotate(array, 3);
+        assertEquals(true, Arrays.equals(new int[] { 4, 5, 6, 1, 2, 3 }, array));
+    }
+
+    private void rotate1(int[] nums, int k)
+    {
+        int length = nums.length;
+
+        while (length < k)
+            k = k - length;
+
+        int[] newArray = new int[length];
+        for (int i = 0; i < length; i++)
+        {
+            int value = nums[i];
+            int newPosition = i + k < length ? i + k : i + k - length;
+            newArray[newPosition] = value;
+        }
+
+        for (int i = 0; i < newArray.length; i++)
+        {
+            nums[i] = newArray[i];
+        }
+    }
+
+    public void rotate(int[] nums, int k)
+    {
+        int length = nums.length;
+
+        while (length < k)
+            k = k - length;
+
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+
+        for (int i = 0; i < length; i++)
+        {
+            if (null != map.get(i))
+            {
+
+                int value = map.get(i);
+                int newPosition = i + k < length ? i + k : i + k - length;
+
+                if (map.get(newPosition) == null)
+                    map.put(newPosition, nums[newPosition]);
+
+                nums[newPosition] = value;
+                continue;
+            }
+
+            int value = nums[i];
+            int newPosition = i + k < length ? i + k : i + k - length;
+
+            map.put(newPosition, nums[newPosition]);
+
+            nums[newPosition] = value;
+
+        }
+    }
+
+    @Test
+    public void intersection()
+    {
+        assertEquals(true, Arrays.equals(new int[] { 2 }, intersection(new int[] { 1, 2, 2, 1 }, new int[] { 2, 2 })));
+        assertEquals(true, Arrays.equals(new int[] { 4, 9 }, intersection(new int[] { 4, 9, 5 }, new int[] { 9, 4, 9, 8, 4 })));
+
+    }
+
+    private int[] intersection(int[] nums1, int[] nums2)
+    {
+        Set<Integer> set = IntStream.of(nums1).boxed().distinct().collect(Collectors.toSet());
+        Set<Integer> set2 = IntStream.of(nums2).boxed().distinct().collect(Collectors.toSet());
+
+        set.retainAll(set2);
+
+        return set.stream().mapToInt(x -> x).toArray();
+    }
+
+    @Test
+    public void majorityElement()
+    {
+        assertEquals(3, majorityElement(new int[] { 3, 2, 3 }));
+        assertEquals(2, majorityElement(new int[] { 2, 2, 1, 1, 1, 2, 2 }));
+        assertEquals(3, majorityElement(new int[] { 3, 3, 4 }));
+
+    }
+
+    private int majorityElement(int[] nums)
+    {
+
+        Map<Integer, Integer> mapToFreq = new HashMap<Integer, Integer>();
+        int max = 0;
+        int maxFreq = 0;
+
+        for (int i = 0; i < nums.length; i++)
+        {
+            int value = nums[i];
+            int freq = mapToFreq.getOrDefault(value, 0) + 1;
+
+            if (freq > maxFreq)
+            {
+
+                max = value;
+                maxFreq = freq;
+            }
+
+            mapToFreq.put(value, freq);
+        }
+
+        return max;
+
+    }
+
+    private int majorityElement1(int[] nums)
+    {
+
+        Arrays.sort(nums);
+        return nums[nums.length / 2];
+
+    }
+
+    private int countInRange(int[] nums, int num, int lo, int hi)
+    {
+        int count = 0;
+        for (int i = lo; i <= hi; i++)
+        {
+            if (nums[i] == num)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private int majorityElementRec(int[] nums, int lo, int hi)
+    {
+        // base case; the only element in an array of size 1 is the majority
+        // element.
+        if (lo == hi)
+        {
+            return nums[lo];
+        }
+
+        // recurse on left and right halves of this slice.
+        int mid = (hi - lo) / 2 + lo;
+        int left = majorityElementRec(nums, lo, mid);
+        int right = majorityElementRec(nums, mid + 1, hi);
+
+        // if the two halves agree on the majority element, return it.
+        if (left == right)
+        {
+            return left;
+        }
+
+        // otherwise, count each element and return the "winner".
+        int leftCount = countInRange(nums, left, lo, hi);
+        int rightCount = countInRange(nums, right, lo, hi);
+
+        return leftCount > rightCount ? left : right;
+    }
+
+    private int majorityElementDC(int[] nums)
+    {
+        return majorityElementRec(nums, 0, nums.length - 1);
+    }
+
+    @Test
+    public void minStack()
+    {
+        MinStack stack = new MinStack();
+
+        stack.push(-2);
+        stack.push(0);
+        stack.push(-3);
+
+        assertEquals(-3, stack.getMin());
+
+        stack.pop();
+
+        assertEquals(0, stack.top());
+        assertEquals(-2, stack.getMin());
+
+        stack = new MinStack();
+
+        stack.push(1);
+        stack.push(2);
+
+        assertEquals(2, stack.top());
+
+        assertEquals(1, stack.getMin());
+
+        stack.pop();
+
+        assertEquals(1, stack.getMin());
+        assertEquals(1, stack.top());
+
+    }
+
+    class MinStack
+    {
+
+        private Stack<Integer> stack;
+        private int min = Integer.MAX_VALUE;
+
+        public MinStack()
+        {
+            stack = new Stack<Integer>();
+        }
+
+        public void push(int x)
+        {
+            min = Math.min(min, x);
+            stack.push(x);
+        }
+
+        public void pop()
+        {
+            stack.pop();
+            min = Integer.MAX_VALUE;
+
+            for (Integer x : stack)
+                min = Math.min(min, x);
+
+        }
+
+        public int top()
+        {
+            return stack.peek();
+        }
+
+        public int getMin()
+        {
+            return min;
+        }
+    }
+
+    @Test
+    public void convertToTitle()
+    {
+        assertEquals("A", convertToTitle(1));
+        assertEquals("AB", convertToTitle(28));
+        assertEquals("BB", convertToTitle(54));
+
+        assertEquals("ZY", convertToTitle(701));
+        // assertEquals("ZZ", convertToTitle(702));
+        assertEquals("AAA", convertToTitle(703));
+        assertEquals("AAAA", convertToTitle(1406));
+
+    }
+
+    public String convertToTitle(int n)
+    {
+
+        char[] alphaBet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+
+        String out = "";
+
+        while (n > 0)
+        {
+
+            int div = n / 26;
+
+            int position = div > 0 ? div - 1 : n - 1;
+
+            out += Character.toString((char) alphaBet[position]).toUpperCase();
+
+            if (div == 0)
+                break;
+
+            n = n - (div * 26);
+        }
+
+        return out;
+    }
+
+    @Test
+    public void missingNumber()
+    {
+        assertEquals(2, missingNumber(new int[] { 3, 0, 1 }));
+        assertEquals(8, missingNumber(new int[] { 9, 6, 4, 2, 3, 5, 7, 0, 1 }));
+        assertEquals(2, missingNumber(new int[] { 0, 1 }));
+        assertEquals(0, missingNumber(new int[] { 1 }));
+
+    }
+
+    public int missingNumber(int[] nums)
+    {
+        Arrays.sort(nums);
+
+        int length = nums.length;
+
+        if (nums[0] != 0)
+            return 0;
+
+        if (nums[length - 1] != length)
+            return length;
+
+        int start = 0;
+        int first = nums[start];
+
+        while (start + 1 < length)
+        {
+            int next = nums[++start];
+
+            if (next - first != 1)
+                return next - 1;
+
+            first = next;
+        }
+
+        return length - 2;
+    }
+
+    @Test
+    public void singleNumber()
+    {
+        assertEquals(1,
+                singleNumber(new int[] { 2, 2, 1 }));
+
+        assertEquals(4,
+                singleNumber(new int[] { 4, 1, 2, 1, 2 }));
+    }
+
+    public int singleNumber(int[] nums)
+    {
+
+        Set<Integer> set = new HashSet<Integer>();
+
+        int length = nums.length;
+
+        for (int i = 0; i < length; i++)
+        {
+            int value = nums[i];
+
+            if (!set.contains(value))
+                set.add(value);
+            else
+                set.remove(value);
+
+        }
+
+        return set.iterator().next();
+    }
+
+    public int singleNumber1(int[] nums)
+    {
+
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+
+        int length = nums.length;
+
+        for (int i = 0; i < length; i++)
+        {
+            int value = nums[i];
+
+            if (null == map.get(value))
+                map.put(value, 1);
+            else
+                map.remove(value);
+
+        }
+
+        return map.entrySet().iterator().next().getKey();
+    }
+
+    public int singleNumber2(int[] nums)
+    {
+
+        Set<Integer> set = Arrays.stream(nums).distinct().boxed().collect(Collectors.toSet());
+        int sum = Arrays.stream(nums).sum();
+
+        return 2 * (set.stream().reduce(0, (a, b) -> a + b) - sum);
+    }
+
+    /**
+     * 
+     * 
+     * If we take XOR of zero and some bit, it will return that bit a⊕0=a
+     * 
+     * If we take XOR of two same bits, it will return 0 a⊕a=0
+     * 
+     * a⊕b⊕a=(a⊕a)⊕b=0⊕b=b
+     * 
+     * @param nums
+     * @return
+     */
+    public int singleNumber3(int[] nums)
+    {
+
+        int length = nums.length;
+
+        int value = 0;
+
+        for (int i = 0; i < length; i++)
+        {
+
+            value ^= nums[i];
+        }
+
+        return value;
+    }
 
     @SuppressWarnings("serial")
     @Test
@@ -98,46 +609,45 @@ public class LeetCodeArrayTest
     private int[][] updateMatrix(int[][] matrix)
     {
 
-        {
-            int rows = matrix.length;
+        int rows = matrix.length;
 
-            if (rows == 0)
-                return matrix;
+        if (rows == 0)
+            return matrix;
 
-            int cols = matrix[0].length;
+        int cols = matrix[0].length;
 
-            int[][] dist = new int[][] {};
+        int[][] dist = new int[][] {};
 
-            Queue<Pair<Integer, Integer>> q = new LinkedList<Pair<Integer, Integer>>();
+        Queue<Pair<Integer, Integer>> q = new LinkedList<Pair<Integer, Integer>>();
 
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < cols; j++)
-                    if (matrix[i][j] == 0)
-                    {
-                        dist[i][j] = 0;
-                        q.add(new Pair<Integer, Integer>(i, j)); // Put all 0s in the queue.
-                    }
-
-            int[][] dir = new int[][] { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
-            while (!q.isEmpty())
-            {
-                Pair<Integer, Integer> curr = q.peek();
-                q.poll();
-                for (int i = 0; i < 4; i++)
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < cols; j++)
+                if (matrix[i][j] == 0)
                 {
-                    int new_r = curr.getKey() + dir[i][0], new_c = curr.getValue() + dir[i][1];
-                    if (new_r >= 0 && new_c >= 0 && new_r < rows && new_c < cols)
+                    dist[i][j] = 0;
+                    q.add(new Pair<Integer, Integer>(i, j)); // Put all 0s in the queue.
+                }
+
+        int[][] dir = new int[][] { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
+        while (!q.isEmpty())
+        {
+            Pair<Integer, Integer> curr = q.peek();
+            q.poll();
+            for (int i = 0; i < 4; i++)
+            {
+                int new_r = curr.getKey() + dir[i][0], new_c = curr.getValue() + dir[i][1];
+                if (new_r >= 0 && new_c >= 0 && new_r < rows && new_c < cols)
+                {
+                    if (dist[new_r][new_c] > dist[curr.getKey()][curr.getValue()] + 1)
                     {
-                        if (dist[new_r][new_c] > dist[curr.getKey()][curr.getValue()] + 1)
-                        {
-                            dist[new_r][new_c] = dist[curr.getKey()][curr.getValue()] + 1;
-                            q.add(new Pair<Integer, Integer>(new_r, new_c));
-                        }
+                        dist[new_r][new_c] = dist[curr.getKey()][curr.getValue()] + 1;
+                        q.add(new Pair<Integer, Integer>(new_r, new_c));
                     }
                 }
             }
-            return dist;
         }
+        return dist;
+
     }
 
     private int[][] updateMatrix1(int[][] matrix)
@@ -556,8 +1066,15 @@ public class LeetCodeArrayTest
     @Test
     public void removeElement()
     {
-        assertEquals(2, removeElement(new int[] { 3, 2, 2, 3 }, 3));
-        assertEquals(5, removeElement(new int[] { 0, 1, 2, 2, 3, 0, 4, 2 }, 2));
+        int[] array = new int[] { 3, 2, 2, 3 };
+        int size = removeElement(array, 3);
+
+        assertEquals(true, Arrays.equals(new int[] { 2, 2 }, Arrays.copyOfRange(array, 0, size)));
+
+        array = new int[] { 0, 1, 2, 2, 3, 0, 4, 2 };
+        size = removeElement(array, 2);
+
+        assertEquals(true, Arrays.equals(new int[] { 0, 1, 3, 0, 4 }, Arrays.copyOfRange(array, 0, size)));
 
     }
 
