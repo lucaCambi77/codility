@@ -28,5 +28,4 @@ target/
 .classpath
 .project
 .settings/
-src/test/java/it/cambi/codility/company/
 .factorypath
