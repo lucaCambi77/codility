@@ -51,6 +51,90 @@ public class HackerRankArraysTest
     int energy;
 
     @Test
+    public void fairRations()
+    {
+
+    }
+
+    private int fairRations(int[] B)
+    {
+
+        return 0;
+    }
+
+    @Test
+    public void stepPerms()
+    {
+
+    }
+
+    private int stepPerms(int n)
+    {
+
+        int memo[] = new int[n + 1];
+        return stepPermsRec(0, n, memo);
+    }
+
+    public int stepPermsRec(int i, int n, int memo[])
+    {
+        if (i > n)
+        {
+            return 0;
+        }
+        if (i == n)
+        {
+            return 1;
+        }
+        if (memo[i] > 0)
+        {
+            return memo[i];
+        }
+
+        memo[i] = stepPermsRec(i + 1, n, memo) + stepPermsRec(i + 2, n, memo) + stepPermsRec(i + 3, n, memo);
+        return memo[i];
+    }
+
+    @Test
+    public void fibonacci()
+    {
+
+        assertEquals(0, fibonacci(0));
+        assertEquals(1, fibonacci(1));
+        assertEquals(2, fibonacci(3));
+        assertEquals(8, fibonacci(6));
+
+    }
+
+    public static int fibonacci(int n)
+    {
+
+        if (n == 0)
+            return 0;
+
+        if (n == 1)
+            return 1;
+
+        int prev = 0;
+        int next = 1;
+
+        int i = 2;
+
+        int sum = 0;
+        while (i <= n)
+        {
+            sum = prev + next;
+
+            prev = next;
+
+            next = sum;
+
+            ++i;
+        }
+
+        return sum;
+    }
+
+    @Test
     public void jumpingOnClouds()
     {
         assertEquals(92, jumpingOnClouds(new int[] { 0, 0, 1, 0, 0, 1, 1, 0 }, 2));
