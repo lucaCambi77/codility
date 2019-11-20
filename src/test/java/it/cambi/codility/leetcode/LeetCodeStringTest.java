@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,53 @@ import it.cambi.codility.coreJava.StringTest;
 @TestMethodOrder(Alphanumeric.class)
 public class LeetCodeStringTest
 {
+
+    @Test
+    public void wordPattern()
+    {
+        assertEquals(true, wordPattern("abba", "dog cat cat dog"));
+        assertEquals(false, wordPattern("abba", "dog cat cat fish"));
+        assertEquals(false, wordPattern("aaaa", "dog cat cat dog"));
+        assertEquals(false, wordPattern("abba", "dog dog dog dog"));
+        assertEquals(true, wordPattern("abc", "b c a"));
+        assertEquals(true, wordPattern("ab", "happy hacking"));
+        assertEquals(false, wordPattern("aaa", "aa aa aa aa"));
+
+    }
+
+    private boolean wordPattern(String pattern, String str)
+    {
+
+        char[] patternArray = pattern.toCharArray();
+
+        String[] strArray = str.split(" ");
+
+        if (patternArray.length != strArray.length)
+            return false;
+
+        Map<Character, String> charToString = new HashMap<>();
+        Map<String, Character> stringToChar = new HashMap<>();
+
+        for (int i = 0; i < patternArray.length; i++)
+        {
+            String word = charToString.get(patternArray[i]);
+
+            if (word == null)
+                if (stringToChar.get(strArray[i]) != null)
+                    return false;
+                else
+                {
+                    stringToChar.put(strArray[i], patternArray[i]);
+                    charToString.put(patternArray[i], strArray[i]);
+                    continue;
+                }
+
+            if (!strArray[i].equals(word))
+                return false;
+        }
+
+        return true;
+    }
 
     @Test
     public void defangIPaddr()
