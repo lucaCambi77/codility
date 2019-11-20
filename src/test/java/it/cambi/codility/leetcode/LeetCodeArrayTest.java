@@ -43,6 +43,88 @@ public class LeetCodeArrayTest
     long k;
 
     @Test
+    public void containsNearbyAlmostDuplicate()
+    {
+        assertEquals(true, containsNearbyAlmostDuplicate(new int[] { 1, 2, 3, 1 }, 3, 0));
+        assertEquals(true, containsNearbyAlmostDuplicate(new int[] { 1, 0, 1, 1 }, 1, 2));
+        assertEquals(false, containsNearbyAlmostDuplicate(new int[] { 1, 5, 9, 1, 5, 9 }, 2, 3));
+        assertEquals(false, containsNearbyAlmostDuplicate(new int[] { -1, 2147483647 }, 1, 2147483647));
+
+    }
+
+    private boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t)
+    {
+
+        for (int i = 0; i < nums.length; i++)
+        {
+            int value = nums[i];
+
+            for (int j = 0; j < nums.length && i != j; j++)
+            {
+                int valueIn = nums[j];
+
+                long diff = (long) value - (long) valueIn;
+
+                if (Math.abs(diff) <= t && Math.abs(i - j) <= k)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Test
+    public void containsNearbyDuplicate()
+    {
+        assertEquals(true, containsNearbyDuplicate(new int[] { 1, 2, 4, 1 }, 3));
+        assertEquals(true, containsNearbyDuplicate(new int[] { 1, 0, 1, 1 }, 1));
+        assertEquals(false, containsNearbyDuplicate(new int[] { 1, 2, 3, 1, 2, 3 }, 2));
+        assertEquals(false, containsNearbyDuplicate(new int[] {}, 0));
+
+    }
+
+    private boolean containsNearbyDuplicate(int[] nums, int k)
+    {
+        if (nums.length == 0)
+            return false;
+
+        int value = nums[0];
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        map.put(value, 0);
+
+        for (int i = 1; i < nums.length; i++)
+        {
+            value = nums[i];
+
+            int tmp = map.getOrDefault(value, -1);
+
+            if (-1 != tmp && i - tmp <= k)
+                return true;
+
+            map.put(value, i);
+
+        }
+
+        return false;
+    }
+
+    @Test
+    public void containsDuplicate()
+    {
+        assertEquals(true, containsDuplicate(new int[] { 1, 2, 3, 1 }));
+        assertEquals(false, containsDuplicate(new int[] { 1, 2, 3, 4 }));
+        assertEquals(true, containsDuplicate(new int[] { 1, 1, 1, 3, 3, 4, 3, 2, 4, 2 }));
+
+    }
+
+    private boolean containsDuplicate(int[] nums)
+    {
+        int size = (int) IntStream.of(nums).distinct().count();
+
+        return nums.length != size;
+    }
+
+    @Test
     public void rob()
     {
         assertEquals(4, rob(new int[] { 1, 2, 3, 1 }));
@@ -53,7 +135,7 @@ public class LeetCodeArrayTest
         assertEquals(39, rob(new int[] { 6, 3, 10, 8, 2, 10, 3, 5, 10, 5, 3 }));
     }
 
-    public int rob(int[] nums)
+    private int rob(int[] nums)
     {
         if (nums == null || nums.length == 0)
             return 0;
@@ -73,7 +155,7 @@ public class LeetCodeArrayTest
         return dp[nums.length - 1];
     }
 
-    public int rob2(int[] nums)
+    private int rob2(int[] nums)
     {
 
         if (nums == null || nums.length == 0)
@@ -99,7 +181,7 @@ public class LeetCodeArrayTest
         return even > odd ? even : odd;
     }
 
-    public int rob3(int[] nums)
+    private int rob3(int[] nums)
     {
         if (nums.length == 0)
         {
@@ -174,7 +256,7 @@ public class LeetCodeArrayTest
         }
     }
 
-    public void rotate(int[] nums, int k)
+    private void rotate(int[] nums, int k)
     {
         int length = nums.length;
 
