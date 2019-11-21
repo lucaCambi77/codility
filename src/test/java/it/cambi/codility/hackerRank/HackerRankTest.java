@@ -13,10 +13,12 @@ import java.io.PrintStream;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -68,6 +70,119 @@ public class HackerRankTest
     }
 
     @Test
+    public void happyLadybugs()
+    {
+        assertEquals("YES", happyLadybugs("RBY_YBR"));
+        assertEquals("NO", happyLadybugs("X_Y__X"));
+        assertEquals("YES", happyLadybugs("__"));
+        assertEquals("YES", happyLadybugs("B_RRBR"));
+        assertEquals("NO", happyLadybugs("AABBC"));
+        assertEquals("YES", happyLadybugs("AABBC_C"));
+        assertEquals("YES", happyLadybugs("DD__FQ_QQF"));
+        assertEquals("YES", happyLadybugs("_"));
+        assertEquals("NO", happyLadybugs("AABCBC"));
+        assertEquals("YES", happyLadybugs("AABBCC"));
+
+    }
+
+    private String happyLadybugs(String b)
+    {
+        int length = b.toCharArray().length;
+
+        Map<Character, Integer> map = new HashMap<Character, Integer>();
+
+        int countUnderScores = 0;
+
+        for (int i = 0; i < length; i++)
+        {
+            char c = b.charAt(i);
+            if (c != '_')
+            {
+                int freq = map.getOrDefault(b.charAt(i), 0) + 1;
+                map.put(b.charAt(i), freq);
+            }
+            else
+                countUnderScores++;
+
+        }
+
+        if (map.size() == 0 && countUnderScores > 0)
+            return "YES";
+
+        if (map.values().contains(1))
+            return "NO";
+
+        if (countUnderScores > 0)
+            return "YES";
+
+        // check string happy
+
+        for (Entry<Character, Integer> entry : map.entrySet())
+        {
+            char c = entry.getKey();
+
+            int index = b.indexOf(c, 0);
+
+            int prevIndex = index;
+
+            while (index != -1)
+            {
+                index = b.indexOf(c, ++index);
+
+                if (index == -1)
+                    continue;
+                else if (index - prevIndex == 1)
+                {
+                    prevIndex = index;
+                    continue;
+                }
+                else
+                    return "NO";
+
+            }
+        }
+        return "YES";
+    }
+
+    @Test
+    public void dayOfProgrammer()
+    {
+        assertEquals("12.09.2008", dayOfProgrammer(2008));
+        assertEquals("13.09.2007", dayOfProgrammer(2007));
+        assertEquals("12.09.1800", dayOfProgrammer(1800));
+        assertEquals("26.09.1918", dayOfProgrammer(1918));
+
+    }
+
+    private String dayOfProgrammer(int year)
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        int month = 8;
+        int day = 13;
+
+        if (year < 1918)
+        {
+            if (year % 4 == 0)
+                --day;
+        }
+        else if (year > 1918)
+        {
+
+            if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0))
+                --day;
+
+        }
+        else
+        {
+            day = 26;
+
+        }
+
+        return sdf.format(new GregorianCalendar(year, month, day).getTime());
+
+    }
+
+    @Test
     public void flatlandSpaceStations()
     {
         assertEquals(2, flatlandSpaceStations(5, new int[] { 0, 4 }));
@@ -81,6 +196,7 @@ public class HackerRankTest
 
     private int flatlandSpaceStations(int n, int[] c)
     {
+        Arrays.sort(c);
         int numOfGasStation = c.length;
 
         if (n - 1 == numOfGasStation)
@@ -88,8 +204,8 @@ public class HackerRankTest
 
         int gasStationIndex = 0;
         int lastGasStation = c[numOfGasStation - 1];
-        int nextGasStation = c[gasStationIndex];
-        int prevGasStation = nextGasStation;
+        int gasStation = c[gasStationIndex];
+        int prevGasStation = gasStation;
 
         int maxDistance = 0;
 
@@ -100,19 +216,19 @@ public class HackerRankTest
             if (city >= lastGasStation)
                 return Math.max(maxDistance, n - lastGasStation - 1);
 
-            if (city == nextGasStation)
+            if (city == gasStation)
             {
-                if (nextGasStation == n - 1)
+                if (gasStation == n - 1)
                     break;
 
-                prevGasStation = nextGasStation;
-                nextGasStation = c[++gasStationIndex];
+                prevGasStation = gasStation;
+                gasStation = c[++gasStationIndex];
 
                 city++;
                 continue;
             }
 
-            maxDistance = Math.max(maxDistance, Math.min(Math.abs(city - nextGasStation), Math.abs(city - prevGasStation)));
+            maxDistance = Math.max(maxDistance, Math.min(Math.abs(city - gasStation), Math.abs(city - prevGasStation)));
             city++;
         }
 
