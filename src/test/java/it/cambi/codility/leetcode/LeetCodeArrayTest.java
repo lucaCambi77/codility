@@ -42,6 +42,24 @@ public class LeetCodeArrayTest
 
     long k;
 
+    private int[] nums;
+
+    @Test
+    public void numArray()
+    {
+        nums = new int[] { -2, 0, 3, -5, 2, -1 };
+
+        assertEquals(1, sumRange(0, 2));
+        assertEquals(-1, sumRange(2, 5));
+        assertEquals(-3, sumRange(0, 5));
+
+    }
+
+    public int sumRange(int i, int j)
+    {
+        return IntStream.range(0, nums.length).filter(v -> v >= i && v <= j).map(v -> new Integer(nums[v])).sum();
+    }
+
     @Test
     public void containsNearbyAlmostDuplicate()
     {
