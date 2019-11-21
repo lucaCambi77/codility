@@ -125,7 +125,7 @@ public class LeetCodeMathTest
 
     }
 
-    private int climbStairs(int n)
+    private int climbStairs1(int n)
     {
         if (n < 0)
             return 0;
@@ -133,6 +133,31 @@ public class LeetCodeMathTest
             return 1;
         else
             return climbStairs(n - 1) + climbStairs(n - 2);
+    }
+
+    private int climbStairs(int n)
+    {
+        int memo[] = new int[n + 1];
+        return climbStairsRec(0, n, memo);
+    }
+
+    public int climbStairsRec(int i, int n, int memo[])
+    {
+        if (i > n)
+        {
+            return 0;
+        }
+        if (i == n)
+        {
+            return 1;
+        }
+        if (memo[i] > 0)
+        {
+            return memo[i];
+        }
+
+        memo[i] = climbStairsRec(i + 1, n, memo) + climbStairsRec(i + 2, n, memo);
+        return memo[i];
     }
 
     @Test
