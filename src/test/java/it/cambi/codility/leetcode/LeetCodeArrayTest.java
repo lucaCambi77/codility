@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -43,6 +44,131 @@ public class LeetCodeArrayTest
     long k;
 
     private int[] nums;
+
+    @Test
+    public void stackUsingQueues()
+    {
+
+        MyStack stack = new MyStack();
+
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+
+        assertEquals(3, stack.pop());
+        assertEquals(2, stack.pop());
+        assertEquals(1, stack.pop());
+        assertEquals(true, stack.empty());
+    }
+
+    class MyStack
+    {
+        Deque<Integer> deque;
+        Deque<Integer> queue;
+
+        /** Initialize your data structure here. */
+        public MyStack()
+        {
+            deque = new LinkedList<Integer>();
+            queue = new LinkedList<Integer>();
+        }
+
+        /** Push element x onto stack. */
+        public void push(int x)
+        {
+            int size = queue.size();
+
+            for (int i = 0; i < size; i++)
+                deque.add(queue.poll());
+
+            queue.push(x);
+
+            size = deque.size();
+
+            for (int i = 0; i < size; i++)
+                queue.add(deque.poll());
+        }
+
+        /** Removes the element on top of the stack and returns that element. */
+        public int pop()
+        {
+            return queue.pop();
+        }
+
+        /** Get the top element. */
+        public int top()
+        {
+            return queue.peek();
+        }
+
+        /** Returns whether the stack is empty. */
+        public boolean empty()
+        {
+            return queue.isEmpty();
+        }
+    }
+
+    @Test
+    public void queueUsingStack()
+    {
+        MyQueue queueWithStacks = new MyQueue();
+        queueWithStacks.push(1);
+        queueWithStacks.push(2);
+
+        assertEquals(1, queueWithStacks.peek());
+        assertEquals(1, queueWithStacks.pop());
+        assertEquals(false, queueWithStacks.empty());
+
+    }
+
+    class MyQueue
+    {
+        private Stack<Integer> stack1;
+        private Stack<Integer> stack2;
+
+        /** Initialize your data structure here. */
+        public MyQueue()
+        {
+            stack1 = new Stack<Integer>();
+            stack2 = new Stack<Integer>();
+        }
+
+        /** Push element x to the back of queue. */
+        public void push(int x)
+        {
+            int size = stack1.size();
+
+            for (int i = 0; i < size; i++)
+                stack2.push(stack1.pop());
+
+            stack1.push(x);
+
+            size = stack2.size();
+
+            for (int i = 0; i < size; i++)
+                stack1.push(stack2.pop());
+
+        }
+
+        /** Removes the element from in front of queue and returns that element. */
+        public int pop()
+        {
+            return stack1.pop();
+        }
+
+        /** Get the front element. */
+        public int peek()
+        {
+            return stack1.peek();
+
+        }
+
+        /** Returns whether the queue is empty. */
+        public boolean empty()
+        {
+            return stack1.isEmpty();
+        }
+    }
 
     @Test
     public void numArray()
