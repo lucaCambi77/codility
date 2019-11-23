@@ -18,6 +18,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * @author luca
@@ -27,39 +29,62 @@ public class HackerRankJavaTest
 {
 
     @Test
-    public void tagContetExtractor()
+    public void calculatePower()
     {
-        /*
-         * assertEquals("Nayeem loves counseling", tagContetExtractor("<h1>Nayeem loves counseling</h1>")); assertEquals("Sanjay has no watch",
-         * tagContetExtractor("<h1><h1>Sanjay has no watch</h1></h1><par>So wait for a while</par>")); assertEquals("So wait for a while",
-         * tagContetExtractor("<Amee>safat codes like a ninja</amee>"));
-         */
+        MyCalculator calculator = new MyCalculator();
 
-        tagContetExtractor("<h1>Nayeem loves counseling</h1>");
-        tagContetExtractor("<h1><h1>Sanjay has no watch</h1></h1><par>So wait for a while<par>");
-        tagContetExtractor("<Amee>safat codes like a ninja</amee>");
-        tagContetExtractor("<SA premium>Imtiaz has a secret crash</SA premium>");
-        tagContetExtractor("<h1>had<h1>public</h1515></h1>");
+        assertEquals("243", calculator.power(3, 5));
+        assertEquals("16", calculator.power(2, 4));
+        assertEquals("java.lang.Exception: n and p should not be zero.", calculator.power(0, 0));
+        assertEquals("java.lang.Exception: n or p should not be negative.", calculator.power(-1, -2));
 
     }
 
-    private void tagContetExtractor(String s)
+    class MyCalculator
     {
-        List<String> list = findContent(s);
+        /*
+         * Create the method long power(int, int) here.
+         */
+        public String power(int n, int p)
+        {
+            if (n == 0 && p == 0)
+                return "java.lang.Exception: n and p should not be zero.";
 
-        if (list.size() == 0)
-            System.out.println("None");
-        else
-            for (String string : list)
-            {
-                System.out.println(string);
-            }
+            if (n < 0 || p < 0)
+                return "java.lang.Exception: n or p should not be negative.";
+
+            return calculatePower((long) n, (long) p).toString();
+        }
+
+        private Long calculatePower(long n, long p)
+        {
+            if (p == 0)
+                return 1L;
+
+            return n * calculatePower(n, p - 1L);
+        }
+    }
+
+    @Test
+    public void tagContetExtractor()
+    {
+
+        assertEquals(Arrays.asList(new String[] { "Nayeem loves counseling" }), tagContetExtractor("<h1>Nayeem loves counseling</h1>"));
+        assertEquals(Arrays.asList(new String[] { "Sanjay has no watch" }),
+                tagContetExtractor("<h1><h1>Sanjay has no watch</h1></h1><par>So wait for a while<par>"));
+        assertEquals(Arrays.asList(new String[] {}),
+                tagContetExtractor("<Amee>safat codes like a ninja</amee>"));
+        assertEquals(Arrays.asList(new String[] { "Imtiaz has a secret crash" }),
+                tagContetExtractor("<SA premium>Imtiaz has a secret crash</SA premium>"));
+        assertEquals(Arrays.asList(new String[] {}),
+                tagContetExtractor("<h1>had<h1>public</h1515></h1>"));
+
     }
 
     /**
      * @param s
      */
-    private List<String> findContent(String s)
+    private List<String> tagContetExtractor(String s)
     {
         if (s.isEmpty())
             return new ArrayList<String>();
@@ -109,14 +134,15 @@ public class HackerRankJavaTest
         return list;
     }
 
-    @Test
-    public void usernameValidator() throws IOException
+    @ParameterizedTest
+    @CsvSource({ "src/test/resources/regularExpression/username.txt,src/test/resources/regularExpression/usernameValidation.txt" })
+    public void usernameValidator(String username, String validation) throws IOException
     {
 
-        InputStream is = new FileInputStream("src/test/resources/regularExpression/username.txt");
+        InputStream is = new FileInputStream(username);
         BufferedReader buf = new BufferedReader(new InputStreamReader(is));
 
-        InputStream is1 = new FileInputStream("src/test/resources/regularExpression/usernameValidation.txt");
+        InputStream is1 = new FileInputStream(validation);
         BufferedReader buf1 = new BufferedReader(new InputStreamReader(is1));
 
         String line = buf.readLine();
