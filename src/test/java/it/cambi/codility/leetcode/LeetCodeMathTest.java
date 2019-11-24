@@ -16,6 +16,41 @@ public class LeetCodeMathTest
     long k;
 
     @Test
+    public void getHint()
+    {
+        assertEquals("1A3B", getHint("1807", "7810"));
+        assertEquals("1A1B", getHint("1123", "0111"));
+        assertEquals("1A0B", getHint("11", "10"));
+        assertEquals("0A4B", getHint("1122", "2211"));
+        assertEquals("0A1B", getHint("1234", "0111"));
+        assertEquals("3A0B", getHint("1122", "1222"));
+
+    }
+
+    public String getHint(String secret, String guess)
+    {
+
+        int len = secret.length();
+        int[] s = new int[10];
+        int[] g = new int[10];
+        int bulls = 0;
+        for (int i = 0; i < len; i++)
+        {
+            if (secret.charAt(i) == guess.charAt(i))
+                bulls++;
+            s[secret.charAt(i) - '0']++;
+            g[guess.charAt(i) - '0']++;
+        }
+        int total = 0;
+        for (int i = 0; i < 10; i++)
+        {
+            total += Math.min(s[i], g[i]);
+        }
+
+        return String.valueOf(bulls) + "A" + String.valueOf(total - bulls) + "B";
+    }
+
+    @Test
     public void trailingZeroes()
     {
 
@@ -123,16 +158,6 @@ public class LeetCodeMathTest
 
         // assertEquals(1134903170, climbStairs(44));
 
-    }
-
-    private int climbStairs1(int n)
-    {
-        if (n < 0)
-            return 0;
-        if (n == 0)
-            return 1;
-        else
-            return climbStairs(n - 1) + climbStairs(n - 2);
     }
 
     private int climbStairs(int n)
