@@ -16,9 +16,11 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -44,6 +46,93 @@ public class LeetCodeArrayTest
     long k;
 
     private int[] nums;
+
+    @Test
+    public void commonChars()
+    {
+        assertEquals(Arrays.asList(new String[] { "e", "l", "l" }),
+                commonChars(new String[] { "bella", "label", "roller" }));
+
+        assertEquals(Arrays.asList(new String[] { "c", "o" }),
+                commonChars(new String[] { "cool", "lock", "cook" }));
+    }
+
+    private List<String> commonChars(String[] A)
+    {
+
+        String first = A[0];
+
+        ConcurrentHashMap<Character, Integer> firstWordFreqMap = new ConcurrentHashMap<Character, Integer>();
+
+        for (int i = 0; i < first.length(); i++)
+            firstWordFreqMap.put(first.charAt(i), firstWordFreqMap.getOrDefault(first.charAt(i), 0) + 1);
+
+        for (int i = 1; i < A.length; i++)
+        {
+            Map<Character, Integer> count = new HashMap<Character, Integer>();
+            String string = A[i];
+
+            for (int j = 0; j < string.length(); j++)
+                count.put(string.charAt(j), count.getOrDefault(string.charAt(j), 0) + 1);
+
+            for (Entry<Character, Integer> entrySet : firstWordFreqMap.entrySet())
+            {
+                int freq = entrySet.getValue();
+                int mapFreq = count.getOrDefault(entrySet.getKey(), 0);
+
+                if (mapFreq == 0)
+                    firstWordFreqMap.remove(entrySet.getKey());
+                else
+                    firstWordFreqMap.put(entrySet.getKey(), Math.min(freq, mapFreq));
+            }
+        }
+
+        List<String> result = new ArrayList<String>();
+
+        for (Entry<Character, Integer> entrySet : firstWordFreqMap.entrySet())
+        {
+            for (int i = 0; i < entrySet.getValue(); i++)
+                result.add(Character.toString(entrySet.getKey()));
+        }
+
+        return result;
+    }
+
+    @Test
+    public void intersect()
+    {
+        assertEquals(true, Arrays.equals(new int[] { 2, 2 }, intersect(new int[] { 1, 2, 2, 1 }, new int[] { 2, 2 })));
+        assertEquals(true, Arrays.equals(new int[] { 4, 9 }, intersect(new int[] { 4, 9, 5 }, new int[] { 9, 4, 9, 8, 4 })));
+
+    }
+
+    private int[] intersect(int[] nums1, int[] nums2)
+    {
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+
+        List<Integer> sol = new ArrayList<Integer>();
+
+        for (int i = 0; i < nums2.length; i++)
+        {
+            int freq = map.getOrDefault(nums2[i], 0) + 1;
+            map.put(nums2[i], freq);
+        }
+
+        for (int i = 0; i < nums1.length; i++)
+        {
+            int found = map.getOrDefault(nums1[i], 0);
+
+            if (found == 0)
+                continue;
+            else
+            {
+                sol.add(nums1[i]);
+                map.put(nums1[i], --found);
+            }
+        }
+
+        return sol.stream().mapToInt(i -> i).toArray();
+    }
 
     @Test
     public void stackUsingQueues()
