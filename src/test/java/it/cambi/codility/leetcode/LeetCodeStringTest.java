@@ -12,6 +12,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,30 @@ import it.cambi.codility.coreJava.StringTest;
 @TestMethodOrder(Alphanumeric.class)
 public class LeetCodeStringTest
 {
+
+    @Test
+    public void removeDuplicates()
+    {
+        assertEquals("ca", removeDuplicates("abbaca"));
+
+    }
+
+    public String removeDuplicates(String S)
+    {
+
+        Stack<Character> stack = new Stack<Character>();
+        stack.push(S.charAt(0));
+
+        for (int i = 1; i < S.length(); i++)
+        {
+            if (!stack.isEmpty() && S.charAt(i) == stack.peek())
+                stack.pop();
+            else
+                stack.push(S.charAt(i));
+        }
+
+        return stack.stream().map(i -> Character.toString(i)).collect(Collectors.joining(""));
+    }
 
     @Test
     public void firstUniqChar()
