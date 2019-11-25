@@ -48,6 +48,42 @@ public class LeetCodeArrayTest
     private int[] nums;
 
     @Test
+    public void flipAndInvertImage()
+    {
+        assertEquals(true, Arrays.deepEquals(
+                new int[][] { { 1, 1, 0, 0 }, { 0, 1, 1, 0 }, { 0, 0, 0, 1 }, { 1, 0, 1, 0 } },
+                flipAndInvertImage(new int[][] { { 1, 1, 0, 0 }, { 1, 0, 0, 1 }, { 0, 1, 1, 1 }, { 1, 0, 1, 0 } })));
+
+        assertEquals(true, Arrays.deepEquals(
+                new int[][] { { 1, 0, 0 }, { 0, 1, 0 }, { 1, 1, 1 } },
+                flipAndInvertImage(new int[][] { { 1, 1, 0 }, { 1, 0, 1 }, { 0, 0, 0 } })));
+    }
+
+    private int[][] flipAndInvertImage(int[][] A)
+    {
+
+        for (int i = 0; i < A.length; i++)
+        {
+            int[] array = A[i];
+            int length = array.length;
+
+            int middle = length / 2;
+
+            for (int j = length; j > middle; j--)
+            {
+                int start = array[length - j];
+                int end = array[j - 1];
+
+                array[length - j] = end == 0 ? 1 : 0;
+                array[j - 1] = start == 0 ? 1 : 0;
+
+            }
+
+        }
+        return A;
+    }
+
+    @Test
     public void commonChars()
     {
         assertEquals(Arrays.asList(new String[] { "e", "l", "l" }),
