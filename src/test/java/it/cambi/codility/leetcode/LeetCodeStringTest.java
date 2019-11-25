@@ -9,7 +9,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.stream.Collectors;
@@ -29,6 +31,148 @@ import it.cambi.codility.coreJava.StringTest;
 @TestMethodOrder(Alphanumeric.class)
 public class LeetCodeStringTest
 {
+
+    @Test
+    public void reverseWords()
+    {
+        assertEquals("s'teL ekat edoCteeL tsetnoc",
+                reverseWords("Let's take LeetCode contest"));
+    }
+
+    public String reverseWords(String s)
+    {
+
+        StringBuilder solution = new StringBuilder();
+
+        String[] split = s.split("\\s");
+
+        for (String string : split)
+        {
+            char[] array = string.toCharArray();
+
+            int length = string.length() - 1;
+
+            for (int i = length; i > length / 2; i--)
+            {
+                char c1 = array[i];
+                char c2 = array[length - i];
+
+                array[i] = c2;
+                array[length - i] = c1;
+            }
+
+            solution.append(array).append(" ");
+        }
+
+        return solution.toString().trim();
+    }
+
+    @Test
+    public void reverseStr()
+    {
+        assertEquals("bacde", reverseStr("abcde", 2));
+        assertEquals("bacdfeg", reverseStr("abcdefg", 2));
+        assertEquals("bacdfegh", reverseStr("abcdefgh", 2));
+        assertEquals("cbad", reverseStr("abcd", 3));
+        assertEquals("a", reverseStr("a", 2));
+        assertEquals("ba", reverseStr("ab", 2));
+        assertEquals("abcdefg", reverseStr("abcdefg", 1));
+    }
+
+    public String reverseStr(String s, int k)
+    {
+
+        Queue<Character> queue = s.chars().boxed().map(i -> (char) i.intValue()).collect(Collectors.toCollection(LinkedList::new));
+        Stack<Character> reverse = new Stack<Character>();
+
+        StringBuilder sb = new StringBuilder();
+        StringBuilder solution = new StringBuilder();
+
+        int step = 2 * k;
+
+        int i = 0;
+        int queueSize = queue.size();
+
+        while (!queue.isEmpty())
+        {
+
+            if (i < k)
+            {
+                reverse.push(queue.poll());
+                i++;
+                continue;
+            }
+            else if (i < step)
+            {
+                i++;
+                sb.append(queue.poll());
+                continue;
+            }
+            else
+            {
+                i = 0;
+
+                int stackSize = reverse.size();
+
+                for (int ii = 0; ii < stackSize; ii++)
+                    solution.append(reverse.pop());
+
+                solution.append(sb.toString());
+
+                sb = new StringBuilder();
+                reverse.clear();
+
+                int remaining = queueSize - queue.size();
+
+                if (remaining < k)
+                {
+
+                    while (!queue.isEmpty())
+                        reverse.push(queue.poll());
+
+                    stackSize = reverse.size();
+
+                    for (int ii = 0; ii < stackSize; ii++)
+                        solution.append(reverse.pop());
+
+                    break;
+
+                }
+                else if (remaining < 2 * k && remaining >= k)
+                {
+
+                    int tmp = -1;
+
+                    while (++tmp < k)
+                        reverse.push(queue.poll());
+
+                    stackSize = reverse.size();
+
+                    for (int ii = 0; ii < stackSize; ii++)
+                        solution.append(reverse.pop());
+
+                    while (!queue.isEmpty())
+                        sb.append(queue.poll());
+
+                    solution.append(sb.toString());
+
+                    sb = new StringBuilder();
+
+                    break;
+
+                }
+            }
+        }
+
+        if (!reverse.isEmpty())
+            while (!reverse.isEmpty())
+                solution.append(reverse.pop());
+
+        if (sb.length() > 0)
+            solution.append(sb.toString());
+
+        return solution.toString();
+    }
 
     @Test
     public void removeDuplicates()
