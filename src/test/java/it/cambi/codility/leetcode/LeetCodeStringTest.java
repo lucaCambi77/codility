@@ -33,6 +33,40 @@ public class LeetCodeStringTest
 {
 
     @Test
+    public void uniqueMorseRepresentations()
+    {
+        assertEquals(2,
+                uniqueMorseRepresentations(new String[] { "gin", "zen", "gig", "msg" }));
+
+        assertEquals(1,
+                uniqueMorseRepresentations(new String[] { "rwjje", "aittjje", "auyyn", "lqtktn", "lmjwn" }));
+    }
+
+    public int uniqueMorseRepresentations(String[] words)
+    {
+
+        String[] alphabetMorse = new String[] { ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.",
+                "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.." };
+
+        Set<String> seen = new HashSet<String>();
+
+        for (String word : words)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < word.length(); i++)
+                sb.append(alphabetMorse[word.charAt(i) - 'a']);
+
+            String morsetransform = sb.toString();
+
+            seen.add(morsetransform);
+
+        }
+
+        return seen.size();
+    }
+
+    @Test
     public void reverseWords()
     {
         assertEquals("s'teL ekat edoCteeL tsetnoc",
