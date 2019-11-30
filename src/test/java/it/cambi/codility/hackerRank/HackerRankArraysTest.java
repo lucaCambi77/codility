@@ -5,9 +5,9 @@ package it.cambi.codility.hackerRank;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,13 +40,23 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class HackerRankArraysTest
 {
-    private PrintStream out;
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
+    private final PrintStream originalErr = System.err;
 
     @BeforeEach
     public void setUpStreams()
     {
-        out = mock(PrintStream.class);
-        System.setOut(out);
+        System.setOut(new PrintStream(outContent));
+        System.setErr(new PrintStream(errContent));
+    }
+
+    @AfterEach
+    public void restoreStreams()
+    {
+        System.setOut(originalOut);
+        System.setErr(originalErr);
     }
 
     int energy;
@@ -92,6 +103,99 @@ public class HackerRankArraysTest
 
         memo[i] = stepPermsRec(i + 1, n, memo) + stepPermsRec(i + 2, n, memo) + stepPermsRec(i + 3, n, memo);
         return memo[i];
+    }
+
+    @Test
+    public void subArraySum()
+    {
+        assertEquals(9, subArraySum(new int[] { 1, -2, 4, -5, 1 }));
+        assertEquals(953,
+                subArraySum(new int[] { 463, 589, -321, 164, -613, 246, -869, -889, -712, -251, 969, -603, 49, 185, 439, 479, 255, -660, 848, 157,
+                        644, 498, -722, 82, -275, -645, -268, -255, 573, 910, 303, 267, -162, 487, 103, -823, 400, 612, -61, -260, 732, 286, 505, -22,
+                        37, 443, 27, 603, 341, -904, -87, -895, -753, 314, 257, 856, 832, -695, -387, 416, 354, 117, 273, -275, 811, -114, -962, -90,
+                        868, 883, -330, 467, 233, 852, 232, -44, 831, -672, -883, -774, -830, 297, -897, -860, 143, 594, 186, -988, 928, 391, -812,
+                        99, 302, -803, -422, 583, 817, 748, -619, 183 }));
+    }
+
+    private int subArraySum(int[] array)
+    {
+        if (null == array || (null != array && array.length == 0))
+            return 0;
+
+        if (array.length == 1)
+            return array[0] < 0 ? 1 : 0;
+
+        int length = array.length;
+        int solution = 0;
+
+        for (int i = 0; i < length; i++)
+        {
+            int value = array[i];
+
+            if (value < 0)
+                ++solution;
+
+            int partSum = value;
+
+            for (int j = i + 1; j < length; j++)
+            {
+                partSum += array[j];
+
+                if (partSum < 0)
+                    ++solution;
+            }
+        }
+
+        return solution;
+    }
+
+    @Test
+    public void twoDArray()
+    {
+        assertEquals(19,
+                twoDArray(new int[][] { { 1, 1, 1, 0, 0, 0 }, { 0, 1, 0, 0, 0, 0 }, { 1, 1, 1, 0, 0, 0 }, { 0, 0, 2, 4, 4, 0 }, { 0, 0, 0, 2, 0, 0 },
+                        { 0, 0, 1, 2, 4, 0 } }));
+
+        assertEquals(13,
+                twoDArray(new int[][] { { 1, 1, 1, 0, 0, 0 }, { 0, 1, 0, 0, 0, 0 }, { 1, 1, 1, 0, 0, 0 }, { 0, 9, 2, -4, -4, 0 },
+                        { 0, 0, 0, -2, 0, 0 }, { 0, 0, -1, -2, -4, 0 } }));
+
+        assertEquals(-6,
+                twoDArray(new int[][] { { -1, -1, 0, -9, -2, -2
+                }, { -2, -1, -6, -8, -2, -5 }, { -1, -1, -1, -2, -3, -4 }, { -1, -9, -2, -4, -4, -5 },
+                        { -7, -3, -3, -2, -9, -9 }, { -1, -3, -1, -2, -4, -5 } }));
+    }
+
+    @Test
+    public int twoDArray(int[][] array)
+    {
+        int k = 2;
+        int length = array.length;
+        int maxSum = Integer.MIN_VALUE;
+
+        int i = 0;
+
+        while (i + k < length)
+        {
+            int column = 0;
+
+            int[] row = array[i];
+            int[] row2 = array[i + k];
+
+            while (column + k < length)
+            {
+                int col = column;
+                int rowSum = IntStream.range(0, length).filter(v -> v >= col && v <= col + k).map(v -> new Integer(row[v])).sum();
+                int rowSum2 = IntStream.range(0, length).filter(v -> v >= col && v <= col + k).map(v -> new Integer(row2[v])).sum();
+                int middle = array[i + 1][col + 1];
+
+                maxSum = Math.max(maxSum, rowSum2 + rowSum + middle);
+                column++;
+            }
+            i++;
+        }
+
+        return maxSum;
     }
 
     @Test
@@ -296,20 +400,74 @@ public class HackerRankArraysTest
         maximumElement(buf);
 
         buf.close();
-        /*
-         * InputStream isOutput = new FileInputStream("src/test/resources/maximumElement/maximumElementOutput.txt"); BufferedReader bufOut = new
-         * BufferedReader(new InputStreamReader(isOutput));
-         * 
-         * String line = bufOut.readLine();
-         * 
-         * InOrder orderVerifier = Mockito.inOrder(out);
-         * 
-         * while (line != null) { orderVerifier.verify(out, atLeastOnce()).println(new Integer(line)); line = bufOut.readLine();
-         * 
-         * }
-         * 
-         * bufOut.close();
-         */
+
+        InputStream isOutput = new FileInputStream("src/test/resources/maximumElement/maximumElementOutput.txt");
+        BufferedReader bufOut = new BufferedReader(new InputStreamReader(isOutput));
+
+        String line = bufOut.readLine();
+        String solution = "";
+
+        while (line != null)
+        {
+            solution += line + "\n";
+            line = bufOut.readLine();
+
+        }
+
+        bufOut.close();
+
+        assertEquals(solution, outContent.toString());
+    }
+
+    private void maximumElement(BufferedReader buf) throws IOException
+    {
+
+        buf.readLine();
+        String line = buf.readLine();
+
+        // A stack to keep track of values
+        Stack<Integer> stack = new Stack<Integer>();
+        // A priority queue in descending order to keep of all values and get maximum
+        PriorityQueue<Integer> tree = new PriorityQueue<Integer>(Collections.reverseOrder());
+
+        while (line != null)
+        {
+
+            String[] split = line.split(" ");
+
+            if (split.length > 1)
+            {
+                Integer add = Integer.valueOf(split[1]);
+                stack.push(Integer.valueOf(split[1]));
+                tree.add(add);
+            }
+            else
+            {
+                switch (split[0])
+                {
+                    case "2":
+
+                        if (!stack.isEmpty())
+                        {
+
+                            Integer remove = stack.pop();
+                            tree.remove(remove);
+                        }
+
+                        break;
+
+                    default:
+
+                        if (!stack.isEmpty())
+                            System.out.println(tree.peek());
+
+                        break;
+                }
+            }
+
+            line = buf.readLine();
+        }
+
     }
 
     @Test
@@ -394,57 +552,6 @@ public class HackerRankArraysTest
         }
 
         return Math.max(exc, inc);
-    }
-
-    private void maximumElement(BufferedReader buf) throws IOException
-    {
-
-        buf.readLine();
-        String line = buf.readLine();
-
-        // A stack to keep track of values
-        Stack<Integer> stack = new Stack<Integer>();
-        // A priority queue in descending order to keep of all values and get maximum
-        PriorityQueue<Integer> tree = new PriorityQueue<Integer>(Collections.reverseOrder());
-
-        while (line != null)
-        {
-
-            String[] split = line.split(" ");
-
-            if (split.length > 1)
-            {
-                Integer add = Integer.valueOf(split[1]);
-                stack.push(Integer.valueOf(split[1]));
-                tree.add(add);
-            }
-            else
-            {
-                switch (split[0])
-                {
-                    case "2":
-
-                        if (!stack.isEmpty())
-                        {
-
-                            Integer remove = stack.pop();
-                            tree.remove(remove);
-                        }
-
-                        break;
-
-                    default:
-
-                        if (!stack.isEmpty())
-                            System.out.println(tree.peek());
-
-                        break;
-                }
-            }
-
-            line = buf.readLine();
-        }
-
     }
 
     @Test
