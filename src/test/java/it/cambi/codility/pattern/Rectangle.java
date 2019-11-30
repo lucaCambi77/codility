@@ -11,7 +11,6 @@ public class Rectangle implements Shape
 {
 
     @Override
-
     public void draw()
     {
 
@@ -20,7 +19,6 @@ public class Rectangle implements Shape
     }
 
     @Override
-
     public void resize()
     {
 
@@ -29,8 +27,7 @@ public class Rectangle implements Shape
     }
 
     @Override
-
-    public String description()
+    public String getDescription()
     {
 
         return "Rectangle object";
@@ -38,7 +35,6 @@ public class Rectangle implements Shape
     }
 
     @Override
-
     public boolean isHide()
     {
 

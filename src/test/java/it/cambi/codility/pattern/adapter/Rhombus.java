@@ -8,7 +8,7 @@ package it.cambi.codility.pattern.adapter;
  *
  */
 // Part of Extra-Geometric-Shape API
-public class Rhombus extends BaseGeometricShape implements GeometricShape
+public class Rhombus extends AbstractGeometricShape implements GeometricShape
 {
 
     // sides

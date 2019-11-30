@@ -9,7 +9,7 @@ import it.cambi.codility.pattern.Shape;
  * @author luca
  *
  */
-public abstract class GeometricShapeAdapter<T extends BaseGeometricShape> implements Shape
+public abstract class GeometricShapeAdapter<T extends AbstractGeometricShape> implements Shape
 {
 
     private T adaptee;
@@ -33,11 +33,11 @@ public abstract class GeometricShapeAdapter<T extends BaseGeometricShape> implem
     public void resize()
     {
 
-        System.out.println(description() + " can't be resized");
+        System.out.println(getDescription() + " can't be resized");
     }
 
     @Override
-    public String description()
+    public String getDescription()
     {
 
         return "Description";

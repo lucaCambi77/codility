@@ -34,7 +34,7 @@ public class TriangleAdapter extends GeometricShapeAdapter<Triangle> implements 
     }
 
     @Override
-    public String description()
+    public String getDescription()
     {
 
         return "Triangle object";

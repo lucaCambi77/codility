@@ -34,7 +34,7 @@ public class RhombusAdapter extends GeometricShapeAdapter<Rhombus> implements Sh
     }
 
     @Override
-    public String description()
+    public String getDescription()
     {
 
         return "Rhombus object";

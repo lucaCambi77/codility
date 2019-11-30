@@ -8,7 +8,7 @@ package it.cambi.codility.pattern.adapter;
  *
  */
 // Part of Extra-Geometric-Shape API
-public class Triangle extends BaseGeometricShape implements GeometricShape
+public class Triangle extends AbstractGeometricShape implements GeometricShape
 {
 
     // sides

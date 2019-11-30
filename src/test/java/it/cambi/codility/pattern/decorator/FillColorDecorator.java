@@ -40,10 +40,10 @@ public class FillColorDecorator extends ShapeDecorator
     }
 
     @Override
-    public String description()
+    public String getDescription()
     {
 
-        return decoratedShape.description() + " filled with " + color + " color.";
+        return decoratedShape.getDescription() + " filled with " + color + " color.";
 
     }
 

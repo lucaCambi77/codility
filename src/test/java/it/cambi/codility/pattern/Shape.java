@@ -14,7 +14,7 @@ public interface Shape
 
     void resize();
 
-    String description();
+    String getDescription();
 
     boolean isHide();
 
