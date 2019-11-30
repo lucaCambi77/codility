@@ -30,14 +30,11 @@ import java.util.stream.LongStream;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
  * @author luca
  *
  */
-@ExtendWith(MockitoExtension.class)
 public class HackerRankArraysTest
 {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
