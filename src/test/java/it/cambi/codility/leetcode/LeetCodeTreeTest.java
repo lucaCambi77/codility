@@ -24,6 +24,43 @@ public class LeetCodeTreeTest
 {
 
     @Test
+    public void hasPathSum()
+    {
+        assertEquals(true, hasPathSum(BinaryTree.getBST(), 100));
+        assertEquals(true, hasPathSum(BinaryTree.getBST(), 200));
+        assertEquals(false, hasPathSum(BinaryTree.getBST(), 101));
+        assertEquals(false, hasPathSum(BinaryTree.getBST(), 183));
+        assertEquals(true, hasPathSum(new Node(1), 1));
+
+        Node node = new Node(1);
+        node.setLeft(new Node(2));
+
+        assertEquals(false, hasPathSum(node, 1));
+
+    }
+
+    private boolean hasPathSum(Node root, int sum)
+    {
+
+        return hasPathSum(root, 0, sum);
+
+    }
+
+    private boolean hasPathSum(Node root, int sumSoFar, int sum)
+    {
+        if (root == null)
+            return false;
+
+        sumSoFar = root.data + sumSoFar;
+
+        if (root.right == null && root.left == null)
+            return sumSoFar == sum;
+
+        return hasPathSum(root.left, sumSoFar, sum) || hasPathSum(root.right, sumSoFar, sum);
+
+    }
+
+    @Test
     public void mergeTrees()
     {
 
