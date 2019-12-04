@@ -4,6 +4,7 @@
 package it.cambi.codility.hackerRank;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -12,13 +13,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.math.BigDecimal;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -53,6 +60,68 @@ public class HackerRankJavaTest
     {
         System.setOut(originalOut);
         System.setErr(originalErr);
+    }
+
+    @Test
+    public void javaBigDecimal()
+    {
+        String[] array = new String[] { "-100",
+                "50",
+                "0",
+                "56.6",
+                "90",
+                "0.12",
+                ".12",
+                "02.34",
+                "000.000" };
+        javaBigDecimal(array);
+
+        assertTrue(Arrays.equals(new String[] { "90",
+                "56.6",
+                "50",
+                "02.34",
+                "0.12",
+                ".12",
+                "0",
+                "000.000",
+                "-100" }, array));
+    }
+
+    private void javaBigDecimal(String[] s)
+    {
+        Map<Integer, BigDecimal> map = new HashMap<>();
+        for (int i = 0; i < s.length; i++)
+            map.put(i, new BigDecimal(s[i]));
+
+        List<Map.Entry<Integer, BigDecimal>> list = new LinkedList<Map.Entry<Integer, BigDecimal>>(map.entrySet());
+
+        Collections.sort(list, new Comparator<Map.Entry<Integer, BigDecimal>>()
+        {
+            public int compare(Map.Entry<Integer, BigDecimal> o1,
+                    Map.Entry<Integer, BigDecimal> o2)
+            {
+                return (o2.getValue()).compareTo(o1.getValue());
+            }
+        });
+
+        Map<Integer, BigDecimal> sortedMap = new LinkedHashMap<Integer, BigDecimal>();
+        for (Map.Entry<Integer, BigDecimal> entry : list)
+        {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+
+        int k = 0;
+
+        String[] solution = new String[s.length];
+
+        for (Map.Entry<Integer, BigDecimal> entry : sortedMap.entrySet())
+        {
+
+            solution[k] = s[entry.getKey()];
+            k++;
+        }
+
+        s = solution;
     }
 
     @Test
