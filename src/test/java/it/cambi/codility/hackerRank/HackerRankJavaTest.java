@@ -14,6 +14,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,8 +30,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.xml.bind.DatatypeConverter;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,6 +66,179 @@ public class HackerRankJavaTest
     {
         System.setOut(originalOut);
         System.setErr(originalErr);
+    }
+
+    @Test
+    public void javasha256() throws NoSuchAlgorithmException
+    {
+        assertEquals("872e4e50ce9990d8b041330c47c9ddd11bec6b503ae9386a99da8584e9bb12c4", javasha256("HelloWorld"));
+        assertEquals("f1d5f8d75bb55c777207c251d07d9091dc10fe7d6682db869106aacb4b7df678", javasha256("Javarmi123"));
+
+    }
+
+    private String javasha256(String str) throws NoSuchAlgorithmException
+    {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        return bytesToHex(digest.digest(
+                str.getBytes(StandardCharsets.UTF_8)));
+
+    }
+
+    private String bytesToHex(byte[] hash)
+    {
+        StringBuffer hexString = new StringBuffer();
+        for (int i = 0; i < hash.length; i++)
+        {
+            String hex = Integer.toHexString(0xff & hash[i]);
+            if (hex.length() == 1)
+                hexString.append('0');
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+
+    @Test
+    public void javaMd5() throws NoSuchAlgorithmException
+    {
+        assertEquals("68e109f0f40ca72a15e05cc22786f8e6", javaMd5("HelloWorld"));
+        assertEquals("2da2d1e0ce7b4951a858ed2d547ef485", javaMd5("Javarmi123"));
+
+    }
+
+    private String javaMd5(String str) throws NoSuchAlgorithmException
+    {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(str.getBytes());
+        byte[] digest = md.digest();
+        String myHash = DatatypeConverter
+                .printHexBinary(digest).toLowerCase();
+
+        return myHash;
+    }
+
+    @Test
+    public void javaLambaExpression()
+    {
+        assertEquals("EVEN", javaLambaExpression("1 4"));
+        assertEquals("PRIME", javaLambaExpression("2 5"));
+        assertEquals("PALINDROME", javaLambaExpression("3 898"));
+        assertEquals("ODD", javaLambaExpression("1 3"));
+        assertEquals("COMPOSITE", javaLambaExpression("2 12"));
+
+    }
+
+    private String javaLambaExpression(String str)
+    {
+        StringTokenizer st = new StringTokenizer(str);
+
+        int ch = Integer.parseInt(st.nextToken());
+        int num = Integer.parseInt(st.nextToken());
+
+        MyMath ob = new MyMath();
+
+        PerformOperation op;
+        boolean ret;
+        String ans = null;
+
+        if (ch == 1)
+        {
+            op = ob.isOdd();
+            ret = ob.checker(op, num);
+            ans = (ret) ? "ODD" : "EVEN";
+        }
+        else if (ch == 2)
+        {
+            op = ob.isPrime();
+            ret = ob.checker(op, num);
+            ans = (ret) ? "PRIME" : "COMPOSITE";
+        }
+        else if (ch == 3)
+        {
+            op = ob.isPalindrome();
+            ret = ob.checker(op, num);
+            ans = (ret) ? "PALINDROME" : "NOT PALINDROME";
+        }
+
+        return ans;
+    }
+
+    interface PerformOperation
+    {
+        boolean check(int a);
+    }
+
+    class MyMath
+    {
+        public boolean checker(PerformOperation p, int num)
+        {
+            return p.check(num);
+        }
+
+        /**
+         * @return
+         */
+        public PerformOperation isPalindrome()
+        {
+            PerformOperation perform = (value) -> {
+                String palindromeString = Integer.toString(value);
+
+                boolean isPalindrome = true;
+
+                int lengthOf = palindromeString.length();
+                int middlePoint = (lengthOf & 1) == 1 ? lengthOf / 2 : (lengthOf + 1) / 2;
+
+                for (int i = lengthOf - 1; i >= middlePoint; i--)
+                {
+                    if (palindromeString.charAt(i) != palindromeString.charAt(lengthOf - i - 1))
+                    {
+                        isPalindrome = false;
+                        break;
+
+                    }
+
+                }
+
+                return isPalindrome;
+            };
+
+            return perform;
+        }
+
+        /**
+         * @return
+         */
+        public PerformOperation isPrime()
+        {
+            PerformOperation perform = (value) -> {
+                boolean flag = true;
+                for (int i = 2; i <= value / 2; ++i)
+                {
+
+                    if (value % i == 0)
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+
+                return flag;
+            };
+
+            return perform;
+        }
+
+        /**
+         * @return
+         */
+        public PerformOperation isOdd()
+        {
+            PerformOperation perform = (value) -> {
+                return (value & 1) != 0;
+            };
+
+            return perform;
+        }
+
     }
 
     @Test
@@ -106,9 +285,7 @@ public class HackerRankJavaTest
 
         Map<Integer, BigDecimal> sortedMap = new LinkedHashMap<Integer, BigDecimal>();
         for (Map.Entry<Integer, BigDecimal> entry : list)
-        {
             sortedMap.put(entry.getKey(), entry.getValue());
-        }
 
         int k = 0;
 
@@ -121,7 +298,9 @@ public class HackerRankJavaTest
             k++;
         }
 
-        s = solution;
+        for (int i = 0; i < solution.length; i++)
+            s[i] = solution[i];
+
     }
 
     @Test
