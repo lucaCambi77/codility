@@ -9,6 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,6 +35,7 @@ import java.util.Stack;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -66,6 +69,140 @@ public class HackerRankJavaTest
     {
         System.setOut(originalOut);
         System.setErr(originalErr);
+    }
+
+    @Test
+    public void javaBitSet() throws FileNotFoundException, IOException
+    {
+
+        LinkedList<String> list = new LinkedList<String>();
+
+        try (BufferedReader in = new BufferedReader(new FileReader("src/test/resources/javabitset/sol1.txt")))
+        {
+            String line = in.readLine();
+
+            while (line != null)
+            {
+                list.add(line);
+                line = in.readLine();
+            }
+
+        }
+
+        int i = 0;
+
+        try (BufferedReader in = new BufferedReader(new FileReader("src/test/resources/javabitset/input1.txt")))
+        {
+            String line = in.readLine();
+
+            StringTokenizer st = new StringTokenizer(line);
+            int n = Integer.valueOf(st.nextToken()) + 1;
+
+            int[] b1 = new int[n];
+            int[] b2 = new int[n];
+
+            line = in.readLine();
+
+            while (line != null)
+            {
+                javaBitSet(line, b1, b2);
+                printOnes(b1, b2);
+
+                String result = list.get(i);
+                StringTokenizer out = new StringTokenizer(result);
+
+                assertEquals(out.nextToken() + " " + out.nextToken(), outContent.toString());
+
+                line = in.readLine();
+                i++;
+                outContent.reset();
+            }
+
+        }
+    }
+
+    /**
+     * @param b1
+     * @param b2
+     */
+    private void printOnes(int[] b1, int[] b2)
+    {
+        System.out.print(IntStream.of(b1).boxed().filter(value -> value == 1).count() + " " +
+                IntStream.of(b2).boxed().filter(value -> value == 1).count());
+    }
+
+    private void javaBitSet(String str, int[] b1, int[] b2)
+    {
+
+        StringTokenizer st = new StringTokenizer(str);
+
+        String type = st.nextToken();
+
+        switch (type)
+        {
+            case "AND":
+                int posAnd = Integer.valueOf(st.nextToken());
+
+                if (posAnd == 2)
+                    for (int i = 0; i < b2.length; i++)
+                        b2[i] = b2[i] & b1[i];
+                else
+                    for (int i = 0; i < b2.length; i++)
+                        b1[i] = b1[i] & b2[i];
+
+                break;
+
+            case "SET":
+
+                int set = Integer.valueOf(st.nextToken());
+                int posSet = Integer.valueOf(st.nextToken());
+
+                if (set == 2)
+                    b2[posSet] = 1;
+                else
+                    b1[posSet] = 1;
+
+                break;
+
+            case "FLIP":
+
+                int setFlip = Integer.valueOf(st.nextToken());
+                int posFlip = Integer.valueOf(st.nextToken());
+
+                if (setFlip == 2)
+                    b2[posFlip] = b2[posFlip] == 0 ? 1 : 0;
+                else
+                    b1[posFlip] = b1[posFlip] == 0 ? 1 : 0;
+
+                break;
+
+            case "OR":
+
+                int posOr = Integer.valueOf(st.nextToken());
+
+                if (posOr == 2)
+                    for (int i = 0; i < b2.length; i++)
+                        b2[i] = b2[i] | b1[i];
+                else
+                    for (int i = 0; i < b2.length; i++)
+                        b1[i] = b1[i] | b2[i];
+
+                break;
+
+            case "XOR":
+
+                int posXOr = Integer.valueOf(st.nextToken());
+
+                if (posXOr == 2)
+                    for (int i = 0; i < b2.length; i++)
+                        b2[i] = b2[i] ^ b1[i];
+                else
+                    for (int i = 0; i < b2.length; i++)
+                        b1[i] = b1[i] ^ b2[i];
+
+                break;
+        }
+
     }
 
     @Test
