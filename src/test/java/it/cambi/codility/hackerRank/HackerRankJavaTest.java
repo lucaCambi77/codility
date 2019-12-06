@@ -72,6 +72,73 @@ public class HackerRankJavaTest
     }
 
     @Test
+    public void java1DArrayII() throws FileNotFoundException, IOException
+    {
+
+        LinkedList<String> list = new LinkedList<String>();
+
+        try (BufferedReader in = new BufferedReader(new FileReader("src/test/resources/1dArrayII/output1.txt")))
+        {
+            String line = in.readLine();
+
+            while (line != null)
+            {
+                list.add(line);
+                line = in.readLine();
+            }
+
+        }
+
+        int i = 0;
+
+        try (BufferedReader in = new BufferedReader(new FileReader("src/test/resources/1dArrayII/input1.txt")))
+        {
+            String line = in.readLine();
+
+            while (line != null)
+            {
+
+                StringTokenizer st = new StringTokenizer(line);
+                st.nextToken();
+                int leap = Integer.valueOf(st.nextToken());
+
+                line = in.readLine();
+
+                int[] game = Arrays.stream(line.split("\\s")).mapToInt(s -> Integer.valueOf(s)).toArray();
+                assertEquals(list.get(i),
+                        java1DArrayII(game, leap) ? "YES" : "NO");
+                line = in.readLine();
+                i++;
+            }
+
+        }
+
+    }
+
+    public boolean java1DArrayII(int[] game, int leap)
+    {
+        return java1DArrayII(game, leap, 0, new boolean[game.length]);
+    }
+
+    public boolean java1DArrayII(int[] game, int leap, int position, boolean[] memo)
+    {
+
+        if (position >= game.length)
+            return true;
+
+        if (position < 0)
+            return false;
+
+        if (game[position] == 1 || memo[position])
+            return false;
+
+        memo[position] = true;
+
+        return java1DArrayII(game, leap, position + leap, memo) || java1DArrayII(game, leap, position - 1, memo)
+                || java1DArrayII(game, leap, position + 1, memo);
+    }
+
+    @Test
     public void javaBitSet() throws FileNotFoundException, IOException
     {
 
