@@ -48,6 +48,113 @@ public class LeetCodeArrayTest
     private int[] nums;
 
     @Test
+    public void sortedSquares()
+    {
+
+        assertTrue(Arrays.equals(new int[] { 0, 1, 9, 16, 100 }, sortedSquares(new int[] { -4, -1, 0, 3, 10 })));
+        assertTrue(Arrays.equals(new int[] { 0, 1, 9, 16, 100 }, sortedSquares1(new int[] { -4, -1, 0, 3, 10 })));
+
+    }
+
+    private int[] sortedSquares(int[] A)
+    {
+        int[] solution = new int[A.length];
+
+        for (int i = 0; i < A.length; i++)
+        {
+            solution[i] = A[i] * A[i];
+
+        }
+
+        Arrays.parallelSort(solution);
+        return solution;
+    }
+
+    /**
+     * Two pointers
+     * 
+     * @param A
+     * @return
+     */
+    public int[] sortedSquares1(int[] A)
+    {
+        int N = A.length;
+        int j = 0;
+        while (j < N && A[j] < 0)
+            j++;
+        int i = j - 1;
+
+        int[] ans = new int[N];
+        int t = 0;
+
+        while (i >= 0 && j < N)
+        {
+            if (A[i] * A[i] < A[j] * A[j])
+            {
+                ans[t++] = A[i] * A[i];
+                i--;
+            }
+            else
+            {
+                ans[t++] = A[j] * A[j];
+                j++;
+            }
+        }
+
+        while (i >= 0)
+        {
+            ans[t++] = A[i] * A[i];
+            i--;
+        }
+        while (j < N)
+        {
+            ans[t++] = A[j] * A[j];
+            j++;
+        }
+
+        return ans;
+    }
+
+    @Test
+    public void merge()
+    {
+        int[] nums1 = new int[] { 1, 2, 3, 0, 0, 0 };
+        int[] nums2 = new int[] { 2, 5, 6 };
+
+        merge(nums1, 3, nums2, 3);
+
+        assertTrue(Arrays.equals(new int[] { 1, 2, 2, 3, 5, 6 }, nums1));
+    }
+
+    private void merge(int[] nums1, int m, int[] nums2, int n)
+    {
+
+        int tmp = 0;
+
+        for (int i = 0; i < n; i++)
+        {
+            int j = tmp;
+
+            while (nums2[i] >= nums1[j] && j < m)
+                j++;
+
+            tmp = j;
+
+            int oldValue = nums1[j];
+            nums1[j] = nums2[i];
+
+            while (j++ < nums1.length - 1)
+            {
+                int toReplace = nums1[j];
+                nums1[j] = oldValue;
+                oldValue = toReplace;
+            }
+
+            m++;
+        }
+    }
+
+    @Test
     public void flipAndInvertImage()
     {
         assertEquals(true, Arrays.deepEquals(
