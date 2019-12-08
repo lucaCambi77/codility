@@ -31,10 +31,12 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Stack;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 import java.util.stream.IntStream;
 
 import javax.xml.bind.DatatypeConverter;
@@ -69,6 +71,269 @@ public class HackerRankJavaTest
     {
         System.setOut(originalOut);
         System.setErr(originalErr);
+    }
+
+    @Test
+    public void javaRegExII()
+    {
+        assertEquals("Goodbye bye world", javaRexExII("Goodbye bye bye world world world"));
+        assertEquals("Sam went to his business", javaRexExII("Sam went went to to to his business"));
+        assertEquals("Reya is the best player in eye game", javaRexExII("Reya is is the the best player in eye eye game"));
+        assertEquals("Hello Ab", javaRexExII("Hello hello Ab aB"));
+        assertEquals("in inthe", javaRexExII("in inthe"));
+
+    }
+
+    private String javaRexExII(String input)
+    {
+        String regex = "\\b(\\w+)(\\s+\\1\\b)+";
+        Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+
+        Matcher m = p.matcher(input);
+
+        while (m.find())
+            input = input.replaceAll(m.group(), m.group(1));
+
+        return input;
+    }
+
+    @Test
+    public void javaRegExIp()
+    {
+        assertEquals(true, javaRegExIp("000.12.12.034"));
+        assertEquals(true, javaRegExIp("121.234.12.12"));
+        assertEquals(true, javaRegExIp("23.45.12.56"));
+        assertEquals(false, javaRegExIp("00.12.123.123123.123"));
+        assertEquals(false, javaRegExIp("122.23"));
+        assertEquals(false, javaRegExIp("Hello.IP"));
+
+    }
+
+    private boolean javaRegExIp(String ip)
+    {
+
+        String isIpAddress = "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
+
+        return ip.matches(isIpAddress);
+    }
+
+    @Test
+    public void javaPatterSyntaxChecker()
+    {
+        assertEquals(true, javaPatterSyntaxChecker("([A-Z])(.+)"));
+        assertEquals(false, javaPatterSyntaxChecker("[AZ[a-z](a-z)"));
+        assertEquals(false, javaPatterSyntaxChecker("batcatpat(nat"));
+
+    }
+
+    public boolean javaPatterSyntaxChecker(String pattern)
+    {
+
+        try
+        {
+            Pattern.compile(pattern);
+            return true;
+        }
+        catch (PatternSyntaxException e)
+        {
+            return false;
+        }
+
+    }
+
+    @Test
+    public void javaPriorityQueue()
+    {
+        Priorities priorities = new Priorities();
+        List<String> events = new ArrayList<String>()
+        {
+            {
+                add("ENTER John 3.75 50");
+                add("ENTER Mark 3.8 24");
+                add("ENTER Shafaet 3.7 35");
+                add("SERVED");
+                add("SERVED");
+                add("ENTER Samiha 3.85 36");
+                add("SERVED");
+                add("ENTER Ashley 3.9 42");
+                add("ENTER Maria 3.6 46");
+                add("ENTER Anik 3.95 49");
+                add("ENTER Dan 3.95 50");
+                add("SERVED");
+            }
+        };
+
+        List<Student> list = priorities.getStudents(events);
+
+        assertEquals(true,
+                Arrays.equals(list.stream().toArray(Student[]::new), new Student[] { new Student(50, "Dan", 3.95),
+                        new Student(42, "Ashley", 3.9), new Student(35, "Shafaet", 3.7),
+                        new Student(46, "Maria", 3.6) }));
+    }
+
+    class Priorities
+    {
+        PriorityQueue<Student> queue = new PriorityQueue<Student>();
+
+        List<Student> getStudents(List<String> events)
+        {
+            for (String string : events)
+            {
+                StringTokenizer st = new StringTokenizer(string);
+
+                String event = st.nextToken();
+
+                switch (event)
+                {
+                    case "ENTER":
+                        String name = st.nextToken();
+                        double cgpa = new Double(st.nextToken());
+                        int id = Integer.valueOf(st.nextToken());
+
+                        Student student = new Student(id, name, cgpa);
+                        queue.add(student);
+
+                        break;
+
+                    default:
+                        queue.poll();
+
+                        break;
+                }
+            }
+
+            @SuppressWarnings("serial")
+            List<Student> solution = new ArrayList<Student>()
+            {
+                {
+                    while (!queue.isEmpty())
+                        add(queue.poll());
+                }
+            };
+
+            return solution;
+        }
+
+    }
+
+    class Student implements Comparable<Student>
+    {
+
+        @Override
+        public int hashCode()
+        {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + getEnclosingInstance().hashCode();
+            long temp;
+            temp = Double.doubleToLongBits(cgpa);
+            result = prime * result + (int) (temp ^ (temp >>> 32));
+            result = prime * result + id;
+            result = prime * result + ((name == null) ? 0 : name.hashCode());
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj)
+        {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            Student other = (Student) obj;
+            if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
+                return false;
+            if (Double.doubleToLongBits(cgpa) != Double.doubleToLongBits(other.cgpa))
+                return false;
+            if (id != other.id)
+                return false;
+            if (name == null)
+            {
+                if (other.name != null)
+                    return false;
+            }
+            else if (!name.equals(other.name))
+                return false;
+            return true;
+        }
+
+        private int id;
+        private String name;
+        private double cgpa;
+
+        /**
+         * @param id
+         * @param name
+         * @param cgpa
+         */
+        public Student(int id, String name, double cgpa)
+        {
+            super();
+            this.id = id;
+            this.name = name;
+            this.cgpa = cgpa;
+        }
+
+        public int getId()
+        {
+            return id;
+        }
+
+        public void setId(int id)
+        {
+            this.id = id;
+        }
+
+        public String getName()
+        {
+            return name;
+        }
+
+        public void setName(String name)
+        {
+            this.name = name;
+        }
+
+        public double getCgpa()
+        {
+            return cgpa;
+        }
+
+        public void setCgpa(double cgpa)
+        {
+            this.cgpa = cgpa;
+        }
+
+        @Override
+        public int compareTo(Student o)
+        {
+            String name = o.getName();
+            double cgpa = o.getCgpa();
+            int id = o.getId();
+
+            if (cgpa - getCgpa() > 0)
+                return 1;
+
+            if (getCgpa() - cgpa == 0)
+            {
+                int compare = getName().compareTo(name);
+
+                if (compare == 0)
+                    return id - getId() > 0 ? 1 : 0;
+
+                return compare;
+            }
+
+            return -1;
+        }
+
+        private HackerRankJavaTest getEnclosingInstance()
+        {
+            return HackerRankJavaTest.this;
+        }
+
     }
 
     @Test
@@ -120,7 +385,7 @@ public class HackerRankJavaTest
         return java1DArrayII(game, leap, 0, new boolean[game.length]);
     }
 
-    public boolean java1DArrayII(int[] game, int leap, int position, boolean[] memo)
+    public boolean java1DArrayII(int[] game, int leap, int position, boolean[] visited)
     {
 
         if (position >= game.length)
@@ -129,13 +394,13 @@ public class HackerRankJavaTest
         if (position < 0)
             return false;
 
-        if (game[position] == 1 || memo[position])
+        if (game[position] == 1 || visited[position])
             return false;
 
-        memo[position] = true;
+        visited[position] = true;
 
-        return java1DArrayII(game, leap, position + leap, memo) || java1DArrayII(game, leap, position - 1, memo)
-                || java1DArrayII(game, leap, position + 1, memo);
+        return java1DArrayII(game, leap, position + leap, visited) || java1DArrayII(game, leap, position - 1, visited)
+                || java1DArrayII(game, leap, position + 1, visited);
     }
 
     @Test
@@ -715,11 +980,23 @@ public class HackerRankJavaTest
     }
 
     @Test
-    public void javaVisitorPattern()
+    public void javaVisitorPattern() throws FileNotFoundException, IOException
     {
 
-        Solution sol = new Solution();
-        sol.solve();
+        Solution solution = new Solution();
+        Tree root = solution.solve();
+
+        SumInLeavesVisitor vis1 = new SumInLeavesVisitor();
+        ProductOfRedNodesVisitor vis2 = new ProductOfRedNodesVisitor();
+        FancyVisitor vis3 = new FancyVisitor();
+
+        root.accept(vis1);
+        root.accept(vis2);
+        root.accept(vis3);
+
+        assertEquals(24, vis1.getResult());
+        assertEquals(40, vis2.getResult());
+        assertEquals(15, vis3.getResult());
 
     }
 
@@ -812,107 +1089,149 @@ public class HackerRankJavaTest
 
     class SumInLeavesVisitor extends TreeVis
     {
-        int result = 0;
+
+        private int result = 0;
 
         public int getResult()
         {
-            // implement this
             return result;
         }
 
         public void visitNode(TreeNode node)
         {
-            // implement this
-            return;
         }
 
         public void visitLeaf(TreeLeaf leaf)
         {
-            // implement this
             result += leaf.getValue();
         }
+
     }
 
     class ProductOfRedNodesVisitor extends TreeVis
     {
-        int result = 0;
+
+        private long result = 1;
+        private final int M = 1000000007;
 
         public int getResult()
         {
-            // implement this
-            return result;
+            return (int) result;
         }
 
         public void visitNode(TreeNode node)
         {
-            // implement this
-            if (node.getColor() == Color.RED)
-                result *= node.getValue();
+            if (node.getColor().equals(Color.RED))
+            {
+                result = (result * node.getValue()) % M;
+            }
         }
 
         public void visitLeaf(TreeLeaf leaf)
         {
-            // implement this
-            if (leaf.getColor() == Color.RED)
-                result *= leaf.getValue();
+            if (leaf.getColor().equals(Color.RED))
+            {
+                result = (result * leaf.getValue()) % M;
+            }
         }
+
     }
 
     class FancyVisitor extends TreeVis
     {
-        int result = 0;
+
+        private int evenDepthNonLeavesSum = 0;
+        private int greenLeavesSum = 0;
 
         public int getResult()
         {
-            // implement this
-            return result;
+            return Math.abs(evenDepthNonLeavesSum - greenLeavesSum);
         }
 
         public void visitNode(TreeNode node)
         {
-            // implement this
-            if (node.getDepth() % 2 == 0 || node.getColor() == Color.GREEN)
-                result += node.getValue();
+            if (node.getDepth() % 2 == 0)
+                evenDepthNonLeavesSum += node.getValue();
         }
 
         public void visitLeaf(TreeLeaf leaf)
         {
-            // implement this
-            if (leaf.getDepth() % 2 == 0 || leaf.getColor() == Color.GREEN)
-                result += leaf.getValue();
+            if (leaf.getColor().equals(Color.GREEN))
+                greenLeavesSum += leaf.getValue();
         }
+
     }
 
     class Solution
     {
 
-        public Tree solve()
+        int N;
+        HashMap<Integer, HashSet<Integer>> map = new HashMap<>();
+        int[] values;
+        int[] colors;
+        boolean[] mark;
+
+        public Tree dfs(int vertex)
         {
-
-            String values = new String("4 7 2 5 12");
-
-            String colors = new String("0 1 0 0 1");
-
-            String[] nodeValues = values.split("\\s");
-            String[] colorValues = colors.split("\\s");
-
-            String[] parToChild = new String[] { "1 2", "1 3", "3 4", "3 5" };
-
-            TreeNode tree = new TreeNode(Integer.valueOf(nodeValues[0]), colorValues[0] == "0" ? Color.RED : Color.GREEN, 0);
-
-            SumInLeavesVisitor sumInLeavesV = new SumInLeavesVisitor();
-
-            ProductOfRedNodesVisitor productOfRedNodesV = new ProductOfRedNodesVisitor();
-
-            FancyVisitor fancyV = new FancyVisitor();
-
-            tree.accept(sumInLeavesV);
-            tree.accept(productOfRedNodesV);
-            tree.accept(fancyV);
-
-            return tree;
+            if (map.get(vertex).isEmpty())
+                return new TreeLeaf(values[vertex], Color.values()[colors[vertex]], 0);
+            else
+            {
+                mark = new boolean[N];
+                return runDfs(vertex, 0);
+            }
         }
 
+        public Tree runDfs(int vertex, int depth)
+        {
+            mark[vertex] = true;
+            ArrayList<Tree> childs = new ArrayList<>();
+            for (Integer e : map.get(vertex))
+                if (!mark[e])
+                    childs.add(runDfs(e, depth + 1));
+            if (childs.isEmpty())
+                return new TreeLeaf(values[vertex], Color.values()[colors[vertex]], depth);
+            else
+            {
+                TreeNode node = new TreeNode(values[vertex], Color.values()[colors[vertex]], depth);
+                for (Tree child : childs)
+                    node.addChild(child);
+                return node;
+            }
+        }
+
+        public Tree solve() throws FileNotFoundException, IOException
+        {
+            try (BufferedReader br = new BufferedReader(new FileReader("src/test/resources/visitor/tree.txt")))
+            {
+
+                N = Integer.valueOf(br.readLine());
+                values = new int[N];
+                colors = new int[N];
+                int parent, child;
+                String[] chunks = br.readLine().split(" ");
+                for (int i = 0; i < N; i++)
+                {
+                    map.put(i, new HashSet<Integer>());
+                    values[i] = Integer.valueOf(chunks[i]);
+                }
+                chunks = br.readLine().split(" ");
+                for (int i = 0; i < N; i++)
+                    colors[i] = Integer.valueOf(chunks[i]);
+                for (int i = 0, length = N - 1; i < length; i++)
+                {
+                    chunks = br.readLine().split(" ");
+                    parent = Integer.valueOf(chunks[0]) - 1;
+                    child = Integer.valueOf(chunks[1]) - 1;
+
+                    map.get(parent).add(child);
+                    map.get(child).add(parent);
+
+                }
+                return dfs(0);
+            }
+
+        }
     }
 
     @Test
