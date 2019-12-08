@@ -145,6 +145,8 @@ public class HackerRankJavaTest
     public void javaPriorityQueue()
     {
         Priorities priorities = new Priorities();
+
+        @SuppressWarnings("serial")
         List<String> events = new ArrayList<String>()
         {
             {
