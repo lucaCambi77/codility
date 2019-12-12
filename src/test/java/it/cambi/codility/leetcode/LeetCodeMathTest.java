@@ -16,6 +16,51 @@ public class LeetCodeMathTest
     long k;
 
     @Test
+    public void hammingWeight()
+    {
+        assertEquals(3, hammingWeight(00000000000000000000000000001011));
+        assertEquals(1, hammingWeight(00000000000000000000000010000000));
+
+    }
+
+    public int hammingWeight(int n)
+    {
+        String str = Integer.toBinaryString(n);
+
+        return (int) str.chars().filter(c -> c == '1').count();
+
+    }
+
+    @Test
+    public void isPowerOfTwo()
+    {
+        assertEquals(true, isPowerOfTwo(1));
+        assertEquals(true, isPowerOfTwo(16));
+        assertEquals(false, isPowerOfTwo(218));
+
+    }
+
+    public boolean isPowerOfTwo(int n)
+    {
+
+        double[] power = new double[65];
+        power[0] = 1.0;
+
+        for (int i = 1; i < 65; i++)
+            power[i] = Math.pow(2.0, (double) i);
+
+        int k = 0;
+
+        while ((double) n >= power[k])
+            if (power[k] == n)
+                return true;
+            else
+                k++;
+
+        return false;
+    }
+
+    @Test
     public void getHint()
     {
         assertEquals("1A3B", getHint("1807", "7810"));
