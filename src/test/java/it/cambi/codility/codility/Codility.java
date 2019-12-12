@@ -12,12 +12,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
-import java.util.stream.Collectors;
 
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@TestMethodOrder(Alphanumeric.class)
 public class Codility
 {
     private static final Logger log = LoggerFactory.getLogger(Codility.class);
@@ -83,18 +85,27 @@ public class Codility
         {
         }.getClass().getEnclosingMethod().getName());
 
-        int[] array = { 1, 3, 6, 4, 1, 2 };
+        assertEquals(5, smallestPositiveInteger(new int[] { 1, 3, 6, 4, 1, 2 }));
+        assertEquals(1, smallestPositiveInteger(new int[] { -1, -3 }));
 
-        Set<Integer> mySet = Arrays.stream(array).boxed().collect(Collectors.toSet());
+    }
+
+    public int smallestPositiveInteger(int[] array)
+    {
+
+        Set<Integer> mySet = new HashSet<Integer>();
+
+        for (int i = 0; i < array.length; i++)
+        {
+            mySet.add(array[i]);
+        }
 
         int i = 1;
 
         while (mySet.contains(i))
-        {
             i++;
-        }
 
-        System.out.println(i);
+        return i;
     }
 
     @Test
@@ -139,7 +150,7 @@ public class Codility
      * that, given a positive integer N, returns the length of its longest binary gap. The function should return 0 if N doesn't contain a binary gap.
      */
     @Test
-    public void BinaryGap()
+    public void binaryGap()
     {
         log.info("********************************************************");
         log.info("Sono in -------------------> " + new Object()
@@ -361,7 +372,7 @@ public class Codility
             leftSum += A[i - 1];
             rightSum = sum - leftSum;
 
-            final long difference = Math.abs(leftSum - rightSum);
+            long difference = Math.abs(leftSum - rightSum);
             minDifference = Math.min(minDifference, difference);
         }
 
@@ -469,20 +480,30 @@ public class Codility
     @Test
     public void minAvgTwoSlice()
     {
-        int[] A = { -3, -5, -8, -4, -10 };
-        int minDiff = Integer.MAX_VALUE;
-        int result = -1;
 
-        for (int i = 1; i < A.length; i++)
+        assertEquals(2, minAvgTwoSlice(new int[] { -3, -5, -8, -4, -10 }));
+    }
+
+    public int minAvgTwoSlice(int[] A)
+    {
+        int minIndex = A.length;
+        double minAvg = Integer.MAX_VALUE;
+        for (int i = 0; i < A.length; i++)
         {
-            int diff = (A[i] + A[i - 1]) / 2;
+            int sum = A[i];
 
-            if (diff < minDiff)
+            for (int j = i - 1; j >= 0; j--)
             {
-                minDiff = diff;
-                result = i - 1;
+                sum += A[j];
+                double avg = (double) sum / (i - j + 1);
+                if (avg < minAvg)
+                {
+                    minAvg = avg;
+                    minIndex = j;
+                }
             }
         }
+        return minIndex;
 
     }
 
@@ -505,7 +526,7 @@ public class Codility
     }
 
     @Test
-    public void MaxProductOfThree()
+    public void maxProductOfThree()
     {
         int[] A = { -5, 5, -5, 4 };
         int arrLength = A.length;
@@ -1251,13 +1272,13 @@ public class Codility
     public void countFactors()
     {
         int N = 24;
-        int numFactor = 0;
+        assertEquals(8, countFactors(N));
+    }
 
-        for (int i = 1; i <= N; i++)
-        {
-            if (N % i == 0)
-                numFactor += 1;
-        }
+    public int countFactors(int N)
+    {
+
+        int numFactor = 0;
 
         // main idea:
         // check from 1 to "sqrt_of_N"
@@ -1271,18 +1292,17 @@ public class Codility
         for (int i = 1; i <= sqrtN; i++)
         {
             if (N % i == 0)
-            {
                 numFactor++;
-            }
+
         }
 
         numFactor = numFactor * 2; // add its pair
 
         // be careful: check if "sqrtN * sqrtN == N"
         if (sqrtN * sqrtN == N)
-        {
             numFactor = numFactor - 1; // minus one: avoid double counting
-        }
+
+        return numFactor;
     }
 
     @Test
