@@ -33,6 +33,90 @@ public class LeetCodeStringTest
 {
 
     @Test
+    public void findTheDifference()
+    {
+        assertEquals('e', findTheDifference("abcd", "abcde"));
+    }
+
+    public char findTheDifference(String s, String t)
+    {
+
+        int sum = s.chars().sum();
+        int sum1 = t.chars().sum();
+
+        return (char) (sum1 - sum);
+    }
+
+    @Test
+    public void canConstruct()
+    {
+        assertEquals(false, canConstruct("a", "b"));
+        assertEquals(false, canConstruct("aa", "ab"));
+        assertEquals(true, canConstruct("aa", "aab"));
+
+    }
+
+    public boolean canConstruct(String ransomNote, String magazine)
+    {
+        Map<Character, Integer> map = new HashMap<Character, Integer>();
+
+        for (int i = 0; i < magazine.length(); i++)
+        {
+            map.put(magazine.charAt(i), map.getOrDefault(magazine.charAt(i), 0) + 1);
+
+        }
+
+        for (int i = 0; i < ransomNote.length(); i++)
+        {
+            int freq = map.getOrDefault(ransomNote.charAt(i), 0);
+
+            if (freq == 0)
+                return false;
+            else
+                map.put(ransomNote.charAt(i), --freq);
+        }
+
+        return true;
+    }
+
+    @Test
+    public void detectCapitalUse()
+    {
+        assertEquals(true, detectCapitalUse("USA"));
+        assertEquals(true, detectCapitalUse("leetcode"));
+        assertEquals(true, detectCapitalUse("Google"));
+        assertEquals(true, detectCapitalUse("Google"));
+        assertEquals(false, detectCapitalUse("FlaG"));
+
+    }
+
+    public boolean detectCapitalUse(String word)
+    {
+
+        boolean areAllCapitals = true;
+        boolean areAllLowerLetters = true;
+        boolean isFirstCapital = Character.isUpperCase(word.charAt(0)) ? true : false;
+
+        for (int i = 1; i < word.length(); i++)
+        {
+            char c = word.charAt(i);
+
+            if (Character.isUpperCase(c))
+                areAllLowerLetters = false;
+            else
+                areAllCapitals = false;
+
+            if (areAllCapitals || areAllLowerLetters)
+                continue;
+            else
+                break;
+        }
+
+        return (areAllCapitals && isFirstCapital) || (areAllLowerLetters && isFirstCapital) || (areAllLowerLetters && !isFirstCapital);
+
+    }
+
+    @Test
     public void uniqueMorseRepresentations()
     {
         assertEquals(2,
