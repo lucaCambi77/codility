@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
@@ -33,12 +35,69 @@ public class LeetCodeStringTest
 {
 
     @Test
+    public void isSubsequence()
+    {
+        assertEquals(true, isSubsequence("abc", "ahbgdc"));
+        assertEquals(false, isSubsequence("axc", "ahbgdc"));
+        assertEquals(true, isSubsequence("", "ahbgdc"));
+
+    }
+
+    public boolean isSubsequence(String s, String t)
+    {
+        int sLength = s.length();
+        int tLength = t.length();
+
+        if (sLength == 0)
+            return true;
+
+        int k = 0;
+        char c = s.charAt(k);
+
+        for (int i = 0; i < tLength; i++)
+        {
+            if (t.charAt(i) == c)
+            {
+                if (++k == sLength)
+                    return true;
+
+                c = s.charAt(k);
+            }
+
+        }
+
+        return false;
+    }
+
+    @Test
+    public void checkRecord()
+    {
+        assertEquals(true, checkRecord("PPALLPL"));
+        assertEquals(false, checkRecord("PPALLL"));
+        assertEquals(true, checkRecord("A"));
+        assertEquals(false, checkRecord("LLL"));
+        assertEquals(false, checkRecord("ALLAPPL"));
+
+    }
+
+    private boolean checkRecord(String str)
+    {
+        Pattern pattern = Pattern.compile("(.*A.*){2,}|(L){3}+");
+        Matcher m = pattern.matcher(str);
+
+        if (m.find())
+            return false;
+
+        return true;
+    }
+
+    @Test
     public void findTheDifference()
     {
         assertEquals('e', findTheDifference("abcd", "abcde"));
     }
 
-    public char findTheDifference(String s, String t)
+    private char findTheDifference(String s, String t)
     {
 
         int sum = s.chars().sum();
@@ -56,7 +115,7 @@ public class LeetCodeStringTest
 
     }
 
-    public boolean canConstruct(String ransomNote, String magazine)
+    private boolean canConstruct(String ransomNote, String magazine)
     {
         Map<Character, Integer> map = new HashMap<Character, Integer>();
 
@@ -90,7 +149,7 @@ public class LeetCodeStringTest
 
     }
 
-    public boolean detectCapitalUse(String word)
+    private boolean detectCapitalUse(String word)
     {
 
         boolean areAllCapitals = true;
@@ -126,7 +185,7 @@ public class LeetCodeStringTest
                 uniqueMorseRepresentations(new String[] { "rwjje", "aittjje", "auyyn", "lqtktn", "lmjwn" }));
     }
 
-    public int uniqueMorseRepresentations(String[] words)
+    private int uniqueMorseRepresentations(String[] words)
     {
 
         String[] alphabetMorse = new String[] { ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.",
@@ -157,7 +216,7 @@ public class LeetCodeStringTest
                 reverseWords("Let's take LeetCode contest"));
     }
 
-    public String reverseWords(String s)
+    private String reverseWords(String s)
     {
 
         StringBuilder solution = new StringBuilder();
@@ -197,7 +256,7 @@ public class LeetCodeStringTest
         assertEquals("abcdefg", reverseStr("abcdefg", 1));
     }
 
-    public String reverseStr(String s, int k)
+    private String reverseStr(String s, int k)
     {
 
         Queue<Character> queue = s.chars().boxed().map(i -> (char) i.intValue()).collect(Collectors.toCollection(LinkedList::new));
@@ -299,18 +358,18 @@ public class LeetCodeStringTest
 
     }
 
-    public String removeDuplicates(String S)
+    private String removeDuplicates(String str)
     {
 
         Stack<Character> stack = new Stack<Character>();
-        stack.push(S.charAt(0));
+        stack.push(str.charAt(0));
 
-        for (int i = 1; i < S.length(); i++)
+        for (int i = 1; i < str.length(); i++)
         {
-            if (!stack.isEmpty() && S.charAt(i) == stack.peek())
+            if (!stack.isEmpty() && str.charAt(i) == stack.peek())
                 stack.pop();
             else
-                stack.push(S.charAt(i));
+                stack.push(str.charAt(i));
         }
 
         return stack.stream().map(i -> Character.toString(i)).collect(Collectors.joining(""));
