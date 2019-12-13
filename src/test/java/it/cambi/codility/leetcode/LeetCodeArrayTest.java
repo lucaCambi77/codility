@@ -48,6 +48,47 @@ public class LeetCodeArrayTest
     private int[] nums;
 
     @Test
+    public void findRelativeRanks()
+    {
+        assertTrue(Arrays.equals(new String[] { "Gold Medal", "Silver Medal", "Bronze Medal", "4", "5" },
+                findRelativeRanks(new int[] { 5, 4, 3, 2, 1 })));
+
+        assertTrue(Arrays.equals(new String[] { "Gold Medal", "5", "Bronze Medal", "Silver Medal", "4" },
+                findRelativeRanks(new int[] { 10, 3, 8, 9, 4 })));
+    }
+
+    public String[] findRelativeRanks(int[] nums)
+    {
+        int length = nums.length;
+        int[] copy = Arrays.copyOf(nums, length);
+
+        String[] out = new String[nums.length];
+
+        Arrays.parallelSort(nums);
+        Map<Integer, String> map = new HashMap<>();
+
+        int k = 0;
+
+        for (int i = length - 1; i >= 0; i--)
+        {
+            if (k < 3)
+            {
+                map.put(nums[i], k == 0 ? "Gold Medal" : k == 1 ? "Silver Medal" : "Bronze Medal");
+                k++;
+            }
+            else
+            {
+                map.put(nums[i], Integer.toString(length - i));
+            }
+        }
+
+        for (int i = 0; i < length; i++)
+            out[i] = map.get(copy[i]);
+
+        return out;
+    }
+
+    @Test
     public void sortedSquares()
     {
 
@@ -61,10 +102,7 @@ public class LeetCodeArrayTest
         int[] solution = new int[A.length];
 
         for (int i = 0; i < A.length; i++)
-        {
             solution[i] = A[i] * A[i];
-
-        }
 
         Arrays.parallelSort(solution);
         return solution;
