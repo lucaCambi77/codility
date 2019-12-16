@@ -17,6 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -48,6 +49,250 @@ public class LeetCodeArrayTest
     private int[] nums;
 
     @Test
+    public void findDisappearedNumbers()
+    {
+        assertEquals(true, Arrays.asList(new Integer[] { 5, 6 }).equals(findDisappearedNumbers(new int[] { 4, 3, 2, 7, 8, 2, 3, 1 })));
+        assertEquals(true, Arrays.asList(new Integer[] { 2 }).equals(findDisappearedNumbers(new int[] { 1, 3, 3 })));
+
+    }
+
+    private List<Integer> findDisappearedNumbers(int[] nums)
+    {
+        List<Integer> dis = new ArrayList<Integer>();
+
+        for (int i = 0; i < nums.length; i++)
+        {
+            int index = Math.abs(nums[i]) - 1;
+            if (nums[index] < 0)
+                continue;
+            else
+                nums[index] = -nums[index];
+        }
+
+        for (int i = 0; i < nums.length; i++)
+        {
+            if (nums[i] > 0)
+                dis.add(i + 1);
+        }
+
+        return dis;
+    }
+
+    @Test
+    public void isMonotonic()
+    {
+        assertEquals(true, isMonotonic(new int[] { 1, 2, 2, 3 }));
+        assertEquals(true, isMonotonic(new int[] { 6, 5, 4, 4 }));
+        assertEquals(false, isMonotonic(new int[] { 1, 3, 2 }));
+        assertEquals(true, isMonotonic(new int[] { 1, 2, 4, 5 }));
+        assertEquals(true, isMonotonic(new int[] { 1, 1, 1 }));
+
+    }
+
+    private boolean isMonotonic(int[] array)
+    {
+        int value = array[0];
+        int length = array.length;
+
+        int monDecr = 0;
+        int monIncr = 0;
+
+        for (int i = 1; i < length; i++)
+        {
+            if (array[i] <= value)
+                monDecr++;
+
+            if (array[i] >= value)
+                monIncr++;
+
+            if (monDecr == i || monIncr == i)
+                value = array[i];
+            else
+                return false;
+        }
+
+        return true;
+    }
+
+    @Test
+    public void arrayPairSum()
+    {
+        assertEquals(4, arrayPairSum(new int[] { 1, 4, 3, 2 }));
+    }
+
+    private int arrayPairSum(int[] nums)
+    {
+        Arrays.parallelSort(nums);
+
+        return IntStream.range(0, nums.length).filter(i -> i % 2 == 0).map(i -> nums[i]).sum();
+    }
+
+    @Test
+    public void findRestaurant()
+    {
+        assertEquals(true, Arrays.equals(new String[] { "Shogun" }, findRestaurant(new String[] { "Shogun", "Tapioca Express", "Burger King", "KFC" },
+                new String[] { "Piatti", "The Grill at Torrey Pines", "Hungry Hunter Steakhouse", "Shogun" })));
+
+        assertEquals(true, Arrays.equals(new String[] { "Shogun" }, findRestaurant(new String[] { "Shogun", "Tapioca Express", "Burger King", "KFC" },
+                new String[] { "KFC", "Shogun", "Burger King" })));
+    }
+
+    private String[] findRestaurant(String[] list1, String[] list2)
+    {
+
+        Map<String, Integer> restMap = new HashMap<>();
+
+        for (int i = 0; i < list1.length; i++)
+            restMap.put(list1[i], i);
+
+        int minIndex = Integer.MAX_VALUE;
+        Set<String> set = new HashSet<String>();
+
+        for (int i = 0; i < list2.length; i++)
+        {
+            int pos = restMap.getOrDefault(list2[i], -1);
+
+            if (pos != -1)
+            {
+
+                int sum = pos + i;
+
+                if (sum < minIndex)
+                {
+                    set = new HashSet<String>();
+                    set.add(list2[i]);
+                    minIndex = sum;
+
+                }
+                else if (sum == minIndex)
+                    set.add(list2[i]);
+            }
+        }
+
+        String[] sol = new String[set.size()];
+        set.toArray(sol);
+
+        return sol;
+    }
+
+    @Test
+    public void kthLargest()
+    {
+        KthLargest kThLargest = new KthLargest(3, new int[] { 4, 5, 8, 2 });
+        assertEquals(4, kThLargest.add(3));
+        assertEquals(5, kThLargest.add(5));
+        assertEquals(5, kThLargest.add(10));
+        assertEquals(8, kThLargest.add(9));
+        assertEquals(8, kThLargest.add(4));
+
+    }
+
+    class KthLargest
+    {
+        private Queue<Integer> pq;
+        private int size;
+
+        public KthLargest(int k, int[] nums)
+        {
+            pq = new PriorityQueue<>();
+            size = k;
+            for (int i : nums)
+            {
+                pq.offer(i);
+            }
+            while (pq.size() > k)
+            {
+                pq.poll();
+            }
+        }
+
+        public int add(int val)
+        {
+            if (pq.size() < size)
+            {
+                pq.offer(val);
+            }
+            else
+            {
+                pq.offer(val);
+                pq.poll();
+            }
+            return pq.peek();
+        }
+    }
+
+    @Test
+    public void findKthLargest()
+    {
+        assertEquals(5, findKthLargest(new int[] { 3, 2, 1, 5, 6, 4 }, 2));
+        assertEquals(4, findKthLargest(new int[] { 3, 2, 3, 1, 2, 4, 5, 5, 6 }, 4));
+
+    }
+
+    private int findKthLargest(int[] nums, int k)
+    {
+
+        Arrays.parallelSort(nums);
+
+        k--;
+        int length = nums.length;
+
+        int value = nums[--length];
+
+        int z = --length;
+
+        for (int i = z; i >= 0; i--)
+        {
+            int tmp = nums[i];
+
+            value = tmp;
+            k--;
+
+            if (k == 0)
+                return value;
+        }
+
+        return nums[nums.length - 1];
+    }
+
+    @Test
+    public void thirdMax()
+    {
+        assertEquals(1, thirdMax(new int[] { 3, 2, 1 }));
+        assertEquals(2, thirdMax(new int[] { 1, 2 }));
+        assertEquals(1, thirdMax(new int[] { 2, 2, 3, 1 }));
+
+    }
+
+    private int thirdMax(int[] nums)
+    {
+        Arrays.parallelSort(nums);
+
+        int k = 2;
+        int length = nums.length;
+
+        int value = nums[--length];
+
+        int z = --length;
+
+        for (int i = z; i >= 0; i--)
+        {
+            int tmp = nums[i];
+
+            if (tmp == value)
+                continue;
+
+            value = tmp;
+            k--;
+
+            if (k == 0)
+                return value;
+        }
+
+        return nums[nums.length - 1];
+    }
+
+    @Test
     public void findRelativeRanks()
     {
         assertTrue(Arrays.equals(new String[] { "Gold Medal", "Silver Medal", "Bronze Medal", "4", "5" },
@@ -57,7 +302,7 @@ public class LeetCodeArrayTest
                 findRelativeRanks(new int[] { 10, 3, 8, 9, 4 })));
     }
 
-    public String[] findRelativeRanks(int[] nums)
+    private String[] findRelativeRanks(int[] nums)
     {
         int length = nums.length;
         int[] copy = Arrays.copyOf(nums, length);
@@ -545,8 +790,8 @@ public class LeetCodeArrayTest
         assertEquals(12, rob(new int[] { 2, 7, 9, 3, 1 }));
         assertEquals(4, rob(new int[] { 2, 1, 1, 2 }));
         assertEquals(1, rob(new int[] { 1 }));
-        assertEquals(14, rob(new int[] { 4, 1, 2, 7, 5, 3, 1 }));
-        assertEquals(39, rob(new int[] { 6, 3, 10, 8, 2, 10, 3, 5, 10, 5, 3 }));
+        assertEquals(14, rob2(new int[] { 4, 1, 2, 7, 5, 3, 1 }));
+        assertEquals(39, rob3(new int[] { 6, 3, 10, 8, 2, 10, 3, 5, 10, 5, 3 }));
     }
 
     private int rob(int[] nums)
@@ -645,7 +890,7 @@ public class LeetCodeArrayTest
         assertEquals(true, Arrays.equals(new int[] { 3, 99, -1, -100 }, array));
 
         array = new int[] { 1, 2, 3, 4, 5, 6 };
-        rotate(array, 3);
+        rotate1(array, 3);
         assertEquals(true, Arrays.equals(new int[] { 4, 5, 6, 1, 2, 3 }, array));
     }
 
@@ -726,8 +971,8 @@ public class LeetCodeArrayTest
     public void majorityElement()
     {
         assertEquals(3, majorityElement(new int[] { 3, 2, 3 }));
-        assertEquals(2, majorityElement(new int[] { 2, 2, 1, 1, 1, 2, 2 }));
-        assertEquals(3, majorityElement(new int[] { 3, 3, 4 }));
+        assertEquals(2, majorityElement1(new int[] { 2, 2, 1, 1, 1, 2, 2 }));
+        assertEquals(3, majorityElementDC(new int[] { 3, 3, 4 }));
 
     }
 
@@ -965,6 +1210,15 @@ public class LeetCodeArrayTest
 
         assertEquals(4,
                 singleNumber(new int[] { 4, 1, 2, 1, 2 }));
+
+        assertEquals(4,
+                singleNumber1(new int[] { 4, 1, 2, 1, 2 }));
+
+        assertEquals(4,
+                singleNumber2(new int[] { 4, 1, 2, 1, 2 }));
+
+        assertEquals(4,
+                singleNumber3(new int[] { 4, 1, 2, 1, 2 }));
     }
 
     public int singleNumber(int[] nums)
@@ -988,7 +1242,7 @@ public class LeetCodeArrayTest
         return set.iterator().next();
     }
 
-    public int singleNumber1(int[] nums)
+    private int singleNumber1(int[] nums)
     {
 
         Map<Integer, Integer> map = new HashMap<Integer, Integer>();
@@ -1009,7 +1263,7 @@ public class LeetCodeArrayTest
         return map.entrySet().iterator().next().getKey();
     }
 
-    public int singleNumber2(int[] nums)
+    private int singleNumber2(int[] nums)
     {
 
         Set<Integer> set = Arrays.stream(nums).distinct().boxed().collect(Collectors.toSet());
@@ -1030,7 +1284,7 @@ public class LeetCodeArrayTest
      * @param nums
      * @return
      */
-    public int singleNumber3(int[] nums)
+    private int singleNumber3(int[] nums)
     {
 
         int length = nums.length;
@@ -1038,10 +1292,7 @@ public class LeetCodeArrayTest
         int value = 0;
 
         for (int i = 0; i < length; i++)
-        {
-
             value ^= nums[i];
-        }
 
         return value;
     }
@@ -1094,7 +1345,7 @@ public class LeetCodeArrayTest
     public void updateMatrix()
     {
         assertTrue(Arrays.deepEquals(new int[][] { { 0, 0, 0 }, { 0, 1, 0 }, { 0, 0, 0 } },
-                updateMatrix(new int[][] { { 0, 0, 0 }, { 0, 1, 0 }, { 0, 0, 0 } })));
+                updateMatrix1(new int[][] { { 0, 0, 0 }, { 0, 1, 0 }, { 0, 0, 0 } })));
         assertTrue(Arrays.deepEquals(new int[][] { { 0, 0, 0 }, { 0, 1, 0 }, { 1, 2, 1 } },
                 updateMatrix(new int[][] { { 0, 0, 0 }, { 0, 1, 0 }, { 1, 1, 1 } })));
 
