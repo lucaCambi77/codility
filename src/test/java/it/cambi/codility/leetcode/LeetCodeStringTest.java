@@ -5,11 +5,13 @@ package it.cambi.codility.leetcode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
@@ -33,6 +35,88 @@ import it.cambi.codility.coreJava.StringTest;
 @TestMethodOrder(Alphanumeric.class)
 public class LeetCodeStringTest
 {
+
+    @Test
+    public void findWords()
+    {
+        assertEquals(true, Arrays.equals(new String[] { "Alaska", "Dad" }, findWords(new String[] { "Hello", "Alaska", "Dad", "Peace" })));
+    }
+
+    private String[] findWords(String[] words)
+    {
+        String[] patterns = new String[] { "[asdfghjkl]", "[qwertyuiop]", "[zxcvbnm]" };
+        ArrayList<String> out = new ArrayList<String>();
+
+        for (int i = 0; i < words.length; i++)
+        {
+
+            for (int j = 0; j < patterns.length; j++)
+            {
+
+                Pattern pattern = Pattern.compile(patterns[j], Pattern.CASE_INSENSITIVE);
+
+                int count = 0;
+
+                Matcher m = pattern.matcher(words[i]);
+
+                while (m.find())
+                    count++;
+
+                if (count == 0)
+                    continue;
+                else if (count == words[i].length())
+                {
+
+                    out.add(words[i]);
+                    break;
+                }
+                else
+                    break;
+            }
+        }
+
+        return out.stream().sorted().toArray(String[]::new);
+    }
+
+    @Test
+    public void fizzBuzz()
+    {
+        assertEquals(Arrays.asList(new String[] { "1", "2", "Fizz", "4", "Buzz" }), fizzBuzz(5));
+    }
+
+    public List<String> fizzBuzz(int n)
+    {
+        List<String> ans = new LinkedList<String>();
+
+        @SuppressWarnings("serial")
+        HashMap<Integer, String> fizzBizzDict = new HashMap<Integer, String>()
+        {
+            {
+                put(3, "Fizz");
+                put(5, "Buzz");
+            }
+        };
+
+        for (int num = 1; num <= n; num++)
+        {
+
+            String numAnsStr = "";
+
+            for (Integer key : fizzBizzDict.keySet())
+            {
+
+                if (num % key == 0)
+                    numAnsStr += fizzBizzDict.get(key);
+            }
+
+            if (numAnsStr.isEmpty())
+                numAnsStr += Integer.toString(num);
+
+            ans.add(numAnsStr);
+        }
+
+        return ans;
+    }
 
     @Test
     public void isSubsequence()
