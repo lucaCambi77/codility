@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 
 import it.cambi.codility.model.BinaryTree;
 import it.cambi.codility.model.Node;
@@ -20,6 +22,7 @@ import it.cambi.codility.model.Node;
  * @author luca
  *
  */
+@TestMethodOrder(Alphanumeric.class)
 public class LeetCodeTreeTest
 {
 
