@@ -5,6 +5,7 @@ package it.cambi.codility.leetcode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -35,6 +37,205 @@ import it.cambi.codility.coreJava.StringTest;
 @TestMethodOrder(Alphanumeric.class)
 public class LeetCodeStringTest
 {
+
+    /**
+     * Letter to primitive map
+     */
+    @SuppressWarnings("serial")
+    private static Map<Character, Integer> alphabetMap = new HashMap<Character, Integer>()
+    {
+        {
+
+            put('a', 2);
+            put('b', 3);
+            put('c', 5);
+            put('d', 7);
+            put('e', 11);
+            put('f', 13);
+            put('g', 17);
+            put('h', 19);
+            put('i', 23);
+            put('j', 29);
+            put('k', 31);
+            put('l', 37);
+            put('m', 41);
+            put('n', 43);
+            put('o', 47);
+            put('p', 53);
+            put('q', 59);
+            put('r', 61);
+            put('s', 67);
+            put('t', 71);
+            put('u', 73);
+            put('v', 79);
+            put('w', 83);
+            put('x', 89);
+            put('y', 97);
+            put('z', 101);
+
+        }
+    };
+
+    @Test
+    public void groupAnagrams()
+    {
+        groupAnagrams(new String[] { "eat", "tea", "tan", "ate", "nat", "bat" });
+        groupAnagrams1(new String[] { "eat", "tea", "tan", "ate", "nat", "bat" });
+        groupAnagrams2(new String[] { "eat", "tea", "tan", "ate", "nat", "bat" });
+
+    }
+
+    private List<List<String>> groupAnagrams2(String[] strs)
+    {
+        if (strs.length == 0)
+            return new ArrayList<List<String>>();
+
+        Map<String, List<String>> ans = new HashMap<String, List<String>>();
+        int[] count = new int[26];
+
+        for (String s : strs)
+        {
+            Arrays.fill(count, 0);
+            for (char c : s.toCharArray())
+                count[c - 'a']++;
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < 26; i++)
+            {
+                sb.append('#');
+                sb.append(count[i]);
+            }
+
+            String key = sb.toString();
+            if (!ans.containsKey(key))
+                ans.put(key, new ArrayList<String>());
+            ans.get(key).add(s);
+        }
+
+        return new ArrayList<List<String>>(ans.values());
+    }
+
+    private List<List<String>> groupAnagrams1(String[] strs)
+    {
+
+        HashMap<OrderedChars, List<String>> map = new HashMap<OrderedChars, List<String>>();
+
+        for (String str : strs)
+        {
+            char[] chars = str.toCharArray();
+
+            Arrays.parallelSort(chars);
+            OrderedChars chars1 = new OrderedChars(chars);
+
+            List<String> anagrams = map.getOrDefault(chars1, new ArrayList<String>());
+            anagrams.add(str);
+
+            map.put(chars1, anagrams);
+        }
+
+        return new ArrayList<List<String>>(map.values());
+    }
+
+    private List<List<String>> groupAnagrams(String[] strs)
+    {
+        if (strs.length == 0)
+            return new ArrayList<List<String>>();
+
+        Map<String, List<String>> ans = new HashMap<String, List<String>>();
+        for (String s : strs)
+        {
+            char[] ca = s.toCharArray();
+            Arrays.sort(ca);
+            String key = String.valueOf(ca);
+
+            if (!ans.containsKey(key))
+                ans.put(key, new ArrayList<>());
+
+            ans.get(key).add(s);
+        }
+        return new ArrayList<List<String>>(ans.values());
+    }
+
+    class OrderedChars
+    {
+        private char[] chars;
+
+        /**
+         * @param chars
+         */
+        public OrderedChars(char[] chars)
+        {
+            super();
+            this.chars = chars;
+        }
+
+        @Override
+        public int hashCode()
+        {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + Arrays.hashCode(chars);
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj)
+        {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            OrderedChars other = (OrderedChars) obj;
+
+            if (!Arrays.equals(chars, other.chars))
+                return false;
+            return true;
+        }
+
+    }
+
+    @Test
+    public void isAnagram()
+    {
+        assertEquals(true, isAnagram("hello", "llohe"));
+        assertEquals(true, isAnagram("anagram", "nagaram"));
+        assertEquals(true, isAnagram1("anagram", "nagaram"));
+        assertEquals(false, isAnagram("rat", "car"));
+
+    }
+
+    public boolean isAnagram(String s, String t)
+    {
+        AtomicReference<BigInteger> valueHolder = new AtomicReference<>();
+        valueHolder.set(new BigInteger("1"));
+
+        s.chars().forEach(c -> {
+            valueHolder.getAndAccumulate(BigInteger.valueOf(alphabetMap.get((char) c)), (previous, x) -> previous.multiply(x));
+        });
+
+        AtomicReference<BigInteger> valueHolder1 = new AtomicReference<>();
+        valueHolder1.set(new BigInteger("1"));
+
+        t.chars().forEach(c -> {
+            valueHolder1.getAndAccumulate(BigInteger.valueOf(alphabetMap.get((char) c)), (previous, x) -> previous.multiply(x));
+        });
+
+        return valueHolder.get().compareTo(valueHolder1.get()) == 0;
+    }
+
+    public boolean isAnagram1(String s, String t)
+    {
+        char[] c = s.toCharArray();
+        char[] c1 = t.toCharArray();
+
+        Arrays.parallelSort(c);
+        Arrays.parallelSort(c1);
+
+        return Arrays.equals(c, c1);
+
+    }
 
     @Test
     public void findWords()
