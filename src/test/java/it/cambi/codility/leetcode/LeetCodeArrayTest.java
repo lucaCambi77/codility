@@ -49,6 +49,37 @@ public class LeetCodeArrayTest
     private int[] nums;
 
     @Test
+    public void nextGreaterElement()
+    {
+        assertEquals(true, Arrays.equals(new int[] { -1, 3, -1 }, nextGreaterElement(new int[] { 4, 1, 2 }, new int[] { 1, 3, 4, 2 })));
+        assertEquals(true, Arrays.equals(new int[] { 3, -1 }, nextGreaterElement(new int[] { 2, 4 }, new int[] { 1, 2, 3, 4 })));
+
+    }
+
+    private int[] nextGreaterElement(int[] nums1, int[] nums2)
+    {
+        int length = nums2.length - 1;
+
+        for (int i = 0; i < nums1.length; i++)
+        {
+            int value = nums1[i];
+
+            nums1[i] = -1;
+            while (length >= 0 && nums2[length] != value)
+            {
+                if (nums2[length] > value)
+                    nums1[i] = nums2[length];
+                length--;
+            }
+
+            length = nums2.length - 1;
+
+        }
+
+        return nums1;
+    }
+
+    @Test
     public void findDisappearedNumbers()
     {
         assertEquals(true, Arrays.asList(new Integer[] { 5, 6 }).equals(findDisappearedNumbers(new int[] { 4, 3, 2, 7, 8, 2, 3, 1 })));
