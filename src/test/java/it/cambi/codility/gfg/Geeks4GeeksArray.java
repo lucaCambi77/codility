@@ -37,6 +37,56 @@ public class Geeks4GeeksArray
 {
 
     @Test
+    public void reverseArrayInGroup()
+    {
+        reverseArrayInGroup("1 2 3 4 5", 3, 5);
+
+    }
+
+    public void reverseArrayInGroup(String array, int k, int n)
+    {
+        int[] arr = new int[n];
+
+        String inputLine[] = array.split(" ");
+        for (int i = 0; i < n; i++)
+        {
+            arr[i] = Integer.parseInt(inputLine[i]);
+        }
+
+        reverse(arr, n, k);
+
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < n; i++)
+        {
+            sb.append(arr[i] + " ");
+        }
+        System.out.println(sb);
+    }
+
+    static void reverse(int arr[], int n, int k)
+    {
+        for (int i = 0; i < n; i += k)
+        {
+            int left = i;
+
+            // to handle case when k is not multiple
+            // of n
+            int right = Math.min(i + k - 1, n - 1);
+            int temp;
+
+            // reverse the sub-array [left, right]
+            while (left < right)
+            {
+                temp = arr[left];
+                arr[left] = arr[right];
+                arr[right] = temp;
+                left += 1;
+                right -= 1;
+            }
+        }
+    }
+
+    @Test
     public void leaderInArray()
     {
         assertEquals("17 5 2 ", leaderInArray("16 17 4 3 5 2", 6));
