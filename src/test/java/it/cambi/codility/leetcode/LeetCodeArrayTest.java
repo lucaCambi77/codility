@@ -49,6 +49,33 @@ public class LeetCodeArrayTest
     private int[] nums;
 
     @Test
+    public void findMaxConsecutiveOnes()
+    {
+        assertEquals(3, findMaxConsecutiveOnes(new int[] { 1, 1, 0, 1, 1, 1 }));
+        assertEquals(1, findMaxConsecutiveOnes(new int[] { 1 }));
+
+    }
+
+    private int findMaxConsecutiveOnes(int[] nums)
+    {
+        int count = 0;
+        int max = 0;
+
+        for (int i = 0; i < nums.length; i++)
+        {
+            while (i < nums.length && nums[i++] == 1)
+                count++;
+
+            max = Math.max(max, count);
+
+            i--;
+            count = 0;
+        }
+
+        return max;
+    }
+
+    @Test
     public void nextGreaterElement()
     {
         assertEquals(true, Arrays.equals(new int[] { -1, 3, -1 }, nextGreaterElement(new int[] { 4, 1, 2 }, new int[] { 1, 3, 4, 2 })));
