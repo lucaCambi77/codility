@@ -32,6 +32,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import it.cambi.codility.model.Array;
 import javafx.util.Pair;
 
 /**
@@ -47,6 +48,37 @@ public class LeetCodeArrayTest
     long k;
 
     private int[] nums;
+
+    @Test
+    public void findPairs()
+    {
+        assertEquals(2, findPairs(new int[] { 3, 1, 4, 1, 5 }, 2));
+        assertEquals(4, findPairs(new int[] { 1, 2, 3, 4, 5 }, 1));
+        assertEquals(1, findPairs(new int[] { 1, 3, 1, 5, 4 }, 0));
+
+    }
+
+    public int findPairs(int[] nums, int k)
+    {
+        int count = 0;
+
+        Arrays.parallelSort(nums);
+
+        for (int i = 0; i < nums.length - 1; i++)
+        {
+
+            int diff = nums[i] + k;
+
+            if (Array.binarySearch(nums, i + 1, nums.length, diff) >= 0)
+                count++;
+
+            while (i + 1 < nums.length && nums[i] == nums[i + 1])
+                i++;
+
+        }
+
+        return count;
+    }
 
     @Test
     public void findMaxConsecutiveOnes()
