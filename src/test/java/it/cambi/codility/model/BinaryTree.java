@@ -145,7 +145,7 @@ public class BinaryTree
         }
     }
 
-    public static Node getBST()
+    public static Node getBSTExample()
     {
         Node root = new Node(50);
 

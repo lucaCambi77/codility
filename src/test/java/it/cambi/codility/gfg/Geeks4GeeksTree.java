@@ -46,7 +46,7 @@ public class Geeks4GeeksTree
 
         assertEquals(false, isBST(node, new LinkedHashSet<Integer>(), null, null));
 
-        assertEquals(true, isBST(BinaryTree.getBST(), new LinkedHashSet<Integer>(), null, null));
+        assertEquals(true, isBST(BinaryTree.getBSTExample(), new LinkedHashSet<Integer>(), null, null));
 
         Node node1 = new Node(20);
         Node nodeLeft = new Node(10);
@@ -146,7 +146,7 @@ public class Geeks4GeeksTree
         Res p = new Res();
         Res s = new Res();
         int key = 65;
-        predecessorSuccessor(BinaryTree.getBST(), p, s, key);
+        predecessorSuccessor(BinaryTree.getBSTExample(), p, s, key);
 
         assertEquals("60 70", p.pre.data + " " + s.succ.data);
 
@@ -327,7 +327,7 @@ public class Geeks4GeeksTree
     public void minValue()
     {
 
-        assertEquals(20, minValue(BinaryTree.getBST()));
+        assertEquals(20, minValue(BinaryTree.getBSTExample()));
     }
 
     private int minValue(Node node)

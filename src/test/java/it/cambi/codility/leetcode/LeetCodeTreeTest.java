@@ -29,10 +29,10 @@ public class LeetCodeTreeTest
     @Test
     public void hasPathSum()
     {
-        assertEquals(true, hasPathSum(BinaryTree.getBST(), 100));
-        assertEquals(true, hasPathSum(BinaryTree.getBST(), 200));
-        assertEquals(false, hasPathSum(BinaryTree.getBST(), 101));
-        assertEquals(false, hasPathSum(BinaryTree.getBST(), 183));
+        assertEquals(true, hasPathSum(BinaryTree.getBSTExample(), 100));
+        assertEquals(true, hasPathSum(BinaryTree.getBSTExample(), 200));
+        assertEquals(false, hasPathSum(BinaryTree.getBSTExample(), 101));
+        assertEquals(false, hasPathSum(BinaryTree.getBSTExample(), 183));
         assertEquals(true, hasPathSum(new Node(1), 1));
 
         Node node = new Node(1);
@@ -173,7 +173,7 @@ public class LeetCodeTreeTest
     @Test
     public void isSameTree()
     {
-        assertEquals(true, isSameTree(BinaryTree.getBST(), BinaryTree.getBST()));
+        assertEquals(true, isSameTree(BinaryTree.getBSTExample(), BinaryTree.getBSTExample()));
     }
 
     private boolean isSameTree(Node p, Node q)
@@ -226,7 +226,7 @@ public class LeetCodeTreeTest
     @Test
     public void findTarget()
     {
-        Node root = BinaryTree.getBST();
+        Node root = BinaryTree.getBSTExample();
 
         List<Integer> listLeft = new ArrayList<Integer>();
         List<Integer> listRight = new ArrayList<Integer>();
