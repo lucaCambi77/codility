@@ -4,6 +4,7 @@
 package it.cambi.codility.leetcode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -34,6 +35,68 @@ public class LeetCodeLinkedListTest
             this.val = val;
             this.next = null;
         }
+    }
+
+    @Test
+    public void swapPairs()
+    {
+        ListNode head = new ListNode(4);
+        head.next = new ListNode(1);
+        head.next.next = new ListNode(8);
+        head.next.next.next = new ListNode(4);
+        head.next.next.next.next = new ListNode(5);
+
+        ListNode listCompare = new ListNode(1);
+        listCompare.next = new ListNode(4);
+        listCompare.next.next = new ListNode(4);
+        listCompare.next.next.next = new ListNode(8);
+        listCompare.next.next.next.next = new ListNode(5);
+
+        assertTrue(areIdentical(listCompare, swapPairs(head)));
+    }
+
+    private ListNode swapPairs(ListNode head)
+    {
+        if (head == null || (head != null && head.next == null))
+            return head;
+
+        ListNode tmp = head;
+        ListNode node = head.next;
+        tmp.next = head.next.next;
+        node.next = tmp;
+
+        node.next.next = swapPairs(tmp.next);
+
+        return node;
+    }
+
+    @Test
+    public void getIntersectionNode()
+    {
+
+        ListNode headA = new ListNode(4);
+        headA.next = new ListNode(1);
+        headA.next.next = new ListNode(8);
+        headA.next.next.next = new ListNode(4);
+        headA.next.next.next.next = new ListNode(5);
+
+        ListNode headB = new ListNode(5);
+        headB.next = new ListNode(0);
+        headB.next.next = new ListNode(1);
+        headB.next.next.next = new ListNode(8);
+        headB.next.next.next.next = new ListNode(4);
+        headB.next.next.next.next.next = new ListNode(5);
+
+        ListNode node = new ListNode(8);
+        node.next = new ListNode(4);
+        node.next.next = new ListNode(5);
+
+        assertEquals(true, areIdentical(node, getIntersectionNode(headA, headB)));
+    }
+
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB)
+    {
+        return null;
     }
 
     @Test
