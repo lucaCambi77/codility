@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
  * @author luca
  *
  */
-public class ArrayTest {
+public class Array {
 
 	@Test
 	public void sortArrayTest() {
@@ -112,7 +112,7 @@ public class ArrayTest {
 	 * @param key
 	 * @return
 	 */
-	private static int binarySearch(int[] a, int fromIndex, int toIndex, int key) {
+	public static int binarySearch(int[] a, int fromIndex, int toIndex, int key) {
 		int low = fromIndex;
 		int high = toIndex - 1;
 
