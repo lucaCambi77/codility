@@ -31,11 +31,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import it.cambi.codility.util.AbstractTest;
+
 /**
  * @author luca
  *
  */
-public class HackerRankArraysTest
+public class HackerRankArraysTest extends AbstractTest
 {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
@@ -404,9 +406,11 @@ public class HackerRankArraysTest
         String line = bufOut.readLine();
         String solution = "";
 
+        String carriageReturn = getCarriageReturn();
+        
         while (line != null)
         {
-            solution += line + "\n";
+            solution += line + carriageReturn;
             line = bufOut.readLine();
 
         }

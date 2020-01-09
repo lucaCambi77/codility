@@ -47,11 +47,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import it.cambi.codility.util.AbstractTest;
+
 /**
  * @author luca
  *
  */
-public class HackerRankJavaTest
+public class HackerRankJavaTest  extends AbstractTest
 {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -945,11 +947,13 @@ public class HackerRankJavaTest
 
         String out = outContent.toString();
 
-        assertEquals(out, "74\n" +
-                "52\n" +
-                "37\n" +
-                "ERROR!\n" +
-                "ERROR!\n");
+        String carriageReturn = getCarriageReturn();
+
+        assertEquals(out, "74" + carriageReturn +
+                "52" + carriageReturn +
+                "37" + carriageReturn +
+                "ERROR!" + carriageReturn +
+                "ERROR!" + carriageReturn);
 
     }
 
@@ -1380,7 +1384,9 @@ public class HackerRankJavaTest
     @Test
     public void getSmallestAndLargest()
     {
-        assertEquals("ava\nwel", getSmallestAndLargest("welcometojava", 3));
+    	String carriageReturn = getCarriageReturn();
+    	
+        assertEquals("ava" + carriageReturn + "wel", getSmallestAndLargest("welcometojava", 3));
     }
 
     private static String getSmallestAndLargest(String s, int k)
@@ -1400,7 +1406,7 @@ public class HackerRankJavaTest
             i++;
         }
 
-        return smallest + "\n" + largest;
+        return smallest + getCarriageReturn() + largest;
     }
 
     @Test
