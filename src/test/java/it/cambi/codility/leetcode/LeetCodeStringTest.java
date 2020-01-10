@@ -76,16 +76,70 @@ public class LeetCodeStringTest {
 
 	@Test
 	public void lengthOfLongestSubstring() {
+		assertEquals(3, lengthOfLongestSubstring("abc", new LinkedList<Character>(), 0));
+		assertEquals(3, lengthOfLongestSubstring("abcabcbb", new LinkedList<Character>(), 0));
+		assertEquals(1, lengthOfLongestSubstring("bbbbb", new LinkedList<Character>(), 0));
+		assertEquals(3, lengthOfLongestSubstring("pwwkew", new LinkedList<Character>(), 0));
+		assertEquals(6, lengthOfLongestSubstring("rphqbgbse".toCharArray()));
+		assertEquals(3, lengthOfLongestSubstring("abcabcbb"));
 
 	}
 
-	private int lengthOfLongestSubstring(String s, String sub, int position) {
+	// Too slow
+	private int lengthOfLongestSubstring(String chars, LinkedList<Character> list, int position) {
 
-				
+		int maxLength = list.size();
+
+		for (int i = position; i < chars.length(); i++) {
+
+			char ch = chars.charAt(position);
+
+			if (list.contains(ch))
+				return maxLength;
+
+			list.add(ch);
+			int length1 = lengthOfLongestSubstring(chars, list, position + 1);
+			list.pop();
+			int length2 = lengthOfLongestSubstring(chars, list, position + 1);
+
+			maxLength = Math.max(maxLength, Math.max(length2, length1));
+		}
+
+		return maxLength;
+	}
+
+	// Sliding window
+	private int lengthOfLongestSubstring(char[] s) {
+
+		Set<Character> seen = new HashSet<>();
+		int longest = 0;
+		int l = 0;
 		
-		return 0;
+		for (int r = 0; r < s.length; r++) {
+			while (seen.contains(s[r])) {
+				seen.remove(s[l]);
+				l++;
+			}
+			seen.add(s[r]);
+			longest = Math.max(longest, r - l + 1);
+		}
+		return longest;
 	}
 
+    private int lengthOfLongestSubstring(String s) {
+        int n = s.length(), ans = 0;
+        Map<Character, Integer> map = new HashMap<>(); // current index of character
+        // try to extend the range [i, j]
+        for (int j = 0, i = 0; j < n; j++) {
+            if (map.containsKey(s.charAt(j))) {
+                i = Math.max(map.get(s.charAt(j)), i);
+            }
+            ans = Math.max(ans, j - i + 1);
+            map.put(s.charAt(j), j + 1);
+        }
+        return ans;
+    }
+    
 	@Test
 	public void groupAnagrams() {
 		groupAnagrams(new String[] { "eat", "tea", "tan", "ate", "nat", "bat" });
