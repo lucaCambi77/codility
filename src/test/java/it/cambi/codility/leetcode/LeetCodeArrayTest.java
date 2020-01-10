@@ -49,6 +49,29 @@ public class LeetCodeArrayTest {
 	private int[] nums;
 
 	@Test
+	public void findLengthOfLCIS() {
+		assertEquals(3, findLengthOfLCIS(new int[] { 1, 3, 5, 4, 7 }));
+		assertEquals(1, findLengthOfLCIS(new int[] { 2, 2, 2, 2, 2 }));
+		assertEquals(3, findLengthOfLCIS(new int[] { 1, 3, 5, 7 }));
+
+	}
+
+	private int findLengthOfLCIS(int[] nums) {
+
+		if (nums.length == 0)
+			return 0;
+
+		int count = 0;
+
+		for (int i = 1; i < nums.length; i++) {
+			if (nums[i] > nums[i - 1])
+				count++;
+		}
+
+		return count == 0 ? 1 : count;
+	}
+
+	@Test
 	public void checkPossibility() {
 
 		assertEquals(true, checkPossibility(new int[] { 4, 2, 3 }));
