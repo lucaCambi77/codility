@@ -49,6 +49,47 @@ public class LeetCodeArrayTest {
 	private int[] nums;
 
 	@Test
+	public void checkPossibility() {
+
+		assertEquals(true, checkPossibility(new int[] { 4, 2, 3 }));
+		assertEquals(false, checkPossibility(new int[] { 4, 2, 1 }));
+		assertEquals(true, checkPossibility(new int[] { -1, 4, 2, 3 }));
+		assertEquals(false, checkPossibility(new int[] { 3, 4, 2, 3 }));
+		assertEquals(true, checkPossibility(new int[] { 2, 3, 3, 2, 4 }));
+		assertEquals(true, checkPossibility(new int[] { 1, 3, 2 }));
+		assertEquals(false, checkPossibility(new int[] { 1, 5, 4, 6, 7, 10, 8, 9 }));
+
+	}
+
+	private boolean checkPossibility(int[] nums) {
+
+		for (int i = 1; i < nums.length; i++) {
+
+			if (nums[i] < nums[i - 1]) {
+
+				if (i + 1 < nums.length && nums[i] > nums[i + 1])
+					return false;
+				else if (i + 1 < nums.length && nums[i + 1] < nums[i - 1])
+					nums[i - 1] = nums[i];
+				else
+					nums[i] = nums[i - 1];
+
+				break;
+			}
+
+		}
+
+		for (int i = 1; i < nums.length; i++) {
+
+			if (nums[i] < nums[i - 1])
+				return false;
+
+		}
+
+		return true;
+	}
+
+	@Test
 	public void findUnsortedSubarray() {
 		assertEquals(5, findUnsortedSubarray(new int[] { 2, 6, 4, 8, 10, 9, 15 }));
 		assertEquals(2, findUnsortedSubarray(new int[] { 2, 6, 4, 8, 9, 10, 15 }));
@@ -72,7 +113,7 @@ public class LeetCodeArrayTest {
 
 		}
 
-		return  (maxIndex - minIndex >= 0 ? maxIndex - minIndex + 1 : 0);
+		return (maxIndex - minIndex >= 0 ? maxIndex - minIndex + 1 : 0);
 	}
 
 	@Test
