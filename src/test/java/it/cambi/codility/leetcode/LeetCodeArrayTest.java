@@ -49,6 +49,33 @@ public class LeetCodeArrayTest {
 	private int[] nums;
 
 	@Test
+	public void findUnsortedSubarray() {
+		assertEquals(5, findUnsortedSubarray(new int[] { 2, 6, 4, 8, 10, 9, 15 }));
+		assertEquals(2, findUnsortedSubarray(new int[] { 2, 6, 4, 8, 9, 10, 15 }));
+		assertEquals(0, findUnsortedSubarray(new int[] { 1, 2, 3, 4 }));
+
+	}
+
+	private int findUnsortedSubarray(int[] nums) {
+
+		int[] copy = nums.clone();
+		Arrays.parallelSort(nums);
+
+		int minIndex = nums.length;
+		int maxIndex = 0;
+
+		for (int i = 0; i < copy.length; i++) {
+			if (copy[i] != nums[i]) {
+				minIndex = Math.min(i, minIndex);
+				maxIndex = Math.max(i, maxIndex);
+			}
+
+		}
+
+		return  (maxIndex - minIndex >= 0 ? maxIndex - minIndex + 1 : 0);
+	}
+
+	@Test
 	public void canPlaceFlowers() {
 		assertEquals(false, canPlaceFlowers(new int[] { 1, 0, 0, 0, 1 }, 2));
 		assertEquals(true, canPlaceFlowers(new int[] { 1, 0, 0, 0, 1 }, 1));
