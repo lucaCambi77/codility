@@ -59,15 +59,41 @@ public class HackerRankArraysTest
     int energy;
 
     @Test
-    public void fairRations()
+    public void acmTeam()
     {
-
+        acmTeam(new String[] { "10101", "11100", "11010", "00101" });
     }
 
-    private int fairRations(int[] B)
+    private int[] acmTeam(String[] topic)
     {
+        int maxTopic = 0;
+        int numWays = 0;
+        int[] topics = new int[6];
 
-        return 0;
+        for (int i = 0; i < topic.length; i++)
+        {
+            String attendee = topic[i];
+
+            for (int j = i + 1; j < topic.length; j++)
+            {
+                String otherAttendee = topic[j];
+
+                int currTopics = 0;
+                for (int k = 0; k < otherAttendee.length(); k++)
+                {
+                    int c = otherAttendee.charAt(k) | attendee.charAt(k);
+                    if (c == 49)
+                        currTopics++;
+                }
+
+                topics[currTopics] = ++topics[currTopics];
+
+                maxTopic = Math.max(maxTopic, currTopics);
+
+            }
+        }
+
+        return new int[] {};
     }
 
     @Test
