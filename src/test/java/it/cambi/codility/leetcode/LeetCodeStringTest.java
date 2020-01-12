@@ -77,6 +77,47 @@ public class LeetCodeStringTest
     };
 
     @Test
+    public void compress()
+    {
+        assertEquals(6, compress(new char[] { 'a', 'a', 'b', 'b', 'c', 'c', 'c' }));
+    }
+
+    private int compress(char[] chars)
+    {
+        Arrays.parallelSort(chars);
+        char c = chars[0];
+
+        int count = 0;
+
+        for (int i = 1; i < chars.length; i++)
+        {
+            if (chars[i] == c)
+                count++;
+            
+            
+        }
+
+        return 0;
+    }
+
+    @Test
+    public void countSegments()
+    {
+        assertEquals(0, countSegments(" "));
+        assertEquals(6, countSegments(", , , ,        a, eaefa"));
+    }
+
+    private int countSegments(String s)
+    {
+        String trim = s.trim();
+
+        if ("".equals(trim))
+            return 0;
+
+        return s.trim().split("\\s+").length;
+    }
+
+    @Test
     public void groupAnagrams()
     {
         groupAnagrams(new String[] { "eat", "tea", "tan", "ate", "nat", "bat" });
