@@ -93,8 +93,7 @@ public class LeetCodeStringTest
         {
             if (chars[i] == c)
                 count++;
-            
-            
+
         }
 
         return 0;
@@ -115,6 +114,81 @@ public class LeetCodeStringTest
             return 0;
 
         return s.trim().split("\\s+").length;
+    }
+
+    @Test
+    public void lengthOfLongestSubstring()
+    {
+        assertEquals(3, lengthOfLongestSubstring("abc", new LinkedList<Character>(), 0));
+        assertEquals(3, lengthOfLongestSubstring("abcabcbb", new LinkedList<Character>(), 0));
+        assertEquals(1, lengthOfLongestSubstring("bbbbb", new LinkedList<Character>(), 0));
+        assertEquals(3, lengthOfLongestSubstring("pwwkew", new LinkedList<Character>(), 0));
+        assertEquals(6, lengthOfLongestSubstring("rphqbgbse".toCharArray()));
+        assertEquals(3, lengthOfLongestSubstring("abcabcbb"));
+
+    }
+
+    // Too slow
+    private int lengthOfLongestSubstring(String chars, LinkedList<Character> list, int position)
+    {
+
+        int maxLength = list.size();
+
+        for (int i = position; i < chars.length(); i++)
+        {
+
+            char ch = chars.charAt(position);
+
+            if (list.contains(ch))
+                return maxLength;
+
+            list.add(ch);
+            int length1 = lengthOfLongestSubstring(chars, list, position + 1);
+            list.pop();
+            int length2 = lengthOfLongestSubstring(chars, list, position + 1);
+
+            maxLength = Math.max(maxLength, Math.max(length2, length1));
+        }
+
+        return maxLength;
+    }
+
+    // Sliding window
+    private int lengthOfLongestSubstring(char[] s)
+    {
+
+        Set<Character> seen = new HashSet<>();
+        int longest = 0;
+        int l = 0;
+
+        for (int r = 0; r < s.length; r++)
+        {
+            while (seen.contains(s[r]))
+            {
+                seen.remove(s[l]);
+                l++;
+            }
+            seen.add(s[r]);
+            longest = Math.max(longest, r - l + 1);
+        }
+        return longest;
+    }
+
+    private int lengthOfLongestSubstring(String s)
+    {
+        int n = s.length(), ans = 0;
+        Map<Character, Integer> map = new HashMap<>(); // current index of character
+        // try to extend the range [i, j]
+        for (int j = 0, i = 0; j < n; j++)
+        {
+            if (map.containsKey(s.charAt(j)))
+            {
+                i = Math.max(map.get(s.charAt(j)), i);
+            }
+            ans = Math.max(ans, j - i + 1);
+            map.put(s.charAt(j), j + 1);
+        }
+        return ans;
     }
 
     @Test
@@ -253,14 +327,16 @@ public class LeetCodeStringTest
         valueHolder.set(new BigInteger("1"));
 
         s.chars().forEach(c -> {
-            valueHolder.getAndAccumulate(BigInteger.valueOf(alphabetMap.get((char) c)), (previous, x) -> previous.multiply(x));
+            valueHolder.getAndAccumulate(BigInteger.valueOf(alphabetMap.get((char) c)),
+                    (previous, x) -> previous.multiply(x));
         });
 
         AtomicReference<BigInteger> valueHolder1 = new AtomicReference<>();
         valueHolder1.set(new BigInteger("1"));
 
         t.chars().forEach(c -> {
-            valueHolder1.getAndAccumulate(BigInteger.valueOf(alphabetMap.get((char) c)), (previous, x) -> previous.multiply(x));
+            valueHolder1.getAndAccumulate(BigInteger.valueOf(alphabetMap.get((char) c)),
+                    (previous, x) -> previous.multiply(x));
         });
 
         return valueHolder.get().compareTo(valueHolder1.get()) == 0;
@@ -281,7 +357,8 @@ public class LeetCodeStringTest
     @Test
     public void findWords()
     {
-        assertEquals(true, Arrays.equals(new String[] { "Alaska", "Dad" }, findWords(new String[] { "Hello", "Alaska", "Dad", "Peace" })));
+        assertEquals(true, Arrays.equals(new String[] { "Alaska", "Dad" },
+                findWords(new String[] { "Hello", "Alaska", "Dad", "Peace" })));
     }
 
     private String[] findWords(String[] words)
@@ -497,25 +574,25 @@ public class LeetCodeStringTest
                 break;
         }
 
-        return (areAllCapitals && isFirstCapital) || (areAllLowerLetters && isFirstCapital) || (areAllLowerLetters && !isFirstCapital);
+        return (areAllCapitals && isFirstCapital) || (areAllLowerLetters && isFirstCapital)
+                || (areAllLowerLetters && !isFirstCapital);
 
     }
 
     @Test
     public void uniqueMorseRepresentations()
     {
-        assertEquals(2,
-                uniqueMorseRepresentations(new String[] { "gin", "zen", "gig", "msg" }));
+        assertEquals(2, uniqueMorseRepresentations(new String[] { "gin", "zen", "gig", "msg" }));
 
-        assertEquals(1,
-                uniqueMorseRepresentations(new String[] { "rwjje", "aittjje", "auyyn", "lqtktn", "lmjwn" }));
+        assertEquals(1, uniqueMorseRepresentations(new String[] { "rwjje", "aittjje", "auyyn", "lqtktn", "lmjwn" }));
     }
 
     private int uniqueMorseRepresentations(String[] words)
     {
 
-        String[] alphabetMorse = new String[] { ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.",
-                "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.." };
+        String[] alphabetMorse = new String[] { ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---",
+                "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-",
+                "-.--", "--.." };
 
         Set<String> seen = new HashSet<String>();
 
@@ -538,8 +615,7 @@ public class LeetCodeStringTest
     @Test
     public void reverseWords()
     {
-        assertEquals("s'teL ekat edoCteeL tsetnoc",
-                reverseWords("Let's take LeetCode contest"));
+        assertEquals("s'teL ekat edoCteeL tsetnoc", reverseWords("Let's take LeetCode contest"));
     }
 
     private String reverseWords(String s)
@@ -585,7 +661,8 @@ public class LeetCodeStringTest
     private String reverseStr(String s, int k)
     {
 
-        Queue<Character> queue = s.chars().boxed().map(i -> (char) i.intValue()).collect(Collectors.toCollection(LinkedList::new));
+        Queue<Character> queue = s.chars().boxed().map(i -> (char) i.intValue())
+                .collect(Collectors.toCollection(LinkedList::new));
         Stack<Character> reverse = new Stack<Character>();
 
         StringBuilder sb = new StringBuilder();
@@ -855,11 +932,11 @@ public class LeetCodeStringTest
         reverseString(array);
         assertEquals(true, Arrays.equals(new char[] { 'h', 'a', 'n', 'n', 'a', 'H' }, array));
 
-        array = new char[] { 'A', ' ', 'm', 'a', 'n', ',', ' ', 'a', ' ', 'p', 'l', 'a', 'n', ',', ' ', 'a', ' ', 'c', 'a', 'n', 'a', 'l', ':', ' ',
-                'P', 'a', 'n', 'a', 'm', 'a' };
+        array = new char[] { 'A', ' ', 'm', 'a', 'n', ',', ' ', 'a', ' ', 'p', 'l', 'a', 'n', ',', ' ', 'a', ' ', 'c',
+                'a', 'n', 'a', 'l', ':', ' ', 'P', 'a', 'n', 'a', 'm', 'a' };
         reverseString(array);
-        assertEquals(true, Arrays.equals(new char[] { 'a', 'm', 'a', 'n', 'a', 'P', ' ', ':', 'l', 'a', 'n', 'a', 'c', ' ', 'a', ' ', ',', 'n', 'a',
-                'l', 'p', ' ', 'a', ' ', ',', 'n', 'a', 'm', ' ', 'A' }, array));
+        assertEquals(true, Arrays.equals(new char[] { 'a', 'm', 'a', 'n', 'a', 'P', ' ', ':', 'l', 'a', 'n', 'a', 'c',
+                ' ', 'a', ' ', ',', 'n', 'a', 'l', 'p', ' ', 'a', ' ', ',', 'n', 'a', 'm', ' ', 'A' }, array));
 
     }
 
@@ -900,9 +977,8 @@ public class LeetCodeStringTest
         {
             char ch = builder.charAt(i);
 
-            if (ch == 'a' || ch == 'A' || ch == 'e' || ch == 'E' ||
-                    ch == 'i' || ch == 'I' || ch == 'o' || ch == 'O' ||
-                    ch == 'u' || ch == 'U')
+            if (ch == 'a' || ch == 'A' || ch == 'e' || ch == 'E' || ch == 'i' || ch == 'I' || ch == 'o' || ch == 'O'
+                    || ch == 'u' || ch == 'U')
             {
 
                 stack.push(ch);
@@ -1265,7 +1341,8 @@ public class LeetCodeStringTest
                     return false;
 
                 String s1 = palindromeString.substring(0, i) + palindromeString.substring(i + 1);
-                String s2 = palindromeString.substring(0, lengthOf - i - 1) + palindromeString.substring(lengthOf - i - 1 + 1);
+                String s2 = palindromeString.substring(0, lengthOf - i - 1)
+                        + palindromeString.substring(lengthOf - i - 1 + 1);
 
                 boolean isS1 = isPalindrome(s1, 1);
                 boolean isS2 = isPalindrome(s2, 1);
