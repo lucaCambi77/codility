@@ -9,6 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -29,7 +31,9 @@ import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import it.cambi.codility.util.AbstractTest;
 
@@ -37,6 +41,7 @@ import it.cambi.codility.util.AbstractTest;
  * @author luca
  *
  */
+@TestMethodOrder(Alphanumeric.class)
 public class HackerRankArraysTest extends AbstractTest
 {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -61,16 +66,35 @@ public class HackerRankArraysTest extends AbstractTest
     int energy;
 
     @Test
-    public void acmTeam()
+    public void acmTeam() throws FileNotFoundException, IOException
     {
-        acmTeam(new String[] { "10101", "11100", "11010", "00101" });
+        try (BufferedReader in = new BufferedReader(new FileReader("src/test/resources/acmTeam/acmTeam.txt")))
+        {
+            String line = in.readLine();
+            String[] split = line.split(" ");
+            
+            String[] array = new String[new Integer(split[0])];
+            line = in.readLine();
+
+            int i = 0;
+            while (line != null)
+            {
+            	array[i] = line;
+                line = in.readLine();
+                i++;
+            }
+
+        	assertTrue(Arrays.equals(new int[] {97, 5}, acmTeam(array)));
+        }
+        
     }
 
     private int[] acmTeam(String[] topic)
     {
         int maxTopic = 0;
-        int numWays = 0;
-        int[] topics = new int[6];
+        int attendees = topic[0].length();
+        
+        int[] topics = new int[attendees + 1];
 
         for (int i = 0; i < topic.length; i++)
         {
@@ -95,7 +119,20 @@ public class HackerRankArraysTest extends AbstractTest
             }
         }
 
-        return new int[] {};
+        int[] result = new int[2];
+        
+        for (int i = topics.length -1; i > 0; i--) {
+        	
+        	if(topics[i] != 0)
+        	{
+        		result[0] = i;
+        		result[1] = topics[i];
+        		break;
+        	}	
+			
+		}
+        
+        return result;
     }
 
     @Test
