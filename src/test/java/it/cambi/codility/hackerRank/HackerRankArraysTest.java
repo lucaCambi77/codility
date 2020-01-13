@@ -107,8 +107,7 @@ public class HackerRankArraysTest extends AbstractTest
                 int currTopics = 0;
                 for (int k = 0; k < otherAttendee.length(); k++)
                 {
-                    int c = otherAttendee.charAt(k) | attendee.charAt(k);
-                    if (c == 49)
+                    if ((otherAttendee.charAt(k) | attendee.charAt(k)) == 49)
                         currTopics++;
                 }
 
