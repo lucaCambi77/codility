@@ -63,13 +63,13 @@ public class HackerRankArraysTest extends AbstractTest
     @Test
     public void acmTeam()
     {
-        acmTeam(new String[] { "10101", "11100", "11010", "00101" });
+        assertTrue(Arrays.equals(new int[] { 5, 2 }, acmTeam(new String[] { "10101", "11100", "11010", "00101" })));
     }
 
     private int[] acmTeam(String[] topic)
     {
         int maxTopic = 0;
-        int numWays = 0;
+
         int[] topics = new int[6];
 
         for (int i = 0; i < topic.length; i++)
@@ -95,7 +95,19 @@ public class HackerRankArraysTest extends AbstractTest
             }
         }
 
-        return new int[] {};
+        int[] result = new int[2];
+
+        for (int i = topics.length - 1; i > 0; i--)
+        {
+            if (topics[i] != 0)
+            {
+                result[0] = i;
+                result[1] = topics[i];
+                break;
+            }
+        }
+
+        return result;
     }
 
     @Test
@@ -433,7 +445,7 @@ public class HackerRankArraysTest extends AbstractTest
         String solution = "";
 
         String carriageReturn = getCarriageReturn();
-        
+
         while (line != null)
         {
             solution += line + carriageReturn;
