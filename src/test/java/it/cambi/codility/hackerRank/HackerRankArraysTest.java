@@ -65,6 +65,50 @@ public class HackerRankArraysTest extends AbstractTest
 
     int energy;
 
+    /**
+     * 0 is also an item so all item betwee 0 and 4 are in 1 container
+     */
+    @Test
+    public void toys()
+    {
+        assertEquals(4, toys(new int[] { 1, 2, 3, 21, 7, 12, 14, 21 }));
+        assertEquals(3, toys(new int[] { 16, 18, 10, 13, 2, 9, 17, 17, 0, 19 }));
+        assertEquals(66, toys(new int[] { 724, 103, 403, 792, 195, 445, 676, 337, 142, 731, 274, 530, 478, 719, 966, 680, 202, 692, 142, 260, 333,
+                555, 905, 517, 679, 432, 620, 477, 841, 340, 960, 566, 443, 715, 710, 639, 160, 386, 328, 655, 469, 955, 537, 299, 674, 855, 980, 228,
+                548, 122, 489, 881, 30, 746, 750, 709, 531, 370, 539, 372, 710, 499, 938, 505, 215, 0, 144, 727, 738, 825, 734, 207, 780, 271, 507,
+                806, 127, 839, 387, 675, 313, 228, 908, 343, 974, 658, 53, 857, 380, 592, 230, 442, 443, 520, 947, 10, 521, 444, 738, 259 }));
+
+    }
+
+    private int toys(int[] w)
+    {
+
+        int containers = 0;
+
+        if (w == null || (null != w && w.length == 0))
+            return containers;
+
+        int range = 4;
+
+        Arrays.parallelSort(w);
+
+        int curr = w[0] + range;
+        containers = 1;
+
+        for (int i = 1; i < w.length; i++)
+        {
+            if (w[i] > curr)
+            {
+                containers++;
+                curr = w[i] + range;
+
+            }
+        }
+
+        return containers;
+
+    }
+
     @Test
     public void acmTeam() throws FileNotFoundException, IOException
     {
