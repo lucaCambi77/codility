@@ -80,23 +80,146 @@ public class LeetCodeStringTest
     public void compress()
     {
         assertEquals(6, compress(new char[] { 'a', 'a', 'b', 'b', 'c', 'c', 'c' }));
+        assertEquals(4, compress(new char[] { 'a', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b' }));
+        assertEquals(6, compress(new char[] { 'a', 'a', 'a', 'b', 'b', 'a', 'a' }));
+        assertEquals(1, compress(new char[] { 'a' }));
+        assertEquals(3, compress(new char[] { 'a', 'a', 'a', 'a', 'a', 'b' }));
+
     }
 
     private int compress(char[] chars)
     {
-        Arrays.parallelSort(chars);
+        if (null == chars || (null != chars && chars.length == 0))
+            return 0;
+
+        int length = chars.length;
+
+        int i = 1;
+        int position = 1;
         char c = chars[0];
+        int charCount = 1;
 
-        int count = 0;
-
-        for (int i = 1; i < chars.length; i++)
+        while (i < length)
         {
-            if (chars[i] == c)
-                count++;
+            if (c == chars[i])
+                charCount++;
+            else
+            {
+                length = swapByCount(chars, position, charCount, i, length);
+                i = position + Integer.toString(charCount).length() - 1;
+                charCount = 1;
+                c = chars[i];
+                position = i + 1;
+
+            }
+
+            i++;
+        }
+
+        length = swapByCount(chars, position, charCount, i, length);
+
+        return length;
+    }
+
+    /**
+     * @param chars
+     * @param position
+     * @param count
+     * @return
+     */
+    private int swapByCount(char[] chars, int position, int count, int i, int length)
+    {
+        if (count > 1)
+        {
+            String s = Integer.toString(count);
+
+            for (int j = 0; j < s.length(); j++)
+            {
+
+                chars[position++] = s.charAt(j);
+            }
+
+            if (position < i)
+            {
+                length = length - (i - position);
+
+                for (int j = position; j < length; j++)
+                {
+                    chars[position++] = chars[i++];
+                }
+            }
+        }
+        return length;
+    }
+
+    @Test
+    public void judgeCircle()
+    {
+        assertEquals(true, judgeCircle("UD"));
+        assertEquals(false, judgeCircle("LL"));
+
+    }
+
+    private boolean judgeCircle(String moves)
+    {
+
+        int countLeft = 0;
+        int countUp = 0;
+
+        for (int i = 0; i < moves.length(); i++)
+        {
+            if (moves.charAt(i) == 'L')
+                countLeft++;
+            else if (moves.charAt(i) == 'R')
+                countLeft--;
+            else if (moves.charAt(i) == 'U')
+                countUp++;
+            else if (moves.charAt(i) == 'D')
+                countUp--;
+        }
+
+        return countLeft == 0 && countUp == 0;
+    }
+
+    @Test
+    public void backspaceCompare()
+    {
+        assertEquals(true, backspaceCompare("ab##", "c#d#"));
+        assertEquals(true, backspaceCompare("a##c", "#a#c"));
+        assertEquals(false, backspaceCompare("a#c", "b"));
+
+    }
+
+    public boolean backspaceCompare(String S, String T)
+    {
+        Stack<Character> stack1 = getStack(S);
+        Stack<Character> stack2 = getStack(T);
+
+        return stack1.equals(stack2);
+    }
+
+    /**
+     * @param S
+     */
+    private Stack<Character> getStack(String S)
+    {
+        Stack<Character> stack = new Stack<>();
+
+        for (int i = 0; i < S.length(); i++)
+        {
+            if (S.charAt(i) == '#')
+            {
+                if (!stack.isEmpty())
+                    stack.pop();
+            }
+            else
+            {
+                stack.add(S.charAt(i));
+            }
 
         }
 
-        return 0;
+        return stack;
     }
 
     @Test
