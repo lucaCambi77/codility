@@ -50,6 +50,32 @@ public class LeetCodeArrayTest
     private int[] nums;
 
     @Test
+    public void distributeCandies()
+    {
+        assertEquals(3, distributeCandies(new int[] { 1, 1, 2, 2, 3, 3 }));
+        assertEquals(2, distributeCandies(new int[] { 1, 1, 2, 3 }));
+        assertEquals(1, distributeCandies(new int[] { 1, 1 }));
+        assertEquals(0, distributeCandies(new int[] { 1, 1, 2 }));
+
+    }
+
+    public int distributeCandies(int[] candies)
+    {
+
+        int length = candies.length;
+
+        if ((length & 1) == 1)
+            return 0;
+
+        Set<Integer> kinds = new HashSet<Integer>();
+
+        for (int i = 0; i < candies.length; i++)
+            kinds.add(candies[i]);
+
+        return Math.min(length / 2, kinds.size());
+    }
+
+    @Test
     public void hasGroupsSizeX()
     {
         assertEquals(true, hasGroupsSizeX(new int[] { 1, 2, 3, 4, 4, 3, 2, 1 }));
@@ -342,7 +368,7 @@ public class LeetCodeArrayTest
                 }
 
             }
-            
+
             if (!isCommonGroup)
                 return false;
         }
