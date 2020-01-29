@@ -16,6 +16,52 @@ public class LeetCodeMathTest
     long k;
 
     @Test
+    public void arrangeCoins()
+    {
+        assertEquals(2, arrangeCoins(5));
+        assertEquals(3, arrangeCoins(8));
+        assertEquals(0, arrangeCoins(0));
+        assertEquals(1, arrangeCoins(1));
+        assertEquals(1, arrangeCoins(2));
+        assertEquals(2, arrangeCoins(3));
+        assertEquals(60070, arrangeCoins(1804289383));
+
+    }
+
+    public int arrangeCoins(int n)
+    {
+
+        return (int) binarySearch(n, 0);
+    }
+
+    public long binarySearch(int n, int fromIndex)
+    {
+        long low = fromIndex;
+        long high = n;
+
+        while (low <= high)
+        {
+            long mid = (low + high) >>> 1; // (low + high) / 2;
+
+            long sum = mid * (1 + mid) / 2;
+
+            if (sum == n)
+                return mid;
+
+            long sumPrev = (mid - 1) * (mid) / 2;
+
+            if (sum < n)
+                low = mid + 1;
+            else if (sum > n && sumPrev < n)
+                return mid - 1;
+            else
+                high = mid - 1;
+        }
+
+        return 0; // key not found.
+    }
+
+    @Test
     public void hammingWeight()
     {
         assertEquals(3, hammingWeight(00000000000000000000000000001011));
