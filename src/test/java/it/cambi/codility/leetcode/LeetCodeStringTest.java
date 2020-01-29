@@ -77,6 +77,87 @@ public class LeetCodeStringTest
     };
 
     @Test
+    public void licenseKeyFormatting()
+    {
+        assertEquals("5F3Z-2E9W", licenseKeyFormatting("5F3Z-2e-9-w", 4));
+        assertEquals("2-5G-3J", licenseKeyFormatting("2-5g-3-J", 2));
+        assertEquals("2", licenseKeyFormatting("2", 2));
+
+    }
+
+    public String licenseKeyFormatting(String S, int K)
+    {
+        String replace = S.replaceAll("-", "").toUpperCase();
+
+        if (replace.length() < K)
+            return replace;
+
+        int reminder = replace.length() % K;
+
+        StringBuilder builder = new StringBuilder();
+
+        int i = 0;
+
+        if (reminder > 0)
+        {
+
+            while (reminder-- > 0)
+            {
+                builder.append(replace.charAt(i++));
+            }
+
+            builder.append("-");
+        }
+        
+        int z = 0;
+        for (int j = i; j < replace.length(); j++)
+        {
+            builder.append(replace.charAt(j));
+            if (++z == K && j != replace.length() - 1)
+            {
+
+                builder.append("-");
+                z = 0;
+            }
+
+        }
+
+        return builder.toString();
+    }
+
+    @Test
+    public void removeOuterParentheses()
+    {
+        assertEquals("(()())(())", removeOuterParentheses("()()()"));
+        assertEquals("()()()()(())", removeOuterParentheses("(()())(())(()(()))"));
+        assertEquals("", removeOuterParentheses("()()"));
+
+    }
+
+    public String removeOuterParentheses(String S)
+    {
+        Stack<Character> stack = new Stack<Character>();
+        char c = S.charAt(0);
+        boolean isOuterMost = false;
+
+        for (int i = 1; i < S.length(); i++)
+        {
+            if (c == '(' && !isOuterMost)
+            {
+                stack.add(S.charAt(i));
+                isOuterMost = true;
+            }
+            else if (c == '(' && isOuterMost)
+            {
+
+            }
+
+        }
+
+        return null;
+    }
+
+    @Test
     public void compress()
     {
         assertEquals(6, compress(new char[] { 'a', 'a', 'b', 'b', 'c', 'c', 'c' }));
