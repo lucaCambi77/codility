@@ -50,6 +50,51 @@ public class LeetCodeArrayTest
     private int[] nums;
 
     @Test
+    public void validMountainArray()
+    {
+        assertEquals(false, validMountainArray(new int[] { 2, 1 }));
+        assertEquals(false, validMountainArray(new int[] { 3, 5, 5 }));
+        assertEquals(true, validMountainArray(new int[] { 0, 3, 2, 1 }));
+        assertEquals(false, validMountainArray(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }));
+        assertEquals(false, validMountainArray(new int[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 }));
+        assertEquals(false, validMountainArray(new int[] { 1, 7, 9, 5, 4, 1, 2 }));
+        assertEquals(false, validMountainArray(new int[] { 3, 7, 20, 14, 15, 14, 10, 8, 2, 1 }));
+
+    }
+
+    public boolean validMountainArray(int[] A)
+    {
+
+        if (A.length < 3)
+            return false;
+
+        int value = A[0];
+        boolean increase = true;
+
+        for (int i = 1; i < A.length; i++)
+        {
+            if (increase)
+            {
+                if (A[i] == value || (A[i] <= value && i < 2))
+                    return false;
+                else if (A[i] < value)
+                    increase = false;
+
+            }
+            else
+            {
+                if (A[i] >= value)
+                    return false;
+
+            }
+
+            value = A[i];
+        }
+
+        return !increase;
+    }
+
+    @Test
     public void distributeCandies()
     {
         assertEquals(3, distributeCandies(new int[] { 1, 1, 2, 2, 3, 3 }));
