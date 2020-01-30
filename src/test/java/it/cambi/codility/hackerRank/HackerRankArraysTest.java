@@ -65,6 +65,31 @@ public class HackerRankArraysTest extends AbstractTest
 
     int energy;
 
+    @Test
+    public void serviceLane()
+    {
+        assertTrue(Arrays.equals(new int[] { 1, 2, 3, 2, 1, },
+                serviceLane(new int[] { 2, 3, 1, 2, 3, 2, 3, 3 }, new int[][] { { 0, 3 }, { 4, 6 }, { 6, 7 }, { 3, 5 }, { 0, 7 } })));
+    }
+
+    static int[] serviceLane(int[] width, int[][] cases)
+    {
+        int[] solution = new int[cases.length];
+
+        for (int i = 0; i < cases.length; i++)
+        {
+            int[] caseith = cases[i];
+            int start = caseith[0];
+            int end = caseith[1];
+
+            int min = IntStream.range(0, width.length).filter(v -> v >= start && v <= end).map(v -> width[v]).min().getAsInt();
+            solution[i] = min;
+
+        }
+
+        return solution;
+    }
+
     /**
      * 0 is also an item so all item betwee 0 and 4 are in 1 container
      */
@@ -289,8 +314,8 @@ public class HackerRankArraysTest extends AbstractTest
             while (column + k < length)
             {
                 int col = column;
-                int rowSum = IntStream.range(0, length).filter(v -> v >= col && v <= col + k).map(v -> new Integer(row[v])).sum();
-                int rowSum2 = IntStream.range(0, length).filter(v -> v >= col && v <= col + k).map(v -> new Integer(row2[v])).sum();
+                int rowSum = IntStream.range(0, length).filter(v -> v >= col && v <= col + k).map(v -> row[v]).sum();
+                int rowSum2 = IntStream.range(0, length).filter(v -> v >= col && v <= col + k).map(v -> row2[v]).sum();
                 int middle = array[i + 1][col + 1];
 
                 maxSum = Math.max(maxSum, rowSum2 + rowSum + middle);
@@ -624,7 +649,7 @@ public class HackerRankArraysTest extends AbstractTest
         InputStream is = new FileInputStream("src/test/resources/maxSubsetSum/maxSubsetSum1.txt");
         BufferedReader buf = new BufferedReader(new InputStreamReader(is));
 
-        array = new int[new Integer(buf.readLine())];
+        array = new int[Integer.valueOf(buf.readLine())];
 
         String line = buf.readLine();
 
@@ -633,7 +658,7 @@ public class HackerRankArraysTest extends AbstractTest
         int i = 0;
         for (String string : split)
         {
-            array[i] = new Integer(string);
+            array[i] = Integer.valueOf(string);
             i++;
         }
 
