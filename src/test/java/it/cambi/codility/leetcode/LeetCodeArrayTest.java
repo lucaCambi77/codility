@@ -69,35 +69,12 @@ public class LeetCodeArrayTest
 
         for (int i = 0; i < length; i++)
         {
-            int position = binarySearch(arr, 0, arr.length, copy[i]);
+            int position = Array.binarySearch(arr, 0, arr.length, copy[i]);
             solution[i] = position + 1;
         }
 
         return solution;
 
-    }
-
-    public static int binarySearch(int[] a, int fromIndex, int toIndex, int key)
-    {
-        int low = fromIndex;
-        int high = toIndex - 1;
-
-        while (low <= high)
-        {
-            int mid = (low + high) >>> 1; // (low + high) / 2;
-            int midVal = a[mid];
-
-            if (midVal < key)
-                low = mid + 1;
-            else if (midVal > key)
-                high = mid - 1;
-            else if (mid != 0 && a[mid - 1] == midVal)
-                high = mid - 1;
-            else
-                return mid; // key found
-        }
-
-        return -(low + 1); // key not found.
     }
 
     @Test
@@ -2622,7 +2599,7 @@ public class LeetCodeArrayTest
 
             int fit = target - num;
 
-            int search = binarySearch(nums, i + 1, length, fit);
+            int search = Array.binarySearch(nums, i + 1, length, fit);
 
             if (search >= 0)
                 return new int[] { i + 1, search + 1 };
