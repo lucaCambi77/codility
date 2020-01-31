@@ -22,6 +22,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -48,6 +49,64 @@ public class LeetCodeArrayTest
     long k;
 
     private int[] nums;
+
+    @Test
+    public void numSmallerByFrequency()
+    {
+        assertTrue(Arrays.equals(new int[] { 1, 2 },
+                numSmallerByFrequency(new String[] { "bbb", "cc" }, new String[] { "a", "aa", "aaa", "aaaa" })));
+
+        assertTrue(Arrays.equals(new int[] { 1 },
+                numSmallerByFrequency(new String[] { "cbd" }, new String[] { "zaaaz" })));
+
+        assertTrue(Arrays.equals(new int[] { 6, 1, 1, 2, 3, 3, 3, 1, 3, 2 },
+                numSmallerByFrequency(new String[] { "bba", "abaaaaaa", "aaaaaa", "bbabbabaab", "aba", "aa", "baab", "bbbbbb", "aab", "bbabbaabb" },
+                        new String[] { "aaabbb", "aab", "babbab", "babbbb", "b", "bbbbbbbbab", "a", "bbbbbbbbbb", "baaabbaab", "aa" })));
+    }
+
+    public int[] numSmallerByFrequency(String[] queries, String[] words)
+    {
+
+        int[] count = new int[words.length];
+        for (int i = 0; i < words.length; i++)
+        {
+            String word = words[i];
+            count[i] = getWordMaxCount(word);
+        }
+
+        Supplier<IntStream> countSuppl = () -> Arrays.stream(count);
+        int[] solution = new int[queries.length];
+
+        for (int i = 0; i < queries.length; i++)
+        {
+            String query = queries[i];
+
+            int max = getWordMaxCount(query);
+
+            solution[i] = (int) countSuppl.get().filter(c -> c > max).count();
+        }
+
+        return solution;
+    }
+
+    /**
+     * @param word
+     * @return
+     */
+    private int getWordMaxCount(String word)
+    {
+
+        char min = (char) word.chars().min().getAsInt();
+
+        int count = 0;
+        for (int j = 0; j < word.length(); j++)
+        {
+            char c = word.charAt(j);
+            if (min == c)
+                count++;
+        }
+        return count;
+    }
 
     @Test
     public void arrayRankTransform()
