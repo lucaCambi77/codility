@@ -53,7 +53,7 @@ import it.cambi.codility.util.AbstractTest;
  * @author luca
  *
  */
-public class HackerRankJavaTest  extends AbstractTest
+public class HackerRankJavaTest extends AbstractTest
 {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -191,7 +191,7 @@ public class HackerRankJavaTest  extends AbstractTest
                 {
                     case "ENTER":
                         String name = st.nextToken();
-                        double cgpa = new Double(st.nextToken());
+                        double cgpa = Double.parseDouble(st.nextToken());
                         int id = Integer.valueOf(st.nextToken());
 
                         Student student = new Student(id, name, cgpa);
@@ -808,8 +808,8 @@ public class HackerRankJavaTest  extends AbstractTest
 
         for (int i = 0; i < n; i++)
         {
-            deque.add(new Integer(split[i]));
-            set.add(new Integer(split[i]));
+            deque.add(Integer.valueOf(split[i]));
+            set.add(Integer.valueOf(split[i]));
 
             if (deque.size() == m)
             {
@@ -1384,8 +1384,8 @@ public class HackerRankJavaTest  extends AbstractTest
     @Test
     public void getSmallestAndLargest()
     {
-    	String carriageReturn = getCarriageReturn();
-    	
+        String carriageReturn = getCarriageReturn();
+
         assertEquals("ava" + carriageReturn + "wel", getSmallestAndLargest("welcometojava", 3));
     }
 

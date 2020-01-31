@@ -262,7 +262,7 @@ public class LeetCodeLinkedListTest
 
         int[] array = new int[] { 1, 9, 9, 9, 9, 9, 9, 9, 9, 9 };
 
-        ListNode l5 = new ListNode(new Integer(array[0]));
+        ListNode l5 = new ListNode(Integer.valueOf(array[0]));
         ListNode tmp = l5;
         for (int i = 1; i < array.length; i++)
         {
@@ -272,7 +272,7 @@ public class LeetCodeLinkedListTest
 
         array = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
 
-        ListNode l6 = new ListNode(new Integer(array[0]));
+        ListNode l6 = new ListNode(Integer.valueOf(array[0]));
         tmp = l6;
         for (int i = 1; i < array.length; i++)
         {
@@ -309,12 +309,12 @@ public class LeetCodeLinkedListTest
         String sumToString = sum.toString();
 
         int length = sumToString.length() - 1;
-        ListNode head = new ListNode(new Integer(Character.toString(sumToString.charAt(length))));
+        ListNode head = new ListNode(Integer.valueOf(Character.toString(sumToString.charAt(length))));
         ListNode tmp = head;
 
         for (int i = length - 1; i >= 0; i--)
         {
-            tmp.next = new ListNode(new Integer(Character.toString(sumToString.charAt(i))));
+            tmp.next = new ListNode(Integer.valueOf(Character.toString(sumToString.charAt(i))));
             tmp = tmp.next;
         }
 

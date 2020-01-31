@@ -303,7 +303,7 @@ public class HackerRankTest
 
             String[] split = line.split(" ");
 
-            assertEquals(new Integer(line1), saveThePrisoner(new Integer(split[0]), new Integer(split[1]), new Integer(split[2])));
+            assertEquals(Integer.valueOf(line1), saveThePrisoner(Integer.valueOf(split[0]), Integer.valueOf(split[1]), Integer.valueOf(split[2])));
 
             line = buf.readLine();
             line1 = buf1.readLine();
@@ -683,13 +683,13 @@ public class HackerRankTest
 
                     case "2":
                         currentWord = new StringBuilder(
-                                currentWord.substring(0, currentWord.length() - new Integer(split[1])));
+                                currentWord.substring(0, currentWord.length() - Integer.valueOf(split[1])));
                         stack.push(currentWord.toString());
 
                         break;
 
                     default:
-                        int position = new Integer(split[1]) - 1;
+                        int position = Integer.valueOf(split[1]) - 1;
                         System.out.println(currentWord.charAt(position));
 
                         break;
