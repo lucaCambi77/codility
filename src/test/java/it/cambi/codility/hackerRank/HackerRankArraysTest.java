@@ -63,7 +63,66 @@ public class HackerRankArraysTest extends AbstractTest
         System.setErr(originalErr);
     }
 
-    int energy;
+    @Test
+    public void workbook()
+    {
+        assertEquals(4, workbook(5, 3, new int[] { 4, 2, 6, 1, 10 }));
+        assertEquals(8, workbook(10, 5, new int[] { 3, 8, 15, 11, 14, 1, 9, 2, 24, 31 }));
+
+    }
+
+    private int workbook(int n, int k, int[] arr)
+    {
+        int specialProblems = 0;
+        int page = 0;
+
+        for (int i = 0; i < arr.length; i++)
+        {
+            int problems = arr[i];
+            int start = 1;
+
+            if (problems - k < 0)
+            {
+                page++;
+                if (isSpecialProblem(page, start, problems))
+                    specialProblems++;
+            }
+            else
+            {
+
+                int j = k;
+                while (problems > 0)
+                {
+                    page++;
+                    if (isSpecialProblem(page, start, j))
+                        specialProblems++;
+
+                    problems -= k;
+                    j += problems > k ? k : problems;
+                    start += k;
+                }
+            }
+
+        }
+
+        return specialProblems;
+    }
+
+    /**
+     * @param page
+     * @param specialProblems
+     * @param problems
+     * @return
+     */
+    private boolean isSpecialProblem(int page, int start, int problems)
+    {
+        List<Integer> list = IntStream.range(start, problems + 1).boxed().collect(Collectors.toList());
+
+        if (list.contains(page))
+            return true;
+
+        return false;
+    }
 
     @Test
     public void serviceLane()
@@ -72,7 +131,7 @@ public class HackerRankArraysTest extends AbstractTest
                 serviceLane(new int[] { 2, 3, 1, 2, 3, 2, 3, 3 }, new int[][] { { 0, 3 }, { 4, 6 }, { 6, 7 }, { 3, 5 }, { 0, 7 } })));
     }
 
-    static int[] serviceLane(int[] width, int[][] cases)
+    private int[] serviceLane(int[] width, int[][] cases)
     {
         int[] solution = new int[cases.length];
 
@@ -91,7 +150,7 @@ public class HackerRankArraysTest extends AbstractTest
     }
 
     /**
-     * 0 is also an item so all item betwee 0 and 4 are in 1 container
+     * 0 is also an item so all item between 0 and 4 are in 1 container
      */
     @Test
     public void toys()
@@ -295,8 +354,7 @@ public class HackerRankArraysTest extends AbstractTest
                         { -7, -3, -3, -2, -9, -9 }, { -1, -3, -1, -2, -4, -5 } }));
     }
 
-    @Test
-    public int twoDArray(int[][] array)
+    private int twoDArray(int[][] array)
     {
         int k = 2;
         int length = array.length;
@@ -338,7 +396,7 @@ public class HackerRankArraysTest extends AbstractTest
 
     }
 
-    public static int fibonacci(int n)
+    private static int fibonacci(int n)
     {
 
         if (n == 0)
