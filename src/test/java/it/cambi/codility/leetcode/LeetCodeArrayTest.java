@@ -50,6 +50,57 @@ public class LeetCodeArrayTest
     private int[] nums;
 
     @Test
+    public void arrayRankTransform()
+    {
+        assertTrue(Arrays.equals(new int[] { 4, 1, 2, 3 }, arrayRankTransform(new int[] { 40, 10, 20, 30 })));
+        assertTrue(Arrays.equals(new int[] { 1, 1, 1 }, arrayRankTransform(new int[] { 100, 100, 100 })));
+        assertTrue(Arrays.equals(new int[] { 5, 3, 4, 2, 8, 6, 7, 1, 3 }, arrayRankTransform(new int[] { 37, 12, 28, 9, 100, 56, 80, 5, 12 })));
+
+    }
+
+    public int[] arrayRankTransform(int[] arr)
+    {
+
+        int length = arr.length;
+        int[] solution = new int[length];
+        int[] copy = arr.clone();
+
+        arr = IntStream.of(arr).distinct().sorted().toArray();
+
+        for (int i = 0; i < length; i++)
+        {
+            int position = binarySearch(arr, 0, arr.length, copy[i]);
+            solution[i] = position + 1;
+        }
+
+        return solution;
+
+    }
+
+    public static int binarySearch(int[] a, int fromIndex, int toIndex, int key)
+    {
+        int low = fromIndex;
+        int high = toIndex - 1;
+
+        while (low <= high)
+        {
+            int mid = (low + high) >>> 1; // (low + high) / 2;
+            int midVal = a[mid];
+
+            if (midVal < key)
+                low = mid + 1;
+            else if (midVal > key)
+                high = mid - 1;
+            else if (mid != 0 && a[mid - 1] == midVal)
+                high = mid - 1;
+            else
+                return mid; // key found
+        }
+
+        return -(low + 1); // key not found.
+    }
+
+    @Test
     public void validMountainArray()
     {
         assertEquals(false, validMountainArray(new int[] { 2, 1 }));
@@ -1350,7 +1401,7 @@ public class LeetCodeArrayTest
 
     public int sumRange(int i, int j)
     {
-        return IntStream.range(0, nums.length).filter(v -> v >= i && v <= j).map(v -> new Integer(nums[v])).sum();
+        return IntStream.range(0, nums.length).filter(v -> v >= i && v <= j).map(v -> nums[v]).sum();
     }
 
     @Test
@@ -1965,9 +2016,9 @@ public class LeetCodeArrayTest
 
         String value = Arrays.stream(digits).mapToObj(String::valueOf).collect(Collectors.joining(""));
 
-        BigInteger retValue = new BigInteger(value).add(new BigInteger(new Integer(K).toString()));
+        BigInteger retValue = new BigInteger(value).add(new BigInteger(Integer.valueOf(K).toString()));
 
-        return retValue.toString().chars().mapToObj(c -> new Integer(String.valueOf((char) c)))
+        return retValue.toString().chars().mapToObj(c -> Integer.valueOf(String.valueOf((char) c)))
                 .collect(Collectors.toList());
     }
 
@@ -1988,7 +2039,7 @@ public class LeetCodeArrayTest
 
         BigInteger retValue = new BigInteger(value).add(new BigInteger("1"));
 
-        return retValue.toString().chars().mapToObj(c -> String.valueOf((char) c)).mapToInt(x -> new Integer(x))
+        return retValue.toString().chars().mapToObj(c -> String.valueOf((char) c)).mapToInt(x -> Integer.valueOf(x))
                 .toArray();
     }
 
@@ -2579,32 +2630,6 @@ public class LeetCodeArrayTest
         }
 
         return new int[2];
-    }
-
-    private int binarySearch(int[] a, int left, int right, int k)
-    {
-
-        if (right < left)
-            return -1;
-
-        int mid = (left + right) / 2;
-
-        if (a[mid] == k)
-        {
-
-            return mid;
-        }
-        else if (a[mid] > k)
-        {
-            return binarySearch(a, left, mid - 1, k);
-
-        }
-        else
-        {
-
-            return binarySearch(a, mid + 1, right, k);
-        }
-
     }
 
     @Test
