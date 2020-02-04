@@ -51,6 +51,34 @@ public class LeetCodeArrayTest
     private int[] nums;
 
     @Test
+    public void decompressRLElist()
+    {
+        assertTrue(Arrays.equals(new int[] { 2, 4, 4, 4 }, decompressRLElist(new int[] { 1, 2, 3, 4 })));
+    }
+
+    public int[] decompressRLElist(int[] nums)
+    {
+
+        int length = IntStream.range(0, nums.length).filter(i -> (i & 1) == 0).map(i -> nums[i]).sum();
+
+        int[] sol = new int[length];
+        int count = 0;
+
+        for (int i = 0; i < nums.length; i++)
+        {
+            for (int j = 0; j < nums[i]; j++)
+            {
+                sol[count++] = nums[i + 1];
+
+            }
+
+            i++;
+        }
+
+        return sol;
+    }
+
+    @Test
     public void numSmallerByFrequency()
     {
         assertTrue(Arrays.equals(new int[] { 1, 2 },
