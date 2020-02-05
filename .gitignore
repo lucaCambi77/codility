@@ -30,3 +30,7 @@ target/
 .settings/
 .factorypath
 src/test/java/it/cambi/codility/company/
+
+# Intellij files
+.idea
+*.iml
