@@ -20,7 +20,78 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LeetCodeDataStructTest {
 
     @Test
-    public void desigHashSet() {
+    public void designHashMap() {
+        MyHashMap hashMap = new MyHashMap();
+
+        hashMap.put(1, 1);
+        hashMap.put(2, 2);
+
+        assertEquals(1, hashMap.get(1));
+        assertEquals(-1, hashMap.get(3));
+
+        hashMap.put(2, 1);
+        assertEquals(1, hashMap.get(2));
+        hashMap.remove(2);
+        assertEquals(-1, hashMap.get(2));
+
+    }
+
+
+    class MyHashMap {
+
+        LinkedList<NodeHashMap> list = new LinkedList<>();
+
+        /** Initialize your data structure here. */
+        public MyHashMap() {
+
+        }
+
+        /** value will always be non-negative. */
+        public void put(int key, int value) {
+            NodeHashMap node = new NodeHashMap(key, value);
+            list.remove(node);
+            list.add(node);
+        }
+
+        /** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */
+        public int get(int key) {
+            NodeHashMap node = list.stream().filter(n -> n.key == key).findFirst().orElse(null);
+            return node == null ? -1 : node.value;
+        }
+
+        /** Removes the mapping of the specified value key if this map contains a mapping for the key */
+        public void remove(int key) {
+            list.remove(new NodeHashMap(key, 0));
+        }
+    }
+
+
+    class NodeHashMap {
+        int key;
+        int value;
+
+        NodeHashMap(int key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            NodeHashMap node = (NodeHashMap) o;
+            return key == node.key;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(key);
+        }
+    }
+
+
+    @Test
+    public void designHashSet() {
         MyHashSet hashSet = new MyHashSet();
 
         hashSet.add(1);
@@ -40,11 +111,10 @@ public class LeetCodeDataStructTest {
 
     }
 
-
-    class Node {
+    class NodeHashSet {
         int key;
 
-        Node(int key) {
+        NodeHashSet(int key) {
             this.key = key;
         }
 
@@ -52,7 +122,7 @@ public class LeetCodeDataStructTest {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            Node node = (Node) o;
+            NodeHashSet node = (NodeHashSet) o;
             return key == node.key;
         }
 
@@ -64,7 +134,7 @@ public class LeetCodeDataStructTest {
 
     class MyHashSet {
 
-        List<Node> list = new ArrayList<>();
+        LinkedList<NodeHashSet> list = new LinkedList<>();
 
         /** Initialize your data structure here. */
         public MyHashSet() {
@@ -72,19 +142,19 @@ public class LeetCodeDataStructTest {
         }
 
         public void add(int key) {
-            Node node = new Node(key);
+            NodeHashSet node = new NodeHashSet(key);
 
             if (!list.contains(node))
                 list.add(node);
         }
 
         public void remove(int key) {
-            list.remove(new Node(key));
+            list.remove(new NodeHashSet(key));
         }
 
         /** Returns true if this set contains the specified element */
         public boolean contains(int key) {
-            return list.contains(new Node(key));
+            return list.contains(new NodeHashSet(key));
         }
     }
 
