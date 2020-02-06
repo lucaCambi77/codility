@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.leetcode;
 
@@ -41,8 +41,7 @@ import javafx.util.Pair;
  *
  */
 @TestMethodOrder(Alphanumeric.class)
-public class LeetCodeArrayTest
-{
+public class LeetCodeArrayTest {
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -50,24 +49,68 @@ public class LeetCodeArrayTest
 
     private int[] nums;
 
+
     @Test
-    public void decompressRLElist()
-    {
-        assertTrue(Arrays.equals(new int[] { 2, 4, 4, 4 }, decompressRLElist(new int[] { 1, 2, 3, 4 })));
+    public void maxDistToClosest() {
+        assertEquals(2, maxDistToClosest(new int[]{1, 0, 0, 0, 1, 0, 1}));
+        assertEquals(3, maxDistToClosest(new int[]{1, 0, 0, 0}));
+        assertEquals(1, maxDistToClosest(new int[]{1, 0}));
+        assertEquals(1, maxDistToClosest(new int[]{0, 1}));
+        assertEquals(1, maxDistToClosest(new int[]{0, 1, 0, 0, 1}));
+        assertEquals(3, maxDistToClosest(new int[]{0, 1, 0, 0, 0, 0, 0, 0, 1}));
+        assertEquals(2, maxDistToClosest(new int[]{0, 0, 1}));
+
     }
 
-    public int[] decompressRLElist(int[] nums)
-    {
+    public int maxDistToClosest(int[] seats) {
+
+        int solution = 0;
+        int count = 0;
+        boolean startWithZero = seats[0] == 0;
+
+        for (int i = 0; i < seats.length; i++) {
+
+            if (seats[i] == 0)
+                count++;
+            else if (seats[i] == 1) {
+
+                if (startWithZero) {
+                    solution = count;
+                    startWithZero = false;
+                } else {
+                    solution = getSolution(solution, count);
+
+                }
+
+                count = 0;
+            }
+        }
+
+        return Math.max(solution, count);
+    }
+
+    private int getSolution(int solution, int count) {
+        if ((count & 1) == 1)
+            return Math.max(solution, (count + 1) / 2);
+        else
+            return Math.max(solution, count / 2);
+
+    }
+
+    @Test
+    public void decompressRLElist() {
+        assertTrue(Arrays.equals(new int[]{2, 4, 4, 4}, decompressRLElist(new int[]{1, 2, 3, 4})));
+    }
+
+    public int[] decompressRLElist(int[] nums) {
 
         int length = IntStream.range(0, nums.length).filter(i -> (i & 1) == 0).map(i -> nums[i]).sum();
 
         int[] sol = new int[length];
         int count = 0;
 
-        for (int i = 0; i < nums.length; i++)
-        {
-            for (int j = 0; j < nums[i]; j++)
-            {
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = 0; j < nums[i]; j++) {
                 sol[count++] = nums[i + 1];
 
             }
@@ -79,25 +122,22 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void numSmallerByFrequency()
-    {
-        assertTrue(Arrays.equals(new int[] { 1, 2 },
-                numSmallerByFrequency(new String[] { "bbb", "cc" }, new String[] { "a", "aa", "aaa", "aaaa" })));
+    public void numSmallerByFrequency() {
+        assertTrue(Arrays.equals(new int[]{1, 2},
+                numSmallerByFrequency(new String[]{"bbb", "cc"}, new String[]{"a", "aa", "aaa", "aaaa"})));
 
-        assertTrue(Arrays.equals(new int[] { 1 },
-                numSmallerByFrequency(new String[] { "cbd" }, new String[] { "zaaaz" })));
+        assertTrue(Arrays.equals(new int[]{1},
+                numSmallerByFrequency(new String[]{"cbd"}, new String[]{"zaaaz"})));
 
-        assertTrue(Arrays.equals(new int[] { 6, 1, 1, 2, 3, 3, 3, 1, 3, 2 },
-                numSmallerByFrequency(new String[] { "bba", "abaaaaaa", "aaaaaa", "bbabbabaab", "aba", "aa", "baab", "bbbbbb", "aab", "bbabbaabb" },
-                        new String[] { "aaabbb", "aab", "babbab", "babbbb", "b", "bbbbbbbbab", "a", "bbbbbbbbbb", "baaabbaab", "aa" })));
+        assertTrue(Arrays.equals(new int[]{6, 1, 1, 2, 3, 3, 3, 1, 3, 2},
+                numSmallerByFrequency(new String[]{"bba", "abaaaaaa", "aaaaaa", "bbabbabaab", "aba", "aa", "baab", "bbbbbb", "aab", "bbabbaabb"},
+                        new String[]{"aaabbb", "aab", "babbab", "babbbb", "b", "bbbbbbbbab", "a", "bbbbbbbbbb", "baaabbaab", "aa"})));
     }
 
-    public int[] numSmallerByFrequency(String[] queries, String[] words)
-    {
+    public int[] numSmallerByFrequency(String[] queries, String[] words) {
 
         int[] count = new int[words.length];
-        for (int i = 0; i < words.length; i++)
-        {
+        for (int i = 0; i < words.length; i++) {
             String word = words[i];
             count[i] = getWordMaxCount(word);
         }
@@ -105,8 +145,7 @@ public class LeetCodeArrayTest
         Supplier<IntStream> countSuppl = () -> Arrays.stream(count);
         int[] solution = new int[queries.length];
 
-        for (int i = 0; i < queries.length; i++)
-        {
+        for (int i = 0; i < queries.length; i++) {
             String query = queries[i];
 
             int max = getWordMaxCount(query);
@@ -121,14 +160,12 @@ public class LeetCodeArrayTest
      * @param word
      * @return
      */
-    private int getWordMaxCount(String word)
-    {
+    private int getWordMaxCount(String word) {
 
         char min = (char) word.chars().min().getAsInt();
 
         int count = 0;
-        for (int j = 0; j < word.length(); j++)
-        {
+        for (int j = 0; j < word.length(); j++) {
             char c = word.charAt(j);
             if (min == c)
                 count++;
@@ -137,16 +174,14 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void arrayRankTransform()
-    {
-        assertTrue(Arrays.equals(new int[] { 4, 1, 2, 3 }, arrayRankTransform(new int[] { 40, 10, 20, 30 })));
-        assertTrue(Arrays.equals(new int[] { 1, 1, 1 }, arrayRankTransform(new int[] { 100, 100, 100 })));
-        assertTrue(Arrays.equals(new int[] { 5, 3, 4, 2, 8, 6, 7, 1, 3 }, arrayRankTransform(new int[] { 37, 12, 28, 9, 100, 56, 80, 5, 12 })));
+    public void arrayRankTransform() {
+        assertTrue(Arrays.equals(new int[]{4, 1, 2, 3}, arrayRankTransform(new int[]{40, 10, 20, 30})));
+        assertTrue(Arrays.equals(new int[]{1, 1, 1}, arrayRankTransform(new int[]{100, 100, 100})));
+        assertTrue(Arrays.equals(new int[]{5, 3, 4, 2, 8, 6, 7, 1, 3}, arrayRankTransform(new int[]{37, 12, 28, 9, 100, 56, 80, 5, 12})));
 
     }
 
-    public int[] arrayRankTransform(int[] arr)
-    {
+    public int[] arrayRankTransform(int[] arr) {
 
         int length = arr.length;
         int[] solution = new int[length];
@@ -154,8 +189,7 @@ public class LeetCodeArrayTest
 
         arr = IntStream.of(arr).distinct().sorted().toArray();
 
-        for (int i = 0; i < length; i++)
-        {
+        for (int i = 0; i < length; i++) {
             int position = Array.binarySearch(arr, 0, arr.length, copy[i]);
             solution[i] = position + 1;
         }
@@ -165,20 +199,18 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void validMountainArray()
-    {
-        assertEquals(false, validMountainArray(new int[] { 2, 1 }));
-        assertEquals(false, validMountainArray(new int[] { 3, 5, 5 }));
-        assertEquals(true, validMountainArray(new int[] { 0, 3, 2, 1 }));
-        assertEquals(false, validMountainArray(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }));
-        assertEquals(false, validMountainArray(new int[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 }));
-        assertEquals(false, validMountainArray(new int[] { 1, 7, 9, 5, 4, 1, 2 }));
-        assertEquals(false, validMountainArray(new int[] { 3, 7, 20, 14, 15, 14, 10, 8, 2, 1 }));
+    public void validMountainArray() {
+        assertEquals(false, validMountainArray(new int[]{2, 1}));
+        assertEquals(false, validMountainArray(new int[]{3, 5, 5}));
+        assertEquals(true, validMountainArray(new int[]{0, 3, 2, 1}));
+        assertEquals(false, validMountainArray(new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}));
+        assertEquals(false, validMountainArray(new int[]{9, 8, 7, 6, 5, 4, 3, 2, 1, 0}));
+        assertEquals(false, validMountainArray(new int[]{1, 7, 9, 5, 4, 1, 2}));
+        assertEquals(false, validMountainArray(new int[]{3, 7, 20, 14, 15, 14, 10, 8, 2, 1}));
 
     }
 
-    public boolean validMountainArray(int[] A)
-    {
+    public boolean validMountainArray(int[] A) {
 
         if (A.length < 3)
             return false;
@@ -186,18 +218,14 @@ public class LeetCodeArrayTest
         int value = A[0];
         boolean increase = true;
 
-        for (int i = 1; i < A.length; i++)
-        {
-            if (increase)
-            {
+        for (int i = 1; i < A.length; i++) {
+            if (increase) {
                 if (A[i] == value || (A[i] <= value && i < 2))
                     return false;
                 else if (A[i] < value)
                     increase = false;
 
-            }
-            else
-            {
+            } else {
                 if (A[i] >= value)
                     return false;
 
@@ -210,17 +238,15 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void distributeCandies()
-    {
-        assertEquals(3, distributeCandies(new int[] { 1, 1, 2, 2, 3, 3 }));
-        assertEquals(2, distributeCandies(new int[] { 1, 1, 2, 3 }));
-        assertEquals(1, distributeCandies(new int[] { 1, 1 }));
-        assertEquals(0, distributeCandies(new int[] { 1, 1, 2 }));
+    public void distributeCandies() {
+        assertEquals(3, distributeCandies(new int[]{1, 1, 2, 2, 3, 3}));
+        assertEquals(2, distributeCandies(new int[]{1, 1, 2, 3}));
+        assertEquals(1, distributeCandies(new int[]{1, 1}));
+        assertEquals(0, distributeCandies(new int[]{1, 1, 2}));
 
     }
 
-    public int distributeCandies(int[] candies)
-    {
+    public int distributeCandies(int[] candies) {
 
         int length = candies.length;
 
@@ -236,27 +262,26 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void hasGroupsSizeX()
-    {
-        assertEquals(true, hasGroupsSizeX(new int[] { 1, 2, 3, 4, 4, 3, 2, 1 }));
-        assertEquals(false, hasGroupsSizeX(new int[] { 1, 1, 1, 2, 2, 2, 3, 3 }));
-        assertEquals(true, hasGroupsSizeX(new int[] { 1, 1, 1, 2, 2, 2, 3, 3, 3 }));
-        assertEquals(true, hasGroupsSizeX(new int[] { 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4 }));
-        assertEquals(false, hasGroupsSizeX(new int[] { 1 }));
-        assertEquals(true, hasGroupsSizeX(new int[] { 1, 1 }));
-        assertEquals(true, hasGroupsSizeX(new int[] { 1, 1, 2, 2, 2, 2, 3, 3 }));
-        assertEquals(true, hasGroupsSizeX(new int[] { 1, 1, 1, 1, 2, 2 }));
-        assertEquals(true, hasGroupsSizeX(new int[] { 1, 1, 1, 1, 2, 2, 2, 2, 2, 2 }));
-        assertEquals(true, hasGroupsSizeX(new int[] { 0, 0, 0, 0, 0, 1, 1, 1, 1, 1 }));
-        assertEquals(true, hasGroupsSizeX(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3 }));
-        assertEquals(true, hasGroupsSizeX(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3,
-                3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7 }));
-        assertEquals(true, hasGroupsSizeX(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2,
-                2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5 }));
-        assertEquals(true, hasGroupsSizeX(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2,
-                2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5 }));
+    public void hasGroupsSizeX() {
+        assertEquals(true, hasGroupsSizeX(new int[]{1, 2, 3, 4, 4, 3, 2, 1}));
+        assertEquals(false, hasGroupsSizeX(new int[]{1, 1, 1, 2, 2, 2, 3, 3}));
+        assertEquals(true, hasGroupsSizeX(new int[]{1, 1, 1, 2, 2, 2, 3, 3, 3}));
+        assertEquals(true, hasGroupsSizeX(new int[]{1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4}));
+        assertEquals(false, hasGroupsSizeX(new int[]{1}));
+        assertEquals(true, hasGroupsSizeX(new int[]{1, 1}));
+        assertEquals(true, hasGroupsSizeX(new int[]{1, 1, 2, 2, 2, 2, 3, 3}));
+        assertEquals(true, hasGroupsSizeX(new int[]{1, 1, 1, 1, 2, 2}));
+        assertEquals(true, hasGroupsSizeX(new int[]{1, 1, 1, 1, 2, 2, 2, 2, 2, 2}));
+        assertEquals(true, hasGroupsSizeX(new int[]{0, 0, 0, 0, 0, 1, 1, 1, 1, 1}));
+        assertEquals(true, hasGroupsSizeX(new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3}));
+        assertEquals(true, hasGroupsSizeX(new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3,
+                3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7}));
+        assertEquals(true, hasGroupsSizeX(new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2,
+                2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5}));
+        assertEquals(true, hasGroupsSizeX(new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2,
+                2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5}));
 
-        assertEquals(true, hasGroupsSizeX(new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        assertEquals(true, hasGroupsSizeX(new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -485,11 +510,10 @@ public class LeetCodeArrayTest
                 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
                 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 17, 17,
                 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17,
-                18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18 }));
+                18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18}));
     }
 
-    public boolean hasGroupsSizeX(int[] deck)
-    {
+    public boolean hasGroupsSizeX(int[] deck) {
 
         if (deck.length == 1)
             return false;
@@ -504,8 +528,7 @@ public class LeetCodeArrayTest
         Arrays.parallelSort(array);
 
         boolean isCommonGroup;
-        for (int i = 0; i < array.length; i++)
-        {
+        for (int i = 0; i < array.length; i++) {
 
             if (array[i] == 0)
                 continue;
@@ -518,10 +541,8 @@ public class LeetCodeArrayTest
 
             isCommonGroup = false;
 
-            for (Integer integer : set)
-            {
-                if (array[i] % integer == 0)
-                {
+            for (Integer integer : set) {
+                if (array[i] % integer == 0) {
 
                     isCommonGroup = true;
                     break;
@@ -541,10 +562,8 @@ public class LeetCodeArrayTest
      * @param j
      * @return
      */
-    private void findCommonMin(int i, int j, Set<Integer> set)
-    {
-        for (int j2 = 2; j2 < j; j2++)
-        {
+    private void findCommonMin(int i, int j, Set<Integer> set) {
+        for (int j2 = 2; j2 < j; j2++) {
             if (i % j2 == 0)
                 set.add(j2);
         }
@@ -552,24 +571,21 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void pivotIndex()
-    {
-        assertEquals(3, pivotIndex(new int[] { 1, 7, 3, 6, 5, 6 }));
-        assertEquals(-1, pivotIndex(new int[] { 1, 2, 3 }));
-        assertEquals(0, pivotIndex(new int[] { 0, 0, 0 }));
-        assertEquals(3, pivotIndex(new int[] { -1, -1, 0, -1, -1, -1 }));
+    public void pivotIndex() {
+        assertEquals(3, pivotIndex(new int[]{1, 7, 3, 6, 5, 6}));
+        assertEquals(-1, pivotIndex(new int[]{1, 2, 3}));
+        assertEquals(0, pivotIndex(new int[]{0, 0, 0}));
+        assertEquals(3, pivotIndex(new int[]{-1, -1, 0, -1, -1, -1}));
 
     }
 
-    public int pivotIndex(int[] nums)
-    {
+    public int pivotIndex(int[] nums) {
 
         int sum = IntStream.of(nums).sum();
         int leftsum = 0;
         int index = nums.length;
 
-        for (int i = 0; i < nums.length; ++i)
-        {
+        for (int i = 0; i < nums.length; ++i) {
             if (leftsum == sum - leftsum - nums[i])
                 return i;
             leftsum += nums[i];
@@ -579,24 +595,21 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void findLengthOfLCIS()
-    {
-        assertEquals(3, findLengthOfLCIS(new int[] { 1, 3, 5, 4, 7 }));
-        assertEquals(1, findLengthOfLCIS(new int[] { 2, 2, 2, 2, 2 }));
-        assertEquals(3, findLengthOfLCIS(new int[] { 1, 3, 5, 7 }));
+    public void findLengthOfLCIS() {
+        assertEquals(3, findLengthOfLCIS(new int[]{1, 3, 5, 4, 7}));
+        assertEquals(1, findLengthOfLCIS(new int[]{2, 2, 2, 2, 2}));
+        assertEquals(3, findLengthOfLCIS(new int[]{1, 3, 5, 7}));
 
     }
 
-    private int findLengthOfLCIS(int[] nums)
-    {
+    private int findLengthOfLCIS(int[] nums) {
 
         if (nums.length == 0)
             return 0;
 
         int count = 0;
 
-        for (int i = 1; i < nums.length; i++)
-        {
+        for (int i = 1; i < nums.length; i++) {
             if (nums[i] > nums[i - 1])
                 count++;
         }
@@ -605,27 +618,23 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void checkPossibility()
-    {
+    public void checkPossibility() {
 
-        assertEquals(true, checkPossibility(new int[] { 4, 2, 3 }));
-        assertEquals(false, checkPossibility(new int[] { 4, 2, 1 }));
-        assertEquals(true, checkPossibility(new int[] { -1, 4, 2, 3 }));
-        assertEquals(false, checkPossibility(new int[] { 3, 4, 2, 3 }));
-        assertEquals(true, checkPossibility(new int[] { 2, 3, 3, 2, 4 }));
-        assertEquals(true, checkPossibility(new int[] { 1, 3, 2 }));
-        assertEquals(false, checkPossibility(new int[] { 1, 5, 4, 6, 7, 10, 8, 9 }));
+        assertEquals(true, checkPossibility(new int[]{4, 2, 3}));
+        assertEquals(false, checkPossibility(new int[]{4, 2, 1}));
+        assertEquals(true, checkPossibility(new int[]{-1, 4, 2, 3}));
+        assertEquals(false, checkPossibility(new int[]{3, 4, 2, 3}));
+        assertEquals(true, checkPossibility(new int[]{2, 3, 3, 2, 4}));
+        assertEquals(true, checkPossibility(new int[]{1, 3, 2}));
+        assertEquals(false, checkPossibility(new int[]{1, 5, 4, 6, 7, 10, 8, 9}));
 
     }
 
-    private boolean checkPossibility(int[] nums)
-    {
+    private boolean checkPossibility(int[] nums) {
 
-        for (int i = 1; i < nums.length; i++)
-        {
+        for (int i = 1; i < nums.length; i++) {
 
-            if (nums[i] < nums[i - 1])
-            {
+            if (nums[i] < nums[i - 1]) {
 
                 if (i + 1 < nums.length && nums[i] > nums[i + 1])
                     return false;
@@ -639,8 +648,7 @@ public class LeetCodeArrayTest
 
         }
 
-        for (int i = 1; i < nums.length; i++)
-        {
+        for (int i = 1; i < nums.length; i++) {
 
             if (nums[i] < nums[i - 1])
                 return false;
@@ -651,16 +659,14 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void findUnsortedSubarray()
-    {
-        assertEquals(5, findUnsortedSubarray(new int[] { 2, 6, 4, 8, 10, 9, 15 }));
-        assertEquals(2, findUnsortedSubarray(new int[] { 2, 6, 4, 8, 9, 10, 15 }));
-        assertEquals(0, findUnsortedSubarray(new int[] { 1, 2, 3, 4 }));
+    public void findUnsortedSubarray() {
+        assertEquals(5, findUnsortedSubarray(new int[]{2, 6, 4, 8, 10, 9, 15}));
+        assertEquals(2, findUnsortedSubarray(new int[]{2, 6, 4, 8, 9, 10, 15}));
+        assertEquals(0, findUnsortedSubarray(new int[]{1, 2, 3, 4}));
 
     }
 
-    private int findUnsortedSubarray(int[] nums)
-    {
+    private int findUnsortedSubarray(int[] nums) {
 
         int[] copy = nums.clone();
         Arrays.parallelSort(nums);
@@ -668,10 +674,8 @@ public class LeetCodeArrayTest
         int minIndex = nums.length;
         int maxIndex = 0;
 
-        for (int i = 0; i < copy.length; i++)
-        {
-            if (copy[i] != nums[i])
-            {
+        for (int i = 0; i < copy.length; i++) {
+            if (copy[i] != nums[i]) {
                 minIndex = Math.min(i, minIndex);
                 maxIndex = Math.max(i, maxIndex);
             }
@@ -682,35 +686,29 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void canPlaceFlowers()
-    {
-        assertEquals(false, canPlaceFlowers(new int[] { 1, 0, 0, 0, 1 }, 2));
-        assertEquals(true, canPlaceFlowers(new int[] { 1, 0, 0, 0, 1 }, 1));
-        assertEquals(false, canPlaceFlowers(new int[] { 1, 0, 0, 0, 0, 1 }, 2));
-        assertEquals(true, canPlaceFlowers(new int[] { 1, 0, 0, 0, 1, 0, 0 }, 2));
-        assertEquals(true, canPlaceFlowers(new int[] { 0, 0, 1, 0, 0 }, 1));
+    public void canPlaceFlowers() {
+        assertEquals(false, canPlaceFlowers(new int[]{1, 0, 0, 0, 1}, 2));
+        assertEquals(true, canPlaceFlowers(new int[]{1, 0, 0, 0, 1}, 1));
+        assertEquals(false, canPlaceFlowers(new int[]{1, 0, 0, 0, 0, 1}, 2));
+        assertEquals(true, canPlaceFlowers(new int[]{1, 0, 0, 0, 1, 0, 0}, 2));
+        assertEquals(true, canPlaceFlowers(new int[]{0, 0, 1, 0, 0}, 1));
 
     }
 
-    private boolean canPlaceFlowers(int[] flowerbed, int n)
-    {
+    private boolean canPlaceFlowers(int[] flowerbed, int n) {
 
         int countZero = 0;
 
         if (flowerbed[0] == 0)
             countZero++;
 
-        for (int i = 0; i < flowerbed.length; i++)
-        {
+        for (int i = 0; i < flowerbed.length; i++) {
 
-            if (flowerbed[i] == 1)
-            {
+            if (flowerbed[i] == 1) {
                 countZero--;
                 n = n - (countZero / 2);
                 countZero = 0;
-            }
-            else
-            {
+            } else {
                 countZero++;
             }
         }
@@ -721,22 +719,19 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void findPairs()
-    {
-        assertEquals(2, findPairs(new int[] { 3, 1, 4, 1, 5 }, 2));
-        assertEquals(4, findPairs(new int[] { 1, 2, 3, 4, 5 }, 1));
-        assertEquals(1, findPairs(new int[] { 1, 3, 1, 5, 4 }, 0));
+    public void findPairs() {
+        assertEquals(2, findPairs(new int[]{3, 1, 4, 1, 5}, 2));
+        assertEquals(4, findPairs(new int[]{1, 2, 3, 4, 5}, 1));
+        assertEquals(1, findPairs(new int[]{1, 3, 1, 5, 4}, 0));
 
     }
 
-    public int findPairs(int[] nums, int k)
-    {
+    public int findPairs(int[] nums, int k) {
         int count = 0;
 
         Arrays.parallelSort(nums);
 
-        for (int i = 0; i < nums.length - 1; i++)
-        {
+        for (int i = 0; i < nums.length - 1; i++) {
 
             int diff = nums[i] + k;
 
@@ -752,20 +747,17 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void findMaxConsecutiveOnes()
-    {
-        assertEquals(3, findMaxConsecutiveOnes(new int[] { 1, 1, 0, 1, 1, 1 }));
-        assertEquals(1, findMaxConsecutiveOnes(new int[] { 1 }));
+    public void findMaxConsecutiveOnes() {
+        assertEquals(3, findMaxConsecutiveOnes(new int[]{1, 1, 0, 1, 1, 1}));
+        assertEquals(1, findMaxConsecutiveOnes(new int[]{1}));
 
     }
 
-    private int findMaxConsecutiveOnes(int[] nums)
-    {
+    private int findMaxConsecutiveOnes(int[] nums) {
         int count = 0;
         int max = 0;
 
-        for (int i = 0; i < nums.length; i++)
-        {
+        for (int i = 0; i < nums.length; i++) {
             while (i < nums.length && nums[i++] == 1)
                 count++;
 
@@ -779,26 +771,22 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void nextGreaterElement()
-    {
-        assertEquals(true, Arrays.equals(new int[] { -1, 3, -1 },
-                nextGreaterElement(new int[] { 4, 1, 2 }, new int[] { 1, 3, 4, 2 })));
+    public void nextGreaterElement() {
+        assertEquals(true, Arrays.equals(new int[]{-1, 3, -1},
+                nextGreaterElement(new int[]{4, 1, 2}, new int[]{1, 3, 4, 2})));
         assertEquals(true,
-                Arrays.equals(new int[] { 3, -1 }, nextGreaterElement(new int[] { 2, 4 }, new int[] { 1, 2, 3, 4 })));
+                Arrays.equals(new int[]{3, -1}, nextGreaterElement(new int[]{2, 4}, new int[]{1, 2, 3, 4})));
 
     }
 
-    private int[] nextGreaterElement(int[] nums1, int[] nums2)
-    {
+    private int[] nextGreaterElement(int[] nums1, int[] nums2) {
         int length = nums2.length - 1;
 
-        for (int i = 0; i < nums1.length; i++)
-        {
+        for (int i = 0; i < nums1.length; i++) {
             int value = nums1[i];
 
             nums1[i] = -1;
-            while (length >= 0 && nums2[length] != value)
-            {
+            while (length >= 0 && nums2[length] != value) {
                 if (nums2[length] > value)
                     nums1[i] = nums2[length];
                 length--;
@@ -812,20 +800,17 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void findDisappearedNumbers()
-    {
-        assertEquals(true, Arrays.asList(new Integer[] { 5, 6 })
-                .equals(findDisappearedNumbers(new int[] { 4, 3, 2, 7, 8, 2, 3, 1 })));
-        assertEquals(true, Arrays.asList(new Integer[] { 2 }).equals(findDisappearedNumbers(new int[] { 1, 3, 3 })));
+    public void findDisappearedNumbers() {
+        assertEquals(true, Arrays.asList(new Integer[]{5, 6})
+                .equals(findDisappearedNumbers(new int[]{4, 3, 2, 7, 8, 2, 3, 1})));
+        assertEquals(true, Arrays.asList(new Integer[]{2}).equals(findDisappearedNumbers(new int[]{1, 3, 3})));
 
     }
 
-    private List<Integer> findDisappearedNumbers(int[] nums)
-    {
+    private List<Integer> findDisappearedNumbers(int[] nums) {
         List<Integer> dis = new ArrayList<Integer>();
 
-        for (int i = 0; i < nums.length; i++)
-        {
+        for (int i = 0; i < nums.length; i++) {
             int index = Math.abs(nums[i]) - 1;
             if (nums[index] < 0)
                 continue;
@@ -833,8 +818,7 @@ public class LeetCodeArrayTest
                 nums[index] = -nums[index];
         }
 
-        for (int i = 0; i < nums.length; i++)
-        {
+        for (int i = 0; i < nums.length; i++) {
             if (nums[i] > 0)
                 dis.add(i + 1);
         }
@@ -843,26 +827,23 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void isMonotonic()
-    {
-        assertEquals(true, isMonotonic(new int[] { 1, 2, 2, 3 }));
-        assertEquals(true, isMonotonic(new int[] { 6, 5, 4, 4 }));
-        assertEquals(false, isMonotonic(new int[] { 1, 3, 2 }));
-        assertEquals(true, isMonotonic(new int[] { 1, 2, 4, 5 }));
-        assertEquals(true, isMonotonic(new int[] { 1, 1, 1 }));
+    public void isMonotonic() {
+        assertEquals(true, isMonotonic(new int[]{1, 2, 2, 3}));
+        assertEquals(true, isMonotonic(new int[]{6, 5, 4, 4}));
+        assertEquals(false, isMonotonic(new int[]{1, 3, 2}));
+        assertEquals(true, isMonotonic(new int[]{1, 2, 4, 5}));
+        assertEquals(true, isMonotonic(new int[]{1, 1, 1}));
 
     }
 
-    private boolean isMonotonic(int[] array)
-    {
+    private boolean isMonotonic(int[] array) {
         int value = array[0];
         int length = array.length;
 
         int monDecr = 0;
         int monIncr = 0;
 
-        for (int i = 1; i < length; i++)
-        {
+        for (int i = 1; i < length; i++) {
             if (array[i] <= value)
                 monDecr++;
 
@@ -879,34 +860,30 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void arrayPairSum()
-    {
-        assertEquals(4, arrayPairSum(new int[] { 1, 4, 3, 2 }));
+    public void arrayPairSum() {
+        assertEquals(4, arrayPairSum(new int[]{1, 4, 3, 2}));
     }
 
-    private int arrayPairSum(int[] nums)
-    {
+    private int arrayPairSum(int[] nums) {
         Arrays.parallelSort(nums);
 
         return IntStream.range(0, nums.length).filter(i -> i % 2 == 0).map(i -> nums[i]).sum();
     }
 
     @Test
-    public void findRestaurant()
-    {
+    public void findRestaurant() {
         assertEquals(true,
-                Arrays.equals(new String[] { "Shogun" }, findRestaurant(
-                        new String[] { "Shogun", "Tapioca Express", "Burger King", "KFC" },
-                        new String[] { "Piatti", "The Grill at Torrey Pines", "Hungry Hunter Steakhouse", "Shogun" })));
+                Arrays.equals(new String[]{"Shogun"}, findRestaurant(
+                        new String[]{"Shogun", "Tapioca Express", "Burger King", "KFC"},
+                        new String[]{"Piatti", "The Grill at Torrey Pines", "Hungry Hunter Steakhouse", "Shogun"})));
 
         assertEquals(true,
-                Arrays.equals(new String[] { "Shogun" },
-                        findRestaurant(new String[] { "Shogun", "Tapioca Express", "Burger King", "KFC" },
-                                new String[] { "KFC", "Shogun", "Burger King" })));
+                Arrays.equals(new String[]{"Shogun"},
+                        findRestaurant(new String[]{"Shogun", "Tapioca Express", "Burger King", "KFC"},
+                                new String[]{"KFC", "Shogun", "Burger King"})));
     }
 
-    private String[] findRestaurant(String[] list1, String[] list2)
-    {
+    private String[] findRestaurant(String[] list1, String[] list2) {
 
         Map<String, Integer> restMap = new HashMap<>();
 
@@ -916,23 +893,19 @@ public class LeetCodeArrayTest
         int minIndex = Integer.MAX_VALUE;
         Set<String> set = new HashSet<String>();
 
-        for (int i = 0; i < list2.length; i++)
-        {
+        for (int i = 0; i < list2.length; i++) {
             int pos = restMap.getOrDefault(list2[i], -1);
 
-            if (pos != -1)
-            {
+            if (pos != -1) {
 
                 int sum = pos + i;
 
-                if (sum < minIndex)
-                {
+                if (sum < minIndex) {
                     set = new HashSet<String>();
                     set.add(list2[i]);
                     minIndex = sum;
 
-                }
-                else if (sum == minIndex)
+                } else if (sum == minIndex)
                     set.add(list2[i]);
             }
         }
@@ -944,9 +917,8 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void kthLargest()
-    {
-        KthLargest kThLargest = new KthLargest(3, new int[] { 4, 5, 8, 2 });
+    public void kthLargest() {
+        KthLargest kThLargest = new KthLargest(3, new int[]{4, 5, 8, 2});
         assertEquals(4, kThLargest.add(3));
         assertEquals(5, kThLargest.add(5));
         assertEquals(5, kThLargest.add(10));
@@ -955,33 +927,25 @@ public class LeetCodeArrayTest
 
     }
 
-    class KthLargest
-    {
+    class KthLargest {
         private Queue<Integer> pq;
         private int size;
 
-        public KthLargest(int k, int[] nums)
-        {
+        public KthLargest(int k, int[] nums) {
             pq = new PriorityQueue<>();
             size = k;
-            for (int i : nums)
-            {
+            for (int i : nums) {
                 pq.offer(i);
             }
-            while (pq.size() > k)
-            {
+            while (pq.size() > k) {
                 pq.poll();
             }
         }
 
-        public int add(int val)
-        {
-            if (pq.size() < size)
-            {
+        public int add(int val) {
+            if (pq.size() < size) {
                 pq.offer(val);
-            }
-            else
-            {
+            } else {
                 pq.offer(val);
                 pq.poll();
             }
@@ -990,15 +954,13 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void findKthLargest()
-    {
-        assertEquals(5, findKthLargest(new int[] { 3, 2, 1, 5, 6, 4 }, 2));
-        assertEquals(4, findKthLargest(new int[] { 3, 2, 3, 1, 2, 4, 5, 5, 6 }, 4));
+    public void findKthLargest() {
+        assertEquals(5, findKthLargest(new int[]{3, 2, 1, 5, 6, 4}, 2));
+        assertEquals(4, findKthLargest(new int[]{3, 2, 3, 1, 2, 4, 5, 5, 6}, 4));
 
     }
 
-    private int findKthLargest(int[] nums, int k)
-    {
+    private int findKthLargest(int[] nums, int k) {
 
         Arrays.parallelSort(nums);
 
@@ -1009,8 +971,7 @@ public class LeetCodeArrayTest
 
         int z = --length;
 
-        for (int i = z; i >= 0; i--)
-        {
+        for (int i = z; i >= 0; i--) {
             int tmp = nums[i];
 
             value = tmp;
@@ -1024,16 +985,14 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void thirdMax()
-    {
-        assertEquals(1, thirdMax(new int[] { 3, 2, 1 }));
-        assertEquals(2, thirdMax(new int[] { 1, 2 }));
-        assertEquals(1, thirdMax(new int[] { 2, 2, 3, 1 }));
+    public void thirdMax() {
+        assertEquals(1, thirdMax(new int[]{3, 2, 1}));
+        assertEquals(2, thirdMax(new int[]{1, 2}));
+        assertEquals(1, thirdMax(new int[]{2, 2, 3, 1}));
 
     }
 
-    private int thirdMax(int[] nums)
-    {
+    private int thirdMax(int[] nums) {
         Arrays.parallelSort(nums);
 
         int k = 2;
@@ -1043,8 +1002,7 @@ public class LeetCodeArrayTest
 
         int z = --length;
 
-        for (int i = z; i >= 0; i--)
-        {
+        for (int i = z; i >= 0; i--) {
             int tmp = nums[i];
 
             if (tmp == value)
@@ -1061,17 +1019,15 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void findRelativeRanks()
-    {
-        assertTrue(Arrays.equals(new String[] { "Gold Medal", "Silver Medal", "Bronze Medal", "4", "5" },
-                findRelativeRanks(new int[] { 5, 4, 3, 2, 1 })));
+    public void findRelativeRanks() {
+        assertTrue(Arrays.equals(new String[]{"Gold Medal", "Silver Medal", "Bronze Medal", "4", "5"},
+                findRelativeRanks(new int[]{5, 4, 3, 2, 1})));
 
-        assertTrue(Arrays.equals(new String[] { "Gold Medal", "5", "Bronze Medal", "Silver Medal", "4" },
-                findRelativeRanks(new int[] { 10, 3, 8, 9, 4 })));
+        assertTrue(Arrays.equals(new String[]{"Gold Medal", "5", "Bronze Medal", "Silver Medal", "4"},
+                findRelativeRanks(new int[]{10, 3, 8, 9, 4})));
     }
 
-    private String[] findRelativeRanks(int[] nums)
-    {
+    private String[] findRelativeRanks(int[] nums) {
         int length = nums.length;
         int[] copy = Arrays.copyOf(nums, length);
 
@@ -1082,15 +1038,11 @@ public class LeetCodeArrayTest
 
         int k = 0;
 
-        for (int i = length - 1; i >= 0; i--)
-        {
-            if (k < 3)
-            {
+        for (int i = length - 1; i >= 0; i--) {
+            if (k < 3) {
                 map.put(nums[i], k == 0 ? "Gold Medal" : k == 1 ? "Silver Medal" : "Bronze Medal");
                 k++;
-            }
-            else
-            {
+            } else {
                 map.put(nums[i], Integer.toString(length - i));
             }
         }
@@ -1102,16 +1054,14 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void sortedSquares()
-    {
+    public void sortedSquares() {
 
-        assertTrue(Arrays.equals(new int[] { 0, 1, 9, 16, 100 }, sortedSquares(new int[] { -4, -1, 0, 3, 10 })));
-        assertTrue(Arrays.equals(new int[] { 0, 1, 9, 16, 100 }, sortedSquares1(new int[] { -4, -1, 0, 3, 10 })));
+        assertTrue(Arrays.equals(new int[]{0, 1, 9, 16, 100}, sortedSquares(new int[]{-4, -1, 0, 3, 10})));
+        assertTrue(Arrays.equals(new int[]{0, 1, 9, 16, 100}, sortedSquares1(new int[]{-4, -1, 0, 3, 10})));
 
     }
 
-    private int[] sortedSquares(int[] A)
-    {
+    private int[] sortedSquares(int[] A) {
         int[] solution = new int[A.length];
 
         for (int i = 0; i < A.length; i++)
@@ -1123,12 +1073,11 @@ public class LeetCodeArrayTest
 
     /**
      * Two pointers
-     * 
+     *
      * @param A
      * @return
      */
-    public int[] sortedSquares1(int[] A)
-    {
+    public int[] sortedSquares1(int[] A) {
         int N = A.length;
         int j = 0;
         while (j < N && A[j] < 0)
@@ -1138,27 +1087,21 @@ public class LeetCodeArrayTest
         int[] ans = new int[N];
         int t = 0;
 
-        while (i >= 0 && j < N)
-        {
-            if (A[i] * A[i] < A[j] * A[j])
-            {
+        while (i >= 0 && j < N) {
+            if (A[i] * A[i] < A[j] * A[j]) {
                 ans[t++] = A[i] * A[i];
                 i--;
-            }
-            else
-            {
+            } else {
                 ans[t++] = A[j] * A[j];
                 j++;
             }
         }
 
-        while (i >= 0)
-        {
+        while (i >= 0) {
             ans[t++] = A[i] * A[i];
             i--;
         }
-        while (j < N)
-        {
+        while (j < N) {
             ans[t++] = A[j] * A[j];
             j++;
         }
@@ -1167,23 +1110,20 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void merge()
-    {
-        int[] nums1 = new int[] { 1, 2, 3, 0, 0, 0 };
-        int[] nums2 = new int[] { 2, 5, 6 };
+    public void merge() {
+        int[] nums1 = new int[]{1, 2, 3, 0, 0, 0};
+        int[] nums2 = new int[]{2, 5, 6};
 
         merge(nums1, 3, nums2, 3);
 
-        assertTrue(Arrays.equals(new int[] { 1, 2, 2, 3, 5, 6 }, nums1));
+        assertTrue(Arrays.equals(new int[]{1, 2, 2, 3, 5, 6}, nums1));
     }
 
-    private void merge(int[] nums1, int m, int[] nums2, int n)
-    {
+    private void merge(int[] nums1, int m, int[] nums2, int n) {
 
         int tmp = 0;
 
-        for (int i = 0; i < n; i++)
-        {
+        for (int i = 0; i < n; i++) {
             int j = tmp;
 
             while (nums2[i] >= nums1[j] && j < m)
@@ -1194,8 +1134,7 @@ public class LeetCodeArrayTest
             int oldValue = nums1[j];
             nums1[j] = nums2[i];
 
-            while (j++ < nums1.length - 1)
-            {
+            while (j++ < nums1.length - 1) {
                 int toReplace = nums1[j];
                 nums1[j] = oldValue;
                 oldValue = toReplace;
@@ -1206,28 +1145,24 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void flipAndInvertImage()
-    {
+    public void flipAndInvertImage() {
         assertEquals(true, Arrays.deepEquals(
-                new int[][] { { 1, 1, 0, 0 }, { 0, 1, 1, 0 }, { 0, 0, 0, 1 }, { 1, 0, 1, 0 } },
-                flipAndInvertImage(new int[][] { { 1, 1, 0, 0 }, { 1, 0, 0, 1 }, { 0, 1, 1, 1 }, { 1, 0, 1, 0 } })));
+                new int[][]{{1, 1, 0, 0}, {0, 1, 1, 0}, {0, 0, 0, 1}, {1, 0, 1, 0}},
+                flipAndInvertImage(new int[][]{{1, 1, 0, 0}, {1, 0, 0, 1}, {0, 1, 1, 1}, {1, 0, 1, 0}})));
 
-        assertEquals(true, Arrays.deepEquals(new int[][] { { 1, 0, 0 }, { 0, 1, 0 }, { 1, 1, 1 } },
-                flipAndInvertImage(new int[][] { { 1, 1, 0 }, { 1, 0, 1 }, { 0, 0, 0 } })));
+        assertEquals(true, Arrays.deepEquals(new int[][]{{1, 0, 0}, {0, 1, 0}, {1, 1, 1}},
+                flipAndInvertImage(new int[][]{{1, 1, 0}, {1, 0, 1}, {0, 0, 0}})));
     }
 
-    private int[][] flipAndInvertImage(int[][] A)
-    {
+    private int[][] flipAndInvertImage(int[][] A) {
 
-        for (int i = 0; i < A.length; i++)
-        {
+        for (int i = 0; i < A.length; i++) {
             int[] array = A[i];
             int length = array.length;
 
             int middle = length / 2;
 
-            for (int j = length; j > middle; j--)
-            {
+            for (int j = length; j > middle; j--) {
                 int start = array[length - j];
                 int end = array[j - 1];
 
@@ -1241,16 +1176,14 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void commonChars()
-    {
-        assertEquals(Arrays.asList(new String[] { "e", "l", "l" }),
-                commonChars(new String[] { "bella", "label", "roller" }));
+    public void commonChars() {
+        assertEquals(Arrays.asList(new String[]{"e", "l", "l"}),
+                commonChars(new String[]{"bella", "label", "roller"}));
 
-        assertEquals(Arrays.asList(new String[] { "c", "o" }), commonChars(new String[] { "cool", "lock", "cook" }));
+        assertEquals(Arrays.asList(new String[]{"c", "o"}), commonChars(new String[]{"cool", "lock", "cook"}));
     }
 
-    private List<String> commonChars(String[] A)
-    {
+    private List<String> commonChars(String[] A) {
 
         String first = A[0];
 
@@ -1259,16 +1192,14 @@ public class LeetCodeArrayTest
         for (int i = 0; i < first.length(); i++)
             firstWordFreqMap.put(first.charAt(i), firstWordFreqMap.getOrDefault(first.charAt(i), 0) + 1);
 
-        for (int i = 1; i < A.length; i++)
-        {
+        for (int i = 1; i < A.length; i++) {
             Map<Character, Integer> count = new HashMap<Character, Integer>();
             String string = A[i];
 
             for (int j = 0; j < string.length(); j++)
                 count.put(string.charAt(j), count.getOrDefault(string.charAt(j), 0) + 1);
 
-            for (Entry<Character, Integer> entrySet : firstWordFreqMap.entrySet())
-            {
+            for (Entry<Character, Integer> entrySet : firstWordFreqMap.entrySet()) {
                 int freq = entrySet.getValue();
                 int mapFreq = count.getOrDefault(entrySet.getKey(), 0);
 
@@ -1281,8 +1212,7 @@ public class LeetCodeArrayTest
 
         List<String> result = new ArrayList<String>();
 
-        for (Entry<Character, Integer> entrySet : firstWordFreqMap.entrySet())
-        {
+        for (Entry<Character, Integer> entrySet : firstWordFreqMap.entrySet()) {
             for (int i = 0; i < entrySet.getValue(); i++)
                 result.add(Character.toString(entrySet.getKey()));
         }
@@ -1291,34 +1221,29 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void intersect()
-    {
-        assertEquals(true, Arrays.equals(new int[] { 2, 2 }, intersect(new int[] { 1, 2, 2, 1 }, new int[] { 2, 2 })));
+    public void intersect() {
+        assertEquals(true, Arrays.equals(new int[]{2, 2}, intersect(new int[]{1, 2, 2, 1}, new int[]{2, 2})));
         assertEquals(true,
-                Arrays.equals(new int[] { 4, 9 }, intersect(new int[] { 4, 9, 5 }, new int[] { 9, 4, 9, 8, 4 })));
+                Arrays.equals(new int[]{4, 9}, intersect(new int[]{4, 9, 5}, new int[]{9, 4, 9, 8, 4})));
 
     }
 
-    private int[] intersect(int[] nums1, int[] nums2)
-    {
+    private int[] intersect(int[] nums1, int[] nums2) {
         Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 
         List<Integer> sol = new ArrayList<Integer>();
 
-        for (int i = 0; i < nums2.length; i++)
-        {
+        for (int i = 0; i < nums2.length; i++) {
             int freq = map.getOrDefault(nums2[i], 0) + 1;
             map.put(nums2[i], freq);
         }
 
-        for (int i = 0; i < nums1.length; i++)
-        {
+        for (int i = 0; i < nums1.length; i++) {
             int found = map.getOrDefault(nums1[i], 0);
 
             if (found == 0)
                 continue;
-            else
-            {
+            else {
                 sol.add(nums1[i]);
                 map.put(nums1[i], --found);
             }
@@ -1328,8 +1253,7 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void stackUsingQueues()
-    {
+    public void stackUsingQueues() {
 
         MyStack stack = new MyStack();
 
@@ -1343,21 +1267,18 @@ public class LeetCodeArrayTest
         assertEquals(true, stack.empty());
     }
 
-    class MyStack
-    {
+    class MyStack {
         Deque<Integer> deque;
         Deque<Integer> queue;
 
         /** Initialize your data structure here. */
-        public MyStack()
-        {
+        public MyStack() {
             deque = new LinkedList<Integer>();
             queue = new LinkedList<Integer>();
         }
 
         /** Push element x onto stack. */
-        public void push(int x)
-        {
+        public void push(int x) {
             int size = queue.size();
 
             for (int i = 0; i < size; i++)
@@ -1372,27 +1293,23 @@ public class LeetCodeArrayTest
         }
 
         /** Removes the element on top of the stack and returns that element. */
-        public int pop()
-        {
+        public int pop() {
             return queue.pop();
         }
 
         /** Get the top element. */
-        public int top()
-        {
+        public int top() {
             return queue.peek();
         }
 
         /** Returns whether the stack is empty. */
-        public boolean empty()
-        {
+        public boolean empty() {
             return queue.isEmpty();
         }
     }
 
     @Test
-    public void queueUsingStack()
-    {
+    public void queueUsingStack() {
         MyQueue queueWithStacks = new MyQueue();
         queueWithStacks.push(1);
         queueWithStacks.push(2);
@@ -1403,21 +1320,18 @@ public class LeetCodeArrayTest
 
     }
 
-    class MyQueue
-    {
+    class MyQueue {
         private Stack<Integer> stack1;
         private Stack<Integer> stack2;
 
         /** Initialize your data structure here. */
-        public MyQueue()
-        {
+        public MyQueue() {
             stack1 = new Stack<Integer>();
             stack2 = new Stack<Integer>();
         }
 
         /** Push element x to the back of queue. */
-        public void push(int x)
-        {
+        public void push(int x) {
             int size = stack1.size();
 
             for (int i = 0; i < size; i++)
@@ -1433,29 +1347,25 @@ public class LeetCodeArrayTest
         }
 
         /** Removes the element from in front of queue and returns that element. */
-        public int pop()
-        {
+        public int pop() {
             return stack1.pop();
         }
 
         /** Get the front element. */
-        public int peek()
-        {
+        public int peek() {
             return stack1.peek();
 
         }
 
         /** Returns whether the queue is empty. */
-        public boolean empty()
-        {
+        public boolean empty() {
             return stack1.isEmpty();
         }
     }
 
     @Test
-    public void numArray()
-    {
-        nums = new int[] { -2, 0, 3, -5, 2, -1 };
+    public void numArray() {
+        nums = new int[]{-2, 0, 3, -5, 2, -1};
 
         assertEquals(1, sumRange(0, 2));
         assertEquals(-1, sumRange(2, 5));
@@ -1463,30 +1373,25 @@ public class LeetCodeArrayTest
 
     }
 
-    public int sumRange(int i, int j)
-    {
+    public int sumRange(int i, int j) {
         return IntStream.range(0, nums.length).filter(v -> v >= i && v <= j).map(v -> nums[v]).sum();
     }
 
     @Test
-    public void containsNearbyAlmostDuplicate()
-    {
-        assertEquals(true, containsNearbyAlmostDuplicate(new int[] { 1, 2, 3, 1 }, 3, 0));
-        assertEquals(true, containsNearbyAlmostDuplicate(new int[] { 1, 0, 1, 1 }, 1, 2));
-        assertEquals(false, containsNearbyAlmostDuplicate(new int[] { 1, 5, 9, 1, 5, 9 }, 2, 3));
-        assertEquals(false, containsNearbyAlmostDuplicate(new int[] { -1, 2147483647 }, 1, 2147483647));
+    public void containsNearbyAlmostDuplicate() {
+        assertEquals(true, containsNearbyAlmostDuplicate(new int[]{1, 2, 3, 1}, 3, 0));
+        assertEquals(true, containsNearbyAlmostDuplicate(new int[]{1, 0, 1, 1}, 1, 2));
+        assertEquals(false, containsNearbyAlmostDuplicate(new int[]{1, 5, 9, 1, 5, 9}, 2, 3));
+        assertEquals(false, containsNearbyAlmostDuplicate(new int[]{-1, 2147483647}, 1, 2147483647));
 
     }
 
-    private boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t)
-    {
+    private boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
 
-        for (int i = 0; i < nums.length; i++)
-        {
+        for (int i = 0; i < nums.length; i++) {
             int value = nums[i];
 
-            for (int j = 0; j < nums.length && i != j; j++)
-            {
+            for (int j = 0; j < nums.length && i != j; j++) {
                 int valueIn = nums[j];
 
                 long diff = (long) value - (long) valueIn;
@@ -1500,17 +1405,15 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void containsNearbyDuplicate()
-    {
-        assertEquals(true, containsNearbyDuplicate(new int[] { 1, 2, 4, 1 }, 3));
-        assertEquals(true, containsNearbyDuplicate(new int[] { 1, 0, 1, 1 }, 1));
-        assertEquals(false, containsNearbyDuplicate(new int[] { 1, 2, 3, 1, 2, 3 }, 2));
-        assertEquals(false, containsNearbyDuplicate(new int[] {}, 0));
+    public void containsNearbyDuplicate() {
+        assertEquals(true, containsNearbyDuplicate(new int[]{1, 2, 4, 1}, 3));
+        assertEquals(true, containsNearbyDuplicate(new int[]{1, 0, 1, 1}, 1));
+        assertEquals(false, containsNearbyDuplicate(new int[]{1, 2, 3, 1, 2, 3}, 2));
+        assertEquals(false, containsNearbyDuplicate(new int[]{}, 0));
 
     }
 
-    private boolean containsNearbyDuplicate(int[] nums, int k)
-    {
+    private boolean containsNearbyDuplicate(int[] nums, int k) {
         if (nums.length == 0)
             return false;
 
@@ -1518,8 +1421,7 @@ public class LeetCodeArrayTest
         HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
         map.put(value, 0);
 
-        for (int i = 1; i < nums.length; i++)
-        {
+        for (int i = 1; i < nums.length; i++) {
             value = nums[i];
 
             int tmp = map.getOrDefault(value, -1);
@@ -1535,34 +1437,30 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void containsDuplicate()
-    {
-        assertEquals(true, containsDuplicate(new int[] { 1, 2, 3, 1 }));
-        assertEquals(false, containsDuplicate(new int[] { 1, 2, 3, 4 }));
-        assertEquals(true, containsDuplicate(new int[] { 1, 1, 1, 3, 3, 4, 3, 2, 4, 2 }));
+    public void containsDuplicate() {
+        assertEquals(true, containsDuplicate(new int[]{1, 2, 3, 1}));
+        assertEquals(false, containsDuplicate(new int[]{1, 2, 3, 4}));
+        assertEquals(true, containsDuplicate(new int[]{1, 1, 1, 3, 3, 4, 3, 2, 4, 2}));
 
     }
 
-    private boolean containsDuplicate(int[] nums)
-    {
+    private boolean containsDuplicate(int[] nums) {
         int size = (int) IntStream.of(nums).distinct().count();
 
         return nums.length != size;
     }
 
     @Test
-    public void rob()
-    {
-        assertEquals(4, rob(new int[] { 1, 2, 3, 1 }));
-        assertEquals(12, rob(new int[] { 2, 7, 9, 3, 1 }));
-        assertEquals(4, rob(new int[] { 2, 1, 1, 2 }));
-        assertEquals(1, rob(new int[] { 1 }));
-        assertEquals(14, rob2(new int[] { 4, 1, 2, 7, 5, 3, 1 }));
-        assertEquals(39, rob3(new int[] { 6, 3, 10, 8, 2, 10, 3, 5, 10, 5, 3 }));
+    public void rob() {
+        assertEquals(4, rob(new int[]{1, 2, 3, 1}));
+        assertEquals(12, rob(new int[]{2, 7, 9, 3, 1}));
+        assertEquals(4, rob(new int[]{2, 1, 1, 2}));
+        assertEquals(1, rob(new int[]{1}));
+        assertEquals(14, rob2(new int[]{4, 1, 2, 7, 5, 3, 1}));
+        assertEquals(39, rob3(new int[]{6, 3, 10, 8, 2, 10, 3, 5, 10, 5, 3}));
     }
 
-    private int rob(int[] nums)
-    {
+    private int rob(int[] nums) {
         if (nums == null || nums.length == 0)
             return 0;
 
@@ -1573,16 +1471,14 @@ public class LeetCodeArrayTest
         dp[0] = nums[0];
         dp[1] = Math.max(nums[0], nums[1]);
 
-        for (int i = 2; i < nums.length; i++)
-        {
+        for (int i = 2; i < nums.length; i++) {
             dp[i] = Math.max(dp[i - 2] + nums[i], dp[i - 1]);
         }
 
         return dp[nums.length - 1];
     }
 
-    private int rob2(int[] nums)
-    {
+    private int rob2(int[] nums) {
 
         if (nums == null || nums.length == 0)
             return 0;
@@ -1590,15 +1486,11 @@ public class LeetCodeArrayTest
         int even = 0;
         int odd = 0;
 
-        for (int i = 0; i < nums.length; i++)
-        {
-            if (i % 2 == 0)
-            {
+        for (int i = 0; i < nums.length; i++) {
+            if (i % 2 == 0) {
                 even += nums[i];
                 even = even > odd ? even : odd;
-            }
-            else
-            {
+            } else {
                 odd += nums[i];
                 odd = even > odd ? even : odd;
             }
@@ -1607,10 +1499,8 @@ public class LeetCodeArrayTest
         return even > odd ? even : odd;
     }
 
-    private int rob3(int[] nums)
-    {
-        if (nums.length == 0)
-        {
+    private int rob3(int[] nums) {
+        if (nums.length == 0) {
             return 0;
         }
 
@@ -1622,15 +1512,12 @@ public class LeetCodeArrayTest
         return helper(nums.length, mem, nums);
     }
 
-    private int helper(int size, int[] mem, int[] nums)
-    {
-        if (size < 1)
-        {
+    private int helper(int size, int[] mem, int[] nums) {
+        if (size < 1) {
             return 0;
         }
 
-        if (mem[size] != -1)
-        {
+        if (mem[size] != -1) {
             return mem[size];
         }
 
@@ -1642,48 +1529,43 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void rotateArray()
-    {
-        int[] array = new int[] { 1, 2, 3, 4, 5, 6, 7 };
+    public void rotateArray() {
+        int[] array = new int[]{1, 2, 3, 4, 5, 6, 7};
         rotate(array, 3);
-        assertEquals(true, Arrays.equals(new int[] { 5, 6, 7, 1, 2, 3, 4 }, array));
+        assertEquals(true, Arrays.equals(new int[]{5, 6, 7, 1, 2, 3, 4}, array));
 
-        array = new int[] { 1, 2, 3, 4, 5, 6, 7 };
+        array = new int[]{1, 2, 3, 4, 5, 6, 7};
         rotate(array, 10);
-        assertEquals(true, Arrays.equals(new int[] { 5, 6, 7, 1, 2, 3, 4 }, array));
+        assertEquals(true, Arrays.equals(new int[]{5, 6, 7, 1, 2, 3, 4}, array));
 
-        array = new int[] { -1, -100, 3, 99 };
+        array = new int[]{-1, -100, 3, 99};
         rotate(array, 2);
-        assertEquals(true, Arrays.equals(new int[] { 3, 99, -1, -100 }, array));
+        assertEquals(true, Arrays.equals(new int[]{3, 99, -1, -100}, array));
 
-        array = new int[] { 1, 2, 3, 4, 5, 6 };
+        array = new int[]{1, 2, 3, 4, 5, 6};
         rotate1(array, 3);
-        assertEquals(true, Arrays.equals(new int[] { 4, 5, 6, 1, 2, 3 }, array));
+        assertEquals(true, Arrays.equals(new int[]{4, 5, 6, 1, 2, 3}, array));
     }
 
-    private void rotate1(int[] nums, int k)
-    {
+    private void rotate1(int[] nums, int k) {
         int length = nums.length;
 
         while (length < k)
             k = k - length;
 
         int[] newArray = new int[length];
-        for (int i = 0; i < length; i++)
-        {
+        for (int i = 0; i < length; i++) {
             int value = nums[i];
             int newPosition = i + k < length ? i + k : i + k - length;
             newArray[newPosition] = value;
         }
 
-        for (int i = 0; i < newArray.length; i++)
-        {
+        for (int i = 0; i < newArray.length; i++) {
             nums[i] = newArray[i];
         }
     }
 
-    private void rotate(int[] nums, int k)
-    {
+    private void rotate(int[] nums, int k) {
         int length = nums.length;
 
         while (length < k)
@@ -1691,10 +1573,8 @@ public class LeetCodeArrayTest
 
         Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 
-        for (int i = 0; i < length; i++)
-        {
-            if (null != map.get(i))
-            {
+        for (int i = 0; i < length; i++) {
+            if (null != map.get(i)) {
 
                 int value = map.get(i);
                 int newPosition = i + k < length ? i + k : i + k - length;
@@ -1717,16 +1597,14 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void intersection()
-    {
-        assertEquals(true, Arrays.equals(new int[] { 2 }, intersection(new int[] { 1, 2, 2, 1 }, new int[] { 2, 2 })));
+    public void intersection() {
+        assertEquals(true, Arrays.equals(new int[]{2}, intersection(new int[]{1, 2, 2, 1}, new int[]{2, 2})));
         assertEquals(true,
-                Arrays.equals(new int[] { 4, 9 }, intersection(new int[] { 4, 9, 5 }, new int[] { 9, 4, 9, 8, 4 })));
+                Arrays.equals(new int[]{4, 9}, intersection(new int[]{4, 9, 5}, new int[]{9, 4, 9, 8, 4})));
 
     }
 
-    private int[] intersection(int[] nums1, int[] nums2)
-    {
+    private int[] intersection(int[] nums1, int[] nums2) {
         Set<Integer> set = IntStream.of(nums1).boxed().distinct().collect(Collectors.toSet());
         Set<Integer> set2 = IntStream.of(nums2).boxed().distinct().collect(Collectors.toSet());
 
@@ -1736,28 +1614,24 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void majorityElement()
-    {
-        assertEquals(3, majorityElement(new int[] { 3, 2, 3 }));
-        assertEquals(2, majorityElement1(new int[] { 2, 2, 1, 1, 1, 2, 2 }));
-        assertEquals(3, majorityElementDC(new int[] { 3, 3, 4 }));
+    public void majorityElement() {
+        assertEquals(3, majorityElement(new int[]{3, 2, 3}));
+        assertEquals(2, majorityElement1(new int[]{2, 2, 1, 1, 1, 2, 2}));
+        assertEquals(3, majorityElementDC(new int[]{3, 3, 4}));
 
     }
 
-    private int majorityElement(int[] nums)
-    {
+    private int majorityElement(int[] nums) {
 
         Map<Integer, Integer> mapToFreq = new HashMap<Integer, Integer>();
         int max = 0;
         int maxFreq = 0;
 
-        for (int i = 0; i < nums.length; i++)
-        {
+        for (int i = 0; i < nums.length; i++) {
             int value = nums[i];
             int freq = mapToFreq.getOrDefault(value, 0) + 1;
 
-            if (freq > maxFreq)
-            {
+            if (freq > maxFreq) {
 
                 max = value;
                 maxFreq = freq;
@@ -1770,33 +1644,27 @@ public class LeetCodeArrayTest
 
     }
 
-    private int majorityElement1(int[] nums)
-    {
+    private int majorityElement1(int[] nums) {
 
         Arrays.sort(nums);
         return nums[nums.length / 2];
 
     }
 
-    private int countInRange(int[] nums, int num, int lo, int hi)
-    {
+    private int countInRange(int[] nums, int num, int lo, int hi) {
         int count = 0;
-        for (int i = lo; i <= hi; i++)
-        {
-            if (nums[i] == num)
-            {
+        for (int i = lo; i <= hi; i++) {
+            if (nums[i] == num) {
                 count++;
             }
         }
         return count;
     }
 
-    private int majorityElementRec(int[] nums, int lo, int hi)
-    {
+    private int majorityElementRec(int[] nums, int lo, int hi) {
         // base case; the only element in an array of size 1 is the majority
         // element.
-        if (lo == hi)
-        {
+        if (lo == hi) {
             return nums[lo];
         }
 
@@ -1806,8 +1674,7 @@ public class LeetCodeArrayTest
         int right = majorityElementRec(nums, mid + 1, hi);
 
         // if the two halves agree on the majority element, return it.
-        if (left == right)
-        {
+        if (left == right) {
             return left;
         }
 
@@ -1818,14 +1685,12 @@ public class LeetCodeArrayTest
         return leftCount > rightCount ? left : right;
     }
 
-    private int majorityElementDC(int[] nums)
-    {
+    private int majorityElementDC(int[] nums) {
         return majorityElementRec(nums, 0, nums.length - 1);
     }
 
     @Test
-    public void minStack()
-    {
+    public void minStack() {
         MinStack stack = new MinStack();
 
         stack.push(-2);
@@ -1855,25 +1720,21 @@ public class LeetCodeArrayTest
 
     }
 
-    class MinStack
-    {
+    class MinStack {
 
         private Stack<Integer> stack;
         private int min = Integer.MAX_VALUE;
 
-        public MinStack()
-        {
+        public MinStack() {
             stack = new Stack<Integer>();
         }
 
-        public void push(int x)
-        {
+        public void push(int x) {
             min = Math.min(min, x);
             stack.push(x);
         }
 
-        public void pop()
-        {
+        public void pop() {
             stack.pop();
             min = Integer.MAX_VALUE;
 
@@ -1882,20 +1743,17 @@ public class LeetCodeArrayTest
 
         }
 
-        public int top()
-        {
+        public int top() {
             return stack.peek();
         }
 
-        public int getMin()
-        {
+        public int getMin() {
             return min;
         }
     }
 
     @Test
-    public void convertToTitle()
-    {
+    public void convertToTitle() {
         assertEquals("A", convertToTitle(1));
         assertEquals("AB", convertToTitle(28));
         assertEquals("BB", convertToTitle(54));
@@ -1907,15 +1765,13 @@ public class LeetCodeArrayTest
 
     }
 
-    public String convertToTitle(int n)
-    {
+    public String convertToTitle(int n) {
 
         char[] alphaBet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 
         String out = "";
 
-        while (n > 0)
-        {
+        while (n > 0) {
 
             int div = n / 26;
 
@@ -1933,17 +1789,15 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void missingNumber()
-    {
-        assertEquals(2, missingNumber(new int[] { 3, 0, 1 }));
-        assertEquals(8, missingNumber(new int[] { 9, 6, 4, 2, 3, 5, 7, 0, 1 }));
-        assertEquals(2, missingNumber(new int[] { 0, 1 }));
-        assertEquals(0, missingNumber(new int[] { 1 }));
+    public void missingNumber() {
+        assertEquals(2, missingNumber(new int[]{3, 0, 1}));
+        assertEquals(8, missingNumber(new int[]{9, 6, 4, 2, 3, 5, 7, 0, 1}));
+        assertEquals(2, missingNumber(new int[]{0, 1}));
+        assertEquals(0, missingNumber(new int[]{1}));
 
     }
 
-    public int missingNumber(int[] nums)
-    {
+    public int missingNumber(int[] nums) {
         Arrays.sort(nums);
 
         int length = nums.length;
@@ -1957,8 +1811,7 @@ public class LeetCodeArrayTest
         int start = 0;
         int first = nums[start];
 
-        while (start + 1 < length)
-        {
+        while (start + 1 < length) {
             int next = nums[++start];
 
             if (next - first != 1)
@@ -1971,28 +1824,25 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void singleNumber()
-    {
-        assertEquals(1, singleNumber(new int[] { 2, 2, 1 }));
+    public void singleNumber() {
+        assertEquals(1, singleNumber(new int[]{2, 2, 1}));
 
-        assertEquals(4, singleNumber(new int[] { 4, 1, 2, 1, 2 }));
+        assertEquals(4, singleNumber(new int[]{4, 1, 2, 1, 2}));
 
-        assertEquals(4, singleNumber1(new int[] { 4, 1, 2, 1, 2 }));
+        assertEquals(4, singleNumber1(new int[]{4, 1, 2, 1, 2}));
 
-        assertEquals(4, singleNumber2(new int[] { 4, 1, 2, 1, 2 }));
+        assertEquals(4, singleNumber2(new int[]{4, 1, 2, 1, 2}));
 
-        assertEquals(4, singleNumber3(new int[] { 4, 1, 2, 1, 2 }));
+        assertEquals(4, singleNumber3(new int[]{4, 1, 2, 1, 2}));
     }
 
-    public int singleNumber(int[] nums)
-    {
+    public int singleNumber(int[] nums) {
 
         Set<Integer> set = new HashSet<Integer>();
 
         int length = nums.length;
 
-        for (int i = 0; i < length; i++)
-        {
+        for (int i = 0; i < length; i++) {
             int value = nums[i];
 
             if (!set.contains(value))
@@ -2005,15 +1855,13 @@ public class LeetCodeArrayTest
         return set.iterator().next();
     }
 
-    private int singleNumber1(int[] nums)
-    {
+    private int singleNumber1(int[] nums) {
 
         Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 
         int length = nums.length;
 
-        for (int i = 0; i < length; i++)
-        {
+        for (int i = 0; i < length; i++) {
             int value = nums[i];
 
             if (null == map.get(value))
@@ -2026,8 +1874,7 @@ public class LeetCodeArrayTest
         return map.entrySet().iterator().next().getKey();
     }
 
-    private int singleNumber2(int[] nums)
-    {
+    private int singleNumber2(int[] nums) {
 
         Set<Integer> set = Arrays.stream(nums).distinct().boxed().collect(Collectors.toSet());
         int sum = Arrays.stream(nums).sum();
@@ -2036,19 +1883,18 @@ public class LeetCodeArrayTest
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * If we take XOR of zero and some bit, it will return that bit a⊕0=a
-     * 
+     *
      * If we take XOR of two same bits, it will return 0 a⊕a=0
-     * 
+     *
      * a⊕b⊕a=(a⊕a)⊕b=0⊕b=b
-     * 
+     *
      * @param nums
      * @return
      */
-    private int singleNumber3(int[] nums)
-    {
+    private int singleNumber3(int[] nums) {
 
         int length = nums.length;
 
@@ -2062,21 +1908,18 @@ public class LeetCodeArrayTest
 
     @SuppressWarnings("serial")
     @Test
-    public void addToArrayForm()
-    {
-        assertEquals(new ArrayList<Integer>()
-        {
+    public void addToArrayForm() {
+        assertEquals(new ArrayList<Integer>() {
             {
                 add(1);
                 add(2);
                 add(3);
                 add(4);
             }
-        }, addToArrayForm(new int[] { 1, 2, 0, 0 }, 34));
+        }, addToArrayForm(new int[]{1, 2, 0, 0}, 34));
     }
 
-    public List<Integer> addToArrayForm(int[] digits, int K)
-    {
+    public List<Integer> addToArrayForm(int[] digits, int K) {
 
         String value = Arrays.stream(digits).mapToObj(String::valueOf).collect(Collectors.joining(""));
 
@@ -2087,18 +1930,16 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void plusOne()
-    {
-        assertTrue(Arrays.equals(new int[] { 1, 2, 4 }, plusOne(new int[] { 1, 2, 3 })));
-        assertTrue(Arrays.equals(new int[] { 4, 3, 2, 2 }, plusOne(new int[] { 4, 3, 2, 1 })));
-        assertTrue(Arrays.equals(new int[] { 1, 0, 0, 0 }, plusOne(new int[] { 9, 9, 9 })));
-        assertTrue(Arrays.equals(new int[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 1 },
-                plusOne(new int[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 })));
+    public void plusOne() {
+        assertTrue(Arrays.equals(new int[]{1, 2, 4}, plusOne(new int[]{1, 2, 3})));
+        assertTrue(Arrays.equals(new int[]{4, 3, 2, 2}, plusOne(new int[]{4, 3, 2, 1})));
+        assertTrue(Arrays.equals(new int[]{1, 0, 0, 0}, plusOne(new int[]{9, 9, 9})));
+        assertTrue(Arrays.equals(new int[]{9, 8, 7, 6, 5, 4, 3, 2, 1, 1},
+                plusOne(new int[]{9, 8, 7, 6, 5, 4, 3, 2, 1, 0})));
 
     }
 
-    private int[] plusOne(int[] digits)
-    {
+    private int[] plusOne(int[] digits) {
         String value = Arrays.stream(digits).mapToObj(String::valueOf).collect(Collectors.joining(""));
 
         BigInteger retValue = new BigInteger(value).add(new BigInteger("1"));
@@ -2108,19 +1949,17 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void updateMatrix()
-    {
-        assertTrue(Arrays.deepEquals(new int[][] { { 0, 0, 0 }, { 0, 1, 0 }, { 0, 0, 0 } },
-                updateMatrix1(new int[][] { { 0, 0, 0 }, { 0, 1, 0 }, { 0, 0, 0 } })));
-        assertTrue(Arrays.deepEquals(new int[][] { { 0, 0, 0 }, { 0, 1, 0 }, { 1, 2, 1 } },
-                updateMatrix(new int[][] { { 0, 0, 0 }, { 0, 1, 0 }, { 1, 1, 1 } })));
+    public void updateMatrix() {
+        assertTrue(Arrays.deepEquals(new int[][]{{0, 0, 0}, {0, 1, 0}, {0, 0, 0}},
+                updateMatrix1(new int[][]{{0, 0, 0}, {0, 1, 0}, {0, 0, 0}})));
+        assertTrue(Arrays.deepEquals(new int[][]{{0, 0, 0}, {0, 1, 0}, {1, 2, 1}},
+                updateMatrix(new int[][]{{0, 0, 0}, {0, 1, 0}, {1, 1, 1}})));
 
-        assertTrue(Arrays.deepEquals(new int[][] {}, updateMatrix(new int[][] { { 0, 1, 0, 1, 1 }, { 1, 1, 0, 0, 1 },
-                { 0, 0, 0, 1, 0 }, { 1, 0, 1, 1, 1 }, { 1, 0, 0, 0, 1 } })));
+        assertTrue(Arrays.deepEquals(new int[][]{}, updateMatrix(new int[][]{{0, 1, 0, 1, 1}, {1, 1, 0, 0, 1},
+                {0, 0, 0, 1, 0}, {1, 0, 1, 1, 1}, {1, 0, 0, 0, 1}})));
     }
 
-    private int[][] updateMatrix(int[][] matrix)
-    {
+    private int[][] updateMatrix(int[][] matrix) {
 
         int rows = matrix.length;
 
@@ -2129,30 +1968,25 @@ public class LeetCodeArrayTest
 
         int cols = matrix[0].length;
 
-        int[][] dist = new int[][] {};
+        int[][] dist = new int[][]{};
 
         Queue<Pair<Integer, Integer>> q = new LinkedList<Pair<Integer, Integer>>();
 
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < cols; j++)
-                if (matrix[i][j] == 0)
-                {
+                if (matrix[i][j] == 0) {
                     dist[i][j] = 0;
                     q.add(new Pair<Integer, Integer>(i, j)); // Put all 0s in the queue.
                 }
 
-        int[][] dir = new int[][] { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
-        while (!q.isEmpty())
-        {
+        int[][] dir = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        while (!q.isEmpty()) {
             Pair<Integer, Integer> curr = q.peek();
             q.poll();
-            for (int i = 0; i < 4; i++)
-            {
+            for (int i = 0; i < 4; i++) {
                 int new_r = curr.getKey() + dir[i][0], new_c = curr.getValue() + dir[i][1];
-                if (new_r >= 0 && new_c >= 0 && new_r < rows && new_c < cols)
-                {
-                    if (dist[new_r][new_c] > dist[curr.getKey()][curr.getValue()] + 1)
-                    {
+                if (new_r >= 0 && new_c >= 0 && new_r < rows && new_c < cols) {
+                    if (dist[new_r][new_c] > dist[curr.getKey()][curr.getValue()] + 1) {
                         dist[new_r][new_c] = dist[curr.getKey()][curr.getValue()] + 1;
                         q.add(new Pair<Integer, Integer>(new_r, new_c));
                     }
@@ -2163,50 +1997,40 @@ public class LeetCodeArrayTest
 
     }
 
-    private int[][] updateMatrix1(int[][] matrix)
-    {
+    private int[][] updateMatrix1(int[][] matrix) {
         int matrixLength = matrix.length;
 
-        for (int i = 0; i < matrixLength; i++)
-        {
+        for (int i = 0; i < matrixLength; i++) {
             int[] row = matrix[i];
 
             int rowLength = row.length;
 
-            for (int j = 0; j < rowLength; j++)
-            {
+            for (int j = 0; j < rowLength; j++) {
 
                 if (matrix[i][j] == 0)
                     continue;
 
                 boolean hasFoundDistance = false;
 
-                while (!hasFoundDistance)
-                {
+                while (!hasFoundDistance) {
 
                     int distance = 1;
                     if (j - distance >= 0 && (matrix[i][j - distance] == 0)
                             || (i - distance >= 0 && matrix[i - distance][j] == 0)
                             || (j + distance < rowLength && matrix[i][j + distance] == 0)
-                            || (i + distance < matrixLength && matrix[i + distance][j] == 0))
-                    {
+                            || (i + distance < matrixLength && matrix[i + distance][j] == 0)) {
                         matrix[i][j] = distance;
                         hasFoundDistance = true;
-                    }
-                    else if (i - distance >= 0 && (j - distance >= 0 && matrix[i - distance][j - distance] == 0
-                            || j + distance < rowLength && matrix[i - distance][j + distance] == 0))
-                    {
+                    } else if (i - distance >= 0 && (j - distance >= 0 && matrix[i - distance][j - distance] == 0
+                            || j + distance < rowLength && matrix[i - distance][j + distance] == 0)) {
                         matrix[i][j] = distance + 1;
                         hasFoundDistance = true;
-                    }
-                    else if (i + distance < matrixLength
+                    } else if (i + distance < matrixLength
                             && (j - distance >= 0 && matrix[i + distance][j - distance] == 0
-                                    || j + distance < rowLength && matrix[i + distance][j + distance] == 0))
-                    {
+                            || j + distance < rowLength && matrix[i + distance][j + distance] == 0)) {
                         matrix[i][j] = distance + 1;
                         hasFoundDistance = true;
-                    }
-                    else
+                    } else
                         distance++;
                 }
 
@@ -2217,20 +2041,18 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void maxProfitII()
-    {
-        assertEquals(7, maxProfitII(new int[] { 7, 1, 5, 3, 6, 4 }));
-        assertEquals(22, maxProfitII(new int[] { 7, 1, 8, 5, 18, 20 }));
-        assertEquals(7, maxProfitII(new int[] { 7, 3, 5, 1, 6, 4 }));
-        assertEquals(4, maxProfitII(new int[] { 1, 2, 3, 4, 5 }));
-        assertEquals(0, maxProfitII(new int[] { 7, 6, 4, 3, 1 }));
-        assertEquals(4, maxProfitII(new int[] { 1, 2, 3, 4, 5, 4, 3, 2 }));
-        assertEquals(11, maxProfitII(new int[] { 7, 6, 4, 3, 1, 5, 3, 10 }));
+    public void maxProfitII() {
+        assertEquals(7, maxProfitII(new int[]{7, 1, 5, 3, 6, 4}));
+        assertEquals(22, maxProfitII(new int[]{7, 1, 8, 5, 18, 20}));
+        assertEquals(7, maxProfitII(new int[]{7, 3, 5, 1, 6, 4}));
+        assertEquals(4, maxProfitII(new int[]{1, 2, 3, 4, 5}));
+        assertEquals(0, maxProfitII(new int[]{7, 6, 4, 3, 1}));
+        assertEquals(4, maxProfitII(new int[]{1, 2, 3, 4, 5, 4, 3, 2}));
+        assertEquals(11, maxProfitII(new int[]{7, 6, 4, 3, 1, 5, 3, 10}));
 
     }
 
-    private int maxProfitII(int[] prices)
-    {
+    private int maxProfitII(int[] prices) {
 
         // to hold profit
 
@@ -2239,21 +2061,16 @@ public class LeetCodeArrayTest
         int currentMin = Integer.MAX_VALUE;
 
         // iterate thru prices
-        for (int price : prices)
-        {
+        for (int price : prices) {
             // check if this price is smaller than current min
-            if (price < currentMin)
-            {
+            if (price < currentMin) {
                 // set new current min
                 currentMin = price;
-            }
-            else
-            {
+            } else {
                 // check if we can profit by selling stock on this day
                 int currentProfit = price - currentMin;
                 // check if we can profit
-                if (currentProfit > 0)
-                {
+                if (currentProfit > 0) {
                     // add to profit
                     profit += currentProfit;
                     // set current min to current price
@@ -2267,15 +2084,13 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void maxProfit()
-    {
-        assertEquals(5, maxProfit(new int[] { 7, 1, 5, 3, 6, 4 }));
-        assertEquals(5, maxProfitLinear(new int[] { 7, 3, 5, 1, 6, 4 }));
+    public void maxProfit() {
+        assertEquals(5, maxProfit(new int[]{7, 1, 5, 3, 6, 4}));
+        assertEquals(5, maxProfitLinear(new int[]{7, 3, 5, 1, 6, 4}));
 
     }
 
-    private int maxProfitLinear(int[] prices)
-    {
+    private int maxProfitLinear(int[] prices) {
 
         if (prices.length == 0)
             return 0;
@@ -2283,12 +2098,10 @@ public class LeetCodeArrayTest
         int maxProf = 0;
         int minBuy = prices[0];
 
-        for (int i = 1; i < prices.length; i++)
-        {
+        for (int i = 1; i < prices.length; i++) {
             int sell = prices[i];
 
-            if (minBuy >= sell)
-            {
+            if (minBuy >= sell) {
 
                 minBuy = sell;
                 continue;
@@ -2300,17 +2113,14 @@ public class LeetCodeArrayTest
         return maxProf;
     }
 
-    private int maxProfit(int[] prices)
-    {
+    private int maxProfit(int[] prices) {
 
         int maxProf = 0;
 
-        for (int i = 0; i < prices.length; i++)
-        {
+        for (int i = 0; i < prices.length; i++) {
             int buy = prices[i];
 
-            for (int j = i; j < prices.length; j++)
-            {
+            for (int j = i; j < prices.length; j++) {
                 int sell = prices[j];
 
                 if (buy < sell)
@@ -2322,45 +2132,37 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void maxSubArray()
-    {
-        assertEquals(9, maxSubArrayGreedy(new int[] { -1, 2, -3, 4, 5 }));
-        assertEquals(9, maxSubArrayPrefSum(new int[] { -1, 2, -3, 4, 5 }));
-        assertEquals(9, maxSubArrayDivideConquer(new int[] { -1, 2, -3, 4, 5 }));
+    public void maxSubArray() {
+        assertEquals(9, maxSubArrayGreedy(new int[]{-1, 2, -3, 4, 5}));
+        assertEquals(9, maxSubArrayPrefSum(new int[]{-1, 2, -3, 4, 5}));
+        assertEquals(9, maxSubArrayDivideConquer(new int[]{-1, 2, -3, 4, 5}));
 
     }
 
-    public int maxSubArrayGreedy(int[] nums)
-    {
+    public int maxSubArrayGreedy(int[] nums) {
 
         int start = 0;
         int end = start;
         int sum = Integer.MIN_VALUE;
         int currentSum = 0;
-        while (start < nums.length && end < nums.length)
-        {
+        while (start < nums.length && end < nums.length) {
             currentSum += nums[end];
             sum = Math.max(sum, currentSum);
-            if (currentSum < 0)
-            {
+            if (currentSum < 0) {
                 start = end + 1;
                 end = start;
                 currentSum = 0;
-            }
-            else
-            {
+            } else {
                 end++;
             }
         }
         return sum;
     }
 
-    public int maxSubArrayPrefSum(int[] nums)
-    {
+    public int maxSubArrayPrefSum(int[] nums) {
         int currentSum = 0;
         int sum = Integer.MIN_VALUE;
-        for (int i = 0; i < nums.length; i++)
-        {
+        for (int i = 0; i < nums.length; i++) {
             currentSum = Math.max(currentSum + nums[i], nums[i]);
             sum = Math.max(currentSum, sum);
         }
@@ -2368,13 +2170,11 @@ public class LeetCodeArrayTest
         return sum;
     }
 
-    public int maxSubArrayDivideConquer(int[] nums)
-    {
+    public int maxSubArrayDivideConquer(int[] nums) {
         return maxSubArrayWithBoundries(nums, 0, nums.length - 1);
     }
 
-    private int maxSubArrayWithBoundries(int[] nums, int start, int end)
-    {
+    private int maxSubArrayWithBoundries(int[] nums, int start, int end) {
         if (start == end)
             return nums[start];
 
@@ -2385,20 +2185,17 @@ public class LeetCodeArrayTest
         return Math.max(Math.max(leftMax, rightMax), crossingMidMax);
     }
 
-    private int crossingMidMax(int[] nums, int start, int end)
-    {
+    private int crossingMidMax(int[] nums, int start, int end) {
         int mid = (start + end) / 2;
         int leftMidMax = Integer.MIN_VALUE;
         int rightMidMax = Integer.MIN_VALUE;
         int sum = 0;
-        for (int i = mid; i >= start; i--)
-        {
+        for (int i = mid; i >= start; i--) {
             sum += nums[i];
             leftMidMax = Math.max(leftMidMax, sum);
         }
         sum = 0;
-        for (int i = mid + 1; i <= end; i++)
-        {
+        for (int i = mid + 1; i <= end; i++) {
             sum += nums[i];
             rightMidMax = Math.max(rightMidMax, sum);
         }
@@ -2406,8 +2203,7 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void firstBadVersion()
-    {
+    public void firstBadVersion() {
         int n = 5;
         k = 4;
         assertEquals(k, firstBadVersion(n - 1));
@@ -2438,8 +2234,7 @@ public class LeetCodeArrayTest
 
     }
 
-    public int firstBadVersion(int n)
-    {
+    public int firstBadVersion(int n) {
 
         if (n <= 0)
             return 0;
@@ -2447,30 +2242,26 @@ public class LeetCodeArrayTest
         long left = 0;
         long right = n;
 
-        while (left <= right)
-        {
+        while (left <= right) {
 
             Long middle = (left + right) / 2;
 
             boolean isBadVersion = isBadVersion(middle.intValue());
 
-            if (isBadVersion)
-            {
+            if (isBadVersion) {
 
                 if (isBadVersion(middle.intValue() - 1))
                     right = middle - 1;
                 else
                     return middle.intValue();
-            }
-            else
+            } else
                 left = middle + 1;
         }
 
         return 0;
     }
 
-    private boolean isBadVersion(int n)
-    {
+    private boolean isBadVersion(int n) {
         if (n >= k)
             return true;
 
@@ -2478,35 +2269,31 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void searchInsert()
-    {
-        assertEquals(0, searchInsert(new int[] { 1, 3, 5, 6 }, 0));
-        assertEquals(2, searchInsert(new int[] { 1, 3, 5, 6 }, 5));
-        assertEquals(1, searchInsert(new int[] { 1, 3, 5, 6 }, 2));
-        assertEquals(4, searchInsert(new int[] { 1, 3, 5, 6 }, 7));
-        assertEquals(1, searchInsert(new int[] { 1 }, 2));
-        assertEquals(0, searchInsert(new int[] {}, 1));
-        assertEquals(0, searchInsert(new int[] { 1, 3 }, 0));
-        assertEquals(1, searchInsert(new int[] { 1, 3 }, 2));
-        assertEquals(0, searchInsert(new int[] { 1, 3 }, 1));
-        assertEquals(2, searchInsert(new int[] { 1, 4, 6, 7, 8, 9 }, 6));
+    public void searchInsert() {
+        assertEquals(0, searchInsert(new int[]{1, 3, 5, 6}, 0));
+        assertEquals(2, searchInsert(new int[]{1, 3, 5, 6}, 5));
+        assertEquals(1, searchInsert(new int[]{1, 3, 5, 6}, 2));
+        assertEquals(4, searchInsert(new int[]{1, 3, 5, 6}, 7));
+        assertEquals(1, searchInsert(new int[]{1}, 2));
+        assertEquals(0, searchInsert(new int[]{}, 1));
+        assertEquals(0, searchInsert(new int[]{1, 3}, 0));
+        assertEquals(1, searchInsert(new int[]{1, 3}, 2));
+        assertEquals(0, searchInsert(new int[]{1, 3}, 1));
+        assertEquals(2, searchInsert(new int[]{1, 4, 6, 7, 8, 9}, 6));
 
     }
 
-    private int searchInsert(int[] nums, int target)
-    {
+    private int searchInsert(int[] nums, int target) {
         return search(nums, 0, nums.length - 1, target);
     }
 
-    int search(int nums[], int left, int right, int target)
-    {
+    int search(int nums[], int left, int right, int target) {
         if (nums.length == 0)
             return 0;
 
         // Binary search
         int middle = 0;
-        while (left <= right)
-        {
+        while (left <= right) {
 
             middle = (left + right) / 2;
 
@@ -2529,13 +2316,11 @@ public class LeetCodeArrayTest
             return length;
         else if (target <= nums[0])
             return 0;
-        else
-        {
+        else {
 
             int tmp = 0;
 
-            while (tmp < length)
-            {
+            while (tmp < length) {
                 if (target > nums[tmp] && target < nums[tmp + 1])
                     return tmp + 1;
 
@@ -2547,27 +2332,22 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void moveZeroes()
-    {
-        int[] nums = new int[] { 0, 1, 0, 3, 12 };
+    public void moveZeroes() {
+        int[] nums = new int[]{0, 1, 0, 3, 12};
         moveZeroes(nums);
 
-        assertEquals(true, Arrays.equals(nums, new int[] { 1, 3, 12, 0, 0 }));
-        nums = new int[] { 0, 1, 0 };
+        assertEquals(true, Arrays.equals(nums, new int[]{1, 3, 12, 0, 0}));
+        nums = new int[]{0, 1, 0};
         moveZeroes(nums);
-        assertEquals(true, Arrays.equals(nums, new int[] { 1, 0, 0 }));
+        assertEquals(true, Arrays.equals(nums, new int[]{1, 0, 0}));
 
     }
 
-    private void moveZeroes(int[] nums)
-    {
-        for (int i = nums.length - 1; i >= 0; i--)
-        {
-            if (nums[i] == 0)
-            {
+    private void moveZeroes(int[] nums) {
+        for (int i = nums.length - 1; i >= 0; i--) {
+            if (nums[i] == 0) {
                 int j = i;
-                while (j + 1 < nums.length)
-                {
+                while (j + 1 < nums.length) {
                     int tmp = nums[j + 1];
                     nums[j + 1] = nums[j];
                     nums[j] = tmp;
@@ -2579,28 +2359,25 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void removeElement()
-    {
-        int[] array = new int[] { 3, 2, 2, 3 };
+    public void removeElement() {
+        int[] array = new int[]{3, 2, 2, 3};
         int size = removeElement(array, 3);
 
-        assertEquals(true, Arrays.equals(new int[] { 2, 2 }, Arrays.copyOfRange(array, 0, size)));
+        assertEquals(true, Arrays.equals(new int[]{2, 2}, Arrays.copyOfRange(array, 0, size)));
 
-        array = new int[] { 0, 1, 2, 2, 3, 0, 4, 2 };
+        array = new int[]{0, 1, 2, 2, 3, 0, 4, 2};
         size = removeElement(array, 2);
 
-        assertEquals(true, Arrays.equals(new int[] { 0, 1, 3, 0, 4 }, Arrays.copyOfRange(array, 0, size)));
+        assertEquals(true, Arrays.equals(new int[]{0, 1, 3, 0, 4}, Arrays.copyOfRange(array, 0, size)));
 
     }
 
-    private int removeElement(int[] nums, int val)
-    {
+    private int removeElement(int[] nums, int val) {
         LinkedList<Integer> b = IntStream.of(nums).filter(e -> e != val).boxed()
                 .collect(Collectors.toCollection(LinkedList::new));
         int size = b.size();
 
-        for (int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             nums[i] = b.poll();
         }
 
@@ -2608,21 +2385,18 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void removeDuplicates()
-    {
-        assertEquals(2, removeDuplicates(new int[] { 1, 1, 2 }));
-        assertEquals(5, removeDuplicates(new int[] { 0, 0, 1, 1, 1, 2, 2, 3, 3, 4 }));
-        assertEquals(1, removeDuplicates(new int[] { 1, 1 }));
+    public void removeDuplicates() {
+        assertEquals(2, removeDuplicates(new int[]{1, 1, 2}));
+        assertEquals(5, removeDuplicates(new int[]{0, 0, 1, 1, 1, 2, 2, 3, 3, 4}));
+        assertEquals(1, removeDuplicates(new int[]{1, 1}));
 
     }
 
-    private int removeDuplicates(int[] nums)
-    {
+    private int removeDuplicates(int[] nums) {
         LinkedList<Integer> b = IntStream.of(nums).distinct().boxed().collect(Collectors.toCollection(LinkedList::new));
         int size = b.size();
 
-        for (int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             nums[i] = b.poll();
         }
 
@@ -2631,35 +2405,31 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void combinationSum() throws JsonProcessingException
-    {
-        assertEquals("[[2,2,3],[7]]", mapper.writeValueAsString(combinationSum(new int[] { 2, 3, 6, 7 }, 7)));
-        assertEquals("[[2,2,2,2],[2,3,3],[3,5]]", mapper.writeValueAsString(combinationSum(new int[] { 2, 3, 5 }, 8)));
-        assertEquals("[[1,1]]", mapper.writeValueAsString(combinationSum(new int[] { 1 }, 2)));
-        assertEquals("[[2,2,3],[2,5]]", mapper.writeValueAsString(combinationSum(new int[] { 2, 3, 5 }, 7)));
+    public void combinationSum() throws JsonProcessingException {
+        assertEquals("[[2,2,3],[7]]", mapper.writeValueAsString(combinationSum(new int[]{2, 3, 6, 7}, 7)));
+        assertEquals("[[2,2,2,2],[2,3,3],[3,5]]", mapper.writeValueAsString(combinationSum(new int[]{2, 3, 5}, 8)));
+        assertEquals("[[1,1]]", mapper.writeValueAsString(combinationSum(new int[]{1}, 2)));
+        assertEquals("[[2,2,3],[2,5]]", mapper.writeValueAsString(combinationSum(new int[]{2, 3, 5}, 7)));
         assertEquals(
                 "[[7,7,2,2],[7,2,2,2,2,3],[7,2,3,3,3],[2,2,2,2,2,2,2,2,2],[2,2,2,2,2,2,3,3],[2,2,2,3,3,3,3],[3,3,3,3,3,3]]",
-                mapper.writeValueAsString(combinationSum(new int[] { 7, 2, 3 }, 18)));
+                mapper.writeValueAsString(combinationSum(new int[]{7, 2, 3}, 18)));
 
     }
 
-    private List<List<Integer>> combinationSum(int[] candidates, int target)
-    {
+    private List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> ans = new ArrayList<>();
         helper(0, target, 0, candidates, new ArrayList<>(), ans);
         return ans;
     }
 
-    private void helper(int index, int target, int sum, int[] candidates, List<Integer> list, List<List<Integer>> ans)
-    {
+    private void helper(int index, int target, int sum, int[] candidates, List<Integer> list, List<List<Integer>> ans) {
         if (index > candidates.length - 1 || sum > target)
             return;
 
         if (sum == target && list.size() != 0)
             ans.add(new ArrayList<>(list));
 
-        for (int i = index; i < candidates.length; i++)
-        {
+        for (int i = index; i < candidates.length; i++) {
             list.add(candidates[i]);
             helper(i, target, sum + candidates[i], candidates, list, ans);
             list.remove(list.size() - 1);
@@ -2667,21 +2437,18 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void twoSumSortedArrays()
-    {
-        assertArrayEquals(new int[] { 1, 2 }, twoSumSortedArrays(new int[] { 2, 7, 11, 15 }, 9));
-        assertArrayEquals(new int[] { 1, 2 }, twoSumSortedArrays(new int[] { 0, 0, 3, 4 }, 0));
-        assertArrayEquals(new int[] { 1, 2 }, twoSumSortedArrays(new int[] { -1, 0 }, -1));
-        assertArrayEquals(new int[] { 4, 5 }, twoSumSortedArrays(new int[] { 1, 2, 3, 4, 4, 9, 56, 90 }, 8));
+    public void twoSumSortedArrays() {
+        assertArrayEquals(new int[]{1, 2}, twoSumSortedArrays(new int[]{2, 7, 11, 15}, 9));
+        assertArrayEquals(new int[]{1, 2}, twoSumSortedArrays(new int[]{0, 0, 3, 4}, 0));
+        assertArrayEquals(new int[]{1, 2}, twoSumSortedArrays(new int[]{-1, 0}, -1));
+        assertArrayEquals(new int[]{4, 5}, twoSumSortedArrays(new int[]{1, 2, 3, 4, 4, 9, 56, 90}, 8));
 
     }
 
-    public int[] twoSumSortedArrays(int[] nums, int target)
-    {
+    public int[] twoSumSortedArrays(int[] nums, int target) {
         int length = nums.length - 1;
 
-        for (int i = 0; i < length; i++)
-        {
+        for (int i = 0; i < length; i++) {
             int num = nums[i];
 
             int fit = target - num;
@@ -2689,7 +2456,7 @@ public class LeetCodeArrayTest
             int search = Array.binarySearch(nums, i + 1, length, fit);
 
             if (search >= 0)
-                return new int[] { i + 1, search + 1 };
+                return new int[]{i + 1, search + 1};
 
         }
 
@@ -2697,23 +2464,19 @@ public class LeetCodeArrayTest
     }
 
     @Test
-    public void twoSum()
-    {
-        assertArrayEquals(new int[] { 0, 1 }, twoSum(new int[] { 2, 7, 11, 15 }, 9));
+    public void twoSum() {
+        assertArrayEquals(new int[]{0, 1}, twoSum(new int[]{2, 7, 11, 15}, 9));
     }
 
-    private int[] twoSum(int[] nums, int target)
-    {
+    private int[] twoSum(int[] nums, int target) {
         Map<Integer, Integer> keyToIndex = new HashMap<Integer, Integer>();
         int size = nums.length;
 
         int[] solution = new int[2];
-        for (int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             int diff = target - nums[i];
 
-            if (null != keyToIndex.get(diff))
-            {
+            if (null != keyToIndex.get(diff)) {
                 solution[0] = keyToIndex.get(diff);
                 solution[1] = i;
                 break;
