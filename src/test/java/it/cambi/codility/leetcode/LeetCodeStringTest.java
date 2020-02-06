@@ -75,6 +75,32 @@ public class LeetCodeStringTest {
     };
 
     @Test
+    public void toLowerCase() {
+        assertEquals("hello", toLowerCase("Hello"));
+    }
+
+    private String toLowerCase(String str) {
+
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < str.length(); i++) {
+            int c = str.charAt(i);
+
+            if (c > 64 && c < 91) {
+
+                c = c + 32;
+                builder.append((char) c);
+
+            } else {
+                builder.append((char) c);
+            }
+
+        }
+
+        return builder.toString();
+    }
+
+    @Test
     public void findLUSlength() {
         assertEquals(3, findLUSlength("aba", "cdc"));
         assertEquals(17, findLUSlength("aefawfawfawfaw", "aefawfeawfwafwaef"));
