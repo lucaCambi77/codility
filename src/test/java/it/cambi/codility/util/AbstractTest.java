@@ -18,12 +18,9 @@ public class AbstractTest {
 			carriageReturn = windowsCarriage;
 			break;
 
-		case Linux:
+		default:
 
 			carriageReturn = unixCarriage;
-			break;
-
-		default:
 			break;
 		}
 
