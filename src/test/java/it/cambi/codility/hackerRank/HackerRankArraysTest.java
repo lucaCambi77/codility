@@ -67,29 +67,46 @@ public class HackerRankArraysTest extends AbstractTest {
         assertEquals(1, maxDistToClosest(new int[]{1, 0}));
         assertEquals(1, maxDistToClosest(new int[]{0, 1}));
         assertEquals(1, maxDistToClosest(new int[]{0, 1, 0, 0, 1}));
+        assertEquals(3, maxDistToClosest(new int[]{0, 1, 0, 0, 0, 0, 0, 0, 1}));
+        assertEquals(2, maxDistToClosest(new int[]{0, 0, 1}));
 
     }
 
     public int maxDistToClosest(int[] seats) {
 
-        boolean isOne = seats[0] == 0;
-        int count = 0;
         int solution = 0;
+        int count = 0;
+        boolean startWithZero = seats[0] == 0;
 
-        for (int i = 1; i < seats.length; i++) {
+        for (int i = 0; i < seats.length; i++) {
 
-            if (seats[i] == 0) {
+            if (seats[i] == 0)
                 count++;
-            } else if (!isOne && seats[i] == 1) {
-                isOne = true;
-            } else if (isOne && seats[i] == 1) {
-                isOne = false;
-                solution = Math.max(solution, ++count / 2);
+            else if (seats[i] == 1) {
+
+                if (startWithZero) {
+                    solution = count;
+                    startWithZero = false;
+                } else if (count < 3)
+                    solution = Math.max(solution, 1);
+                else {
+                    solution = getSolution(solution, count);
+
+                }
+
                 count = 0;
             }
         }
 
-        return solution == 0 ? count : solution;
+        return Math.max(solution, count);
+    }
+
+    private int getSolution(int solution, int count) {
+        if ((count & 1) == 1)
+            return Math.max(solution, (count + 1) / 2);
+        else
+            return Math.max(solution, count / 2);
+
     }
 
 
