@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.leetcode;
 
@@ -35,15 +35,13 @@ import it.cambi.codility.coreJava.StringTest;
  *
  */
 @TestMethodOrder(Alphanumeric.class)
-public class LeetCodeStringTest
-{
+public class LeetCodeStringTest {
 
     /**
      * Letter to primitive map
      */
     @SuppressWarnings("serial")
-    private static Map<Character, Integer> alphabetMap = new HashMap<Character, Integer>()
-    {
+    private static Map<Character, Integer> alphabetMap = new HashMap<Character, Integer>() {
         {
 
             put('a', 2);
@@ -77,16 +75,57 @@ public class LeetCodeStringTest
     };
 
     @Test
-    public void licenseKeyFormatting()
-    {
+    public void findLUSlength() {
+        assertEquals(3, findLUSlength("aba", "cdc"));
+        assertEquals(17, findLUSlength("aefawfawfawfaw", "aefawfeawfwafwaef"));
+        assertEquals(-1, findLUSlength("aaa", "aaa"));
+
+    }
+
+    public int findLUSlength(String a, String b) {
+
+        int aLength = a.length();
+        int bLength = b.length();
+
+        int i = 0;
+        int maxUncommon = 0;
+        int count = 0;
+
+        while (i < aLength && i < bLength) {
+
+            if (a.charAt(i) != b.charAt(i))
+                count++;
+            else {
+                maxUncommon = Math.max(maxUncommon, count);
+                count = 0;
+            }
+            i++;
+        }
+
+        maxUncommon = Math.max(maxUncommon, count);
+
+        int diff = aLength > bLength ? aLength - bLength : bLength - aLength;
+
+        if (maxUncommon == 0 && diff == 0)
+            return -1;
+
+        int uncommon = Math.max(aLength, bLength);
+
+        int solution = maxUncommon + diff;
+        solution = Math.max(solution, uncommon);
+
+        return solution == 0 ? -1 : solution;
+    }
+
+    @Test
+    public void licenseKeyFormatting() {
         assertEquals("5F3Z-2E9W", licenseKeyFormatting("5F3Z-2e-9-w", 4));
         assertEquals("2-5G-3J", licenseKeyFormatting("2-5g-3-J", 2));
         assertEquals("2", licenseKeyFormatting("2", 2));
 
     }
 
-    public String licenseKeyFormatting(String S, int K)
-    {
+    public String licenseKeyFormatting(String S, int K) {
         String replace = S.replaceAll("-", "").toUpperCase();
 
         if (replace.length() < K)
@@ -98,23 +137,19 @@ public class LeetCodeStringTest
 
         int i = 0;
 
-        if (reminder > 0)
-        {
+        if (reminder > 0) {
 
-            while (reminder-- > 0)
-            {
+            while (reminder-- > 0) {
                 builder.append(replace.charAt(i++));
             }
 
             builder.append("-");
         }
-        
+
         int z = 0;
-        for (int j = i; j < replace.length(); j++)
-        {
+        for (int j = i; j < replace.length(); j++) {
             builder.append(replace.charAt(j));
-            if (++z == K && j != replace.length() - 1)
-            {
+            if (++z == K && j != replace.length() - 1) {
 
                 builder.append("-");
                 z = 0;
@@ -126,29 +161,23 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void removeOuterParentheses()
-    {
+    public void removeOuterParentheses() {
         assertEquals("(()())(())", removeOuterParentheses("()()()"));
         assertEquals("()()()()(())", removeOuterParentheses("(()())(())(()(()))"));
         assertEquals("", removeOuterParentheses("()()"));
 
     }
 
-    public String removeOuterParentheses(String S)
-    {
+    public String removeOuterParentheses(String S) {
         Stack<Character> stack = new Stack<Character>();
         char c = S.charAt(0);
         boolean isOuterMost = false;
 
-        for (int i = 1; i < S.length(); i++)
-        {
-            if (c == '(' && !isOuterMost)
-            {
+        for (int i = 1; i < S.length(); i++) {
+            if (c == '(' && !isOuterMost) {
                 stack.add(S.charAt(i));
                 isOuterMost = true;
-            }
-            else if (c == '(' && isOuterMost)
-            {
+            } else if (c == '(' && isOuterMost) {
 
             }
 
@@ -158,18 +187,16 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void compress()
-    {
-        assertEquals(6, compress(new char[] { 'a', 'a', 'b', 'b', 'c', 'c', 'c' }));
-        assertEquals(4, compress(new char[] { 'a', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b' }));
-        assertEquals(6, compress(new char[] { 'a', 'a', 'a', 'b', 'b', 'a', 'a' }));
-        assertEquals(1, compress(new char[] { 'a' }));
-        assertEquals(3, compress(new char[] { 'a', 'a', 'a', 'a', 'a', 'b' }));
+    public void compress() {
+        assertEquals(6, compress(new char[]{'a', 'a', 'b', 'b', 'c', 'c', 'c'}));
+        assertEquals(4, compress(new char[]{'a', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b'}));
+        assertEquals(6, compress(new char[]{'a', 'a', 'a', 'b', 'b', 'a', 'a'}));
+        assertEquals(1, compress(new char[]{'a'}));
+        assertEquals(3, compress(new char[]{'a', 'a', 'a', 'a', 'a', 'b'}));
 
     }
 
-    private int compress(char[] chars)
-    {
+    private int compress(char[] chars) {
         if (null == chars || (null != chars && chars.length == 0))
             return 0;
 
@@ -180,12 +207,10 @@ public class LeetCodeStringTest
         char c = chars[0];
         int charCount = 1;
 
-        while (i < length)
-        {
+        while (i < length) {
             if (c == chars[i])
                 charCount++;
-            else
-            {
+            else {
                 length = swapByCount(chars, position, charCount, i, length);
                 i = position + Integer.toString(charCount).length() - 1;
                 charCount = 1;
@@ -208,24 +233,19 @@ public class LeetCodeStringTest
      * @param count
      * @return
      */
-    private int swapByCount(char[] chars, int position, int count, int i, int length)
-    {
-        if (count > 1)
-        {
+    private int swapByCount(char[] chars, int position, int count, int i, int length) {
+        if (count > 1) {
             String s = Integer.toString(count);
 
-            for (int j = 0; j < s.length(); j++)
-            {
+            for (int j = 0; j < s.length(); j++) {
 
                 chars[position++] = s.charAt(j);
             }
 
-            if (position < i)
-            {
+            if (position < i) {
                 length = length - (i - position);
 
-                for (int j = position; j < length; j++)
-                {
+                for (int j = position; j < length; j++) {
                     chars[position++] = chars[i++];
                 }
             }
@@ -234,21 +254,18 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void judgeCircle()
-    {
+    public void judgeCircle() {
         assertEquals(true, judgeCircle("UD"));
         assertEquals(false, judgeCircle("LL"));
 
     }
 
-    private boolean judgeCircle(String moves)
-    {
+    private boolean judgeCircle(String moves) {
 
         int countLeft = 0;
         int countUp = 0;
 
-        for (int i = 0; i < moves.length(); i++)
-        {
+        for (int i = 0; i < moves.length(); i++) {
             if (moves.charAt(i) == 'L')
                 countLeft++;
             else if (moves.charAt(i) == 'R')
@@ -263,16 +280,14 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void backspaceCompare()
-    {
+    public void backspaceCompare() {
         assertEquals(true, backspaceCompare("ab##", "c#d#"));
         assertEquals(true, backspaceCompare("a##c", "#a#c"));
         assertEquals(false, backspaceCompare("a#c", "b"));
 
     }
 
-    public boolean backspaceCompare(String S, String T)
-    {
+    public boolean backspaceCompare(String S, String T) {
         Stack<Character> stack1 = getStack(S);
         Stack<Character> stack2 = getStack(T);
 
@@ -282,19 +297,14 @@ public class LeetCodeStringTest
     /**
      * @param S
      */
-    private Stack<Character> getStack(String S)
-    {
+    private Stack<Character> getStack(String S) {
         Stack<Character> stack = new Stack<>();
 
-        for (int i = 0; i < S.length(); i++)
-        {
-            if (S.charAt(i) == '#')
-            {
+        for (int i = 0; i < S.length(); i++) {
+            if (S.charAt(i) == '#') {
                 if (!stack.isEmpty())
                     stack.pop();
-            }
-            else
-            {
+            } else {
                 stack.add(S.charAt(i));
             }
 
@@ -304,14 +314,12 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void countSegments()
-    {
+    public void countSegments() {
         assertEquals(0, countSegments(" "));
         assertEquals(6, countSegments(", , , ,        a, eaefa"));
     }
 
-    private int countSegments(String s)
-    {
+    private int countSegments(String s) {
         String trim = s.trim();
 
         if ("".equals(trim))
@@ -321,8 +329,7 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void lengthOfLongestSubstring()
-    {
+    public void lengthOfLongestSubstring() {
         assertEquals(3, lengthOfLongestSubstring("abc", new LinkedList<Character>(), 0));
         assertEquals(3, lengthOfLongestSubstring("abcabcbb", new LinkedList<Character>(), 0));
         assertEquals(1, lengthOfLongestSubstring("bbbbb", new LinkedList<Character>(), 0));
@@ -333,13 +340,11 @@ public class LeetCodeStringTest
     }
 
     // Too slow
-    private int lengthOfLongestSubstring(String chars, LinkedList<Character> list, int position)
-    {
+    private int lengthOfLongestSubstring(String chars, LinkedList<Character> list, int position) {
 
         int maxLength = list.size();
 
-        for (int i = position; i < chars.length(); i++)
-        {
+        for (int i = position; i < chars.length(); i++) {
 
             char ch = chars.charAt(position);
 
@@ -358,17 +363,14 @@ public class LeetCodeStringTest
     }
 
     // Sliding window
-    private int lengthOfLongestSubstring(char[] s)
-    {
+    private int lengthOfLongestSubstring(char[] s) {
 
         Set<Character> seen = new HashSet<>();
         int longest = 0;
         int l = 0;
 
-        for (int r = 0; r < s.length; r++)
-        {
-            while (seen.contains(s[r]))
-            {
+        for (int r = 0; r < s.length; r++) {
+            while (seen.contains(s[r])) {
                 seen.remove(s[l]);
                 l++;
             }
@@ -378,15 +380,12 @@ public class LeetCodeStringTest
         return longest;
     }
 
-    private int lengthOfLongestSubstring(String s)
-    {
+    private int lengthOfLongestSubstring(String s) {
         int n = s.length(), ans = 0;
         Map<Character, Integer> map = new HashMap<>(); // current index of character
         // try to extend the range [i, j]
-        for (int j = 0, i = 0; j < n; j++)
-        {
-            if (map.containsKey(s.charAt(j)))
-            {
+        for (int j = 0, i = 0; j < n; j++) {
+            if (map.containsKey(s.charAt(j))) {
                 i = Math.max(map.get(s.charAt(j)), i);
             }
             ans = Math.max(ans, j - i + 1);
@@ -396,31 +395,27 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void groupAnagrams()
-    {
-        groupAnagrams(new String[] { "eat", "tea", "tan", "ate", "nat", "bat" });
-        groupAnagrams1(new String[] { "eat", "tea", "tan", "ate", "nat", "bat" });
-        groupAnagrams2(new String[] { "eat", "tea", "tan", "ate", "nat", "bat" });
+    public void groupAnagrams() {
+        groupAnagrams(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"});
+        groupAnagrams1(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"});
+        groupAnagrams2(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"});
 
     }
 
-    private List<List<String>> groupAnagrams2(String[] strs)
-    {
+    private List<List<String>> groupAnagrams2(String[] strs) {
         if (strs.length == 0)
             return new ArrayList<List<String>>();
 
         Map<String, List<String>> ans = new HashMap<String, List<String>>();
         int[] count = new int[26];
 
-        for (String s : strs)
-        {
+        for (String s : strs) {
             Arrays.fill(count, 0);
             for (char c : s.toCharArray())
                 count[c - 'a']++;
 
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < 26; i++)
-            {
+            for (int i = 0; i < 26; i++) {
                 sb.append('#');
                 sb.append(count[i]);
             }
@@ -434,13 +429,11 @@ public class LeetCodeStringTest
         return new ArrayList<List<String>>(ans.values());
     }
 
-    private List<List<String>> groupAnagrams1(String[] strs)
-    {
+    private List<List<String>> groupAnagrams1(String[] strs) {
 
         HashMap<OrderedChars, List<String>> map = new HashMap<OrderedChars, List<String>>();
 
-        for (String str : strs)
-        {
+        for (String str : strs) {
             char[] chars = str.toCharArray();
 
             Arrays.parallelSort(chars);
@@ -455,14 +448,12 @@ public class LeetCodeStringTest
         return new ArrayList<List<String>>(map.values());
     }
 
-    private List<List<String>> groupAnagrams(String[] strs)
-    {
+    private List<List<String>> groupAnagrams(String[] strs) {
         if (strs.length == 0)
             return new ArrayList<List<String>>();
 
         Map<String, List<String>> ans = new HashMap<String, List<String>>();
-        for (String s : strs)
-        {
+        for (String s : strs) {
             char[] ca = s.toCharArray();
             Arrays.sort(ca);
             String key = String.valueOf(ca);
@@ -475,22 +466,19 @@ public class LeetCodeStringTest
         return new ArrayList<List<String>>(ans.values());
     }
 
-    class OrderedChars
-    {
+    class OrderedChars {
         private char[] chars;
 
         /**
          * @param chars
          */
-        public OrderedChars(char[] chars)
-        {
+        public OrderedChars(char[] chars) {
             super();
             this.chars = chars;
         }
 
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             final int prime = 31;
             int result = 1;
             result = prime * result + Arrays.hashCode(chars);
@@ -498,8 +486,7 @@ public class LeetCodeStringTest
         }
 
         @Override
-        public boolean equals(Object obj)
-        {
+        public boolean equals(Object obj) {
             if (this == obj)
                 return true;
             if (obj == null)
@@ -516,8 +503,7 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void isAnagram()
-    {
+    public void isAnagram() {
         assertEquals(true, isAnagram("hello", "llohe"));
         assertEquals(true, isAnagram("anagram", "nagaram"));
         assertEquals(true, isAnagram1("anagram", "nagaram"));
@@ -525,8 +511,7 @@ public class LeetCodeStringTest
 
     }
 
-    public boolean isAnagram(String s, String t)
-    {
+    public boolean isAnagram(String s, String t) {
         AtomicReference<BigInteger> valueHolder = new AtomicReference<>();
         valueHolder.set(new BigInteger("1"));
 
@@ -546,8 +531,7 @@ public class LeetCodeStringTest
         return valueHolder.get().compareTo(valueHolder1.get()) == 0;
     }
 
-    public boolean isAnagram1(String s, String t)
-    {
+    public boolean isAnagram1(String s, String t) {
         char[] c = s.toCharArray();
         char[] c1 = t.toCharArray();
 
@@ -559,22 +543,18 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void findWords()
-    {
-        assertEquals(true, Arrays.equals(new String[] { "Alaska", "Dad" },
-                findWords(new String[] { "Hello", "Alaska", "Dad", "Peace" })));
+    public void findWords() {
+        assertEquals(true, Arrays.equals(new String[]{"Alaska", "Dad"},
+                findWords(new String[]{"Hello", "Alaska", "Dad", "Peace"})));
     }
 
-    private String[] findWords(String[] words)
-    {
-        String[] patterns = new String[] { "[asdfghjkl]", "[qwertyuiop]", "[zxcvbnm]" };
+    private String[] findWords(String[] words) {
+        String[] patterns = new String[]{"[asdfghjkl]", "[qwertyuiop]", "[zxcvbnm]"};
         ArrayList<String> out = new ArrayList<String>();
 
-        for (int i = 0; i < words.length; i++)
-        {
+        for (int i = 0; i < words.length; i++) {
 
-            for (int j = 0; j < patterns.length; j++)
-            {
+            for (int j = 0; j < patterns.length; j++) {
 
                 Pattern pattern = Pattern.compile(patterns[j], Pattern.CASE_INSENSITIVE);
 
@@ -587,13 +567,11 @@ public class LeetCodeStringTest
 
                 if (count == 0)
                     continue;
-                else if (count == words[i].length())
-                {
+                else if (count == words[i].length()) {
 
                     out.add(words[i]);
                     break;
-                }
-                else
+                } else
                     break;
             }
         }
@@ -602,31 +580,26 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void fizzBuzz()
-    {
-        assertEquals(Arrays.asList(new String[] { "1", "2", "Fizz", "4", "Buzz" }), fizzBuzz(5));
+    public void fizzBuzz() {
+        assertEquals(Arrays.asList(new String[]{"1", "2", "Fizz", "4", "Buzz"}), fizzBuzz(5));
     }
 
-    public List<String> fizzBuzz(int n)
-    {
+    public List<String> fizzBuzz(int n) {
         List<String> ans = new LinkedList<String>();
 
         @SuppressWarnings("serial")
-        HashMap<Integer, String> fizzBizzDict = new HashMap<Integer, String>()
-        {
+        HashMap<Integer, String> fizzBizzDict = new HashMap<Integer, String>() {
             {
                 put(3, "Fizz");
                 put(5, "Buzz");
             }
         };
 
-        for (int num = 1; num <= n; num++)
-        {
+        for (int num = 1; num <= n; num++) {
 
             String numAnsStr = "";
 
-            for (Integer key : fizzBizzDict.keySet())
-            {
+            for (Integer key : fizzBizzDict.keySet()) {
 
                 if (num % key == 0)
                     numAnsStr += fizzBizzDict.get(key);
@@ -642,16 +615,14 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void isSubsequence()
-    {
+    public void isSubsequence() {
         assertEquals(true, isSubsequence("abc", "ahbgdc"));
         assertEquals(false, isSubsequence("axc", "ahbgdc"));
         assertEquals(true, isSubsequence("", "ahbgdc"));
 
     }
 
-    public boolean isSubsequence(String s, String t)
-    {
+    public boolean isSubsequence(String s, String t) {
         int sLength = s.length();
         int tLength = t.length();
 
@@ -661,10 +632,8 @@ public class LeetCodeStringTest
         int k = 0;
         char c = s.charAt(k);
 
-        for (int i = 0; i < tLength; i++)
-        {
-            if (t.charAt(i) == c)
-            {
+        for (int i = 0; i < tLength; i++) {
+            if (t.charAt(i) == c) {
                 if (++k == sLength)
                     return true;
 
@@ -677,8 +646,7 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void checkRecord()
-    {
+    public void checkRecord() {
         assertEquals(true, checkRecord("PPALLPL"));
         assertEquals(false, checkRecord("PPALLL"));
         assertEquals(true, checkRecord("A"));
@@ -687,8 +655,7 @@ public class LeetCodeStringTest
 
     }
 
-    private boolean checkRecord(String str)
-    {
+    private boolean checkRecord(String str) {
         Pattern pattern = Pattern.compile("(.*A.*){2,}|(L){3}+");
         Matcher m = pattern.matcher(str);
 
@@ -699,13 +666,11 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void findTheDifference()
-    {
+    public void findTheDifference() {
         assertEquals('e', findTheDifference("abcd", "abcde"));
     }
 
-    private char findTheDifference(String s, String t)
-    {
+    private char findTheDifference(String s, String t) {
 
         int sum = s.chars().sum();
         int sum1 = t.chars().sum();
@@ -714,26 +679,22 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void canConstruct()
-    {
+    public void canConstruct() {
         assertEquals(false, canConstruct("a", "b"));
         assertEquals(false, canConstruct("aa", "ab"));
         assertEquals(true, canConstruct("aa", "aab"));
 
     }
 
-    private boolean canConstruct(String ransomNote, String magazine)
-    {
+    private boolean canConstruct(String ransomNote, String magazine) {
         Map<Character, Integer> map = new HashMap<Character, Integer>();
 
-        for (int i = 0; i < magazine.length(); i++)
-        {
+        for (int i = 0; i < magazine.length(); i++) {
             map.put(magazine.charAt(i), map.getOrDefault(magazine.charAt(i), 0) + 1);
 
         }
 
-        for (int i = 0; i < ransomNote.length(); i++)
-        {
+        for (int i = 0; i < ransomNote.length(); i++) {
             int freq = map.getOrDefault(ransomNote.charAt(i), 0);
 
             if (freq == 0)
@@ -746,8 +707,7 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void detectCapitalUse()
-    {
+    public void detectCapitalUse() {
         assertEquals(true, detectCapitalUse("USA"));
         assertEquals(true, detectCapitalUse("leetcode"));
         assertEquals(true, detectCapitalUse("Google"));
@@ -756,15 +716,13 @@ public class LeetCodeStringTest
 
     }
 
-    private boolean detectCapitalUse(String word)
-    {
+    private boolean detectCapitalUse(String word) {
 
         boolean areAllCapitals = true;
         boolean areAllLowerLetters = true;
         boolean isFirstCapital = Character.isUpperCase(word.charAt(0)) ? true : false;
 
-        for (int i = 1; i < word.length(); i++)
-        {
+        for (int i = 1; i < word.length(); i++) {
             char c = word.charAt(i);
 
             if (Character.isUpperCase(c))
@@ -784,24 +742,21 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void uniqueMorseRepresentations()
-    {
-        assertEquals(2, uniqueMorseRepresentations(new String[] { "gin", "zen", "gig", "msg" }));
+    public void uniqueMorseRepresentations() {
+        assertEquals(2, uniqueMorseRepresentations(new String[]{"gin", "zen", "gig", "msg"}));
 
-        assertEquals(1, uniqueMorseRepresentations(new String[] { "rwjje", "aittjje", "auyyn", "lqtktn", "lmjwn" }));
+        assertEquals(1, uniqueMorseRepresentations(new String[]{"rwjje", "aittjje", "auyyn", "lqtktn", "lmjwn"}));
     }
 
-    private int uniqueMorseRepresentations(String[] words)
-    {
+    private int uniqueMorseRepresentations(String[] words) {
 
-        String[] alphabetMorse = new String[] { ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---",
+        String[] alphabetMorse = new String[]{".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---",
                 "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-",
-                "-.--", "--.." };
+                "-.--", "--.."};
 
         Set<String> seen = new HashSet<String>();
 
-        for (String word : words)
-        {
+        for (String word : words) {
             StringBuilder sb = new StringBuilder();
 
             for (int i = 0; i < word.length(); i++)
@@ -817,26 +772,22 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void reverseWords()
-    {
+    public void reverseWords() {
         assertEquals("s'teL ekat edoCteeL tsetnoc", reverseWords("Let's take LeetCode contest"));
     }
 
-    private String reverseWords(String s)
-    {
+    private String reverseWords(String s) {
 
         StringBuilder solution = new StringBuilder();
 
         String[] split = s.split("\\s");
 
-        for (String string : split)
-        {
+        for (String string : split) {
             char[] array = string.toCharArray();
 
             int length = string.length() - 1;
 
-            for (int i = length; i > length / 2; i--)
-            {
+            for (int i = length; i > length / 2; i--) {
                 char c1 = array[i];
                 char c2 = array[length - i];
 
@@ -851,8 +802,7 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void reverseStr()
-    {
+    public void reverseStr() {
         assertEquals("bacde", reverseStr("abcde", 2));
         assertEquals("bacdfeg", reverseStr("abcdefg", 2));
         assertEquals("bacdfegh", reverseStr("abcdefgh", 2));
@@ -862,8 +812,7 @@ public class LeetCodeStringTest
         assertEquals("abcdefg", reverseStr("abcdefg", 1));
     }
 
-    private String reverseStr(String s, int k)
-    {
+    private String reverseStr(String s, int k) {
 
         Queue<Character> queue = s.chars().boxed().map(i -> (char) i.intValue())
                 .collect(Collectors.toCollection(LinkedList::new));
@@ -877,23 +826,17 @@ public class LeetCodeStringTest
         int i = 0;
         int queueSize = queue.size();
 
-        while (!queue.isEmpty())
-        {
+        while (!queue.isEmpty()) {
 
-            if (i < k)
-            {
+            if (i < k) {
                 reverse.push(queue.poll());
                 i++;
                 continue;
-            }
-            else if (i < step)
-            {
+            } else if (i < step) {
                 i++;
                 sb.append(queue.poll());
                 continue;
-            }
-            else
-            {
+            } else {
                 i = 0;
 
                 int stackSize = reverse.size();
@@ -908,8 +851,7 @@ public class LeetCodeStringTest
 
                 int remaining = queueSize - queue.size();
 
-                if (remaining < k)
-                {
+                if (remaining < k) {
 
                     while (!queue.isEmpty())
                         reverse.push(queue.poll());
@@ -921,9 +863,7 @@ public class LeetCodeStringTest
 
                     break;
 
-                }
-                else if (remaining < 2 * k && remaining >= k)
-                {
+                } else if (remaining < 2 * k && remaining >= k) {
 
                     int tmp = -1;
 
@@ -959,20 +899,17 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void removeDuplicates()
-    {
+    public void removeDuplicates() {
         assertEquals("ca", removeDuplicates("abbaca"));
 
     }
 
-    private String removeDuplicates(String str)
-    {
+    private String removeDuplicates(String str) {
 
         Stack<Character> stack = new Stack<Character>();
         stack.push(str.charAt(0));
 
-        for (int i = 1; i < str.length(); i++)
-        {
+        for (int i = 1; i < str.length(); i++) {
             if (!stack.isEmpty() && str.charAt(i) == stack.peek())
                 stack.pop();
             else
@@ -983,36 +920,31 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void firstUniqChar()
-    {
+    public void firstUniqChar() {
         assertEquals(0, firstUniqChar("leetcode"));
         assertEquals(2, firstUniqChar("loveleetcode"));
         assertEquals(-1, firstUniqChar("lllcc"));
         assertEquals(-1, firstUniqChar(
                 "sdnvlbkrmtbollujsdjfjfppksravjkwwsimlmdtcmiilpjibjhcppluisqbqfwrjjlrapsmcwrsrnfrmtjrffpuuqwonqfjfqxellpvmcfmhxccljqlvboioelpfcawrxlwsajfaiehutvogduhobwgpogvatpbvoaognbepqnkhkjsvqmfaghavopppcjbjunuaeotpkbfsmeqikjflakgjexnqqgxnsdjolbjbvhreighxhkihwphexwqufasjakmrdrpwciefaiqsaifmcfdeidhmjekoorvcuxtejlrfscrjekfkcnsdhhsxenhkuanafdpnsjnepdmvvrhbxwuhmrkenrcwbadsiulpvcklhlburudrbbskokwnwqktwjxstsvebvpqcugxjebcivudojorntphtscxhoxlhteuqunhvrsndtabfpdqdcsuqmdbeiiexdkaqtgkncfatlawrudbausifpsicibgrwastcxkjasmrmtrchbwlkxnbsxeaurtfdwmjqkgikcctgccsisgwlkkwflvahasltfusxogtbejrderxbqshacgsrvtqpgdcwmuwuejcmqanirwthsaxihlowgwjeegdltsujtrfuhjnqjjefqjwubiktuglirmgcdqfolvmrilkrvtlrtntujffbrtfiwdtvtfrkfnwklfulecxtkvqpgcrqvgjxbebjlbiopbnhqbdhhxsmgpdojhupxnfkmqsjlmcserhsiwhvelcufuvqrvpwhckexvutuwgfbgnqsmpmfuqkrvwggskovlqtqnqxvpghqoomplnnkmuhkbwpaxuhrkphbgwopxikisuegmxhbjocwhumauhiegojccvibwfdrdnahnwduvnuxjcuncrcgwwrjhxmdemnuxcjspjisgduuoojpxluvehoqpctncxniatxqckhmggtwgjihfnxdhbjwjhuqwuoveibqppqrmxrmaddukgcxpubmvgidcvwenbisercjiwvogdsgaqgsmahrlhgguanubvdptiofskqehtugwjdtgmcfdbpcovmvkntwsmtlcvrpmjclmsasnjtbfolgggthxjxplmkoafjodoevblwxbhctberkobjdqbidfsktudhcnsrexmetkowvxmrxvixbnfgrpeeuwpmskmbjvfdvjnippnedtbupouibddxahrhwdofdlvsnmwxakbsbxfrxlagdqpexnakowwnlkvcmnxmiogtwldgiepsigitkbnklunqqivlrkbwhuofmgfccjkrxffdamqbuglhcovmmnewgfptkabfwlqgrfhnburpbtajjmnfwmamehrdjkaalalxvwwaglidkkthgtuxwjehjegvxcclkrrudbknoqvgqfobarlsetjpgdflhjxfrxdodudljkxadlhghxcfbjigrmfcoxwxsabfgqilathijexhuwjjevobvgpvgfrrvotilgdvskfoeqvlgnaofwgdxdtborgsqxrqkusaphbldgdsntgtumhsbcbjwfgsvfsmmuonpclpxjxwskficxigsdadxpjslhhvqehdddsrxgdfljlowxkilobxqroctficwgedsspktwvpdibnrevillfwrsxjmxvuhqxmvhkjtrgvhxxecpjnkdjisrcqgnwtkmwxscdhihvpjgueboghiuieeqqwbpkohrklmukmbjueqnkfgsdigxrdporegntvppdjqdghwfrmnuhncubwteturdvcuppsawqraabqaffjwtmhmcibhepauhthunhcnwlcdebbgxqqwkbreoqsdvvpxcutnhcqtpcfbnxpavcmcbvulobiorfqkmrphgssmjgblfsnxfslmrsxaukmqhhtgfxtsivihexpituqkrjntigltpvgsgcrcwbopgmlejngagtlriidpishuhavdqqcpfwrnbxtmghhlaqufcffjpwuueectmxntdnmepwxouwkcaddmxicipbrsnaukcalqrpvvsjasesgmwerrxtdewnhpuwebcktovuxxrxvretussdojcmhowaocqmkxepgtbuisubpcwrtdmxbgqnpuwdntclvvavejthrgspvfjeupmjlprekrgofcatvkofuafubevbidetgwkkuenjbkojnitulgghpowubdmxqlrxcbwxcouoejougudoxritmngxqmxaenpqhhblqmxkcvogxxbiaumbeumfpwgomcggxbbfmxmumpgqbxddhodqgekgnjrpkqgrpfpuxvnfjnwsdwdpexdrlexjlnredcxajnmjiaqvscwuhmxufawusutabdemknrffbguxaxmwdhokxjkvikrmeprwklbvlmgsxxvolirwcpxgbpqcprqjnjntcxrmdqdbroldtnfsghitjlavokiigcupuwnifngkgsiwhfjjxijqamavumcsqkvtpknjsugmxnciqiktgqkonsrdjjgorkswdjrojlsxdgkjvoljsjdfanswoiufdqjjjnjideducfxiwhtdtkemkfvxbrmwwwduqmmwonrlvcdntljijselbcavvmgcakxwaidruqmdkvucvcgrftetxenrhbbblgpqsaoietlnuweudmkghuummtjljqoswbkbfefexiqiqfjoornofnmnxxhscbvvkkpkruinugbvisuwerxjbgdhirgpcnoeglhswigcdfxelfmeqfhqkxlrhpvbksqmkdkkvabdnfcmjptbxdhdrikuvkojrbvixkhbfupkrnjfdoxvlfvrebbijtxoqltguiqihurmxawaimrxdrstnsqulqajfwtwjnlhrboupthvahjaprnimuormdlcsevjwrrngbaashntmbpxxtqbanvwdlpqhtaxeestdnnahuillicvebrobwlmihtdkfwhchwasgwfgsqnfgurgsjwhabkujamvjvriivnkslxakealslelwqkdcpjniwthpoxpqgbdlmvukwueuionfgbmlniwmfqbwrxwqsnwxridlmkaulwlhldcfkiefujkagrfwjjrqjptgxkxkdfwmosfhpjjdujkmugfmtupnntgbglcwskveiegaekewworsnnvahwvovltolgqawwixrjnsbuwoqqatxhfexjnlbiduecsiiapnjcimgovekjgflugprswurcnldaxgqbdgipbodjdgwgerjlhrombjuajcgihcwqdtvpxixmivcsihanqkgvvkekqdnjknjopssslkdascasmarrjsbvsxxcbfklrnctivnkduhmldgracfitjgvaqgnmieitubwvchurhtrlsvvchsknpxfqviojmsniqgqwlpdnjppifewefrwimsejhpdbcnnblbamohnotsfewfvowrmtaittermlafnnlspgnfcmgfuxmgkgiunglarhfhkaxbaucqfexslxqqtxxamgvajrnmhmlbvoxtmwxejweoqatldgwdmfmwxnxsmsmxmhjjrmsgdferqonwmldxrmngijxtjksrittuqwlwebxtebibnxvtesaqufhpwtmoiaxubccmuafdtbddobebehflkkngcfkxnqlrlsxhcuwcopvfirqhsemasptavjtuwdjdxfcixucamcahtxcgopnivmaeawbvmxqrmdthcqjvwdtrouaghsqalktudmlshoxmlvceebtrebwskptoofvttqwwodbsohqeeshxnwbtnujugimqshnqowacpmtxjdkboldpuajmceeftarseqgotubcjojxsjnljomwjnvnskqgbwlnlasodtbnckelorrbpvekfxttwntxxstjiqxqncqsdwssadgmvqjmqfnbfgoxovqnthpmdswslemogqumovfdjiroatbinobtdvickctnsmdfqpurxgwjbprbpgfqfniridebecitsnvaxretddoeikmdjpiivduimhcdbcttbwmptmnsakevnscuwemiwxnaeurgitfxpcwslsivgfquqotuxxhqxjdrlpltcehnvgnjillfwdjrkwhkuqdxbrgkxshjwvpwsmhdbnxkivjedkoaevpguqonqevsvxpspegjpsnutchuclqmaadfpvdqxgnepbgqmujtbkucqkmlaafhaqgecbnmehxqlltsiwijqddohvohukvjtwctpsurohmgcgagmrtdmxugouoiphicrjosmkagfwsgtimfhgkiefolaomqjjpbtbkarbcflncapmhxkensiobftdbgbiihjwxwhgimoletnhrundehcjntiutjptvekrdmnbemoajiglkthlxqposxgatcvkmixrxcmcevevpprhkvqfhusnihnxcbifxdixdamrkgxbaqxebscisvjphuxkhwleeftravmhfbiudtiahkkubbmtpgsarquiffljmkfmmmxxxpdfmflcvjucbfwbkrdrjmoxixgwbidjgnjlblsrmfrclauwrpbfikvjneqxlvvspnjbulkjqnkfgrtgwtwgcxpbcbdgstucchuhoortxjatdonjamblhsnxwgwegkbcpdjfiehotassiapxrmknxfgrdkbqxbujwjreivfctdrepotjictccwtbagfknbmipiesajdapcubosjwfvbniodwvcccqsrocjrchpagxnehpcjhrgxdjnxbsohjquutxmqbeavxtebqjpcdsndowsxbhjnwogfpwbtbjmrilwclekecjrnnfpsgunlrqkldixprfdnthnxrqiiuwmgixsqibaktiopolipkanjhhpsjnmwccmwafetiolslutjqicidsrmvlnqdlmnttkeefnbndocbobxkigfedjwtdgehkkwptgbmrvsiiqdomqutreufldqdauuokuahiiubadphgdurqpgdflwpticfafqhllekupokbrxetnnkjhotdvkbjitpucrlfgbqonghovdhrpicwqdscaqmwsudvlhibxasoqnqgilowrlibkgqufkokxvjribjferoljtwrkoledombvogamnbgavpkbqtdglxxaxqxknwbesowbukgfeniduhpfdirnwsjmshaspnhnpxafphwpfqcqljaftgrburjptseifkfoeopsicququtjklebxqrscdhptrdnomtxruuaxveswrcuqpnrqltplrefruvjlubaiqnxthcsxfbtgmcnorgjnjgjoeldubhjpstxnitmkkxulddeikciifotralvqtfbocgxujvhipmqicqaououffucdigvqsljwjhqbbrnaviovujxrbufmhjpufnedhrjogmctbaeldlijopkratcuflclooscrpbhbpvtxifjrfuukqqgsmmghedrdlhmrwrjlwrrftarpgdxhfdhvndjdcknvdkknmqdllnelpmdggfkfxjudxpothxqtffmhcxobfsuxwlanfcenedwmcaexkjjvtorhbgrferstptaeejowgrnpofeftrbeuwbthvnaaawgknkebepatlaemiohrxihivwfoucrapqrpjhmvbamnjhtcxrewdfghsvvvlpbgawdvxxnjbbbscefktvnrvrjrpjjtjepcjduggbfeerpexvjkemrcmdrgcxdspklklfechngfbrxkacxeblajjunwuccjnjnxwuehlmpgkapmnmphmvswetgjfapqlqobkcdgagbgvhskwtcllaakvbsaejjxqqfixmspwsdudnfmswaphujlegtbdxiwgqlfuvhcxjfkmlkclfhficnkqbbfqpeftjwgckmarcixiqamhbrmfkvqdssvedgeidqnbojhfoktwfpcxsneitattkixpdnlffrqrxmrteogpsifsqevxgonbbdvjhsdjphjkvxetvjamoctscmhlkiuewrojodsodmwtjskfjvktcgvvqpluivcokmbjisrcohrgdtsaxjcmfkmudnhkpfgvveahwxjwlbrbkedwavjrqawxlvmuirpsgxsmiiacqbonhepflcqicifghhtddihfvphxvhiwfhqrjuvgbxvkeipbxlkqhcfgtthkomqjtmhpblvqbejxwcgxnsdinirvqectsnpecolvwbpfecnphnjjxdegmqlrdiausuxxrxemjxllkaqcqcapnwpjfmdmvsjtvapsahsusdblkorhaqtbiudqxubenpnquchfrnnvqpjvefcxihcphdhmtxojurnvxrpqrjopedlrceklpavqugvvanifshpbnvxsdltrvwihblbiobuwmkmlhoihwjmlhoxefunmuaggukhrmuhpbrewqlhwiinumnxwhlviarhhbsefcjgmlsvvsdtlklqmvbqasarfkkbkicitiprmsghsoowwjshdjsqsomltccohkltufgbbmdcltfwpqorarbitswkrxjmghunicweruuwjshfveofmevjupwvrjxfogvwpwidvqoedsussasvathbgufgjsniaaopiktxvjlcdufueckisovcwsjuspdmneagffhwbwsbhirvushwsubkxrnputhlstcveqfkjhdsivqecsqxsgsdiiwxoetmsmucwlukegpdgecjnhwditjeihoursohuixxtfeoljforeamhlqkomfuipuooormpokkconfoqnsqojvowwusrwniiqnticleqvvnaibnmagnjwmdaarurvgqblcahmnttbxkqurauemoovkoppcwejphtmdpteamrnhsrsngsmlueafwocnglkihvmrgwevgsjhfbbnbtndpuhgvlrlowqjwarvhgdvdwnwkajbxbrmwgjwrpvnumetvenfidjorlsedhccrmpodjoldbfjbwvmuialrohrbmhrwovwomirmooxlsjbmttvkmqnuwuhlhffembgahdvsukabbsupuxorkpnauapwucjnkolvaqkfmiauhxrajqappncmaeaevrljxntxnhbvnlnoticqjpbvwiurjpulxxmimvadxbarqarngwghmkltvckparsefgfbagamvvqlfjlcqivfedmjukgomkshmnunmjfbplcbdvlfaghsorowujhfglmmxelmqvnrhummtvrnwquffnatvvvwgtasmuqodkkflpaeuqfeepupgwsbojqpdlgdtuvdfrdodeeqhwxapchquetnpcbrnkwffeacpbqrqecjlxhsscvqnqvcssotnaajkelurcrbjwjajefstvhpbqhhmqiplfuxbfvbtegeicrlruciknduspjlqeqdwcdolxwjdahesqsckamdaccrnsupuxmbpodipqoeefmhrjmpugmuvsnumtolqivpwbfdwsnbumfwfupjaqtuaxkgxbihnxewbekqiedsuelqoklhogxacrdogmctdvafdoipewindfmxkkisfostcwhgivfojraosxjhkrmtjprjmuokgktejanunlxritwpxiectehtittikqvwrjrcgpxrwobnhebbbarwpasxniibfxoqnmwwsjundxuhhdrmjphmvdtfdwkpeihwskbifquidnhspawqooqmgpehagpjxlrbjtsigthcxirfqlierllwreldmwjwarfjcqrggdnkwjepknpcbbijxqsbqjppnrswepwjeowbbxpjentqpfpwqvhduejfodxiqdjkrgcppcstxemhlragtduhpbxvuqwovrsretbmbdfvsicpuetxriqpspjsgpojmlbooeuapaawodvpdwjrrwdjexhcwihbvixbojrcielqsnojpqqoeeewoijhjtqohqkrvskevuwjxftdbrrertvfqsppbjtakeditqnufsbcvlooasvujcvqrvbdgrpwhdluxsutbfelthfsvjkhljenrspcamergnagkqniavhtjbcgiaskaqlfsacwfrlcwtufdtcvtdlebcmuawdiqiaarxafaiswaewtlcbabwwuicccfmppcaugbakjpbsauinocnestocebhwjijfrhbxghkrpkvlhjalihuclrunmkdpjrnnewrsswftktdwkhtposidlchbmdfvsirhracliukcbxljcxbjluixchpelnoaldmdxeemrjqndjwwhjcjonvoxhnqkpfawngjilndfgxerwtlrupxwmwqltimctcnbmpbcfhcldqwejccpbpdfstfodaaqwfpfiqdgrrqvxsnjqukdxlvrgmwigweplxgstqhmxeejtvaddqctpbvcrsjbuiawpxdpkqvmrhqiwjhatgmqbmustupqwjuenvmwqgvwusdsbxkciwxcmbiqtkbweoakdklfkeiblwnxeorhjjdaikcdjnvdnrmqrvontsmouswoohnaxgiexwlmomfpcragaohorolnpowihqemjgouwvjlkphscgneqgeaecdwfcfoadhviinjiiwivxnegrbrqepcnwoboxtvjapjumotswicntweobvgbqpnmqlnjmjajossekhkhxjlvdbtbgkukldrikbtwrfwjvknidjfntqbdiqrhrgquuvwsdkmhhqojnnvsonoedfvpjcwsjlvgtmerufnsfdjaovrxdjdvgqxcwhjhwakrqiloecrhtmhoraqcdpvqnrguhpubruonmjcqlrpxsniegilinvduhaemnkvwbbsrghkqbsojjemkteturfxsuvhlpafggwowhttwpvpwadkpkefeigxruaqqgsmsilctwlvruscgiblusauijhnsqjpeqokciqfrlixsjkhaaopiuaxbuchnxqtppfgfvfjpwkdivdvnijouxevpcgvrcggidqrdismgakpmiwgmbuixdupjrdjgpbwasndwixhgaomfceiorousianqmrroilmowgutnmcwwacmutedcquvpjptiapovcqkxbufpsewtpjrfvksmagpxvmlhijbmicgdatchpxaocalfabdghtjqfnqirqmhlrqucqkmerrxtiseothqvlkdslrlelkgvpabgugoclmorkitgwgkcvlpcewjhubhfcxtwpgohnguulccqdhvxslepibrdrbedtnrrjrdvxcilolxtklikldthjxljleuhkjdxjqntawtisburdcdvwtduvdipkharotsibkvibcudgmibftxodkevokphgmxjjveupasgladstvmlcglpujhcsxaahdrhbmllereednawbeoiqmxxqpkdjaujeugthtxoqotkueepqirgifmfoniqfnkugfxvtqptsxqifsgvqrsokqbdxkgjnpcivrtfnttdmtkonsxjibtqfwgilpwwqgfvrgcmendhudcevsnbbwtntgdujthphrjlkffabgafdwpcvkkxlasdkjrxtxkmcjjspvdlnvrxjvbbntorgijmloxrhdvnbfcsjgmdnlglgpqxvvxjcfxwgowkwgcdtogdqkbcuxqtbvvfmpxvgimtsrnkqbbubuufmhbobswoughelkvhmrjjjoekvlabuomqfferdtatfewsdvkwspncjodinnrlsmxvlfdktdgmfetrjrfkbdaftqtvhwuadqecfpnrrcjamavpqnglimcsxnlkmphsbxtjmskwnxqpbqegpkwbrlebfedneieicuvaagkbplebodbfvqlusancmweqpatcaujbrmwsgvewjcdtdwhemkofvdfjuikhjshcwmfrlgqwdvskrfsrpjwsbcwcfhtjneafroqogfacmtgjpeltdwvjouqcannxgklbirwjpdnalmaiuusdibdseajbgurjdfagmvpswxwbkjhhcuppvrrwfhexxcfxdfaefddkkklgxcmghflithwlpiwudxebxjklctthnmnvdgovepfhklkcuebabmdapcolvmosnmtigwfnrbfkklweckutdbekdxmuexueddfvqjjevlmdtcbijlavpnwqcbnoadoewiugqattkobbeodvtxtwgrjlvqqbbblbqepkatstgsudpivfgfxopmwrntffpitvxgoaoboksxolkpohewmnupmmasntbboxvhssdcakwlniweokljredbdkwxxbaufpqhcpgqhrcjescogimhobvdmnrpuqviiuivwxbqlbvxqjagmaoxdgsvgtxvkrgvvixkgcknfjqvdnodlsdcjbcobgkgddlvwsdvlalfurevegvwqgbixmnwwfavwfwvclwxejsaaqgulmvxnurafochlqjimbnarbwhkwiprqbmrqofrflktgtglppxegjemnmotnmcqiuvniarehxicooodcjlolsjkpxmbxiiuqwxivskxdvxjvdfvbomdcqimqbiefsrwiqbaiorjbucbtmtimpjskdbigakcvlhnrkdhxkntkvgbqqbuduttdklicntfrlprbmgnugxluiwbuwxspfbgfphenadfpkucjwcanuplrvibxhebwjmebimkgrbirperkxwkulesquvkrtasbbmunoduupgqwdxncjldicwbquultcntjgaxcqlkrekunxwokkirrcwhtwvntdroegadqqvkuwufirrfdkwowdumidsokaulejgkaebwugekwrpbutujrnqjpqaibhpapjhmifofludtxjjkemttjpafqaktgbbpxugxklmiixbjdpojfutkosxadkgvlwmxleqneonotrnssnhvgudrbxtsinmixvnblpqoaogpeiaqmjlwxuevaemmxcnmrioehvmansstmvblkldeiefimjmvajrxtnxahaevklpdrijksnxqrlxbnqqglchtuniglhrubbnweiavvwwbcdjqehtfruipmixudbdwjmnevhnuefjilkugpiceajlutghepxrksexgntaqvlptmrqcpjidjpbbbwgohbmieqslsndikarvfieuftlifpcwgjejtpdqprpdwntmrewtgwivintnkjndshtvmqxtlhfxxddvughxinnmprbkkfsjvaisanqabsvohhrcsxmqrttjevnnekcphmgbahnipkwinivttqewtbbvgsgaxbvnblcjnmobowrgjhiqwgxkepqpfavknskurmhcfmvfhiohcebsvuwlonihjhjmfvclialnkjxeaoulshkihjjbpsankwtfxcflhxgrljhudrukqhilmmpnjhisqhcfdaskerbwqwchwjnfeonsmwjflvrvtqxubbbkroemagdndnqtwcrnqxpmnclhlcslrttkvvgmnjauixevxmemoxqpxwngifcrthadapavorjgpvksvmfaxwuarlaetqixifpejubitfhshijcrkeitlmwdpmbcvluwerfsecumucbiisntvcmliqsvdqewsuqwgfpkxtjrprksmveewpffthcxxmfqikdbbeabelxlwvnfwjgkwssdvsjjlbmwhwwfovdpvshqbfsrmptptmtdfqemxhjcwaamnbvmabarpksgpgurnubxfkfwkvntxhjmfiqrgqkxjmempxasoddwtaligeaiqtbhqrdmgggaakruubxbeajiabgdrlalkgbeevowcedosmhmnvsfqeemmgxftlhtvnbdktkxacrphtiftdxqshkmxovqoduqbtpusugqshbfbhmqxkjrciopbbitjeisvonompspgtcggprlotvaipnvjjbvtwkbtgctxfxgepemqmrqtffftwjwiuwqvqkfrexkfomuwdqovgmofrqiukrlokstxtqwiacmerrqcgfenmimtwpbdgfctecwjgffqbgpfwhmsrlgcwxmofqbqaouxkqrscqaixqmxhvhetkmtfifofvglqdrbldumgbqcukderljbfdwxruxtpobtxvslxuhvtjguglvkhjsapnmpbkkflklcvcndirkgjxqhfdithqslqjgtocwtibkwbueclmnpxdqlkdovjhrqqonthelhxdqautvhtnrhfgmpmsniwphaqmhgfbjxxqthvvsuwluaehofmapooxmdadvfaiqlbrnfneshewxqmovtsosfihibxmabhsinvovatpfroglimuacvtapnxebgooasnkmbnscapccemwqfabkoxiceqgfvbjscdmpiaojmttkvxsipcpdmkkhwjxllohbpmipiwavolpbspwhrcsfifgnssaealkdqpmmcaqaxpwoserwtbkxsheormqifdrsgdswfngiwqaswxvwoohsrruiswwokdemrdamcvkxengfnqjfsscgvkwexamiwvtriuaaiqudixgpafvlgmrtpccsvtjukqwdlaraaxvvdvbqpibctmnihjicowulvnvrlolvkrtuehpprafqjswheijucrxnitakaxghnphcvvbvhwrwwxvgpwtxaejscshhrsrvbpcndafdaqvencawitaurikrekcixpxbptkgixnoniksmtrpfagtnukloujfrhvbxlrfmkprnooiedxjbuxetjjbppnvaiuganfsokvtjbkvebjdcpjxlfabalujeuuadtaexnotbjxtnvbgrkodpdndabxcmtvhaubnhossugdawxgsnmnkeqjriqxwaeicojptfcaisbqeaaqphvvsfovjxacfbhttfbepjdkvejersxxfwoadpehmocsrxmpioexjuqxqkgjofnlulffpnkqcfnwqbmfcrdiawkpdliwcbjudfnennjjllboeqgdanuxggacmiqcgflkdflnuparxjhrtesdelsejvcrurgpsktveljavehxfogrneqemkcpskqkdfqegxcfogooimwvotwvmqjosdoqrgtgruibjvxsbpsffwgckhhfxrniegnivjcvnhnofdlfenowtdhorlsbvhsucshnasviigxtacmmabrcukprdgwrxrkrwhvqibfvkqpadrmjvkdpwuilqbmovqmxpgosoirwlgmogctcljfgcjbepekgpljgexkbcurbtaptakxrkgoqqqtubokcmtxporspeqwacewiddkubawmqjelwaudfiaanfflujpcpnmwvvtfbhwrjfgjgjphlbucidtubkeplbwdppdttmnbeubpqstiuwsnbcvumjghgjojrsrwfxldjvdlwkaeiackgsskfgtraekwtgfgpqjxirwxocwnrhepaecoukwhadvemciddngvbpcrbcwbnsrwpqfiqneiavusnoqnxbcvdifdhrisgcqvtfuilwxvotjahdpeecfhiejtxxshkxroemgwtwgelelfqjnasqidwswtdwoibifibuukjnbghjttqxrrbfsrodcsbldnnncstgeefjbdjsabjwdqjwebiwppsjkgnpdocsrnhvfudwshrodtjwmelmmewwslqgndwxatghoxdfbnbncdskeabekaeclepjkjhflhmqkvsjwujohbuveoahqlwwnbcbbqmobcxhtpqiikrxstxnkxbmoncsbtjvlqoxksaebmvsiqbbetdcirueeojfoqdwwbvtprwjstaauhqteqxvwwaxdxlaubbunurhhgteqwlrgfawkcvwsfhusoakmpuonhkocqvfkemogdhbhalegfhecuiunakmilqwqrfvrfmxksvvjucqrqbwjcsvpothfrshkalmuqtlmbmrlvbbmnnlrwpolpjhuxrchnpjlxqleptgsdsqoedkksxhafkdwwfxiibmwjfoiwbeigtmhnsmcespohaukpwnujahohinknpkmwnxxamjdwqowvrcqbtvdifpshshjufbotqwpvpqfwqophfmbdgwfvaplclngldihgmlguejowdejugcdhvjtarvqishqjaaovbwfwsgqnbdextnjmbwecqjbcbehbwiejowcjlmkdsjbvtficsujbuuwogvtalbxduuagnofqoophpjsrpdigpgqvcbnpacrblxeoksiumdhnhkgjsvdkhwoqfbmgveknlqahaqdpwqpptxnkbpslnfqghebnrxafmhdtxjorkejfkbwefmttjkhwhtsfosflvlvirnccbpnivarpwjirkojcxojekwroafgindwkctbgflguuriebijbnmgewckolehcklcchgpracgjgcmwhjetkvhdcxkchaiwrhhqwqxhggahomtgsruhgsglwnaeuthmsnmoachcrhehsbnmkpqpqtdcrlftrtoeuvjcvlbbxulxtodqrerlsamsebhpxqenbqhovnfesourafdcvpwrsxtkaqbjhdkcpnfqqvjsifhddwqkabxkbdxktqahhuwqpnlsnvpvjavhsjhaqbmwhkjkvigspclqbqstwnguphnmxusmwigftmikabkcjwgsvvbdbexxjthcasigjneahsukksmalhrodnarptqwwedrvjjhtrgfjmnkemvcxglnkhqxxkmbhrkriswfcmvfkjekwhmcdkevtmhelqabettkpmgcpvirccisasrwpufqweairnwevjheuhbmcnhijxkscgfanlvmlgaesdnljefhnnantddjwpaltcpwmaelkkjgohfxjufltmcdjidwlculvxpcdldmcjshfmhwoipavmhaomxoojgmomollljwvtdhwpkswimhvwilafibaeemxctjerwtjhnpldwjrfdwrceuaompisafxioeoekkpoxnkwevjhexkhdtwfoqqesgqppmivotgqjlmileufqiavfqbllewraoixhrmmjgaeehrstqmaoltgtllpftukmpipflqquddcxlaenapqogtxumcstnqovaaassvjwcadcotfxenmrthlrdhdnscwmjirmwkahlhpgxiwmmqmgbiabastekmkqkpdvibnxhavsiiwrahjvawoetscxgvjrtxvfoqxhulowadoqajtwpbosvjxheuexuoitjjpgtprcxrgqehjcarauenkkoscdvvtxccnmvfxhfbfrebeicntbsxeschumgmhrxuicavpmcelebxlbowabnhnxsdjtqsujcwixwhccosrabqhucuwnhnexefsgjjrqscwlnliajtxoffijxpwegbcmcogxsppggokxhaiwuxuewhvqfppgekxnlxogeffraddclptufwrmceosmlkdqjktpwsjntelprceriqdfhgwlmuovvpecwdngdbkhjmltqwgilisvtsixrxewlfrsbdtqqmjjoecmpiwsikbdcfmqbwfbguaqcsvndsmcmuxkaxpwhpjbmabvosiugoluaxunoenmbnsnjegmxhbvjdawwtnbcirgelxixstwghdfdpnfbrrbifqdbanxmfsgwvhogtpqsjddwhlhfokmsprtbjhgslheookhnhispebnjnqtlfswhaernhtfvshauodmshwmdhfegifjspuphbpsucjgvtldhehthljohlajtjjketnocsmphjkirgbdriagcccilirkrheexspnxcdawnftdclsquvtenidxfqridprulrmqblnjflpbqbwnnwemltndlomxfrxlhebdqeohsluexrbhotxefupobsviekatwwfbhwubmfleinjavfosdkkspmtjatcghrqkvkvacbcbsnagcmqheouvpvvdddhkdfkndxlsmaksoxnkggnligpihmvgkcoajjelrnuxlrmqefaeinnwrmjkhbssibhakfenvfkjxuomdobukaaquhenaemgspscfjurkomohssettxkbioqmaxhcotetexvdocxwabqmcwiolnvauhxwwrjuwpkbqgdmdibcddfoeeskwageutffjmlgfjruuhkpanfnqjnejdqhubnaacsxspnkkhbwxcdevifagtkoqkdgwickjegmaswgnsjuchvettpswjdfrdtotfnswsiwdfikosdbdpchjvmuxdpjfnqidrvrxccktijhgqfseqafaodvbbhbsacehkuxvwksjlcmucisftbmhwowmelwtuarwritxmrouhdkikupmrlxgndhbslhfrmaqpsovgogukdbtxrjtbomvdlxxeofkhmiglkpakdjsnuimigjccemvawpxdfhjwrkhepphkwpfbuilxmppouwvfewpvrxshcflusncnqbwmmqallkmunsoqmnrdacoqjktkuskdbxlaurumttilqsgcatuokkmkmbwgdgfmbqotmtgsejenflxmgbjfrheomjmhpqoiqvghdvpvgfpbmajuhhhxdapsbtnxkashnvmddhgfqpjxexcmdugwcguidwsfkatrrrxpcslcdwshgiucjbhbmbthblscbwagmqhkjgomxsdbsuxqlfbirxfwnboufsroodvwhcileulgatjvxjmddtjpvbvmpfxbpcxsgxiprmtuqemjoeikjthrkcxkwobawmqguexrijjusipuipofsqamuvuwmoqbfsfckkthhehgfwlovjvehbkqdcnrhnsoctapqrgtxmflchhxmloxqhavgabbqcrngiqtgaalikkrjllhhfqgfrplwiaqpgmiiinhmhhbcgokkbxwegdsfqrstjtemaufsuiurifmexjfvrumuxxbrlfcvujxojqostqqhajdpgtjbmrrwpffsutemikihaisbwvmesuqmkfiqspvuxeugimohwpxfgvjhvajbunkadpjqkebmouinbhjqoodbdwdehiwvwebolxmknctxnoxrxmwvxswdotaqvvscbsvvqpbfljfneilibmtxkipcquasoaxgfngesgitdhfwcndmagsookoiqcttlausrpmecvjcvgfchsptdsbrmhdlhurtmfbgfqhfisudcneifrxvdjcjdihuudskqqgsdhhptirocvrbjjkeqkuputqtanwqxhcnaevsuualunowwtcxjnpbgspqtugekvibhhhvcabcbfkesghfpltacfmsmaihrpnmojwbodvsiwvgvkhhjlqtqcastqojdxkhfjtoxvcecoptqptvinouhtjiruwkbexsnxvmohcagiakdotptbvrqarmwusscgeuguddsidwnrqmfwhedavdshwwbaibpgcxhppsuipgplhrhpqoprgsgckwdjkwqlprrqadeqnhtvgjasmlamiwereluphsevnttavmjhmckpddjwveokuwckewtaxndfcvgnigenghlchrblriqsitdxjpqwcxxkaxksaimscopvlbbskbhnffnpfgmqqxvefiguvukhqxfanerspvkjeubdxdphbpqmdssvxawlqswuxsqlxgsamqokpfarvvgjrlxmwfpxswsqakwwmcorerneffajucxtxevjcdvsguauxgusvshfoovbjlomgwmtvmtnmcjmueabgesxcfndrqpcmxdetbmxdncxckdvfwuweviftvhlfpdwujxaucrsbfbifscghrrtjrufaqogrtifsirapsirpnbwodhglpkafxrojhbthuwqporvwbuwfnkttfcnsofwajnrhcrcwbgobjroppcadflxgismkpsuknruarnlglqxscotmufxbfeinmhsfkkddembvtwpalteailvuidmimxicqchjgfslggahslnkoquvvftocmwomjxmoluafcrsljiuufwfphxiphfmdrnvlfddubqjvsqjltbfkuibvxgqpplftssdsrwodnduheagfuddtxvppiihfvgrkgukqvppcwnalrakcvwfbpfnotfebtgqxwdjhsxfdvxxjqqgknlcstgvkioxtgjcmjipnimiejriicjafnceamcnlgjisirpxicwdobbodrdcosslfjcjrjhqoqphrfxbcrvrmdwbtrrfwtdtmcugtjklhlmdbnkcanehuuifiqasxndgdesosuvssjilocrbcxdedlxkdwradpbebiudnrcgpsrkttcahgssmaexlemrkrpfpnklfripngihgawnaljxnufnrbcttlurndehjlxmeowrqcgjefaegwuvmvrahwapkksxsxxhnjrbaiimumhjqoxevrdgwrljwdmlxnioaplphsoghaxntvqvemgnpnnndnlsrossebkdmbpowsokwkfhiwmpsqxmgifgxbglcgamaecoqrnosnajjqtlbfhfkfmvshcjkwedkljuhvncwhiubjfqjjoketoikoxldcnjlpdbihmglpfanjbxfgmrpkvwoiwlfanetxannoesqnpfqjpastkmrdhrxvfxbllmrlihosufgbocpipdlawrknwxeloqpiptnltrkuljnmsqngbhogkitirsomxfgbrpjqbjcllemvtaatnfluvdenaimqcqhvjkcbsiwhthevjaqitwdsoiutdspfohjvpstpogfqdrekuahetxwahbesrpxvsevxuisioshxlefofccqnddhpelsubdxqvtvwdhwiofdtoorcmmcsrdpwkcemguehcchwvdrnipndriseaceqanoesrhphrdxvcmneghobumlldbmmpwbjkwrwhegutmqeferrxsbjnqmewwarjwtukgfeurrvrpcbaxeepcaqjjugbjsoawqjuxqfrqajmnfcwoevvfcvbiupgdjvfgwaapcbwresdvjamxdlcvwknunrkeemauhixalqcclgpqxkvnxafsovevfsikfeisstrsubovhgaufkpvskpsjxwewtwplnoxoxnttokkwrfdeosjlkqxxinawtesohbennuwjnnpkrxfvhpisapaahobpeduorkqgmfaxpxwcmfqofotxlvoefeqamlutnjljobseebhvuiojiorcvrxltfuqutsfjvngbqnhddqfppxvqisluuwnhjvrmlouwopnwrbsomlrwljjmlgkbfqkcjlsuvbruvapfnmulfxjimoxfawpmfpltfhttgccccjsodqulfvfhbvwlprtndkwemqutbjasuaxruumgftnjdxggxamtabulwhvcepekuxpvxrdmnebprlpwqjlpungjvdwrhdudjwadnwjeuvkjerjkuorrwvkggeiatfcvumtdvlwhsiwxtrulahujhjssmkjoigexnijviiswamoipuarhsgxwknuvwknvveddfjjwwwgojdopjvehbwtehcnjputtkrxpasggmqsdidhmrteatleridojvvjjosmadwfrdbbaixugklrdrpdefhvfrpxqqjcoouwojcsejammolcxsbafhosukifpavrdxebwijgqufbhfvawojdnnaphischwwqnigwiqxvmanjovxlngxueinkfeuaadmruiknnpvppvkgkqdlgitkjhnnhngvjopsbiavnpcuselosohxjxngfsagetxstaauuoiphifdmtishnnjoifqxjgnngbofafxumkdtaafofrrbhmxdvdqqvaushltaghsccwrtjkkpxovxlmsdvaganmkcvnhdkgxvhfqestcqdhukknceicbgjtwgbxuxvlmgdfcbutvaiepbtxghpclccgbnccaegusuohfaoklignwfgkadjrknxttaielrflbqbusbiitqgsrnlggqgfppimewdghotpqjlcjfknwppexsldbapibhwilamqkfhhrielrufbegcbsdnrjrlrsgawrosdgdjnkvfwufiunmndabkqotshqmwipxnvbtrquxucqadhiscakmbrhxvemqjnsdoqukiappujoxxqpprkxtkcvflxocanfdmdolnfdmskgalrquihbxfureuiwdlqpxxnrmrhahifqdhiujbrwplijmqpmdcgpwaatntwvavstjmxdnlhqelnfhqmhrgpgjwlvilclgcjbjjeujhrvffspcthawwlmqrwxsjdkbosqegrbeeholrbfakqirdcbcbqbwwrcsrvjcmnipsqkgqripdpullvfhhtcbrecrltuskhkjcotnkjihrvxmacxqsxeotfmfvkavirpdkrhjvdvjrqqlkkjntcvtckgpodokxswmehxblwhnvbobxgrnbfgaanbpgxxkncjvirdgtkvsmbkfrearuapwveveoebnnjgwfxdxohbjwgmxionautxnprkgvmncmxoodrwvcojjusmbclclkhamatpolvkjuvbwsigxbfglnebjrcnknsaexbfurbkdubhntkjgdfpwjlnhvvpmfgqmffepgxdaemienjakxwotqboemlictrqfjwuispopvxlkadcsvjrctnvaaeidgviwtuvgfjdbwajivkrxvejkrhjcaixhoipamxxkqmcgpbswtvlaaboddpucfxeammplsxrtsckfrigtktcgvwixavnkfbimgawopeesmlmodpnxkwuimvxdirthloldxevclwaxvfrsvuguevcpvvkcldpumwvwuadwffvjnjhjirspxiddbfccktjhkkgnhekdnktbupoclfrtuhbdixpderaqeifxxaiqllrwdpqgwadosckiisbwsgwikjemfexwqsijrclmbsqirbhbloalkarxngjwhaffdvqbogivntpsrnihqddrgjkmuffsamkeegrhlvpajdkeluvbibdbgxjapahlnqadudltxvqgokpnghfabiqcquwkpwjpqnvlsofmsidptixgdpctgrcfooaldojgqbtmgwisvvpsqfjwascducjbqhjklsajnoiwjcnhpdgafsxohroaveexmgxapbwqqcnxjmriieoatnpvafvbqavpeldvaltkaxrsrdhqbpadrqcujfrpnmcixonafixavmgngpgmjmdaprqluqirnsmlgpuspijriqsqcanxqdriocbjaquihilxawkkntkwxfgvmwvpweitnbvwwettliovndvrxrcwvcsrmrouehraeitdfugdcaxmfgggvsbspxwgtsiarmuiuwvqvqeackevbxfcixpkxureihdqvlrsddrvwqxbwfwpaosmxwlfebvlmrwxbvapuwhirefxtrntsumfcjgmpwakfjsseaigebruvuhrtwajaxenkobowtdjnvxupwkivtgxtififerajbkdghbmligrmhvdinwuwufcsaplstgrnqwawsbnwgisqnexbhelqvhesvelididvoaldbikoddldrdjskunruundvghsupxirivutnldqvnfcmrbanjdcepoctafptmwlvfbhbpnwxpmivoqqiqoxwhskegdkldqtiedxmwvtbsctpbgbnbbeuaxpiqdwiuvbbcrkgjcjtngsrrunmfeheqgxjhvutofnqodapiuxejbxvpbdvlpshpgunccsbcqhfjjbosduggjrrdvtimttnwpvwkjkfhxphsuvuaishtrrwmiveqhenfbksgctwwbfxctubcliqronucdjswdebtvlkpomtoxjnihhnpkoihkwlgfaswhspjkpvfexfiqdjvouaxxergeetqxiureqqgrqfhututeldbsujtrkrvuqtpxcxxknetrwqogiiqtskdtijdbicndaeehhvahjtakhprdorxwgadpwqwnokgqooopvucnummmecbcfwpeatsiiwfpurplqjofgfqtgqxivbfmfrbnrmiwudhxdranqnutiqajphdvklwawqukakmpepverqcfejpjnmlahbvdekdwiejkexxvhbpgqivtoxinllihhoxlrmvodupnpjrhekunopaqfngbulhhvgredkmjqchlabjgnsfcngutjmrfpncgsqloalhonervxhhjbjjudmrekldhebowhfmskrxvmtutddeiiortclglqesjdhohsfmxicdxdxbtgfqucdmxrblbdfoseoqxvaenramtmqhxxmstxglrpprvdaqthquiogefprbjvvpgxkthpafrofiialiceddchgtorgdsqaiqefcitbdvvtpiconrtindhjkixwkvuhdwhnavjrnxmixxkdaqupjnwxilrtnsbdpxiefokpcotoqfgqqwihipmaoahdfjpeveibqdpmslkljrppwtfsrcaeugrxbdfbftndjnoipmbakdwwrhmonnmcbgqpcxvmogqtctbtwljvudjfsdomuqiengsdpwhlrfcbangfsaqjhrsoigjentsijqikjpjxvosvoepfrkhocgaavaxnaptpvetgxseiltpgjhtvdrhsocssochrotdbqbjnkpqglelgmwrdrvogctsvfkjwxqcflhdisxwaehvtnjlidhokpdhbktunsuruoocoobmaggngejamqvfwubjguccgqbwhqovjhndukakxdnigbcfbkwidercjjpdubalheumfawgvxolintfvrbecshefemgdkewconvshpikstrqvsfaikfbvvidbsbwtqvqmqafidqueecxawutqblrfcoejidtloqsxwemkcxmfjxfhqmnqphbdoooupdedfhxxwjrgvdkedwbkheibthdxjjbbglxsgcrlaokelvvrrafiluccnmfaenxrncnrirodufpluvxfdwhkmmfuwhjhwlwtvifhduhbdnclrugisgaptfxpvwfmpuhimvbnxdesegkvrqdrnsiqpnqkslcgiokpvjxtfonriigbulgbeapmbfkfwmxvqtxrneqquwregupodlxpqsmmhftjqdwsxcoggwuvmbcdwinfnsfuahrqtgfoahnvokonpatbwjoxqfpwcxshmomhnowlxinnmfrhqimfbmoindpqlsmbnbobtxhrmfodbkntkhjivejfuldtxsesspxphqxipiignrlsugqtlxrxfduqwbcrdigbbaipqqkprkclwlkgkpmvrfsxaovgamnxpraoivgvmvepraxastmqxpvxgbplslkhtkiwghkjxkxwudokulpphtvbhconqnoemdaxtxpdjbuxpwbdxxgdkajemkdxdljedtiaolncskdcligelwimhfcbmxgpblchxmacpelxsvmjxrwuqchjguiihsxfewlwqnpfotdbsshrtjbmhtrkiutavtfsefcropopuglbjsdfpixdhpxbtflrxdrghgqhcivliwuoxtbleohsrprtcppmuaeqxlnjlbmxsmwrnxrdrtcrllxdscibuulrmsrpscludhissetoxxrphlixnwxpqvjqmvdhvujbsomqwepmvscvvqgxsejxxfngjtvugnxpxdqdcwumdunsdipmrsjrblgkkdfmnpnfcvvnvrtprnmxtvmwlrgmhofvqhmqiiduemdlxpnmagvtnfnexjpaxicxkwbpjkjlmqkijppehfbxhcjxvdvwmivhiqwcatwdtrbbrregweaddlcgwvawdwogdnbitvmeqpkjcftlgrkorpwsjrihgsutjvesmpbfdclwbttswgpqxiocwoeseeixuafhsrghecvjadfvgkolpfkhwdoooukjupfqotkrehqrofjjxuquiojrqkmectscaalvxvxekblwdkhaigwgldfxeshekhajamrvnhtphjikiagcbxfpgmujltpvgrtaumfqibilbfnkeaagsxixejhrlvlhesfungiirlmxcxdjaddfuggpctwmpifuhimxkusdpfxvsvcncpqhweopsabfumtjuvjjlulrlptkpjcgeghdjbrwlbpsubgjehtrbqcldsoatskvoopjevxvfgstwxwriqeqtpqibmchfpdcobkthjqtbiqjkhdeqpcgjawbnxfogknmoowwkttjgnkejxuqklhstvkgvbqgfkienfmnwecwexqlkqlvioqekveglekhcpurunmfsnllevrhvdgmrhqvfqwkphfagbjmcigjoehqnghxdwgfgoofnggrpjhrpagnhnrhtdwupequldkpodrdbxgmfujlhueddehxqbhxdwfnfaelrwlijdetqxloovtoxgocvfmdpmolkpcixxsdntqujknrtlthcrhatbdnwoswrhgprhgnwfmkhnpfgxdonwsaaevivulnkagqoejgtkodciasxpnkwfodxoksoghaockcwhsfmdiakljgpnpephfafhjlieprlvewkjiccoiqigcefhktakfiupmedwtfubcdbaupmfxmlbdcrhgipqxddgbfimlxwwgjuwgbcgudufubutltwhtqlebnwxgnluwkrbwlvlrobiuqnvqlvjaxkrumgfoxstluktlcmdmvmteameorceijsfsmoqbotlehwdxrxgopfpuijxgepsbwdbtdigikpflugaioxdhmkcujvqfmlcmvudgjertcnpokjeprsexwfgmsqwwtpubpvuexiprhwlgdpwedtiokwcluqjaxsqalwfvewsmaihlujgouppltlndxpbciegakimbcfjkgvnnpfexdabhwobccegnxwgsurtigoeeielmewqnrnhswgnjopqrugahiejrcaskxwtxlbcbowperurxkrigggenxoovgdfdlcmxsqtlaesfhpvoxbeegoceqbreciubdqoeusrksoaushjumifktvdoeeeguvqspbiwhpfisvstxevlkumbotnjcawtpmphjmmfeaaljxwaipbraxprwqbplepkrfcqwjbqsmqewgoufxfwhbakefiwoqhvsxjvbaaajlxdrkaggfsehinmxbrweugkmcmnqchfdotiurwqchgrhoqobelbnrfsewuktghxwugcvvxibhdpqcishxaniwsenuxkdeawcvwluvdhevhmrnnwtahmwugculhwivssakvrscrflhebtopdvkpmwbbsmdsgriwsqkkfhllkfhavwnfaeckorpmwtfsbhwcpjfvhsaqwduvkbtjhrkpbwgnejaojrvqjddgolrqampsguosomroxgewupevmixgaqvvmuxtrrxwsajjgeaxordgafrrtteodvkkxcbcjjmtgfbmpjokxwdugkijwtkhentvqqalafhqkkqejmtikfckqxanuqtbbgwghulhofhfwavbunpphicxedsvxjgtdqvguwcwkiucroqupldigektthvrngexkuidgpvjgpopmvsdthgdgutoedrrpbeuvkwwwhnoarouhnciajaraomijogwnpwcgrhinfbpjxtcsvibgisqusvbaqvwxlcrtctpqcrcaqfhfgvivmtcsbwbskvketbrvelfsnorhnvexpatmwtoslqqhmpswpcteqorkhglunssbjrenoldlpsgpvjpdqofinmchhuiijfxdtbcwdslgvuubofhuwlaimnkcgfxtjevfgpfagavuhhiphdejalffvsitmlcnursxjdvkgnrsdkdppjnbhosapkucinqodliaffcweshtbgwkwjrgskjhcwwpdujfnloskgmcpwpgsbaincsosbikqvgjmpfdlamlhflxqkrsvfqiuvpsolrtopmrmovavcjefthfxvvqtrqekjqcpwdixuqxcjhessxmtwqmdpliuwxsqonfvufcrfkdpbmhspvvcqxuvitsptmdvuonxurrebtfsfuiojlvjrkemjoffarhkulqnhgfrrbumviagirobhknbbslvonwpvuhjeegilnkfkgqjfiwrmiiliikqlaxtircittlijifulqvqhwfsikslpbtokkdoukjvulwctigsimksguvujswbvtggqldbradwiefnhpuokmwalcmwbxdekitipeuuhrktowbspubbixicnjubaaamhpjnwtjwxhmnpkjiswdskfjpexteepottxjnfbjiiqcmbopijhmsjvjxbgcqxdnogctxvpdkkwmpwtbkdocjljiutuqvimnqbpxmvdqsohjhwkqnatnodivtcdpsikvwkgnmfoildntdxjucroxkwckxpsnpwnwlupugwbltrxautsnqepougpvfjjdvsfrnecgchlblafjjsekamoenkihaqarmusefuhrbatjkroglkgfrolhekdqgvwhtffhclgwtslublegsfsmmuwpkpbahwfndmumebafhuscxhwlnsxiifiwhqtwvgmstribfptnwoilveftukfbobxlsohdvsexmfcikmiqpanhkkpxbeuhgrmftpgpjulewpipgjiedlbfxbfpbiebxeindfrkjdsjaxexxmjsrwmpmcpthonaskblsaxenxjgtgexfhvskkwtamnsbphuoerphoxnmbbkwdsjrsktgopcehqgpkkvujgitrdmgqawjwnltdcxmkhehugfkqpttbsqoqkkeeakwivocmemnghiccjqspefenuvhmexowhodqrcpeitilvqerphorkfxeeqgeatdvhcqwlprmguoadswskjxwkblosbuaqnmbgvgkkmbdfpwvhpqejiemkkbloxjqdhatgjvvodpbxdrtlojxtkgveaauiemvspasoeuwxskwdsxbnrsmkamrgsraqgwotwlwohdowsctcsphpxccvcpgskdawooepecioketbtipcmcoahsjmxhwxoxtcunogafgomvqrueluhhfhcrjxrlqvhejuplmrmtloookxpffanxmoqqlogtnmntcvrhwgofeoridrkehxmrluiwojpbmepmptibngpctolkcioibhggtrmetbusffxghqflqkpdpoenpvdkrcjvtfksqenriplkckqchbwpqowbthicjgvxebdhplrmgkmxjtbjlslhxxafnvpprnemuthmiokdwokwdbaokpqclpbcfjgkpoutomoiswwxjtfwqgebpxtbmichlsgkfipvxmqevbwqnkeaqjolpcnudidnqahxsvdbbemprbsvnriemswlupwcprteldbdxeralcdcgvbpwjrrmjelnqvearmdfdludnirfinnnunvktxqgghqleejpkmsfihkwisfaekxwauqigkaubbmfmjstluclktgjvnmdijapaphijscvcihlwfpueulhbaacesfwkeccewtsoofjbvbvlihtvmusfgxdvbqjmrcoeamxehsrwaruljcggewdgmeuaconnbtmqhbxdvimbrhxpsrqhtadvewewfpkfmddqbkqkajtthugfbmoqcdiiuotnrlwuckluhiedqsustisgpcsrrpubvdrhxqlckbeeblcvevrawkcdmmtcadxwhwpchjixoahihltqgsklnlodijbehhpjbomaruvduwdbixffuqfftcpnskvfnvojnnihvslwnmivwhckwamehimlepoodklvbaubckjairpgxmcqgshcaefeexeabbxxgbgfjmqspwhceouxtfuwhhtitsirhibomabsdkwkisilvmiqubfierepbcrtnprcleksfjfkmolpbwojkhjixjtivmpnsxhlcwlmsefqlkhqsohefhboihfwiltwaiubdglabbewvfmvwckhniukovmglveavrpmultorqmcchtggspebtkmkjxbukkccsreonrotknwjsdkkhoclpteeloxmlvmhfrrbvqjhpfrmtmtrjiirvasuecqsqoodxheudfvvgodbnoinpvamnaoktcviaeihdllbocdeqplawcsujtbuwlrnrpmulqsexoighoewmjldgphxietiakbhghphlbmalhjeojojldkrwoqwuhgsmuporeujfholawatsecwvfirgvvjvnkacrellgnkukrxomtttgrnrhwmngwhjeplbkpndtajgddluaetsxcoxcsklbesdpodkghwcvpqtjowtkkepquainfdkufqblvqfngepdrnmeqrkcmgjareubxwqjlkecnjrqljlogrrnlesrujbpiksurvnauqtthqwgwlongtjlvolhbfovbslqrwkxsjggrdfpwkpirffwqjeclcrleuxfbkoiupxevlolnahxhfuxttvmcxjqrpfjhbltrqmurhidkdvdqnpnnvpmofxfqfngfcgwtvnwxbeoovsdudviixscautjbuqtshjtrotdwprfxmvadxpidrvxguemunwbfgebtcfjnlqhorhiflvwwtbsbvtgraoxiaojjdftgtjuttxotowjjenmjgxajmjnknqjlxqwiptexexptptsmvsdhqbrctgutfsmjpqmtjwqicuvhhdqhgibbdqjvlwldhtputnepathhgaxvgxddpwojhnjlnqskmtecdpxutkjvilvheolwqeivuqqsbvrqeusuoetctcxqauxtqjjjamrpjigmonbnhljkoxtjimicvuoltpmvitiopvmawpjkntcnrwusbaecrdcwwceiimgshbrfxujfwrmtqkqtafuqcaruwhceinstgbffkdchrqhwdcoftdotjlfnwifpiomipqjpxvlbhgmnrogjtdnfwfvrvnvlhqfdrullojujitchuajvqvgfawsicvdxptlelforoiorearoswolcitdbftcwrotgwrjomhrbcqptvcbminkjvdpptqpjbgofrmtcrilfwsverlikpxbulhslpjhlelcewgkxtqhtevkinhtdklkmtvkfsxkusoosswwfkhosgiwxqlkblbejvhimujbtugkiqmidagoubdrrlbvchbxlanucehkskugxwrokkmapqhsogqmhietcmnpfkkxhlhtfmeckdkfvrstnaqxiwrinlbhwargtiphklfctrwteegmajcgvbbwfsbwvlejfamlidfaveceecddvkvknxdnkmdscwewhmxhwdtchffwhdijvdsrsdpvewrfnwqpxexulepkluqtmgnoplhfcdvwtltgnwqlgpuiankphackceskflgeoqgjprxnlmvsuwpfvhtbecltsmiwnlhaorbexihbhqfmbipjrrkqbbuwuhoqbcahjwoburcurdtbnvmgwexmqgmlxmekxitdbjowournqfejphhtsqtvxrtsfmdkxohleiqffatmovceiuxqgendxjjlugcktmfpdleuigijjeukqmmfcrogaohgnujjrjmogltnrninscktxaorwouokjmlqlrwtwucupuxowugrnvpvqowkujufcbcnvjtxsgshrhsqblngiuxrdttnkfoaiulesjxwoqxvgugpfnsirqrfbojabgvmepxejrcpcuhxiulkddgibxphegglrwcjfkuolkeenstvhwbdcmhphdxibttgbfdpulmsitfdprlxtlaqcqxdellhdfqbjjkgjenapffvjjhescqcfqeupijoanodlewvdvriipuktcioxtrbbtqurjdticdfeoggtmpjfjlkmvudiwtfobkrjwqxmmqppvmhitwndlqunrfmouxvndrmiaiseeojklxrtjacnwmcvwjrqudtfaxfwotuxjmdnhhtdhuaqjicvnkjggqviilmcijfgdjubsmxjesbhmkvvfpwcthmtenbmoseitpgolgtmakeaieluoxoccpxacnlgjwcwhvpdcnrnleileeldqukglpapetdfivxxsdqiprhewiwrqepjunchpjnikxbumpdurbjhltfqaowkvtfxjcvmvmqktsnbtmofwhjvnjnksxafrrwmadvpvpxvxshmpfxjqfjvvmfblrldhgsrqaqnxescoawoaipritknufpwlvrlukjnjbxqekljbvuxvppemrknbkjasmagkvcjtxcqljijhhpwwqmtpxrwmnlabejeipgvxirenrddqiqudfrnwfbqouxnphumhioqmftnblsovwhqmefllurcgjuretjofialtwkdhfolvlltcxpfnsqfetjjqcplmpufkmmvxqgjaofmvvqcubhabkhxmdxdmvehdvcdsmmrhgwetgqcrxoemfwtagbvmdoqodmxhcotinetgspwlwmqnogmkcncmhtjjvbgwivogkxqvjvgcedveewtebtjmllcwcdlaqjsofrubdjrxdbtcpainkklffocmualeasjkoioqiuiispbgpksofuanpukukbjkcqarfgpnigtirfajffjnthhpiurnegllvckecjgntxbuqlpjpqgvkmjqhpihsobwabvrgsucrpkoxrxjgnrdltfkowwsedmdffbcxaidlnhfgopglcbbwtuumouxslmstophgftixkicntacmrpwuwfhbsrfmpqmkuhhmpvsxoutuismsqdklcbsnrgnkhbqkwasppvirjetdveewimwfapfqstwmlwpdvdqbvmsxdpplcwtxqcjiiiikohatcqifbhsajbbhewjcosiucglgreutfdlfohtrsvookvmdlribcftpuavvfcimxoamvsqnaupssilcrhujwsehpxwhstfddjggarqcsnkdhjwugboqsgmedmgljwbbtlnfxocjsablciwjsgvqwmcoiovbcmwxvnwpjgoqwutbdglbmobarcxnngervmetsxagqenjxjbnbtdeotchvacjmtsljxrxsqljsfosvjchwoqswlrpaqtsdgqhqnhkmixqimbnhjohqqjlngwxtpcidpfnavodkjnckxhqpevfiagplfxhoqqlevjfkxmusqebxghnliijgxixiighaqmdvbmxnfdmvqnursjdmfoejvwrlokxdcprisxudecddxhdwdoscuaetbiwfpmhfmxddbjskpkjtnsxpaecuvmcktpxovkphwglpvkcuecwplwgmkodexehhescgvgxrjuhuxtnhtssnjujnqjfadibsebbvkaqcvxjrptstncvowdqbtparqgkdcntsspqubbaqucasstxkldesdpuxhqbcxvxxvtrngrthgbblbuirxvloxbkkpffwtrpkembodiepppevknjllqpoxwqjboqqnscuxlspjfsieeqrhxaxomocvfhvfcbqnhqnvxsxhqvkijppwbgwbssbwoqhkbagmajepqlagjnmrmawpmeimjsnfcjmbefssnvleomawjcapidqtgiforfmpiuxjbitgpuavkmqgxmutkalrrmvhdfpxiqhtdbcrvgujuvixulbnmpqkuhpqwrgllmlohipsalxrcgaaxhxenbxgqjmrkbalisutxnsswuqvopisarfavmaumjucxvpixrsbkjdbjxbehipupxntfbtnajhjwfbsrjnbikrobvixgrwhftnsmaxininrwbpqecntsbwkupwfjsvtrdoilkfgbwvqqrjtdmjgpxieuldhkemxdjatqvnpxljxsghklhdtxcqublpmbfdtetttfdpceppfooiwgljjtunubornvwrqtdwbrddhcdismsoptaercmbcwdtswqhwqqcnfmqhqfdadlxekwlcejcoamlcebfvtbxgqqacwoknthevmoinsvjrvqkfitllvafvswbxfoljeaveawrsdhglxhiubu"));
-    };
+    }
 
-    private int firstUniqChar(String s)
-    {
+    ;
+
+    private int firstUniqChar(String s) {
 
         int length = s.length();
 
         LinkedHashSet<Character> visited = new LinkedHashSet<Character>();
         Set<Character> removed = new HashSet<Character>();
 
-        for (int i = 0; i < length; i++)
-        {
+        for (int i = 0; i < length; i++) {
             char c1 = s.charAt(i);
 
-            if (!removed.contains(c1))
-            {
+            if (!removed.contains(c1)) {
 
-                if (!visited.contains(c1))
-                {
+                if (!visited.contains(c1)) {
                     visited.add(c1);
-                }
-                else
-                {
+                } else {
                     removed.add(c1);
                     visited.remove(c1);
                 }
@@ -1024,8 +956,7 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void wordPattern()
-    {
+    public void wordPattern() {
         assertEquals(true, wordPattern("abba", "dog cat cat dog"));
         assertEquals(false, wordPattern("abba", "dog cat cat fish"));
         assertEquals(false, wordPattern("aaaa", "dog cat cat dog"));
@@ -1036,8 +967,7 @@ public class LeetCodeStringTest
 
     }
 
-    private boolean wordPattern(String pattern, String str)
-    {
+    private boolean wordPattern(String pattern, String str) {
 
         char[] patternArray = pattern.toCharArray();
 
@@ -1049,15 +979,13 @@ public class LeetCodeStringTest
         Map<Character, String> charToString = new HashMap<>();
         Map<String, Character> stringToChar = new HashMap<>();
 
-        for (int i = 0; i < patternArray.length; i++)
-        {
+        for (int i = 0; i < patternArray.length; i++) {
             String word = charToString.get(patternArray[i]);
 
             if (word == null)
                 if (stringToChar.get(strArray[i]) != null)
                     return false;
-                else
-                {
+                else {
                     stringToChar.put(strArray[i], patternArray[i]);
                     charToString.put(patternArray[i], strArray[i]);
                     continue;
@@ -1071,28 +999,24 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void defangIPaddr()
-    {
+    public void defangIPaddr() {
         assertEquals("255[.]100[.]50[.]0", defangIPaddr("255.100.50.0"));
         assertEquals("1[.]1[.]1[.]1", defangIPaddr("1.1.1.1"));
 
     }
 
-    private String defangIPaddr(String address)
-    {
+    private String defangIPaddr(String address) {
         return address.replaceAll("\\.", "[.]");
     }
 
     @Test
-    public void addBinary()
-    {
+    public void addBinary() {
         assertEquals("100", addBinary("11", "1"));
         assertEquals("10101", addBinary("1010", "1011"));
 
     }
 
-    private String addBinary(String a, String b)
-    {
+    private String addBinary(String a, String b) {
         // Initialize result
         String result = "";
 
@@ -1102,8 +1026,7 @@ public class LeetCodeStringTest
         // Traverse both strings starting
         // from last characters
         int i = a.length() - 1, j = b.length() - 1;
-        while (i >= 0 || j >= 0 || s == 1)
-        {
+        while (i >= 0 || j >= 0 || s == 1) {
 
             // Comput sum of last
             // digits and carry
@@ -1126,31 +1049,28 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void reverseString()
-    {
-        char[] array = new char[] { 'h', 'e', 'l', 'l', 'o' };
+    public void reverseString() {
+        char[] array = new char[]{'h', 'e', 'l', 'l', 'o'};
         reverseString(array);
-        assertEquals(true, Arrays.equals(new char[] { 'o', 'l', 'l', 'e', 'h' }, array));
+        assertEquals(true, Arrays.equals(new char[]{'o', 'l', 'l', 'e', 'h'}, array));
 
-        array = new char[] { 'H', 'a', 'n', 'n', 'a', 'h' };
+        array = new char[]{'H', 'a', 'n', 'n', 'a', 'h'};
         reverseString(array);
-        assertEquals(true, Arrays.equals(new char[] { 'h', 'a', 'n', 'n', 'a', 'H' }, array));
+        assertEquals(true, Arrays.equals(new char[]{'h', 'a', 'n', 'n', 'a', 'H'}, array));
 
-        array = new char[] { 'A', ' ', 'm', 'a', 'n', ',', ' ', 'a', ' ', 'p', 'l', 'a', 'n', ',', ' ', 'a', ' ', 'c',
-                'a', 'n', 'a', 'l', ':', ' ', 'P', 'a', 'n', 'a', 'm', 'a' };
+        array = new char[]{'A', ' ', 'm', 'a', 'n', ',', ' ', 'a', ' ', 'p', 'l', 'a', 'n', ',', ' ', 'a', ' ', 'c',
+                'a', 'n', 'a', 'l', ':', ' ', 'P', 'a', 'n', 'a', 'm', 'a'};
         reverseString(array);
-        assertEquals(true, Arrays.equals(new char[] { 'a', 'm', 'a', 'n', 'a', 'P', ' ', ':', 'l', 'a', 'n', 'a', 'c',
-                ' ', 'a', ' ', ',', 'n', 'a', 'l', 'p', ' ', 'a', ' ', ',', 'n', 'a', 'm', ' ', 'A' }, array));
+        assertEquals(true, Arrays.equals(new char[]{'a', 'm', 'a', 'n', 'a', 'P', ' ', ':', 'l', 'a', 'n', 'a', 'c',
+                ' ', 'a', ' ', ',', 'n', 'a', 'l', 'p', ' ', 'a', ' ', ',', 'n', 'a', 'm', ' ', 'A'}, array));
 
     }
 
-    private void reverseString(char[] s)
-    {
+    private void reverseString(char[] s) {
         int length = s.length;
 
         int middle = (length & 1) == 1 ? length >>> 1 : (length >>> 1) - 1;
-        for (int i = length - 1; i > middle; i--)
-        {
+        for (int i = length - 1; i > middle; i--) {
             char left = s[length - 1 - i];
             char right = s[i];
 
@@ -1161,15 +1081,13 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void reverseVowels()
-    {
+    public void reverseVowels() {
         assertEquals("holle", reverseVowels("hello"));
         assertEquals("leotcede", reverseVowels("leetcode"));
 
     }
 
-    private String reverseVowels(String s)
-    {
+    private String reverseVowels(String s) {
 
         StringBuilder builder = new StringBuilder(s);
 
@@ -1177,13 +1095,11 @@ public class LeetCodeStringTest
 
         Stack<Character> stack = new Stack<Character>();
 
-        for (int i = 0; i < length; i++)
-        {
+        for (int i = 0; i < length; i++) {
             char ch = builder.charAt(i);
 
             if (ch == 'a' || ch == 'A' || ch == 'e' || ch == 'E' || ch == 'i' || ch == 'I' || ch == 'o' || ch == 'O'
-                    || ch == 'u' || ch == 'U')
-            {
+                    || ch == 'u' || ch == 'U') {
 
                 stack.push(ch);
                 builder.replace(i, i + 1, "~");
@@ -1191,8 +1107,7 @@ public class LeetCodeStringTest
 
         }
 
-        for (int i = 0; i < length; i++)
-        {
+        for (int i = 0; i < length; i++) {
             char ch = builder.charAt(i);
 
             if (ch == '~')
@@ -1203,13 +1118,11 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void lengthOfLastWord()
-    {
+    public void lengthOfLastWord() {
         assertEquals(5, lengthOfLastWord("Hello world"));
     }
 
-    private int lengthOfLastWord(String s)
-    {
+    private int lengthOfLastWord(String s) {
 
         if (s == null)
             return 0;
@@ -1223,18 +1136,16 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void longestCommonPrefix()
-    {
-        assertEquals("fl", longestCommonPrefix(new String[] { "flower", "flow", "flight" }));
-        assertEquals("", longestCommonPrefix(new String[] { "dog", "racecar", "car" }));
-        assertEquals("", longestCommonPrefix(new String[] { "", "" }));
-        assertEquals("c", longestCommonPrefix(new String[] { "c", "c" }));
-        assertEquals("", longestCommonPrefix(new String[] { "caa", "", "a", "acb" }));
-        assertEquals("a", longestCommonPrefix(new String[] { "acc", "aaa", "aaba" }));
+    public void longestCommonPrefix() {
+        assertEquals("fl", longestCommonPrefix(new String[]{"flower", "flow", "flight"}));
+        assertEquals("", longestCommonPrefix(new String[]{"dog", "racecar", "car"}));
+        assertEquals("", longestCommonPrefix(new String[]{"", ""}));
+        assertEquals("c", longestCommonPrefix(new String[]{"c", "c"}));
+        assertEquals("", longestCommonPrefix(new String[]{"caa", "", "a", "acb"}));
+        assertEquals("a", longestCommonPrefix(new String[]{"acc", "aaa", "aaba"}));
     }
 
-    public String longestCommonPrefix(String[] strs)
-    {
+    public String longestCommonPrefix(String[] strs) {
         if (strs.length == 0)
             return "";
 
@@ -1245,8 +1156,7 @@ public class LeetCodeStringTest
 
         String match = word;
 
-        for (int i = 1; i < strs.length; i++)
-        {
+        for (int i = 1; i < strs.length; i++) {
             String s = strs[i];
 
             if (s.startsWith(match))
@@ -1266,8 +1176,7 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void romanToInt()
-    {
+    public void romanToInt() {
         assertEquals(3, romanToInt("III"));
         assertEquals(4, romanToInt("IV"));
         assertEquals(9, romanToInt("IX"));
@@ -1277,11 +1186,9 @@ public class LeetCodeStringTest
 
     }
 
-    private int romanToInt(String s)
-    {
+    private int romanToInt(String s) {
         @SuppressWarnings("serial")
-        Map<Character, Integer> romanToIntMap = new HashMap<Character, Integer>()
-        {
+        Map<Character, Integer> romanToIntMap = new HashMap<Character, Integer>() {
             {
                 put('I', 1);
                 put('V', 5);
@@ -1296,10 +1203,8 @@ public class LeetCodeStringTest
 
         int sum = 0;
 
-        for (int i = 0; i < s.length(); i++)
-        {
-            if (i == s.length() - 1)
-            {
+        for (int i = 0; i < s.length(); i++) {
+            if (i == s.length() - 1) {
                 sum += romanToIntMap.get(s.charAt(i));
                 break;
             }
@@ -1307,8 +1212,7 @@ public class LeetCodeStringTest
             char c = s.charAt(i);
             char c1 = s.charAt(i + 1);
 
-            switch (c)
-            {
+            switch (c) {
                 case 'I':
 
                     if (c1 == 'V' || c1 == 'X')
@@ -1347,8 +1251,7 @@ public class LeetCodeStringTest
 
     @ParameterizedTest
     @ValueSource(strings = "abc")
-    public void validString(String input)
-    {
+    public void validString(String input) {
         assertEquals(true, validString("aabcbc", input));
         assertEquals(true, validString("abcabcababcc", input));
         assertEquals(false, validString("abccba", input));
@@ -1356,14 +1259,12 @@ public class LeetCodeStringTest
 
     }
 
-    private boolean validString(String s, String valid)
-    {
+    private boolean validString(String s, String valid) {
 
         StringBuilder builder = new StringBuilder(s);
 
         int index = builder.indexOf(valid);
-        while (index >= 0 && !builder.toString().equals(valid))
-        {
+        while (index >= 0 && !builder.toString().equals(valid)) {
             builder.replace(index, index + 3, "");
             index = builder.indexOf(valid);
 
@@ -1373,8 +1274,7 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void zigZagConversion()
-    {
+    public void zigZagConversion() {
         assertEquals("PAHNAPLSIIGYIR", convert("PAYPALISHIRING", 3));
         assertEquals("PINALSIGYAHRPI", convert("PAYPALISHIRING", 4));
         assertEquals("AB", convert("AB", 1));
@@ -1382,8 +1282,7 @@ public class LeetCodeStringTest
 
     }
 
-    private String convert(String s, int numRows)
-    {
+    private String convert(String s, int numRows) {
         int length = s.length();
 
         int[][] strings = new int[numRows][1000];
@@ -1392,18 +1291,15 @@ public class LeetCodeStringTest
         int columns = 0;
         int count = 0;
 
-        while (count < length)
-        {
+        while (count < length) {
             strings[rows][columns] = s.charAt(count);
 
-            if (rows == numRows - 1)
-            {
+            if (rows == numRows - 1) {
                 count++;
                 columns++;
                 rows--;
 
-                while (rows > 0 && count < length)
-                {
+                while (rows > 0 && count < length) {
                     strings[rows][columns] = s.charAt(count);
                     rows--;
                     columns++;
@@ -1420,10 +1316,8 @@ public class LeetCodeStringTest
 
         StringBuilder out = new StringBuilder();
 
-        for (int[] characters : strings)
-        {
-            for (int i = 0; i <= columns; i++)
-            {
+        for (int[] characters : strings) {
+            for (int i = 0; i <= columns; i++) {
 
                 if (0 != characters[i])
                     out.append(Character.toString((char) characters[i]));
@@ -1435,19 +1329,16 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void repeatedStringMatch()
-    {
+    public void repeatedStringMatch() {
         assertEquals(3, repeatedStringMatch("abcd", "cdabcdab"));
     }
 
-    private int repeatedStringMatch(String A, String B)
-    {
+    private int repeatedStringMatch(String A, String B) {
         String aCopy = new String(A);
         StringBuilder builder = new StringBuilder(A);
         int count = 1;
 
-        while (builder.length() <= 10000)
-        {
+        while (builder.length() <= 10000) {
             if (builder.indexOf(B) >= 0)
                 return count;
 
@@ -1458,8 +1349,7 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void repeatedSubstringPattern()
-    {
+    public void repeatedSubstringPattern() {
         assertEquals(true, repeatedSubstringPattern("abcabcabcabc"));
         assertEquals(true, repeatedSubstringPattern("ababab"));
         assertEquals(true, repeatedSubstringPattern("abab"));
@@ -1468,18 +1358,15 @@ public class LeetCodeStringTest
 
     }
 
-    private boolean repeatedSubstringPattern(String s)
-    {
+    private boolean repeatedSubstringPattern(String s) {
         int length = s.length();
 
         int div = 2;
         int middle = (length / div) + 1;
 
-        while (--middle > 0)
-        {
+        while (--middle > 0) {
 
-            if (length % middle == 0)
-            {
+            if (length % middle == 0) {
                 boolean checkAllChuncks = true;
 
                 int section = middle;
@@ -1487,11 +1374,9 @@ public class LeetCodeStringTest
 
                 String subString = s.substring(start, section);
 
-                while (section <= length)
-                {
+                while (section <= length) {
 
-                    if (!subString.equals(s.substring(start, section)))
-                    {
+                    if (!subString.equals(s.substring(start, section))) {
                         checkAllChuncks = false;
                         break;
                     }
@@ -1512,8 +1397,7 @@ public class LeetCodeStringTest
      * Can arrange palindrome removing one character
      */
     @Test
-    public void canArrangePalindrome()
-    {
+    public void canArrangePalindrome() {
         assertEquals(true, canArrangePalindrome("samanaplanacanalpanama"));
         assertEquals(false, canArrangePalindrome("abcc"));
         assertEquals(true, canArrangePalindrome("abcca"));
@@ -1524,22 +1408,18 @@ public class LeetCodeStringTest
 
     }
 
-    private boolean canArrangePalindrome(String palindromeString)
-    {
+    private boolean canArrangePalindrome(String palindromeString) {
         return isPalindrome(palindromeString, 0);
     }
 
-    private static boolean isPalindrome(String palindromeString, int count)
-    {
+    private static boolean isPalindrome(String palindromeString, int count) {
         boolean isPalindrome = true;
 
         int lengthOf = palindromeString.length();
         int middlePoint = ((lengthOf & 1) == 1) ? lengthOf / 2 : (lengthOf + 1) / 2;
 
-        for (int i = lengthOf - 1; i >= middlePoint; i--)
-        {
-            if (palindromeString.charAt(i) != palindromeString.charAt(lengthOf - i - 1))
-            {
+        for (int i = lengthOf - 1; i >= middlePoint; i--) {
+            if (palindromeString.charAt(i) != palindromeString.charAt(lengthOf - i - 1)) {
 
                 if (count == 1)
                     return false;
@@ -1559,16 +1439,14 @@ public class LeetCodeStringTest
     }
 
     @Test
-    public void isPalindromeOnlyAlphaNumeric()
-    {
+    public void isPalindromeOnlyAlphaNumeric() {
         assertEquals(true, isPalindromeOnlyAlphaNumeric("A man, a plan, a canal: Panama"));
         assertEquals(false, isPalindromeOnlyAlphaNumeric("race a car"));
         assertEquals(false, isPalindromeOnlyAlphaNumeric("0P"));
 
     }
 
-    private boolean isPalindromeOnlyAlphaNumeric(String s)
-    {
+    private boolean isPalindromeOnlyAlphaNumeric(String s) {
         s = s.replaceAll("[^a-zA-Z0-9]", "");
 
         return StringTest.isPalindrome(s.toLowerCase());
