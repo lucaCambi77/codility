@@ -3,38 +3,23 @@
  */
 package it.cambi.codility.leetcode;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import it.cambi.codility.model.Array;
+import javafx.util.Pair;
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Set;
-import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import it.cambi.codility.model.Array;
-import javafx.util.Pair;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author luca
@@ -49,6 +34,59 @@ public class LeetCodeArrayTest {
 
     private int[] nums;
 
+
+    @Test
+    public void lemonadeChange() {
+        assertEquals(true, lemonadeChange(new int[]{5, 5, 5, 10, 20}));
+        assertEquals(false, lemonadeChange(new int[]{5, 5, 10, 10, 20}));
+        assertEquals(false, lemonadeChange(new int[]{10, 10}));
+
+    }
+
+    public boolean lemonadeChange(int[] bills) {
+
+        Map<Integer, Integer> map = new HashMap<>();
+
+        int[] queue = new int[]{20, 10, 5};
+
+        int lemonade = 5;
+
+        for (int bill : bills) {
+
+            int change = bill - lemonade;
+
+            if (change == 0) {
+                map.put(lemonade, map.getOrDefault(lemonade, 0) + 1);
+            } else {
+
+                int queueSize = queue.length;
+
+                int i = 0;
+
+                while (i < queueSize) {
+
+                    if (change >= queue[i]) {
+                        Integer q = map.getOrDefault(queue[i], 0);
+                        if (q != 0) {
+                            change -= queue[i];
+                            map.put(queue[i], map.getOrDefault(queue[i], 0) - 1);
+                            continue;
+                        }
+                    }
+
+                    i++;
+                }
+
+                if (change > 0)
+                    return false;
+
+                map.put(bill, map.getOrDefault(bill, 0) + 1);
+
+            }
+        }
+
+        return true;
+    }
 
     @Test
     public void maxDistToClosest() {
