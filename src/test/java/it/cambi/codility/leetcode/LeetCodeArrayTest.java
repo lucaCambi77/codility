@@ -36,6 +36,45 @@ public class LeetCodeArrayTest {
 
 
     @Test
+    public void lastStoneWeight() {
+        assertEquals(1, lastStoneWeight(new int[]{2, 7, 4, 1, 8, 1}));
+        assertEquals(0, lastStoneWeight(new int[]{2, 2}));
+
+    }
+
+    public int lastStoneWeight(int[] stones) {
+
+        PriorityQueue<Integer> queue = new PriorityQueue<Integer>(Collections.reverseOrder());
+        for (int stone : stones) {
+            queue.add(stone);
+        }
+
+        if (queue.size() == 1)
+            return queue.poll();
+
+        int x, y;
+
+        while (queue.size() > 1) {
+
+            x = queue.poll();
+
+            if (queue.size() > 0) {
+
+                y = queue.poll();
+
+                if (x - y > 0)
+                    queue.add(x - y);
+            } else
+                break;
+
+
+        }
+
+        return queue.size() > 0 ? queue.poll() : 0;
+
+    }
+
+    @Test
     public void lemonadeChange() {
         assertEquals(true, lemonadeChange(new int[]{5, 5, 5, 10, 20}));
         assertEquals(false, lemonadeChange(new int[]{5, 5, 10, 10, 20}));
