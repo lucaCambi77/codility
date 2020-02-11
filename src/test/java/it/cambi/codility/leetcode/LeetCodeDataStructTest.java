@@ -20,6 +20,37 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LeetCodeDataStructTest {
 
     @Test
+    public void recentCalls() {
+        RecentCounter recentCounter = new RecentCounter();
+
+        int[] result = new int[4];
+
+        result[0] = recentCounter.ping(1);
+        result[1] = recentCounter.ping(100);
+        result[2] = recentCounter.ping(3001);
+        result[3] = recentCounter.ping(3002);
+
+        assertTrue(Arrays.equals(new int[]{1, 2, 3, 3}, result));
+    }
+
+    class RecentCounter {
+
+        Queue<Integer> q;
+
+        public RecentCounter() {
+            q = new LinkedList();
+        }
+
+        public int ping(int t) {
+            q.add(t);
+            System.out.println(q.peek() < t - 3000);
+            while (q.peek() < t - 3000)
+                q.poll();
+            return q.size();
+        }
+    }
+
+    @Test
     public void designHashMap() {
         MyHashMap hashMap = new MyHashMap();
 
