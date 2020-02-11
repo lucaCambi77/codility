@@ -74,6 +74,41 @@ public class LeetCodeStringTest {
         }
     };
 
+
+    @Test
+    public void rotatedDigits() {
+        assertEquals(4, rotatedDigits(10));
+        assertEquals(4, rotatedDigits(11));
+        assertEquals(247, rotatedDigits(857));
+
+    }
+
+    public int rotatedDigits(int N) {
+
+        Pattern match
+                = Pattern.compile("[347]");
+
+        Pattern match1
+                = Pattern.compile("[2569]");
+
+        int res = 0;
+
+        for (int i = 2; i <= N; i++) {
+
+            String s = Integer.toString(i);
+
+            if (match.matcher(s).find())
+                continue;
+
+            if (match1.matcher(s).find())
+                res++;
+
+
+        }
+
+        return res;
+    }
+
     @Test
     public void toLowerCase() {
         assertEquals("hello", toLowerCase("Hello"));
