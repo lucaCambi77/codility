@@ -3,39 +3,22 @@
  */
 package it.cambi.codility.hackerRank;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Stack;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-
+import it.cambi.codility.util.AbstractTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import it.cambi.codility.util.AbstractTest;
+import java.io.*;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author luca
@@ -58,6 +41,123 @@ public class HackerRankArraysTest extends AbstractTest {
     public void restoreStreams() {
         System.setOut(originalOut);
         System.setErr(originalErr);
+    }
+
+    @Test
+    public void qHeap1() {
+
+        qHeap1(new String[]{"1 4", "1 9", "3", "2 4", "3"});
+
+        assertEquals("4" + getCarriageReturn() + "9" + getCarriageReturn(), outContent.toString());
+    }
+
+    private void qHeap1(String[] input) {
+
+        PriorityQueue<Integer> queue = new PriorityQueue<Integer>();
+
+        for (String s : input) {
+
+            String[] split = s.split(" ");
+
+            if (split.length == 1) {
+                System.out.println(queue.peek());
+            } else {
+                int query = Integer.valueOf(split[0]);
+                if (query == 1) {
+                    queue.add(Integer.valueOf(split[1]));
+                } else {
+
+                    queue.remove(Integer.valueOf(split[1]));
+                }
+            }
+        }
+
+    }
+
+    @Test
+    public void cookies() {
+
+        int[] arr = new int[1000000];
+        Arrays.fill(arr, 10000);
+        assertEquals(998047, cookies(105823341, arr));
+
+        assertEquals(2, cookies(7, new int[]{1, 2, 3, 9, 10, 12}));
+        assertEquals(-1, cookies(10, new int[]{1, 1, 1}));
+        assertEquals(-1, cookies(2, new int[]{1}));
+        assertEquals(0, cookies(1, new int[]{1}));
+    }
+
+    class NodeCookie {
+
+        private int value;
+        private int freq;
+
+        NodeCookie(int value, int freq) {
+            this.value = value;
+            this.freq = freq;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            NodeCookie that = (NodeCookie) o;
+            return value == that.value;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(value);
+        }
+    }
+
+    private int cookies(int k, int[] A) {
+
+        PriorityQueue<NodeCookie> queue = new PriorityQueue<NodeCookie>();
+
+        int step = 0;
+
+        int[] arr = new int[1000001];
+
+        for (int i = 0; i < A.length; i++) {
+            arr[A[i]] = ++arr[A[i]];
+        }
+
+        for (int i : arr) {
+            if (arr[i] > 0)
+                queue.add(new NodeCookie(i, arr[i]));
+        }
+
+        return step;
+
+    }
+
+
+    /*
+     *   Not working case 20 - 22
+     */
+    private int cookies1(int k, int[] A) {
+        PriorityQueue<Integer> queue = new PriorityQueue<Integer>();
+
+        for (int i : A) {
+            queue.add(i);
+        }
+
+        int max = queue.peek();
+        int steps = 0;
+
+        while (max <= k && queue.size() > 1) {
+
+            int first = queue.poll();
+            int second = 2 * queue.poll();
+
+            queue.add(first + second);
+            steps++;
+            max = queue.peek();
+        }
+
+        return (queue.size() > 0 && queue.peek() >= k) ? steps : -1;
+
     }
 
     @Test
