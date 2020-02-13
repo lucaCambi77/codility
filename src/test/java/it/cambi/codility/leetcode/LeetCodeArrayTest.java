@@ -36,6 +36,54 @@ public class LeetCodeArrayTest {
 
 
     @Test
+    public void findMaxAverage() {
+        assertEquals(12.75, findMaxAverage(new int[]{1, 12, -5, -6, 50, 3}, 4));
+    }
+
+    public double findMaxAverage(int[] nums, int k) {
+
+        int i = k;
+        double maxAverage;
+        int sum = 0;
+
+        while (--i >= 0)
+            sum += nums[i];
+
+        maxAverage = (double) sum / k;
+
+        for (int j = k; j < nums.length; j++) {
+
+            sum += nums[j] - nums[j - k];
+            maxAverage = Math.max(maxAverage, (double) sum / k);
+        }
+
+        return maxAverage;
+    }
+
+
+    @Test
+    public void sortArrayByParity() {
+
+        assertTrue(Arrays.equals(new int[]{2, 4, 3, 1}, sortArrayByParity(new int[]{3, 1, 2, 4})));
+    }
+
+    public int[] sortArrayByParity(int[] A) {
+
+        int[] ans = new int[A.length];
+        int t = 0;
+
+        for (int i = 0; i < A.length; ++i)
+            if (A[i] % 2 == 0)
+                ans[t++] = A[i];
+
+        for (int i = 0; i < A.length; ++i)
+            if (A[i] % 2 == 1)
+                ans[t++] = A[i];
+
+        return ans;
+    }
+
+    @Test
     public void lastStoneWeight() {
         assertEquals(1, lastStoneWeight(new int[]{2, 7, 4, 1, 8, 1}));
         assertEquals(0, lastStoneWeight(new int[]{2, 2}));
