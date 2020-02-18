@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.hackerRank;
 
@@ -29,59 +29,110 @@ import org.mockito.junit.jupiter.MockitoExtension;
  *
  */
 @ExtendWith(MockitoExtension.class)
-public class HackerRankLinkedListTest
-{
+public class HackerRankLinkedListTest {
     private PrintStream out;
 
     @BeforeEach
-    public void setUpStreams()
-    {
+    public void setUpStreams() {
         out = mock(PrintStream.class);
         System.setOut(out);
     }
 
-    class SinglyLinkedListNode
-    {
+    class SinglyLinkedListNode {
         int data;
         SinglyLinkedListNode next;
 
         /**
-         * 
+         *
          */
-        public SinglyLinkedListNode(int data)
-        {
+        public SinglyLinkedListNode(int data) {
             this.data = data;
         }
     }
 
-    class DoublyLinkedListNode
-    {
+    class DoublyLinkedListNode {
         int data;
         DoublyLinkedListNode next;
         DoublyLinkedListNode prev;
+
+        public DoublyLinkedListNode(int data) {
+            this.data = data;
+        }
+
+
     }
 
     @Test
-    public void queueUsingTwoStacks()
-    {
-        queueUsingTwoStacks(10, new String[] { "1 42", "2", "1 14", "3", "1 28", "3", "1 60", "1 78", "2", "2" });
+    public void sortedInsert() {
+
+        DoublyLinkedListNode node = new DoublyLinkedListNode(1);
+        DoublyLinkedListNode node1 = new DoublyLinkedListNode(3);
+        DoublyLinkedListNode node2 = new DoublyLinkedListNode(4);
+        DoublyLinkedListNode node3 = new DoublyLinkedListNode(10);
+
+        node2.next = node3;
+        node1.next = node2;
+        node.next = node1;
+
+        sortedInsert(node, 5);
+
+        DoublyLinkedListNode anode = new DoublyLinkedListNode(2);
+        DoublyLinkedListNode anode1 = new DoublyLinkedListNode(3);
+        DoublyLinkedListNode anode2 = new DoublyLinkedListNode(4);
+
+        anode1.next = anode2;
+        anode.next = anode1;
+
+        sortedInsert(anode, 1);
+
+    }
+
+    private DoublyLinkedListNode sortedInsert(DoublyLinkedListNode head, int data) {
+
+        DoublyLinkedListNode pointer = head;
+
+        while (pointer != null) {
+
+
+            if (data >= pointer.data && ((null != pointer.next && data <= pointer.next.data) || (null == pointer.next))) {
+
+                DoublyLinkedListNode newNode = new DoublyLinkedListNode(data);
+                newNode.next = pointer.next;
+
+                pointer.next = newNode;
+                break;
+            } else if (pointer.prev == null && data <= pointer.data) {
+                DoublyLinkedListNode newNode = new DoublyLinkedListNode(data);
+                newNode.next = pointer;
+
+                head = newNode;
+                break;
+            }
+
+            pointer = pointer.next;
+
+        }
+
+        return head;
+    }
+
+    @Test
+    public void queueUsingTwoStacks() {
+        queueUsingTwoStacks(10, new String[]{"1 42", "2", "1 14", "3", "1 28", "3", "1 60", "1 78", "2", "2"});
         verify(out, times(2)).println(new Integer(14));
     }
 
-    public void queueUsingTwoStacks(int t, String[] lines)
-    {
+    public void queueUsingTwoStacks(int t, String[] lines) {
 
         Stack<Integer> stack1 = new Stack<Integer>();
         Stack<Integer> stack2 = new Stack<Integer>();
         int count = 0;
 
-        while (count < t)
-        {
+        while (count < t) {
 
             String[] split = lines[count].split(" ");
             int query = Integer.valueOf(split[0]);
-            switch (query)
-            {
+            switch (query) {
                 case 1:
                     stack1.push(Integer.valueOf(split[1]));
                     stack2.add(0, Integer.valueOf(split[1]));
@@ -104,14 +155,13 @@ public class HackerRankLinkedListTest
     }
 
     @Test
-    public void findMergeNode()
-    {
+    public void findMergeNode() {
 
         /*
          * SinglyLinkedListNode headA = getSortedLinkedListExample1(); SinglyLinkedListNode headB = getSortedLinkedListExample2();
-         * 
+         *
          * SinglyLinkedListNode currentA = headA; SinglyLinkedListNode currentB = headB;
-         * 
+         *
          * // Do till the two nodes are the same while (currentA != currentB) { // If you reached the end of one list start at the beginning of the
          * other one // currentA if (currentA.next == null) { currentA = headB; } else { currentA = currentA.next; } // currentB if (currentB.next ==
          * null) { currentB = headA; } else { currentB = currentB.next; } }
@@ -120,8 +170,7 @@ public class HackerRankLinkedListTest
     }
 
     @Test
-    public void hasCycle() throws IOException
-    {
+    public void hasCycle() throws IOException {
 
         InputStream is = new FileInputStream("src/test/resources/listWithCycle.txt");
         BufferedReader buf = new BufferedReader(new InputStreamReader(is));
@@ -131,8 +180,7 @@ public class HackerRankLinkedListTest
 
         int pos = 0;
 
-        while (line != null)
-        {
+        while (line != null) {
             insertAtPos(pos, new Integer(line), head);
 
             line = buf.readLine();
@@ -150,13 +198,11 @@ public class HackerRankLinkedListTest
         SinglyLinkedListNode slow = head;
         SinglyLinkedListNode fast = head;
 
-        while (fast != null && fast.next != null)
-        {
+        while (fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
 
-            if (slow == fast)
-            {
+            if (slow == fast) {
                 hasCycle = true;
             }
         }
@@ -165,8 +211,7 @@ public class HackerRankLinkedListTest
     }
 
     @Test
-    public void removeDuplicates() throws IOException
-    {
+    public void removeDuplicates() throws IOException {
 
         InputStream is = new FileInputStream("src/test/resources/listWithDuplicate.txt");
         BufferedReader buf = new BufferedReader(new InputStreamReader(is));
@@ -176,8 +221,7 @@ public class HackerRankLinkedListTest
 
         int pos = 0;
 
-        while (line != null)
-        {
+        while (line != null) {
             insertAtPos(pos, new Integer(line), head2);
 
             line = buf.readLine();
@@ -194,10 +238,8 @@ public class HackerRankLinkedListTest
         SinglyLinkedListNode head = head2;
 
         int position = 0;
-        while (head.next != null)
-        {
-            if (seen.contains(head.next.data))
-            {
+        while (head.next != null) {
+            if (seen.contains(head.next.data)) {
                 head2 = deleteNodeAtPosition(position, head2);
                 // decrease position to match the actual linked list
                 position--;
@@ -215,8 +257,7 @@ public class HackerRankLinkedListTest
         // check no duplicates
         seen = new HashSet<Integer>();
         boolean check = true;
-        while (head2 != null)
-        {
+        while (head2 != null) {
             check = seen.add(head2.data);
             assertEquals(check, true);
             head2 = head2.next;
@@ -224,22 +265,19 @@ public class HackerRankLinkedListTest
     }
 
     @Test
-    public void getNode()
-    {
+    public void getNode() {
         SinglyLinkedListNode head = getLinkedListExample2();
         int positionFromTail = 2;
 
         Stack<Integer> stack = new Stack<Integer>();
 
-        while (head != null)
-        {
+        while (head != null) {
             stack.add(head.data);
             head = head.next;
         }
         int size = stack.size();
         int result = stack.get(0);
-        for (int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
 
             int data = stack.pop();
 
@@ -251,22 +289,18 @@ public class HackerRankLinkedListTest
     }
 
     @Test
-    public void mergeLists()
-    {
+    public void mergeLists() {
         SinglyLinkedListNode head2 = getSortedLinkedListExample1();
         SinglyLinkedListNode head1 = getSortedLinkedListExample2();
 
-        while (head1 != null)
-        {
+        while (head1 != null) {
 
             int pos = 0;
 
             SinglyLinkedListNode head = head2;
 
-            while (head != null)
-            {
-                if (head1.data <= head.data)
-                {
+            while (head != null) {
+                if (head1.data <= head.data) {
                     head2 = insertAtPos(pos, head1.data, head2);
 
                     break;
@@ -284,16 +318,13 @@ public class HackerRankLinkedListTest
     }
 
     @Test
-    public void compareLists()
-    {
+    public void compareLists() {
         SinglyLinkedListNode head2 = getLinkedListExample1();
         SinglyLinkedListNode head1 = getLinkedListExample2();
 
         boolean areEquals = true;
-        while (head2 != null && head1 != null)
-        {
-            if (head2.data != head1.data)
-            {
+        while (head2 != null && head1 != null) {
+            if (head2.data != head1.data) {
                 areEquals = false;
                 break;
             }
@@ -306,8 +337,7 @@ public class HackerRankLinkedListTest
     }
 
     @Test
-    public void reversePrint()
-    {
+    public void reversePrint() {
 
         SinglyLinkedListNode head = getLinkedListExample1();
 
@@ -320,11 +350,9 @@ public class HackerRankLinkedListTest
 
     }
 
-    private SinglyLinkedListNode reversePrint(AtomicInteger pos, SinglyLinkedListNode head, SinglyLinkedListNode out)
-    {
+    private SinglyLinkedListNode reversePrint(AtomicInteger pos, SinglyLinkedListNode head, SinglyLinkedListNode out) {
 
-        if (head != null)
-        {
+        if (head != null) {
             out = reversePrint(pos, head.next, out);
             out = insertAtPos(pos.getAndIncrement(), head.data, out);
         }
@@ -332,13 +360,11 @@ public class HackerRankLinkedListTest
         return out;
     }
 
-    public SinglyLinkedListNode insertAtPos(int position, int data, SinglyLinkedListNode head)
-    {
+    public SinglyLinkedListNode insertAtPos(int position, int data, SinglyLinkedListNode head) {
 
         SinglyLinkedListNode nextAtInsert = new SinglyLinkedListNode(data);
 
-        if (null == head || position == 0)
-        {
+        if (null == head || position == 0) {
             nextAtInsert.next = head;
             return nextAtInsert;
         }
@@ -347,8 +373,7 @@ public class HackerRankLinkedListTest
 
         SinglyLinkedListNode temp = head;
 
-        while (pos != position - 1)
-        {
+        while (pos != position - 1) {
             temp = temp.next;
             pos++;
         }
@@ -363,8 +388,7 @@ public class HackerRankLinkedListTest
     }
 
     @Test
-    public void deleteNodeAtPos()
-    {
+    public void deleteNodeAtPos() {
 
         int position = 1;
         SinglyLinkedListNode head = getLinkedListExample1();
@@ -378,18 +402,15 @@ public class HackerRankLinkedListTest
      * @param head
      * @return
      */
-    private SinglyLinkedListNode deleteNodeAtPosition(int position, SinglyLinkedListNode head)
-    {
-        if (position == 0)
-        {
+    private SinglyLinkedListNode deleteNodeAtPosition(int position, SinglyLinkedListNode head) {
+        if (position == 0) {
             head = head.next;
             return head;
         }
 
         int pos = 0;
         SinglyLinkedListNode temp = head;
-        while (pos != position - 1)
-        {
+        while (pos != position - 1) {
             temp = temp.next;
             pos++;
         }
@@ -400,8 +421,7 @@ public class HackerRankLinkedListTest
     }
 
     @Test
-    public void insertNodeAtPosition()
-    {
+    public void insertNodeAtPosition() {
 
         int data = 10;
         int position = 1;
@@ -411,16 +431,14 @@ public class HackerRankLinkedListTest
 
         SinglyLinkedListNode nextAtInsert = new SinglyLinkedListNode(data);
 
-        if (position == 0)
-        {
+        if (position == 0) {
             nextAtInsert.next = head;
             return;
         }
 
         SinglyLinkedListNode temp = head;
 
-        while (pos != position - 1)
-        {
+        while (pos != position - 1) {
             temp = temp.next;
             pos++;
         }
@@ -436,8 +454,7 @@ public class HackerRankLinkedListTest
     }
 
     @Test
-    public void insertNodeAtHead()
-    {
+    public void insertNodeAtHead() {
 
         SinglyLinkedListNode sll = getLinkedListExample1();
 
@@ -449,8 +466,7 @@ public class HackerRankLinkedListTest
     }
 
     @Test
-    public void insertNodeAtTail()
-    {
+    public void insertNodeAtTail() {
 
         SinglyLinkedListNode sll = getLinkedListExample1();
 
@@ -458,8 +474,7 @@ public class HackerRankLinkedListTest
 
         SinglyLinkedListNode last = sll;
 
-        while (last.next != null)
-        {
+        while (last.next != null) {
             last = last.next;
         }
 
@@ -470,19 +485,16 @@ public class HackerRankLinkedListTest
     }
 
     @Test
-    public void printLinkedList()
-    {
+    public void printLinkedList() {
         SinglyLinkedListNode sll = getLinkedListExample1();
 
-        while (sll != null)
-        {
+        while (sll != null) {
             System.out.println(sll.data);
             sll = sll.next;
         }
     }
 
-    private SinglyLinkedListNode getLinkedListExample1()
-    {
+    private SinglyLinkedListNode getLinkedListExample1() {
         SinglyLinkedListNode sll = new SinglyLinkedListNode(16);
 
         SinglyLinkedListNode slln = new SinglyLinkedListNode(13);
@@ -496,8 +508,7 @@ public class HackerRankLinkedListTest
         return sll;
     }
 
-    private SinglyLinkedListNode getLinkedListExample2()
-    {
+    private SinglyLinkedListNode getLinkedListExample2() {
         SinglyLinkedListNode sll = new SinglyLinkedListNode(15);
 
         SinglyLinkedListNode slln = new SinglyLinkedListNode(18);
@@ -511,8 +522,7 @@ public class HackerRankLinkedListTest
         return sll;
     }
 
-    private SinglyLinkedListNode getSortedLinkedListExample1()
-    {
+    private SinglyLinkedListNode getSortedLinkedListExample1() {
         SinglyLinkedListNode sll = new SinglyLinkedListNode(1);
 
         SinglyLinkedListNode slln = new SinglyLinkedListNode(2);
@@ -526,8 +536,7 @@ public class HackerRankLinkedListTest
         return sll;
     }
 
-    private SinglyLinkedListNode getSortedLinkedListExample2()
-    {
+    private SinglyLinkedListNode getSortedLinkedListExample2() {
         SinglyLinkedListNode sll = new SinglyLinkedListNode(3);
 
         SinglyLinkedListNode slln = new SinglyLinkedListNode(4);
