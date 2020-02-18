@@ -35,6 +35,74 @@ public class LeetCodeArrayTest {
     private int[] nums;
 
 
+    public int[] replaceElements(int[] arr) {
+
+    }
+    
+    @Test
+    public void largeGroupPositions() {
+
+        assertEquals(Arrays.asList(Arrays.asList(3, 6)), largeGroupPositions("abbxxxxzyy"));
+        assertEquals(Arrays.asList(Arrays.asList(0, 2)), largeGroupPositions("aaa"));
+        assertEquals(Arrays.asList(Arrays.asList(3, 5), Arrays.asList(6, 9), Arrays.asList(12, 14)), largeGroupPositions("abcdddeeeeaabbbcd"));
+    }
+
+    public List<List<Integer>> largeGroupPositions(String S) {
+
+        List<List<Integer>> list = new ArrayList<>();
+
+        int current = S.charAt(0);
+        int start = 0;
+
+        int count = 1;
+
+        for (int i = 1; i < S.toCharArray().length; i++) {
+
+            if (S.charAt(i) == current)
+                count++;
+            else {
+
+                if (count >= 3) {
+                    LinkedList<Integer> list1 = new LinkedList<Integer>();
+                    list1.add(start);
+                    list1.add(i - 1);
+                    list.add(list1);
+                }
+
+                start = i;
+                current = S.charAt(i);
+                count = 1;
+
+            }
+
+        }
+
+        if (count >= 3) {
+            LinkedList<Integer> list1 = new LinkedList<Integer>();
+            list1.add(start);
+            list1.add(S.toCharArray().length - 1);
+            list.add(list1);
+        }
+
+        return list;
+    }
+
+    public List<List<Integer>> largeGroupPositions1(String S) {
+
+        List<List<Integer>> ans = new ArrayList();
+        int i = 0, N = S.length(); // i is the start of each group
+        for (int j = 0; j < N; ++j) {
+            if (j == N - 1 || S.charAt(j) != S.charAt(j + 1)) {
+                // Here, [i, j] represents a group.
+                if (j - i + 1 >= 3)
+                    ans.add(Arrays.asList(new Integer[]{i, j}));
+                i = j + 1;
+            }
+        }
+
+        return ans;
+    }
+
     @Test
     public void findMaxAverage() {
         assertEquals(12.75, findMaxAverage(new int[]{1, 12, -5, -6, 50, 3}, 4));
