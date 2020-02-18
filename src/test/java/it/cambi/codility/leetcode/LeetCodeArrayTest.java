@@ -34,11 +34,32 @@ public class LeetCodeArrayTest {
 
     private int[] nums;
 
+    @Test
+    public void replaceElements() {
+        assertTrue(Arrays.equals(new int[]{18, 6, 6, 6, 1, -1}, replaceElements(new int[]{17, 18, 5, 4, 6, 1})));
+    }
 
     public int[] replaceElements(int[] arr) {
 
+        int length = arr.length;
+
+        if (length == 1)
+            return new int[]{-1};
+
+        int currentValue = arr[length - 1];
+        arr[length - 1] = -1;
+        int maxSoFar = currentValue;
+
+        for (int i = length - 2; i >= 0; i--) {
+
+            currentValue = arr[i];
+            arr[i] = maxSoFar;
+            maxSoFar = Math.max(currentValue, maxSoFar);
+        }
+
+        return arr;
     }
-    
+
     @Test
     public void largeGroupPositions() {
 
