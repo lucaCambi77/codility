@@ -17,8 +17,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author luca
@@ -152,8 +151,6 @@ public class HackerRankArraysTest extends AbstractTest {
 
     public static List<Integer> dynamicArray(int n, List<List<Integer>> queries) {
 
-        LinkedList<Integer> queue = new LinkedList<>();
-
         List<LinkedList<Integer>> list = new ArrayList<>();
 
         for (int i = 0; i < n; i++) {
@@ -208,7 +205,7 @@ public class HackerRankArraysTest extends AbstractTest {
             if (split.length == 1) {
                 System.out.println(queue.peek());
             } else {
-                int query = Integer.valueOf(split[0]);
+                int query = Integer.parseInt(split[0]);
                 if (query == 1) {
                     queue.add(Integer.valueOf(split[1]));
                 } else {
@@ -317,8 +314,8 @@ public class HackerRankArraysTest extends AbstractTest {
         int specialProblems = 0;
         int page = 0;
 
-        for (int i = 0; i < arr.length; i++) {
-            int problems = arr[i];
+        for (int value : arr) {
+            int problems = value;
             int start = 1;
 
             if (problems - k < 0) {
@@ -334,7 +331,7 @@ public class HackerRankArraysTest extends AbstractTest {
                         specialProblems++;
 
                     problems -= k;
-                    j += problems > k ? k : problems;
+                    j += Math.min(problems, k);
                     start += k;
                 }
             }
@@ -353,16 +350,13 @@ public class HackerRankArraysTest extends AbstractTest {
     private boolean isSpecialProblem(int page, int start, int problems) {
         List<Integer> list = IntStream.range(start, problems + 1).boxed().collect(Collectors.toList());
 
-        if (list.contains(page))
-            return true;
-
-        return false;
+        return list.contains(page);
     }
 
     @Test
     public void serviceLane() {
-        assertTrue(Arrays.equals(new int[]{1, 2, 3, 2, 1,},
-                serviceLane(new int[]{2, 3, 1, 2, 3, 2, 3, 3}, new int[][]{{0, 3}, {4, 6}, {6, 7}, {3, 5}, {0, 7}})));
+        assertArrayEquals(new int[]{1, 2, 3, 2, 1,},
+                serviceLane(new int[]{2, 3, 1, 2, 3, 2, 3, 3}, new int[][]{{0, 3}, {4, 6}, {6, 7}, {3, 5}, {0, 7}}));
     }
 
     private int[] serviceLane(int[] width, int[][] cases) {
@@ -422,8 +416,8 @@ public class HackerRankArraysTest extends AbstractTest {
     }
 
     @Test
-    public void acmTeam() throws FileNotFoundException, IOException {
-        assertTrue(Arrays.equals(new int[]{5, 2}, acmTeam(new String[]{"10101", "11100", "11010", "00101"})));
+    public void acmTeam() throws IOException {
+        assertArrayEquals(new int[]{5, 2}, acmTeam(new String[]{"10101", "11100", "11010", "00101"}));
         try (BufferedReader in = new BufferedReader(new FileReader("src/test/resources/acmTeam/acmTeam.txt"))) {
             String line = in.readLine();
             String[] split = line.split(" ");
@@ -438,7 +432,7 @@ public class HackerRankArraysTest extends AbstractTest {
                 i++;
             }
 
-            assertTrue(Arrays.equals(new int[]{97, 5}, acmTeam(array)));
+            assertArrayEquals(new int[]{97, 5}, acmTeam(array));
         }
 
     }
@@ -487,11 +481,11 @@ public class HackerRankArraysTest extends AbstractTest {
 
     private int stepPerms(int n) {
 
-        int memo[] = new int[n + 1];
+        int[] memo = new int[n + 1];
         return stepPermsRec(0, n, memo);
     }
 
-    public int stepPermsRec(int i, int n, int memo[]) {
+    public int stepPermsRec(int i, int n, int[] memo) {
         if (i > n) {
             return 0;
         }
@@ -659,21 +653,21 @@ public class HackerRankArraysTest extends AbstractTest {
                 cloud = c[0];
         }
 
-        return cloud == 0 ? --energy : (energy -= 3);
+        return cloud == 0 ? --energy : energy - 3;
 
     }
 
     @Test
     public void permutationEquation() {
-        assertTrue(Arrays.equals(new int[]{2, 3, 1}, permutationEquation(new int[]{2, 3, 1})));
-        assertTrue(Arrays.equals(new int[]{1, 3, 5, 4, 2}, permutationEquation(new int[]{4, 3, 5, 1, 2})));
+        assertArrayEquals(new int[]{2, 3, 1}, permutationEquation(new int[]{2, 3, 1}));
+        assertArrayEquals(new int[]{1, 3, 5, 4, 2}, permutationEquation(new int[]{4, 3, 5, 1, 2}));
 
     }
 
     private int[] permutationEquation(int[] p) {
         int[] sol = new int[p.length];
 
-        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> map = new HashMap<>();
 
         for (int i = 0; i < p.length; i++) {
             map.put(p[i], i + 1);
@@ -689,7 +683,7 @@ public class HackerRankArraysTest extends AbstractTest {
 
     @Test
     public void circularArrayRotation() {
-        assertTrue(Arrays.equals(new int[]{5, 3}, circularArrayRotation(new int[]{3, 4, 5}, 2, new int[]{1, 2})));
+        assertArrayEquals(new int[]{5, 3}, circularArrayRotation(new int[]{3, 4, 5}, 2, new int[]{1, 2}));
     }
 
     private int[] circularArrayRotation(int[] a, int k, int[] queries) {
@@ -707,7 +701,7 @@ public class HackerRankArraysTest extends AbstractTest {
 
         int numQueries = queries.length;
 
-        int result[] = new int[numQueries];
+        int[] result = new int[numQueries];
 
         for (int i = 0; i < numQueries; i++) {
             result[i] = stack.get(queries[i]);
@@ -743,7 +737,7 @@ public class HackerRankArraysTest extends AbstractTest {
         return maxAreaSoFar;
     }
 
-    private int search(int h[], int l, int r, int key, int countLeft, int countRight) {
+    private int search(int[] h, int l, int r, int key, int countLeft, int countRight) {
 
         while (--l >= 0) {
             if (h[l] >= key)
@@ -775,19 +769,19 @@ public class HackerRankArraysTest extends AbstractTest {
         BufferedReader bufOut = new BufferedReader(new InputStreamReader(isOutput));
 
         String line = bufOut.readLine();
-        String solution = "";
+        StringBuilder solution = new StringBuilder();
 
         String carriageReturn = getCarriageReturn();
 
         while (line != null) {
-            solution += line + carriageReturn;
+            solution.append(line).append(carriageReturn);
             line = bufOut.readLine();
 
         }
 
         bufOut.close();
 
-        assertEquals(solution, outContent.toString());
+        assertEquals(solution.toString(), outContent.toString());
     }
 
     private void maximumElement(BufferedReader buf) throws IOException {
@@ -798,7 +792,7 @@ public class HackerRankArraysTest extends AbstractTest {
         // A stack to keep track of values
         Stack<Integer> stack = new Stack<Integer>();
         // A priority queue in descending order to keep of all values and get maximum
-        PriorityQueue<Integer> tree = new PriorityQueue<Integer>(Collections.reverseOrder());
+        PriorityQueue<Integer> tree = new PriorityQueue<>(Collections.reverseOrder());
 
         while (line != null) {
 
@@ -809,23 +803,13 @@ public class HackerRankArraysTest extends AbstractTest {
                 stack.push(Integer.valueOf(split[1]));
                 tree.add(add);
             } else {
-                switch (split[0]) {
-                    case "2":
+                if ("2".equals(split[0])) {
+                    if (!stack.isEmpty())
+                        tree.remove(stack.pop());
 
-                        if (!stack.isEmpty()) {
-
-                            Integer remove = stack.pop();
-                            tree.remove(remove);
-                        }
-
-                        break;
-
-                    default:
-
-                        if (!stack.isEmpty())
-                            System.out.println(tree.peek());
-
-                        break;
+                } else {
+                    if (!stack.isEmpty())
+                        System.out.println(tree.peek());
                 }
             }
 
@@ -878,7 +862,7 @@ public class HackerRankArraysTest extends AbstractTest {
         InputStream is = new FileInputStream("src/test/resources/maxSubsetSum/maxSubsetSum1.txt");
         BufferedReader buf = new BufferedReader(new InputStreamReader(is));
 
-        array = new int[Integer.valueOf(buf.readLine())];
+        array = new int[Integer.parseInt(buf.readLine())];
 
         String line = buf.readLine();
 
@@ -886,7 +870,7 @@ public class HackerRankArraysTest extends AbstractTest {
 
         int i = 0;
         for (String string : split) {
-            array[i] = Integer.valueOf(string);
+            array[i] = Integer.parseInt(string);
             i++;
         }
 
@@ -900,7 +884,7 @@ public class HackerRankArraysTest extends AbstractTest {
 
         int inc = arr[0];
         int exc = 0;
-        int exc_new = 0;
+        int exc_new;
 
         for (int i = 1; i < arr.length; i++) {
             exc_new = Math.max(exc, inc);
@@ -913,56 +897,53 @@ public class HackerRankArraysTest extends AbstractTest {
 
     @Test
     public void twoStacks() throws IOException {
-        boolean isFile = true;
 
-        if (isFile) {
-            InputStream is = new FileInputStream("src/test/resources/gameOfTwoStacks/gameOfTwoStacksResult1.txt");
-            BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+        InputStream is = new FileInputStream("src/test/resources/gameOfTwoStacks/gameOfTwoStacksResult1.txt");
+        BufferedReader buf = new BufferedReader(new InputStreamReader(is));
 
-            LinkedList<Integer> list = new LinkedList<Integer>();
+        LinkedList<Integer> list = new LinkedList<Integer>();
 
-            String line = buf.readLine();
+        String line = buf.readLine();
 
-            while (line != null) {
-                list.add(Integer.valueOf(line));
-                line = buf.readLine();
-            }
+        while (line != null) {
+            list.add(Integer.valueOf(line));
+            line = buf.readLine();
+        }
 
-            buf.close();
+        buf.close();
 
-            InputStream is1 = new FileInputStream("src/test/resources/gameOfTwoStacks/gameOfTwoStacks1.txt");
-            BufferedReader buf1 = new BufferedReader(new InputStreamReader(is1));
+        InputStream is1 = new FileInputStream("src/test/resources/gameOfTwoStacks/gameOfTwoStacks1.txt");
+        BufferedReader buf1 = new BufferedReader(new InputStreamReader(is1));
 
-            String line1 = buf1.readLine();
-            line1 = buf1.readLine();
+        String line1 = buf1.readLine();
+        line1 = buf1.readLine();
 
-            int count = 0;
-            int index = 0;
-            while (line1 != null) {
-                System.out.println(line1 + " - " + (index + 1));
-                int x = Integer.valueOf(line1.split("\\s")[2]);
+        int count = 0;
+        int index = 0;
+        while (line1 != null) {
+            System.out.println(line1 + " - " + (index + 1));
+            int x = Integer.parseInt(line1.split("\\s")[2]);
 
-                LinkedList<int[]> listInput = new LinkedList<int[]>();
+            LinkedList<int[]> listInput = new LinkedList<int[]>();
 
-                while (count < 2) {
-                    line1 = buf1.readLine();
-
-                    listInput.add(Arrays.stream(line1.split("\\s")).map(s -> Integer.valueOf(s))
-                            .collect(Collectors.toCollection(LinkedList::new)).stream().mapToInt(i -> i).toArray());
-
-                    count++;
-                }
-
-                assertEquals(list.get(index), twoStacks(x, listInput.get(0), listInput.get(1)));
-
-                count = 0;
-                index++;
+            while (count < 2) {
                 line1 = buf1.readLine();
 
+                listInput.add(Arrays.stream(line1.split("\\s")).map(Integer::valueOf)
+                        .collect(Collectors.toCollection(LinkedList::new)).stream().mapToInt(i -> i).toArray());
+
+                count++;
             }
 
-            buf1.close();
+            assertEquals(list.get(index), twoStacks(x, listInput.get(0), listInput.get(1)));
+
+            count = 0;
+            index++;
+            line1 = buf1.readLine();
+
         }
+
+        buf1.close();
 
     }
 
@@ -1078,7 +1059,7 @@ public class HackerRankArraysTest extends AbstractTest {
             }
         }));
 
-        assertEquals(Arrays.asList(new Integer[]{0, 1}), freqQuery(new ArrayList<int[]>() {
+        assertEquals(Arrays.asList(0, 1), freqQuery(new ArrayList<int[]>() {
             {
                 add(new int[]{3, 4});
                 add(new int[]{2, 1003});
@@ -1115,7 +1096,7 @@ public class HackerRankArraysTest extends AbstractTest {
 
                     String[] split = line.split(" ");
 
-                    int[] list = new int[]{Integer.valueOf(split[0]), Integer.valueOf(split[1])};
+                    int[] list = new int[]{Integer.parseInt(split[0]), Integer.parseInt(split[1])};
                     add(list);
                     line = buf.readLine();
                 }
@@ -1127,7 +1108,7 @@ public class HackerRankArraysTest extends AbstractTest {
 
     public List<Integer> freqQuery(List<int[]> queries) {
 
-        LinkedList<Integer> out = new LinkedList<Integer>();
+        LinkedList<Integer> out = new LinkedList<>();
 
         Map<Integer, Integer> map = new HashMap<>();
         Map<Integer, Integer> freqMap = new HashMap<>();
@@ -1227,7 +1208,7 @@ public class HackerRankArraysTest extends AbstractTest {
 
             for (int j = i + 1; j < distinctCharacters.size(); j++) {
 
-                String replace = s;
+                String replace;
                 char first = distinctCharacters.get(i);
                 char second = distinctCharacters.get(j);
 
@@ -1340,7 +1321,7 @@ public class HackerRankArraysTest extends AbstractTest {
                 String sub = s.substring(i, j);
 
                 // sorting the string
-                char tempArray[] = sub.toCharArray();
+                char[] tempArray = sub.toCharArray();
                 Arrays.sort(tempArray);
                 sub = new String(tempArray);
 
@@ -1446,7 +1427,7 @@ public class HackerRankArraysTest extends AbstractTest {
             }
         });
 
-        Arrays.equals(new int[]{2, 1}, list.stream().mapToInt(Integer::intValue).toArray());
+        assertArrayEquals(new int[]{2, 1}, list.stream().mapToInt(Integer::intValue).toArray());
 
         List<Integer> list1 = compareTriplets(new ArrayList<Integer>() {
             {
@@ -1463,7 +1444,7 @@ public class HackerRankArraysTest extends AbstractTest {
             }
         });
 
-        Arrays.equals(new int[]{1, 1}, list1.stream().mapToInt(Integer::intValue).toArray());
+        assertArrayEquals(new int[]{1, 1}, list1.stream().mapToInt(Integer::intValue).toArray());
     }
 
     private List<Integer> compareTriplets(List<Integer> a, List<Integer> b) {
@@ -1480,7 +1461,7 @@ public class HackerRankArraysTest extends AbstractTest {
 
         }
 
-        List<Integer> toReturn = new LinkedList<Integer>();
+        List<Integer> toReturn = new LinkedList<>();
         toReturn.add(countAlice);
         toReturn.add(countBob);
 
@@ -1511,13 +1492,13 @@ public class HackerRankArraysTest extends AbstractTest {
 
         long[] arr = new long[n + 1];
 
-        for (int i = 0; i < queries.length; i++) {
-            long summond = (long) queries[i][2];
+        for (int[] query : queries) {
+            long summond = (long) query[2];
 
-            arr[queries[i][0]] = arr[queries[i][0]] + summond;
+            arr[query[0]] = arr[query[0]] + summond;
 
-            if ((queries[i][1] + 1) <= n)
-                arr[queries[i][1] + 1] -= summond;
+            if ((query[1] + 1) <= n)
+                arr[query[1] + 1] -= summond;
         }
 
         long k = 0, max = 0;
@@ -1541,7 +1522,7 @@ public class HackerRankArraysTest extends AbstractTest {
         Arrays.sort(arr);
         int count = 1;
         int maxFreq = 0;
-        int itemToDelete = 0;
+        int itemToDelete;
 
         for (int i = 1; i < arrLength; i++) {
 

@@ -781,7 +781,7 @@ public class LeetCodeStringTest {
 
         boolean areAllCapitals = true;
         boolean areAllLowerLetters = true;
-        boolean isFirstCapital = Character.isUpperCase(word.charAt(0)) ? true : false;
+        boolean isFirstCapital = Character.isUpperCase(word.charAt(0));
 
         for (int i = 1; i < word.length(); i++) {
             char c = word.charAt(i);
@@ -892,11 +892,9 @@ public class LeetCodeStringTest {
             if (i < k) {
                 reverse.push(queue.poll());
                 i++;
-                continue;
             } else if (i < step) {
                 i++;
                 sb.append(queue.poll());
-                continue;
             } else {
                 i = 0;
 
@@ -1079,7 +1077,7 @@ public class LeetCodeStringTest {
 
     private String addBinary(String a, String b) {
         // Initialize result
-        String result = "";
+        StringBuilder result = new StringBuilder();
 
         // Initialize digit sum
         int s = 0;
@@ -1096,7 +1094,7 @@ public class LeetCodeStringTest {
 
             // If current digit sum is
             // 1 or 3, add 1 to result
-            result = (char) (s % 2 + '0') + result;
+            result.insert(0, (char) (s % 2 + '0'));
 
             // Compute carry
             s /= 2;
@@ -1106,7 +1104,7 @@ public class LeetCodeStringTest {
             j--;
         }
 
-        return result;
+        return result.toString();
     }
 
     @Test
@@ -1133,9 +1131,8 @@ public class LeetCodeStringTest {
         int middle = (length & 1) == 1 ? length >>> 1 : (length >>> 1) - 1;
         for (int i = length - 1; i > middle; i--) {
             char left = s[length - 1 - i];
-            char right = s[i];
 
-            char tmp = right;
+            char tmp = s[i];
             s[i] = left;
             s[length - 1 - i] = tmp;
         }
@@ -1474,7 +1471,6 @@ public class LeetCodeStringTest {
     }
 
     private static boolean isPalindrome(String palindromeString, int count) {
-        boolean isPalindrome = true;
 
         int lengthOf = palindromeString.length();
         int middlePoint = ((lengthOf & 1) == 1) ? lengthOf / 2 : (lengthOf + 1) / 2;
@@ -1496,7 +1492,7 @@ public class LeetCodeStringTest {
             }
 
         }
-        return isPalindrome;
+        return true;
     }
 
     @Test

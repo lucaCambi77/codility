@@ -124,7 +124,7 @@ public class LeetCodeArrayTest {
             else {
 
                 if (count >= 3) {
-                    LinkedList<Integer> list1 = new LinkedList<Integer>();
+                    LinkedList<Integer> list1 = new LinkedList<>();
                     list1.add(start);
                     list1.add(i - 1);
                     list.add(list1);
@@ -139,7 +139,7 @@ public class LeetCodeArrayTest {
         }
 
         if (count >= 3) {
-            LinkedList<Integer> list1 = new LinkedList<Integer>();
+            LinkedList<Integer> list1 = new LinkedList<>();
             list1.add(start);
             list1.add(S.toCharArray().length - 1);
             list.add(list1);
@@ -156,7 +156,7 @@ public class LeetCodeArrayTest {
             if (j == N - 1 || S.charAt(j) != S.charAt(j + 1)) {
                 // Here, [i, j] represents a group.
                 if (j - i + 1 >= 3)
-                    ans.add(Arrays.asList(new Integer[]{i, j}));
+                    ans.add(Arrays.asList(i, j));
                 i = j + 1;
             }
         }
@@ -193,7 +193,7 @@ public class LeetCodeArrayTest {
     @Test
     public void sortArrayByParity() {
 
-        assertTrue(Arrays.equals(new int[]{2, 4, 3, 1}, sortArrayByParity(new int[]{3, 1, 2, 4})));
+        assertArrayEquals(new int[]{2, 4, 3, 1}, sortArrayByParity(new int[]{3, 1, 2, 4}));
     }
 
     public int[] sortArrayByParity(int[] A) {
@@ -201,13 +201,13 @@ public class LeetCodeArrayTest {
         int[] ans = new int[A.length];
         int t = 0;
 
-        for (int i = 0; i < A.length; ++i)
-            if (A[i] % 2 == 0)
-                ans[t++] = A[i];
+        for (int item : A)
+            if (item % 2 == 0)
+                ans[t++] = item;
 
-        for (int i = 0; i < A.length; ++i)
-            if (A[i] % 2 == 1)
-                ans[t++] = A[i];
+        for (int value : A)
+            if (value % 2 == 1)
+                ans[t++] = value;
 
         return ans;
     }
@@ -322,11 +322,11 @@ public class LeetCodeArrayTest {
         int count = 0;
         boolean startWithZero = seats[0] == 0;
 
-        for (int i = 0; i < seats.length; i++) {
+        for (int seat : seats) {
 
-            if (seats[i] == 0)
+            if (seat == 0)
                 count++;
-            else if (seats[i] == 1) {
+            else if (seat == 1) {
 
                 if (startWithZero) {
                     solution = count;
@@ -353,7 +353,7 @@ public class LeetCodeArrayTest {
 
     @Test
     public void decompressRLElist() {
-        assertTrue(Arrays.equals(new int[]{2, 4, 4, 4}, decompressRLElist(new int[]{1, 2, 3, 4})));
+        assertArrayEquals(new int[]{2, 4, 4, 4}, decompressRLElist(new int[]{1, 2, 3, 4}));
     }
 
     public int[] decompressRLElist(int[] nums) {
@@ -777,26 +777,26 @@ public class LeetCodeArrayTest {
         for (int i = 0; i < deck.length; i++)
             array[deck[i]] = ++array[deck[i]];
 
-        Set<Integer> set = new HashSet<Integer>();
+        Set<Integer> set = new HashSet<>();
 
         Arrays.parallelSort(array);
 
         boolean isCommonGroup;
-        for (int i = 0; i < array.length; i++) {
+        for (int value : array) {
 
-            if (array[i] == 0)
+            if (value == 0)
                 continue;
 
-            if (array[i] < 2)
+            if (value < 2)
                 return false;
 
             if (set.size() == 0)
-                findCommonMin(array[i], 101, set);
+                findCommonMin(value, 101, set);
 
             isCommonGroup = false;
 
             for (Integer integer : set) {
-                if (array[i] % integer == 0) {
+                if (value % integer == 0) {
 
                     isCommonGroup = true;
                     break;
@@ -1145,7 +1145,7 @@ public class LeetCodeArrayTest {
             restMap.put(list1[i], i);
 
         int minIndex = Integer.MAX_VALUE;
-        Set<String> set = new HashSet<String>();
+        Set<String> set = new HashSet<>();
 
         for (int i = 0; i < list2.length; i++) {
             int pos = restMap.getOrDefault(list2[i], -1);
@@ -1370,7 +1370,7 @@ public class LeetCodeArrayTest {
 
         merge(nums1, 3, nums2, 3);
 
-        assertTrue(Arrays.equals(new int[]{1, 2, 2, 3, 5, 6}, nums1));
+        assertArrayEquals(new int[]{1, 2, 2, 3, 5, 6}, nums1);
     }
 
     private void merge(int[] nums1, int m, int[] nums2, int n) {
@@ -1825,7 +1825,7 @@ public class LeetCodeArrayTest {
         while (length < k)
             k = k - length;
 
-        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> map = new HashMap<>();
 
         for (int i = 0; i < length; i++) {
             if (null != map.get(i)) {
@@ -2096,9 +2096,7 @@ public class LeetCodeArrayTest {
 
         int length = nums.length;
 
-        for (int i = 0; i < length; i++) {
-            int value = nums[i];
-
+        for (int value : nums) {
             if (!set.contains(value))
                 set.add(value);
             else
@@ -2198,7 +2196,7 @@ public class LeetCodeArrayTest {
 
         BigInteger retValue = new BigInteger(value).add(new BigInteger("1"));
 
-        return retValue.toString().chars().mapToObj(c -> String.valueOf((char) c)).mapToInt(x -> Integer.valueOf(x))
+        return retValue.toString().chars().mapToObj(c -> String.valueOf((char) c)).mapToInt(Integer::valueOf)
                 .toArray();
     }
 
@@ -2546,7 +2544,7 @@ public class LeetCodeArrayTest {
             return 0;
 
         // Binary search
-        int middle = 0;
+        int middle;
         while (left <= right) {
 
             middle = (left + right) / 2;
@@ -2557,8 +2555,7 @@ public class LeetCodeArrayTest {
                 return middle;
             else if (middleEl < target)
                 left = middle + 1;
-            else if (middleEl > target)
-                right = middle - 1;
+            else right = middle - 1;
 
         }
 
