@@ -35,6 +35,37 @@ public class LeetCodeArrayTest {
     private int[] nums;
 
     @Test
+    public void findNumbers() {
+
+        assertEquals(2, findNumbers(new int[]{12, 345, 2, 6, 7896}));
+        assertEquals(1, findNumbers(new int[]{555, 901, 482, 1771}));
+        assertEquals(0, findNumbers(new int[]{580, 317, 640, 957, 718, 764}));
+        assertEquals(0, findNumbers(new int[]{0}));
+
+
+    }
+
+    public int findNumbers(int[] nums) {
+
+        int count = 0;
+        int sol = 0;
+        for (int num : nums) {
+
+            while (num > 0) {
+                num = num / 10;
+                count++;
+            }
+
+            if (count != 0 && (count & 1) == 0)
+                sol++;
+
+            count = 0;
+        }
+
+        return sol;
+    }
+
+    @Test
     public void replaceElements() {
         assertTrue(Arrays.equals(new int[]{18, 6, 6, 6, 1, -1}, replaceElements(new int[]{17, 18, 5, 4, 6, 1})));
     }
