@@ -34,6 +34,14 @@ public class LeetCodeArrayTest {
 
     private int[] nums;
 
+    @Test
+    public void checkStraightLine() {
+
+    }
+
+    public boolean checkStraightLine(int[][] coordinates) {
+
+    }
 
     @Test
     public void findMaxAverage() {
