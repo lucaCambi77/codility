@@ -41,6 +41,127 @@ public class LeetCodeArrayTest {
 
     public boolean checkStraightLine(int[][] coordinates) {
 
+        return false;
+    }
+
+    public void findNumbers() {
+
+        assertEquals(2, findNumbers(new int[]{12, 345, 2, 6, 7896}));
+        assertEquals(1, findNumbers(new int[]{555, 901, 482, 1771}));
+        assertEquals(0, findNumbers(new int[]{580, 317, 640, 957, 718, 764}));
+        assertEquals(0, findNumbers(new int[]{0}));
+
+
+    }
+
+    public int findNumbers(int[] nums) {
+
+        int count = 0;
+        int sol = 0;
+        for (int num : nums) {
+
+            while (num > 0) {
+                num = num / 10;
+                count++;
+            }
+
+            if (count != 0 && (count & 1) == 0)
+                sol++;
+
+            count = 0;
+        }
+
+        return sol;
+    }
+
+    @Test
+    public void replaceElements() {
+        assertTrue(Arrays.equals(new int[]{18, 6, 6, 6, 1, -1}, replaceElements(new int[]{17, 18, 5, 4, 6, 1})));
+    }
+
+    public int[] replaceElements(int[] arr) {
+
+        int length = arr.length;
+
+        if (length == 1)
+            return new int[]{-1};
+
+        int currentValue = arr[length - 1];
+        arr[length - 1] = -1;
+        int maxSoFar = currentValue;
+
+        for (int i = length - 2; i >= 0; i--) {
+
+            currentValue = arr[i];
+            arr[i] = maxSoFar;
+            maxSoFar = Math.max(currentValue, maxSoFar);
+        }
+
+        return arr;
+    }
+
+    @Test
+    public void largeGroupPositions() {
+
+        assertEquals(Arrays.asList(Arrays.asList(3, 6)), largeGroupPositions("abbxxxxzyy"));
+        assertEquals(Arrays.asList(Arrays.asList(0, 2)), largeGroupPositions("aaa"));
+        assertEquals(Arrays.asList(Arrays.asList(3, 5), Arrays.asList(6, 9), Arrays.asList(12, 14)), largeGroupPositions("abcdddeeeeaabbbcd"));
+    }
+
+    public List<List<Integer>> largeGroupPositions(String S) {
+
+        List<List<Integer>> list = new ArrayList<>();
+
+        int current = S.charAt(0);
+        int start = 0;
+
+        int count = 1;
+
+        for (int i = 1; i < S.toCharArray().length; i++) {
+
+            if (S.charAt(i) == current)
+                count++;
+            else {
+
+                if (count >= 3) {
+                    LinkedList<Integer> list1 = new LinkedList<Integer>();
+                    list1.add(start);
+                    list1.add(i - 1);
+                    list.add(list1);
+                }
+
+                start = i;
+                current = S.charAt(i);
+                count = 1;
+
+            }
+
+        }
+
+        if (count >= 3) {
+            LinkedList<Integer> list1 = new LinkedList<Integer>();
+            list1.add(start);
+            list1.add(S.toCharArray().length - 1);
+            list.add(list1);
+        }
+
+        return list;
+    }
+
+    public List<List<Integer>> largeGroupPositions1(String S) {
+
+        List<List<Integer>> ans = new ArrayList();
+        int i = 0, N = S.length(); // i is the start of each group
+        for (int j = 0; j < N; ++j) {
+            if (j == N - 1 || S.charAt(j) != S.charAt(j + 1)) {
+                // Here, [i, j] represents a group.
+                if (j - i + 1 >= 3)
+                    ans.add(Arrays.asList(new Integer[]{i, j}));
+                i = j + 1;
+            }
+        }
+
+        return ans;
     }
 
     @Test
