@@ -43,35 +43,6 @@ public class LeetCodeArrayTest {
 
     }
 
-    public int findSpecialInteger1(int[] arr) {
-
-        int maxCount = 0;
-        int max = arr[0];
-        int count = 1;
-        int current = arr[0];
-        for (int i = 1; i < arr.length; i++) {
-
-            if (arr[i] == current)
-                count++;
-            else {
-
-                if (count > maxCount) {
-
-                    maxCount = count;
-                    max = arr[i - 1];
-                }
-                current = arr[i];
-                count = 1;
-            }
-
-        }
-
-        if (count > maxCount)
-            max = arr[arr.length - 1];
-
-        return max;
-    }
-
     public int findSpecialInteger(int[] arr) {
 
         int sol = arr[0];
