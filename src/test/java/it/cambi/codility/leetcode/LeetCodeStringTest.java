@@ -6,17 +6,7 @@ package it.cambi.codility.leetcode;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -76,6 +66,50 @@ public class LeetCodeStringTest {
 
 
     @Test
+    public void mostCommonWord() {
+
+        assertEquals("ball", mostCommonWord("Bob hit a ball, the hit BALL flew far after it was hit."
+                , new String[]{"hit"}));
+        assertEquals("bob", mostCommonWord("Bob!"
+                , new String[]{"hit"}));
+        assertEquals("b", mostCommonWord("a, a, a, a, b,b,b,c, c"
+                , new String[]{"a"}));
+    }
+
+    public String mostCommonWord(String paragraph, String[] banned) {
+
+        Set<String> words = Arrays.asList(banned).stream().collect(Collectors.toSet());
+
+        String[] cleanPar = paragraph.replaceAll("[;//.//://'//,//!//?]", " ").split("\\s+");
+
+        Map<String, Integer> wordToFreq = new HashMap<String, Integer>();
+
+        int max = 0;
+        String result = null;
+        int freq = 0;
+
+        for (String s : cleanPar) {
+
+            String lowerCase = s.toLowerCase();
+
+            if (words.contains(lowerCase))
+                continue;
+
+            freq = wordToFreq.getOrDefault(lowerCase, 0) + 1;
+
+            if (freq > max) {
+                max = freq;
+                result = lowerCase;
+            }
+
+            wordToFreq.put(lowerCase, freq);
+
+
+        }
+        return result;
+    }
+
+    @Test
     public void rotatedDigits() {
         assertEquals(4, rotatedDigits(10));
         assertEquals(4, rotatedDigits(11));
@@ -124,11 +158,9 @@ public class LeetCodeStringTest {
             if (c > 64 && c < 91) {
 
                 c = c + 32;
-                builder.append((char) c);
 
-            } else {
-                builder.append((char) c);
             }
+            builder.append((char) c);
 
         }
 
