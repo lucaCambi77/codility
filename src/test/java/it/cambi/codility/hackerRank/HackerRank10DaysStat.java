@@ -2,11 +2,12 @@ package it.cambi.codility.hackerRank;
 
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class HackerRank10DaysStat {
 
@@ -68,6 +69,35 @@ public class HackerRank10DaysStat {
         }
 
         System.out.println(mode);
+    }
+
+    @Test
+    public void weightedMean() {
+        weightedMean("10 40 30 50 20", "1 2 3 4 5");
+        weightedMean("10 40 30 50 20 10 40 30 50 20", "1 2 3 4 5 6 7 8 9 10");
+
+    }
+
+    public void weightedMean(String arr, String weight) {
+
+        DecimalFormat df = new DecimalFormat("#.#");
+        df.setRoundingMode(RoundingMode.CEILING);
+
+        int[] values = Arrays.stream(arr.split(" ")).mapToInt(Integer::parseInt).toArray();
+        int[] weights = Arrays.stream(weight.split(" ")).mapToInt(Integer::parseInt).toArray();
+
+        double weightSum = 0;
+        double den = 0;
+        for (int i = 0; i < values.length; i++) {
+
+            den += weights[i] * values[i];
+            weightSum += weights[i];
+        }
+
+        BigDecimal bd = new BigDecimal(Double.toString((den / weightSum)));
+        bd = bd.setScale(1, RoundingMode.HALF_UP);
+
+        System.out.println(bd.doubleValue());
     }
 
 }
