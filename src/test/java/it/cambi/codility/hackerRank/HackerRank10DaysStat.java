@@ -23,17 +23,72 @@ public class HackerRank10DaysStat extends AbstractTest {
     private final PrintStream originalOut = System.out;
     private final PrintStream originalErr = System.err;
 
-    @BeforeEach
+    //@BeforeEach
     public void setUpStreams() {
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
     }
 
-    @AfterEach
+    //@AfterEach
     public void restoreStreams() {
         System.setOut(originalOut);
         System.setErr(originalErr);
     }
+
+    @Test
+    public void quartiles() {
+
+        quartiles("3 7 8 5 12 14 21 13 18");
+        quartiles("3 7 8 5 12 14 21 13 18 20");
+
+    }
+
+    public void quartiles(String s) {
+
+        int[] values = Arrays.stream(s.split(" ")).mapToInt(Integer::parseInt).toArray();
+        Arrays.sort(values);
+
+        int size = values.length;
+
+        int q1 = 0;
+        int q2 = 0;
+        int q3 = 0;
+
+        int middle = (size + 1) / 2;
+        int quartile;
+
+        if (((size & 1) == 0)) {
+
+            q2 = getQuartileEven(values, middle - 1, middle);
+
+            quartile = middle / 2;
+
+
+        } else {
+
+            q2 = values[middle - 1];
+
+            quartile = middle / 2;
+
+            q1 = getQuartileEven(values, quartile - 1, quartile);
+
+            quartile = (middle + size) / 2;
+
+            q3 = getQuartileEven(values, quartile - 1, quartile);
+
+
+        }
+
+
+        System.out.println(q1);
+        System.out.println(q2);
+        System.out.println(q3);
+    }
+
+    private int getQuartileEven(int[] values, int start, int end) {
+        return (values[start] + values[end]) / 2;
+    }
+
 
     @Test
     public void meanMedianMode() {
