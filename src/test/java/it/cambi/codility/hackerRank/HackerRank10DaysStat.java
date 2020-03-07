@@ -36,6 +36,58 @@ public class HackerRank10DaysStat extends AbstractTest {
     }
 
     @Test
+    public void interQuartileRange() {
+
+        interQuartileRange("6 12 8 10 20 16", "5 4 3 2 1 5");
+
+        assertEquals("9.0" + getCarriageReturn()
+                , outContent.toString());
+
+    }
+
+    public void interQuartileRange(String s, String freq) {
+
+        int[] weight = Arrays.stream(freq.split(" ")).mapToInt(Integer::parseInt).toArray();
+
+        int size = Arrays.stream(weight).sum();
+
+        int[] array = Arrays.stream(s.split(" ")).mapToInt(Integer::parseInt).toArray();
+
+        int k = 0;
+        double[] values = new double[size];
+        int ithWeight = 0;
+
+        for (int i = 0; i < array.length; i++) {
+            ithWeight += weight[i];
+
+            while (k < ithWeight)
+                values[k++] = array[i];
+
+        }
+
+        Arrays.sort(values);
+
+        int middle = size / 2;
+
+        double q1 = getQuartile(values, 0, middle);
+
+        // if length is odd, we need to start position middle + 1, we don't need for q1 because starts at 0
+        double q3 = getQuartile(values, ((size & 1) != 0) ? middle + 1 : middle, size);
+
+        BigDecimal bd = new BigDecimal(q3 - q1);
+        bd = bd.setScale(1, RoundingMode.HALF_UP);
+
+        System.out.println(bd.doubleValue());
+    }
+
+    private double getQuartile(double[] values, int start, int end) {
+
+        int subMiddle = (start + end) / 2; // N / 2
+        int subMiddle1 = (start + end - 1) / 2; // N - 1 / 2
+        return ((end - start & 1) == 0) ? (values[subMiddle] + values[subMiddle1]) / 2 : values[subMiddle];
+    }
+
+    @Test
     public void quartiles() {
 
         quartiles("3 7 8 5 12 14 21 13 18");
@@ -59,7 +111,7 @@ public class HackerRank10DaysStat extends AbstractTest {
 
         int size = values.length;
         int middle = size / 2;
-        
+
         int q2 = getQuartile(values, 0, size);
 
         int q1 = getQuartile(values, 0, middle);
