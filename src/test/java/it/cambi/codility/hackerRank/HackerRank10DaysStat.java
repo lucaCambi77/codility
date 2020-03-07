@@ -36,6 +36,40 @@ public class HackerRank10DaysStat extends AbstractTest {
     }
 
     @Test
+    public void standardDeviation() {
+
+        standardDeviation(5, "10 40 30 50 20");
+
+        assertEquals("14.1" + getCarriageReturn()
+                , outContent.toString());
+    }
+
+    public void standardDeviation(int size, String s) {
+
+        double[] array = Arrays.stream(s.split(" ")).mapToDouble(Double::parseDouble).toArray();
+
+        double sum = 0;
+        for (double v : array)
+            sum += v;
+
+
+        double mean = sum / size;
+        double sdtDev = 0;
+
+        for (double v : array)
+            sdtDev += Math.pow(v - mean, 2);
+
+
+        sdtDev = Math.sqrt(sdtDev / size);
+
+        BigDecimal bd = new BigDecimal(sdtDev);
+        bd = bd.setScale(1, RoundingMode.HALF_UP);
+
+        System.out.println(bd.doubleValue());
+
+    }
+
+    @Test
     public void interQuartileRange() {
 
         interQuartileRange("6 12 8 10 20 16", "5 4 3 2 1 5");
