@@ -35,6 +35,43 @@ public class LeetCodeArrayTest {
     private int[] nums;
 
     @Test
+    public void sumZero() {
+
+        sumZero(5);
+        sumZero(10);
+        sumZero(50);
+        sumZero(1000);
+    }
+
+    public int[] sumZero(int n) {
+
+        if (n == 1)
+            return new int[1];
+
+        int[] sol = new int[n];
+
+        sol[0] = 500;
+        sol[1] = -500;
+
+        int k = 2;
+        int i = 1;
+        while (k + 2 < n)
+            k = setRandomValues(sol, k, i++);
+
+        if ((n & 1) == 0)
+            setRandomValues(sol, n - 2, i);
+
+        return sol;
+    }
+
+    private int setRandomValues(int[] sol, int k, int value) {
+
+        sol[k++] = value;
+        sol[k++] = -value;
+        return k;
+    }
+
+    @Test
     public void dominantIndex() {
 
         assertEquals(1, dominantIndex(new int[]{3, 6, 1, 0}));
