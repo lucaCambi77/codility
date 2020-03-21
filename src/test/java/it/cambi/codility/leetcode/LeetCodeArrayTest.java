@@ -62,36 +62,19 @@ public class LeetCodeArrayTest {
     private int getSteps(int x, int y, int x1, int y1) {
 
         int steps = 0;
-        if (x != x1 || y != y1) {
+        while (x1 != x || y != y1) {
 
-            if (x != x1) {
+            if (x1 > x)
+                x++;
+            else if (x1 != x)
+                x--;
 
-                if (y != y1) {
+            if (y1 > y)
+                y++;
+            else if (y1 != y)
+                y--;
 
-                    while (x1 != x || y != y1) {
-
-                        if (x1 > x)
-                            x++;
-                        else if (x1 != x)
-                            x--;
-
-                        if (y1 > y)
-                            y++;
-                        else if (y1 != y)
-                            y--;
-
-                        steps++;
-                    }
-
-                } else {
-                    steps = Math.abs(x - x1);
-                }
-
-
-            } else {
-                steps += Math.abs(y - y1);
-
-            }
+            steps++;
         }
         return steps;
     }
