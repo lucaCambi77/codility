@@ -35,6 +35,109 @@ public class LeetCodeArrayTest {
     private int[] nums;
 
     @Test
+    public void minTimeToVisitAllPoints() {
+        assertEquals(7, minTimeToVisitAllPoints(new int[][]{{1, 1}, {3, 4}, {-1, 0}}));
+        assertEquals(5, minTimeToVisitAllPoints(new int[][]{{3, 2}, {-2, 2}}));
+        assertEquals(0, minTimeToVisitAllPoints(new int[][]{{-2, 2}, {-2, 2}}));
+        assertEquals(2, minTimeToVisitAllPoints(new int[][]{{1, 1}, {-1, -1}}));
+        assertEquals(2, minTimeToVisitAllPoints(new int[][]{{1, 1}, {1, 3}}));
+        assertEquals(2, minTimeToVisitAllPoints(new int[][]{{1, 1}, {3, 1}}));
+
+    }
+
+    public int minTimeToVisitAllPoints(int[][] points) {
+
+        int i = 0;
+        int totalSteps = 0;
+
+        while (i + 1 < points.length) {
+
+            totalSteps += getSteps(points[i][0], points[i][1], points[i + 1][0], points[i + 1][1]);
+            i++;
+        }
+
+        return totalSteps;
+    }
+
+    private int getSteps(int x, int y, int x1, int y1) {
+
+        int steps = 0;
+        if (x != x1 || y != y1) {
+
+            if (x != x1) {
+
+                if (y != y1) {
+
+                    while (x1 != x || y != y1) {
+
+                        if (x1 > x)
+                            x++;
+                        else if (x1 != x)
+                            x--;
+
+                        if (y1 > y)
+                            y++;
+                        else if (y1 != y)
+                            y--;
+
+                        steps++;
+                    }
+
+                } else {
+                    steps = Math.abs(x - x1);
+                }
+
+
+            } else {
+                steps += Math.abs(y - y1);
+
+            }
+        }
+        return steps;
+    }
+
+    @Test
+    public void countNegatives() {
+        assertEquals(8, countNegatives(new int[][]{{4, 3, 2, -1}, {3, 2, 1, -1}, {1, 1, -1, -2}, {-1, -1, -2, -3}}));
+        assertEquals(0, countNegatives(new int[][]{{3, 2}, {1, 0}}));
+        assertEquals(3, countNegatives(new int[][]{{1, -1}, {-1, 1}}));
+        assertEquals(16, countNegatives(new int[][]{{3, -1, -3, -3, -3}, {2, -2, -3, -3, -3}, {1, -2, -3, -3, -3}, {0, -3, -3, -3, -3}}));
+
+    }
+
+    public int countNegatives(int[][] grid) {
+
+        int count = 0;
+
+        for (int[] ints : grid)
+            count += ints.length - getNegativeStartIndex(0, ints.length - 1, 0, ints);
+
+
+        return count;
+    }
+
+    private int getNegativeStartIndex(int left, int right, int target, int[] nums) {
+
+        int middle;
+        while (left <= right) {
+
+            middle = (left + right) / 2;
+
+            int middleEl = nums[middle];
+
+            if (middleEl < target && (middle == 0 || middle == right || nums[middle - 1] >= target))
+                return middle;
+            else if (middleEl >= target)
+                left = middle + 1;
+            else
+                right = middle - 1;
+
+        }
+
+        return nums.length;
+    }
+
+    @Test
     public void dominantIndex() {
 
         assertEquals(1, dominantIndex(new int[]{3, 6, 1, 0}));
