@@ -1,8 +1,7 @@
 package it.cambi.codility.hackerRank;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -46,14 +45,13 @@ import org.mockito.InOrder;
 import org.mockito.Mockito;;
 
 @TestMethodOrder(Alphanumeric.class)
-public class HackerRankTest
-{
+public class HackerRankTest {
 
-    public static String[] ones = { "o' clock", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+    public static String[] ones = {"o' clock", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
             "ten", "eleven", "twelve", "thirteen", "fourteen", "quarter", "sixteen", "seventeen", "eighteen",
-            "nineteen" };
+            "nineteen"};
 
-    public static String[] tens = { "", // 0
+    public static String[] tens = {"", // 0
             "", // 10 min
             "twenty", // 20 min
             "half", // 30 min
@@ -63,15 +61,48 @@ public class HackerRankTest
     private PrintStream out;
 
     @BeforeEach
-    public void setUpStreams()
-    {
+    public void setUpStreams() {
         out = mock(PrintStream.class);
         System.setOut(out);
     }
 
     @Test
-    public void happyLadybugs()
-    {
+    public void countConsecutivesOnesInBinaryString() {
+        countConsecutivesOnesInBinaryString(5);
+        verify(out, times(1)).println(1);
+        out.flush();
+        countConsecutivesOnesInBinaryString(439);
+        verify(out, times(1)).println(3);
+
+    }
+
+    public void countConsecutivesOnesInBinaryString(int n) {
+        String bin = Integer.toBinaryString(n);
+
+        int i = 0;
+        int count = 0;
+        int sol = 0;
+        while (i < bin.length()) {
+            if (bin.charAt(i) == '1') {
+
+                count++;
+
+            } else {
+                sol = Math.max(sol, count);
+                count = 0;
+            }
+
+            i++;
+        }
+        sol = Math.max(sol, count);
+
+        System.out.println(sol);
+
+
+    }
+
+    @Test
+    public void happyLadybugs() {
         assertEquals("YES", happyLadybugs("RBY_YBR"));
         assertEquals("NO", happyLadybugs("X_Y__X"));
         assertEquals("YES", happyLadybugs("__"));
@@ -85,23 +116,19 @@ public class HackerRankTest
 
     }
 
-    private String happyLadybugs(String b)
-    {
+    private String happyLadybugs(String b) {
         int length = b.toCharArray().length;
 
         Map<Character, Integer> map = new HashMap<Character, Integer>();
 
         int countUnderScores = 0;
 
-        for (int i = 0; i < length; i++)
-        {
+        for (int i = 0; i < length; i++) {
             char c = b.charAt(i);
-            if (c != '_')
-            {
+            if (c != '_') {
                 int freq = map.getOrDefault(b.charAt(i), 0) + 1;
                 map.put(b.charAt(i), freq);
-            }
-            else
+            } else
                 countUnderScores++;
 
         }
@@ -117,26 +144,22 @@ public class HackerRankTest
 
         // check string happy
 
-        for (Entry<Character, Integer> entry : map.entrySet())
-        {
+        for (Entry<Character, Integer> entry : map.entrySet()) {
             char c = entry.getKey();
 
             int index = b.indexOf(c, 0);
 
             int prevIndex = index;
 
-            while (index != -1)
-            {
+            while (index != -1) {
                 index = b.indexOf(c, ++index);
 
                 if (index == -1)
                     continue;
-                else if (index - prevIndex == 1)
-                {
+                else if (index - prevIndex == 1) {
                     prevIndex = index;
                     continue;
-                }
-                else
+                } else
                     return "NO";
 
             }
@@ -145,8 +168,7 @@ public class HackerRankTest
     }
 
     @Test
-    public void dayOfProgrammer()
-    {
+    public void dayOfProgrammer() {
         assertEquals("12.09.2008", dayOfProgrammer(2008));
         assertEquals("13.09.2007", dayOfProgrammer(2007));
         assertEquals("12.09.1800", dayOfProgrammer(1800));
@@ -154,26 +176,20 @@ public class HackerRankTest
 
     }
 
-    private String dayOfProgrammer(int year)
-    {
+    private String dayOfProgrammer(int year) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         int month = 8;
         int day = 13;
 
-        if (year < 1918)
-        {
+        if (year < 1918) {
             if (year % 4 == 0)
                 --day;
-        }
-        else if (year > 1918)
-        {
+        } else if (year > 1918) {
 
             if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0))
                 --day;
 
-        }
-        else
-        {
+        } else {
             day = 26;
 
         }
@@ -183,19 +199,17 @@ public class HackerRankTest
     }
 
     @Test
-    public void flatlandSpaceStations()
-    {
-        assertEquals(2, flatlandSpaceStations(5, new int[] { 0, 4 }));
-        assertEquals(3, flatlandSpaceStations(8, new int[] { 0, 4 }));
-        assertEquals(5, flatlandSpaceStations(8, new int[] { 0, 2 }));
-        assertEquals(5, flatlandSpaceStations(8, new int[] { 2 }));
-        assertEquals(3, flatlandSpaceStations(8, new int[] { 0, 2, 4 }));
-        assertEquals(0, flatlandSpaceStations(6, new int[] { 0, 1, 2, 4, 3, 5 }));
+    public void flatlandSpaceStations() {
+        assertEquals(2, flatlandSpaceStations(5, new int[]{0, 4}));
+        assertEquals(3, flatlandSpaceStations(8, new int[]{0, 4}));
+        assertEquals(5, flatlandSpaceStations(8, new int[]{0, 2}));
+        assertEquals(5, flatlandSpaceStations(8, new int[]{2}));
+        assertEquals(3, flatlandSpaceStations(8, new int[]{0, 2, 4}));
+        assertEquals(0, flatlandSpaceStations(6, new int[]{0, 1, 2, 4, 3, 5}));
 
     }
 
-    private int flatlandSpaceStations(int n, int[] c)
-    {
+    private int flatlandSpaceStations(int n, int[] c) {
         Arrays.sort(c);
         int numOfGasStation = c.length;
 
@@ -211,13 +225,11 @@ public class HackerRankTest
 
         int city = 0;
 
-        while (gasStationIndex < numOfGasStation && city < n)
-        {
+        while (gasStationIndex < numOfGasStation && city < n) {
             if (city >= lastGasStation)
                 return Math.max(maxDistance, n - lastGasStation - 1);
 
-            if (city == gasStation)
-            {
+            if (city == gasStation) {
                 if (gasStation == n - 1)
                     break;
 
@@ -236,8 +248,7 @@ public class HackerRankTest
     }
 
     @Test
-    public void appendAndDelete()
-    {
+    public void appendAndDelete() {
         assertEquals("Yes", appendAndDelete("hackerhappy", "hackerrank", 9));
         assertEquals("Yes", appendAndDelete("aba", "aba", 7));
         assertEquals("No", appendAndDelete("ashley", "ash", 2));
@@ -246,8 +257,7 @@ public class HackerRankTest
 
     }
 
-    public String appendAndDelete(String s, String t, int k)
-    {
+    public String appendAndDelete(String s, String t, int k) {
         int length1 = s.length();
 
         int length = t.length();
@@ -255,11 +265,9 @@ public class HackerRankTest
         boolean condition = true;
 
         int common = 0;
-        while (condition && common < Math.min(length, length1))
-        {
+        while (condition && common < Math.min(length, length1)) {
 
-            if (s.charAt(common) == t.charAt(common))
-            {
+            if (s.charAt(common) == t.charAt(common)) {
                 common++;
                 continue;
 
@@ -285,9 +293,8 @@ public class HackerRankTest
     }
 
     @ParameterizedTest
-    @ValueSource(strings = { "src/test/resources/saveThePrisoner/saveThePrisoner1", "src/test/resources/saveThePrisoner/saveThePrisoner2" })
-    public void saveThePrisoner(String path) throws IOException
-    {
+    @ValueSource(strings = {"src/test/resources/saveThePrisoner/saveThePrisoner1", "src/test/resources/saveThePrisoner/saveThePrisoner2"})
+    public void saveThePrisoner(String path) throws IOException {
         InputStream is = new FileInputStream(path + ".txt");
         BufferedReader buf = new BufferedReader(new InputStreamReader(is));
 
@@ -298,8 +305,7 @@ public class HackerRankTest
 
         String line1 = buf1.readLine();
 
-        while (line != null && line1 != null)
-        {
+        while (line != null && line1 != null) {
 
             String[] split = line.split(" ");
 
@@ -315,8 +321,7 @@ public class HackerRankTest
 
     }
 
-    private int saveThePrisoner(int n, int m, int s)
-    {
+    private int saveThePrisoner(int n, int m, int s) {
         int div = m / n;
 
         int reminder = m - (div * n);
@@ -332,18 +337,15 @@ public class HackerRankTest
     }
 
     @Test
-    public void viralAdvertising()
-    {
+    public void viralAdvertising() {
         assertEquals(24, viralAdvertising(5));
     }
 
-    private int viralAdvertising(int n)
-    {
+    private int viralAdvertising(int n) {
         int start = 5;
         int cumLikes = 0;
 
-        for (int i = 0; i < n; i++)
-        {
+        for (int i = 0; i < n; i++) {
             int likes = start / 2;
             cumLikes += likes;
             start = likes * 3;
@@ -354,8 +356,7 @@ public class HackerRankTest
 
     @Test
     @Disabled
-    public void abbreviation()
-    {
+    public void abbreviation() {
 
         assertEquals("YES", abbreviation("cacahaccccaaahacCHh", "CCH"));
 
@@ -442,8 +443,7 @@ public class HackerRankTest
 
     }
 
-    private String abbreviation(String a, String b)
-    {
+    private String abbreviation(String a, String b) {
 
         int length = a.length();
         int length1 = b.length();
@@ -452,16 +452,12 @@ public class HackerRankTest
         StringBuilder builderTmp = new StringBuilder();
         StringBuilder s = new StringBuilder();
 
-        for (int i = 0; i < length; i++)
-        {
+        for (int i = 0; i < length; i++) {
             char c = a.charAt(i);
 
-            if (Character.isLowerCase(c))
-            {
+            if (Character.isLowerCase(c)) {
                 builderTmp.append(c);
-            }
-            else
-            {
+            } else {
 
                 builder.append(builderTmp.toString()).append("-");
 
@@ -482,78 +478,60 @@ public class HackerRankTest
 
         StringBuilder chunckTmp = new StringBuilder();
 
-        for (int i = 0; i < length1; i++)
-        {
+        for (int i = 0; i < length1; i++) {
 
             char bChar = b.charAt(i);
 
             System.out.print(bChar);
-            if (s.length() <= length1)
-            {
+            if (s.length() <= length1) {
 
                 index = builder.indexOf("-", start);
 
-                if (index >= 0 && i < s.length())
-                {
+                if (index >= 0 && i < s.length()) {
                     char aChar = s.charAt(i);
-                    if (aChar == bChar)
-                    {
+                    if (aChar == bChar) {
 
                         chunckTmp = new StringBuilder(builder.substring(start, index));
                         start = index + 1;
                         continue;
 
-                    }
-                    else
-                    {
+                    } else {
 
                         StringBuilder s1 = new StringBuilder(builder.substring(start, index));
 
                         index1 = s1.toString().indexOf(Character.toLowerCase(bChar));
 
-                        if (index1 >= 0)
-                        {
+                        if (index1 >= 0) {
 
                             s.insert(i, bChar);
                             s1.deleteCharAt(index1);
                             start = index + 1;
 
-                        }
-                        else
-                        {
+                        } else {
 
                             index1 = chunckTmp.toString().indexOf(Character.toLowerCase(bChar));
 
-                            if (index1 >= 0)
-                            {
+                            if (index1 >= 0) {
 
                                 s.insert(i, bChar);
                                 chunckTmp.deleteCharAt(index1);
-                            }
-                            else
-                            {
+                            } else {
                                 return "NO";
                             }
 
                         }
                     }
-                }
-                else
-                {
+                } else {
                     System.out.print(bChar);
 
-                    while (i < length1)
-                    {
+                    while (i < length1) {
                         index1 = chunckTmp.toString().indexOf(Character.toLowerCase(b.charAt(i)));
 
-                        if (index1 >= 0)
-                        {
+                        if (index1 >= 0) {
 
                             s.insert(i, bChar);
                             chunckTmp.deleteCharAt(index1);
-                        }
-                        else
-                        {
+                        } else {
                             return "NO";
                         }
 
@@ -564,9 +542,7 @@ public class HackerRankTest
                     }
                 }
 
-            }
-            else
-            {
+            } else {
                 return s.toString().equals(b) ? "YES" : "NO";
 
             }
@@ -575,32 +551,24 @@ public class HackerRankTest
         return s.toString().equals(b) ? "YES" : "NO";
     }
 
-    private String abbreviation1(String a, String b)
-    {
+    private String abbreviation1(String a, String b) {
 
         boolean[][] dp = new boolean[b.length() + 1][a.length() + 1];
         dp[0][0] = true;
 
-        for (int j = 1; j < dp[0].length; j++)
-        {
+        for (int j = 1; j < dp[0].length; j++) {
             if (Character.isLowerCase(a.charAt(j - 1)))
                 dp[0][j] = dp[0][j - 1];
         }
 
-        for (int i = 1; i < dp.length; i++)
-        {
-            for (int j = 1; j < dp[0].length; j++)
-            {
+        for (int i = 1; i < dp.length; i++) {
+            for (int j = 1; j < dp[0].length; j++) {
                 char ca = a.charAt(j - 1), cb = b.charAt(i - 1);
-                if (ca >= 'A' && ca <= 'Z')
-                {
-                    if (ca == cb)
-                    {
+                if (ca >= 'A' && ca <= 'Z') {
+                    if (ca == cb) {
                         dp[i][j] = dp[i - 1][j - 1];
                     }
-                }
-                else
-                {
+                } else {
                     ca = Character.toUpperCase(ca);
                     if (ca == cb)
                         dp[i][j] = dp[i - 1][j - 1] || dp[i][j - 1];
@@ -615,21 +583,20 @@ public class HackerRankTest
     }
 
     @Test
-    public void simpleTextEditor() throws IOException
-    {
-        simpleTextEditor(new String[] { "1 abc", "3 3", "2 3", "1 xy", "3 2", "4", "4", "3 1" });
+    public void simpleTextEditor() throws IOException {
+        simpleTextEditor(new String[]{"1 abc", "3 3", "2 3", "1 xy", "3 2", "4", "4", "3 1"});
 
         InOrder orderVerifier = Mockito.inOrder(out);
-        Character[] sol = new Character[] { 'c', 'y', 'a' };
+        Character[] sol = new Character[]{'c', 'y', 'a'};
 
         for (char string : sol)
             orderVerifier.verify(out, atLeastOnce()).println(string);
         out.flush();
 
-        simpleTextEditor(new String[] { "1 lchbfcjtfpsmjrqsdgci", "3 19", "1 cpcvixlm", "1 apdjgjydvpbpvyiy", "2 29",
-                "4", "4", "3 9", "4", "4" });
+        simpleTextEditor(new String[]{"1 lchbfcjtfpsmjrqsdgci", "3 19", "1 cpcvixlm", "1 apdjgjydvpbpvyiy", "2 29",
+                "4", "4", "3 9", "4", "4"});
 
-        Character[] sol1 = new Character[] { 'c', 'f' };
+        Character[] sol1 = new Character[]{'c', 'f'};
 
         for (char string : sol1)
             orderVerifier.verify(out, atLeastOnce()).println(string);
@@ -642,8 +609,7 @@ public class HackerRankTest
         buf.readLine();
         String line = buf.readLine();
 
-        while (line != null)
-        {
+        while (line != null) {
             list.add(line);
             line = buf.readLine();
         }
@@ -656,24 +622,20 @@ public class HackerRankTest
          */
         /*
          * LinkedList<Character> solution = getSolution();
-         * 
+         *
          * for (char string : solution) orderVerifier.verify(out, atLeastOnce()).println(string);
          */
     }
 
-    public void simpleTextEditor(String[] array)
-    {
+    public void simpleTextEditor(String[] array) {
         Stack<String> stack = new Stack<String>();
         StringBuilder currentWord = new StringBuilder();
 
-        for (String string : array)
-        {
+        for (String string : array) {
             String[] split = string.split(" ");
 
-            if (split.length > 1)
-            {
-                switch (split[0])
-                {
+            if (split.length > 1) {
+                switch (split[0]) {
                     case "1":
 
                         currentWord.append(split[1]);
@@ -694,9 +656,7 @@ public class HackerRankTest
 
                         break;
                 }
-            }
-            else
-            {
+            } else {
 
                 stack.pop();
 
@@ -710,8 +670,7 @@ public class HackerRankTest
     }
 
     @Test
-    public void counterGame()
-    {
+    public void counterGame() {
 
         assertEquals("Louise", counterGame(132));
         assertEquals("Richard", counterGame(1));
@@ -719,15 +678,13 @@ public class HackerRankTest
 
     }
 
-    public String counterGame(long n)
-    {
+    public String counterGame(long n) {
         if (n == 1)
             return "Richard";
 
         double[] power = new double[65];
 
-        for (int i = 1; i < 65; i++)
-        {
+        for (int i = 1; i < 65; i++) {
             power[i] = Math.pow(2.0, (double) i);
         }
 
@@ -736,10 +693,8 @@ public class HackerRankTest
         boolean isPowerOfTwo = true;
         int count = 0;
 
-        while (counter > 1)
-        {
-            if (((counter & (counter - 1)) == 0))
-            {
+        while (counter > 1) {
+            if (((counter & (counter - 1)) == 0)) {
                 if (isPowerOfTwo)
                     counter = counter / 2;
                 else
@@ -748,9 +703,7 @@ public class HackerRankTest
                 n = counter;
                 isPowerOfTwo = true;
                 count++;
-            }
-            else
-            {
+            } else {
                 isPowerOfTwo = false;
 
                 int i = 0;
@@ -768,8 +721,7 @@ public class HackerRankTest
     }
 
     @Test
-    public void minimumNumber()
-    {
+    public void minimumNumber() {
 
         assertEquals(3, minimumNumber("Ab1"));
         assertEquals(1, minimumNumber("#HackerRank"));
@@ -777,8 +729,7 @@ public class HackerRankTest
         assertEquals(1, minimumNumber("AUzs-nV"));
     }
 
-    private int minimumNumber(String password)
-    {
+    private int minimumNumber(String password) {
 
         int length = password.length();
 
@@ -792,8 +743,7 @@ public class HackerRankTest
         return lengthDiff > 0 ? Math.max(miss, lengthDiff) : miss;
     }
 
-    private int matchRegEx(String input, String regEx)
-    {
+    private int matchRegEx(String input, String regEx) {
 
         if (Pattern.compile(regEx).matcher(input).find())
             return 0;
@@ -802,15 +752,13 @@ public class HackerRankTest
     }
 
     @Test
-    public void camelcase()
-    {
+    public void camelcase() {
         assertEquals(3, camelcase("oneTwoThree"));
         assertEquals(5, camelcase("saveChangesInTheEditor"));
 
     }
 
-    private int camelcase(String s)
-    {
+    private int camelcase(String s) {
 
         String regEx = "(\\p{Lu})";
         Pattern pattern = Pattern.compile(regEx);
@@ -824,8 +772,7 @@ public class HackerRankTest
     }
 
     @Test
-    public void pageCount()
-    {
+    public void pageCount() {
 
         assertEquals(1, pageCount(6, 2));
         assertEquals(0, pageCount(5, 4));
@@ -835,8 +782,7 @@ public class HackerRankTest
 
     }
 
-    private int pageCount(int n, int p)
-    {
+    private int pageCount(int n, int p) {
 
         // If pages is even number, add 1 to avoid edge cases
         int n1 = (n & 1) == 0 ? n + 1 : n;
@@ -849,23 +795,20 @@ public class HackerRankTest
     }
 
     @Test
-    public void birthday()
-    {
+    public void birthday() {
 
-        assertEquals(2, birthday(Arrays.asList(new Integer[] { 1, 2, 1, 3, 2 }), 3, 2));
+        assertEquals(2, birthday(Arrays.asList(new Integer[]{1, 2, 1, 3, 2}), 3, 2));
 
-        assertEquals(0, birthday(Arrays.asList(new Integer[] { 1, 1, 1, 1, 1, 1 }), 3, 2));
+        assertEquals(0, birthday(Arrays.asList(new Integer[]{1, 1, 1, 1, 1, 1}), 3, 2));
 
-        assertEquals(1, birthday(Arrays.asList(new Integer[] { 4 }), 4, 1));
+        assertEquals(1, birthday(Arrays.asList(new Integer[]{4}), 4, 1));
     }
 
-    private int birthday(List<Integer> s, int d, int m)
-    {
+    private int birthday(List<Integer> s, int d, int m) {
 
         int count = 0;
 
-        for (int i = 0; i < s.size(); i++)
-        {
+        for (int i = 0; i < s.size(); i++) {
 
             if (i + m > s.size())
                 break;
@@ -880,52 +823,43 @@ public class HackerRankTest
     }
 
     @Test
-    public void breakingRecords()
-    {
+    public void breakingRecords() {
 
         assertEquals(true,
-                Arrays.equals(new int[] { 2, 4 }, breakingRecords(new int[] { 10, 5, 20, 20, 4, 5, 2, 25, 1 })));
+                Arrays.equals(new int[]{2, 4}, breakingRecords(new int[]{10, 5, 20, 20, 4, 5, 2, 25, 1})));
     }
 
-    private int[] breakingRecords(int[] scores)
-    {
+    private int[] breakingRecords(int[] scores) {
 
         int min = scores[0];
         int max = scores[0];
         int countMin = 0;
         int countMax = 0;
 
-        for (int i = 1; i < scores.length; i++)
-        {
-            if (scores[i] < min)
-            {
+        for (int i = 1; i < scores.length; i++) {
+            if (scores[i] < min) {
                 countMin++;
                 min = scores[i];
-            }
-            else if (scores[i] > max)
-            {
+            } else if (scores[i] > max) {
                 countMax++;
                 max = scores[i];
             }
         }
 
-        return new int[] { countMax, countMin };
+        return new int[]{countMax, countMin};
     }
 
     @SuppressWarnings("serial")
     @Test
-    public void getTotalX()
-    {
+    public void getTotalX() {
 
-        assertEquals(3, getTotalX(new ArrayList<Integer>()
-        {
+        assertEquals(3, getTotalX(new ArrayList<Integer>() {
             {
                 add(2);
                 add(4);
 
             }
-        }, new ArrayList<Integer>()
-        {
+        }, new ArrayList<Integer>() {
             {
                 add(16);
                 add(32);
@@ -933,29 +867,25 @@ public class HackerRankTest
             }
         }));
 
-        assertEquals(2, getTotalX(new ArrayList<Integer>()
-        {
+        assertEquals(2, getTotalX(new ArrayList<Integer>() {
             {
                 add(3);
                 add(4);
 
             }
-        }, new ArrayList<Integer>()
-        {
+        }, new ArrayList<Integer>() {
             {
                 add(24);
                 add(48);
             }
         }));
 
-        assertEquals(1, getTotalX(new ArrayList<Integer>()
-        {
+        assertEquals(1, getTotalX(new ArrayList<Integer>() {
             {
                 add(2);
 
             }
-        }, new ArrayList<Integer>()
-        {
+        }, new ArrayList<Integer>() {
             {
                 add(20);
                 add(30);
@@ -965,8 +895,7 @@ public class HackerRankTest
         }));
     }
 
-    public int getTotalX(List<Integer> a, List<Integer> b)
-    {
+    public int getTotalX(List<Integer> a, List<Integer> b) {
 
         // We assume arrays are sorted ascending
         int last = b.get(0);
@@ -977,21 +906,17 @@ public class HackerRankTest
         Set<Integer> set = new HashSet<Integer>();
         Set<Integer> toRemove = new HashSet<Integer>();
 
-        for (int i = first; i <= last; i++)
-        {
+        for (int i = first; i <= last; i++) {
 
-            for (Integer integer : a)
-            {
+            for (Integer integer : a) {
                 if (i % integer == 0)
                     set.add(i);
             }
         }
 
-        for (int i = 0; i < a.size(); i++)
-        {
+        for (int i = 0; i < a.size(); i++) {
 
-            for (Integer integer : set)
-            {
+            for (Integer integer : set) {
                 if (integer % a.get(i) != 0)
                     toRemove.add(integer);
             }
@@ -1000,12 +925,10 @@ public class HackerRankTest
 
         int countNotDiv = 0;
 
-        for (Integer integer2 : set)
-        {
+        for (Integer integer2 : set) {
 
             countNotDiv = 0;
-            for (int i = b.size() - 1; i >= 0; i--)
-            {
+            for (int i = b.size() - 1; i >= 0; i--) {
 
                 if (b.get(i) % integer2 != 0)
                     countNotDiv++;
@@ -1020,11 +943,9 @@ public class HackerRankTest
 
     @SuppressWarnings("serial")
     @Test
-    public void gradingStudent()
-    {
+    public void gradingStudent() {
 
-        assertEquals(new ArrayList<Integer>()
-        {
+        assertEquals(new ArrayList<Integer>() {
             {
                 add(75);
                 add(67);
@@ -1032,8 +953,7 @@ public class HackerRankTest
                 add(33);
 
             }
-        }, gradingStudents(new ArrayList<Integer>()
-        {
+        }, gradingStudents(new ArrayList<Integer>() {
             {
                 add(73);
                 add(67);
@@ -1048,15 +968,12 @@ public class HackerRankTest
      * @param grades
      * @return
      */
-    private LinkedList<Integer> gradingStudents(List<Integer> grades)
-    {
+    private LinkedList<Integer> gradingStudents(List<Integer> grades) {
         LinkedList<Integer> list = new LinkedList<Integer>();
 
-        for (Integer integer : grades)
-        {
+        for (Integer integer : grades) {
 
-            if (integer < 38)
-            {
+            if (integer < 38) {
                 list.add(integer);
                 continue;
             }
@@ -1072,8 +989,7 @@ public class HackerRankTest
         return list;
     }
 
-    public void kangaroo()
-    {
+    public void kangaroo() {
 
         assertEquals("YES", calculateIntersectionPoint(0, 3, 4, 2));
         assertEquals("NO", calculateIntersectionPoint(0, 2, 5, 3));
@@ -1082,8 +998,7 @@ public class HackerRankTest
 
     }
 
-    private String calculateIntersectionPoint(int b1, int m1, int b2, int m2)
-    {
+    private String calculateIntersectionPoint(int b1, int m1, int b2, int m2) {
 
         double x = (double) (b2 - b1) / (m1 - m2);
 
@@ -1096,30 +1011,26 @@ public class HackerRankTest
     }
 
     @Test
-    public void countApplesAndOranges()
-    {
+    public void countApplesAndOranges() {
 
-        countApplesAndOranges(7, 11, 5, 15, new int[] { -2, 2, 1 }, new int[] { 5, -6 });
-        countApplesAndOranges(2, 3, 1, 1, new int[] { -2 }, new int[] { -1 });
+        countApplesAndOranges(7, 11, 5, 15, new int[]{-2, 2, 1}, new int[]{5, -6});
+        countApplesAndOranges(2, 3, 1, 1, new int[]{-2}, new int[]{-1});
 
     }
 
-    private void countApplesAndOranges(int s, int t, int a, int b, int[] apples, int[] oranges)
-    {
+    private void countApplesAndOranges(int s, int t, int a, int b, int[] apples, int[] oranges) {
 
         int countApple = 0;
         int countOrange = 0;
 
-        for (int j = 0; j < apples.length; j++)
-        {
+        for (int j = 0; j < apples.length; j++) {
             int dist = a + apples[j];
 
             if (dist >= s && dist <= t)
                 countApple++;
         }
 
-        for (int i = 0; i < oranges.length; i++)
-        {
+        for (int i = 0; i < oranges.length; i++) {
             int dist = b + oranges[i];
 
             if (dist >= s && dist <= t)
@@ -1132,8 +1043,7 @@ public class HackerRankTest
     }
 
     @Test
-    public void timeConversion()
-    {
+    public void timeConversion() {
 
         assertEquals("19:05:45", timeConversion("07:05:45PM"));
         assertEquals("07:05:45", timeConversion("07:05:45AM"));
@@ -1145,25 +1055,20 @@ public class HackerRankTest
      * @param s
      * @return
      */
-    private String timeConversion(String s)
-    {
+    private String timeConversion(String s) {
         String time = s.substring(0, 8);
         String format = s.substring(8, 10);
 
         Integer hour = Integer.parseInt(time.substring(0, 2));
 
-        switch (format)
-        {
+        switch (format) {
 
             case "AM":
 
-                if (hour == 12)
-                {
+                if (hour == 12) {
                     time = "00" + time.substring(2, 8);
 
-                }
-                else
-                {
+                } else {
                     if (hour < 10)
                         time = "0" + Integer.toString(hour) + time.substring(2, 8);
 
@@ -1182,8 +1087,7 @@ public class HackerRankTest
     }
 
     @Test
-    public void staircase()
-    {
+    public void staircase() {
         int n = 10;
 
         stairCase(n);
@@ -1192,20 +1096,16 @@ public class HackerRankTest
     /**
      * @param n
      */
-    private void stairCase(int n)
-    {
+    private void stairCase(int n) {
         int spaces = n - 1;
 
-        for (int i = 0; i < n; i++)
-        {
+        for (int i = 0; i < n; i++) {
 
-            for (int j = 0; j < spaces; j++)
-            {
+            for (int j = 0; j < spaces; j++) {
                 System.out.print(" ");
             }
 
-            for (int h = 0; h < n - spaces; h++)
-            {
+            for (int h = 0; h < n - spaces; h++) {
                 System.out.print("#");
 
             }
@@ -1216,24 +1116,21 @@ public class HackerRankTest
     }
 
     @Test
-    public void plusMinus()
-    {
+    public void plusMinus() {
 
-        int[] arr = new int[] { -4, 3, -9, 0, 4, 1 };
+        int[] arr = new int[]{-4, 3, -9, 0, 4, 1};
         plusMinus(arr);
     }
 
     /**
      * @param arr
      */
-    private void plusMinus(int[] arr)
-    {
+    private void plusMinus(int[] arr) {
         double size = arr.length;
 
         double[] count = new double[3];
 
-        for (int i = 0; i < arr.length; i++)
-        {
+        for (int i = 0; i < arr.length; i++) {
 
             if (arr[i] > 0)
                 ++count[0];
@@ -1244,15 +1141,13 @@ public class HackerRankTest
 
         }
 
-        for (int i = 0; i < count.length; i++)
-        {
+        for (int i = 0; i < count.length; i++) {
             System.out.println(String.format("%.6f", (count[i] / size)));
         }
     }
 
     @Test
-    public void isValid()
-    {
+    public void isValid() {
         assertEquals("YES", isValidString("abc"));
         assertEquals("NO", isValidString("aaaabbcc"));
         assertEquals("YES", isValidString("abcdefghhgfedecba"));
@@ -1268,20 +1163,17 @@ public class HackerRankTest
      * @param s
      * @return
      */
-    private String isValidString(String s)
-    {
+    private String isValidString(String s) {
 
         List<Entry<Character, Integer>> sortedEntries = s.chars().boxed().collect(Collectors.toMap(
                 // key = char
                 k -> Character.valueOf((char) k.intValue()), v -> 1, // 1 occurence
-                Integer::sum)).entrySet().stream().sorted(new Comparator<Entry<Character, Integer>>()
-                {
-                    @Override
-                    public int compare(Entry<Character, Integer> e1, Entry<Character, Integer> e2)
-                    {
-                        return e2.getValue().compareTo(e1.getValue());
-                    }
-                }).collect(Collectors.toCollection(LinkedList::new));
+                Integer::sum)).entrySet().stream().sorted(new Comparator<Entry<Character, Integer>>() {
+            @Override
+            public int compare(Entry<Character, Integer> e1, Entry<Character, Integer> e2) {
+                return e2.getValue().compareTo(e1.getValue());
+            }
+        }).collect(Collectors.toCollection(LinkedList::new));
 
         int lastIndex = sortedEntries.size() - 1;
 
@@ -1295,20 +1187,19 @@ public class HackerRankTest
                  * Last has frequency 1 and all others elements have same frequency
                  */
                 || sortedEntries.get(lastIndex).getValue() == 1
-                        && sortedEntries.get(0).getValue() - sortedEntries.get(lastIndex - 1).getValue() == 0
+                && sortedEntries.get(0).getValue() - sortedEntries.get(lastIndex - 1).getValue() == 0
                 /**
                  * First and second element are 1 step away and all others elements have same frequency
                  */
                 || sortedEntries.get(1).getValue() == sortedEntries.get(lastIndex).getValue()
-                        && sortedEntries.get(0).getValue() - sortedEntries.get(1).getValue() == 1)
+                && sortedEntries.get(0).getValue() - sortedEntries.get(1).getValue() == 1)
             return "YES";
 
         return "NO";
     }
 
     @Test
-    public void stringConstruction()
-    {
+    public void stringConstruction() {
         assertEquals(3, stringConstruction("abcabc"));
         assertEquals(4, stringConstruction("abcd"));
         assertEquals(2, stringConstruction("bccb"));
@@ -1322,14 +1213,12 @@ public class HackerRankTest
      * @param s
      * @return
      */
-    private int stringConstruction(String s)
-    {
+    private int stringConstruction(String s) {
         int length = s.toCharArray().length;
 
         Set<Character> set = new HashSet<Character>();
 
-        for (int i = 0; i < length; i++)
-        {
+        for (int i = 0; i < length; i++) {
 
             set.add(s.charAt(i));
 
@@ -1338,14 +1227,12 @@ public class HackerRankTest
     }
 
     @Test
-    public void makingAnagrams()
-    {
+    public void makingAnagrams() {
         String s1 = "cde";
         String s2 = "abc";
         Map<Character, Integer> secPartMap = new HashMap<Character, Integer>();
 
-        for (int i = 0; i < s2.toCharArray().length; i++)
-        {
+        for (int i = 0; i < s2.toCharArray().length; i++) {
             secPartMap.put(s2.charAt(i), secPartMap.getOrDefault(s2.charAt(i), 0) + 1);
         }
 
@@ -1355,8 +1242,7 @@ public class HackerRankTest
     }
 
     @Test
-    public void anagram()
-    {
+    public void anagram() {
 
         assertEquals(3, anagram("aaabbb"));
 
@@ -1374,8 +1260,7 @@ public class HackerRankTest
      * @param s
      * @return
      */
-    private int anagram(String s)
-    {
+    private int anagram(String s) {
         if (s.length() % 2 != 0)
             return -1;
 
@@ -1385,8 +1270,7 @@ public class HackerRankTest
         String secPart = s.substring(middle, s.length());
         Map<Character, Integer> secPartMap = new HashMap<Character, Integer>();
 
-        for (int i = 0; i < secPart.toCharArray().length; i++)
-        {
+        for (int i = 0; i < secPart.toCharArray().length; i++) {
             secPartMap.put(secPart.charAt(i), secPartMap.getOrDefault(secPart.charAt(i), 0) + 1);
         }
 
@@ -1399,17 +1283,14 @@ public class HackerRankTest
      * @param secPart
      * @return
      */
-    private int compareStringForAnagram(String firstPart, String secPart, Map<Character, Integer> secPartMap)
-    {
+    private int compareStringForAnagram(String firstPart, String secPart, Map<Character, Integer> secPartMap) {
 
         int count = 0;
 
-        for (int i = 0; i < firstPart.toCharArray().length; i++)
-        {
+        for (int i = 0; i < firstPart.toCharArray().length; i++) {
             Character c = firstPart.charAt(i);
 
-            if (secPartMap.get(c) != null && secPartMap.get(c) > 0)
-            {
+            if (secPartMap.get(c) != null && secPartMap.get(c) > 0) {
 
                 secPartMap.put(c, secPartMap.get(c) - 1);
 
@@ -1421,18 +1302,26 @@ public class HackerRankTest
     }
 
     @Test
-    public void hourglassSum()
-    {
-        int arr[][] = new int[][] { { 1, 1, 1, 0, 0, 0 }, { 0, 1, 0, 0, 0, 0 }, { 1, 1, 1, 0, 0, 0 },
-                { 0, 0, 2, 4, 4, 0 }, { 0, 0, 0, 2, 0, 0 }, { 0, 0, 1, 2, 4, 0 } };
+    public void hourglassSum() {
 
+        assertEquals(19, hourGlassSum(new int[][]{{1, 1, 1, 0, 0, 0}, {0, 1, 0, 0, 0, 0}, {1, 1, 1, 0, 0, 0},
+                {0, 0, 2, 4, 4, 0}, {0, 0, 0, 2, 0, 0}, {0, 0, 1, 2, 4, 0}}));
+
+        assertEquals(-6, hourGlassSum(new int[][]{{-1, -1, 0, -9, -2, -2},
+                {-2, -1, -6, -8, -2, -5},
+                {-1, -1, -1, -2, -3, -4},
+                {-1, -9, -2, -4, -4, -5},
+                {-7, -3, -3, -2, -9, -9},
+                {-1, -3, -1, -2, -4, -5}}));
+    }
+
+    private long hourGlassSum(int[][] arr) {
         SortedSet<Long> set = new TreeSet<Long>();
 
-        for (int i = 0; i < arr.length - 2; i++)
-        {
+        long sol = Long.MIN_VALUE;
+        for (int i = 0; i < arr.length - 2; i++) {
 
-            for (int j = 0; j < arr.length - 2; j++)
-            {
+            for (int j = 0; j < arr.length - 2; j++) {
                 List<Integer> list1 = Arrays.stream(arr[i]).boxed().collect(Collectors.toCollection(LinkedList::new))
                         .subList(j, j + 3);
                 Integer middle = Arrays.stream(arr[i + 1]).boxed().collect(Collectors.toCollection(LinkedList::new))
@@ -1440,29 +1329,27 @@ public class HackerRankTest
                 List<Integer> list3 = Arrays.stream(arr[i + 2]).boxed()
                         .collect(Collectors.toCollection(LinkedList::new)).subList(j, j + 3);
 
-                set.add(list1.stream().reduce((x, y) -> x + y).get() + list3.stream().reduce((x, y) -> x + y).get()
-                        + middle.longValue());
+                long sum = list1.stream().reduce((x, y) -> x + y).get() + list3.stream().reduce((x, y) -> x + y).get()
+                        + middle.longValue();
+
+                sol = Math.max(sol, sum);
             }
         }
-        assertEquals(19, set.last().intValue());
-
+        return sol;
     }
 
     @Test
-    public void luckBalance()
-    {
+    public void luckBalance() {
         int k = 2;
-        int[][] contests = { { 5, 1 }, { 1, 1 }, { 4, 0 } };
+        int[][] contests = {{5, 1}, {1, 1}, {4, 0}};
         int total = 0;
         List<Integer> importantContests = new ArrayList<>();
 
-        for (int i = 0; i < contests.length; i++)
-        {
+        for (int i = 0; i < contests.length; i++) {
             int l = contests[i][0];
             int t = contests[i][1];
             total += l;
-            if (t == 1)
-            {
+            if (t == 1) {
                 importantContests.add(l);
             }
         }
@@ -1471,8 +1358,7 @@ public class HackerRankTest
         int luckToFlip = 0;
         // all important contests minus contest we can loose
         int mustWinImprCount = importantContests.size() - k;
-        for (int i = 0; i < mustWinImprCount; i++)
-        {
+        for (int i = 0; i < mustWinImprCount; i++) {
             luckToFlip += importantContests.get(i);
         }
         // multiplied by 2 because we have already added all luck
@@ -1482,11 +1368,9 @@ public class HackerRankTest
     }
 
     @Test
-    public void countTriplets()
-    {
+    public void countTriplets() {
         @SuppressWarnings("serial")
-        List<Long> arr = new ArrayList<Long>()
-        {
+        List<Long> arr = new ArrayList<Long>() {
             {
                 add(1L);
                 add(3L);
@@ -1502,11 +1386,9 @@ public class HackerRankTest
         Map<Long, Long> t3 = new HashMap<>();
         long result = 0L;
 
-        for (Long a : arr)
-        {
+        for (Long a : arr) {
             result += t3.getOrDefault(a, 0L);
-            if (t2.containsKey(a))
-            {
+            if (t2.containsKey(a)) {
                 t3.put(a * r, t3.getOrDefault(a * r, 0L) + t2.get(a));
             }
             t2.put(a * r, t2.getOrDefault(a * r, 0L) + 1);
@@ -1516,21 +1398,17 @@ public class HackerRankTest
     }
 
     @Test
-    public void countSwaps()
-    {
+    public void countSwaps() {
 
-        int[] a = { 4, 2, 3, 1 };
+        int[] a = {4, 2, 3, 1};
 
         int count = 0;
         int n = a.length;
-        for (int i = 0; i < n; i++)
-        {
+        for (int i = 0; i < n; i++) {
 
-            for (int j = 0; j < n - 1; j++)
-            {
+            for (int j = 0; j < n - 1; j++) {
                 // Swap adjacent elements if they are in decreasing order
-                if (a[j] > a[j + 1])
-                {
+                if (a[j] > a[j + 1]) {
                     int swap = a[j];
 
                     a[j] = a[j + 1];
@@ -1548,8 +1426,7 @@ public class HackerRankTest
     }
 
     @Test
-    public void chocolateFeast()
-    {
+    public void chocolateFeast() {
         int n = 10;
         int c = 2;
         int m = 5;
@@ -1558,8 +1435,7 @@ public class HackerRankTest
 
         int wrappers = chocolate;
         int div = 0;
-        while (wrappers >= m)
-        {
+        while (wrappers >= m) {
             div = wrappers / m;
             chocolate += div;
             wrappers = div + (wrappers % m);
@@ -1569,8 +1445,7 @@ public class HackerRankTest
     }
 
     @Test
-    public void theLoveLetterMystery()
-    {
+    public void theLoveLetterMystery() {
         String s = "cde";
 
         int lengthOf = s.length();
@@ -1579,14 +1454,12 @@ public class HackerRankTest
         char[] alphaBet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 
         Map<Character, Integer> map = new HashMap<>();
-        for (int i = 0; i < alphaBet.length; i++)
-        {
+        for (int i = 0; i < alphaBet.length; i++) {
             map.put(alphaBet[i], i);
         }
 
         int count = 0;
-        for (int i = lengthOf - 1; i >= middlePoint; i--)
-        {
+        for (int i = lengthOf - 1; i >= middlePoint; i--) {
             int posLeft = map.get(s.charAt(i));
             int posRight = map.get(s.charAt(lengthOf - 1 - i));
 
@@ -1597,24 +1470,19 @@ public class HackerRankTest
     }
 
     @Test
-    public void beautifulBinaryString()
-    {
+    public void beautifulBinaryString() {
         String B = "0100101010";
         System.out.println((B.length() - B.replaceAll("010", "").length()) / 3);
 
         /**
-         * 
+         *
          */
         int step = 0;
-        for (int i = 0; i <= B.length() - 3;)
-        {
-            if (B.substring(i, i + 3).equals("010"))
-            {
+        for (int i = 0; i <= B.length() - 3; ) {
+            if (B.substring(i, i + 3).equals("010")) {
                 step++;
                 i = i + 3;
-            }
-            else
-            {
+            } else {
                 i++;
             }
         }
@@ -1622,8 +1490,7 @@ public class HackerRankTest
     }
 
     @Test
-    public void alternatingCharacters() throws IOException
-    {
+    public void alternatingCharacters() throws IOException {
         String s = new String(Files.readAllBytes(Paths.get("src/test/resources/veryLongWord.txt")));
         int stringLength = s.toCharArray().length;
         char c = s.charAt(0);
@@ -1631,8 +1498,7 @@ public class HackerRankTest
         StringBuilder sb = new StringBuilder();
         sb.append(Character.toString(c));
 
-        for (int i = 1; i < stringLength; i++)
-        {
+        for (int i = 1; i < stringLength; i++) {
             char ch = s.charAt(i);
 
             if (c == ch)
@@ -1646,29 +1512,25 @@ public class HackerRankTest
     }
 
     @Test
-    public void gemstones()
-    {
+    public void gemstones() {
 
-        String[] arr = new String[] { "abcdde", "baccd", "eeabg" };
+        String[] arr = new String[]{"abcdde", "baccd", "eeabg"};
 
         char[] alphaBet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 
         Map<Character, Integer> map = new HashMap<>();
-        for (int i = 0; i < alphaBet.length; i++)
-        {
+        for (int i = 0; i < alphaBet.length; i++) {
             map.put(alphaBet[i], i);
         }
 
         int countGemStone = 0;
         int[] alphabet = new int[26];
 
-        for (int i = 0; i < arr.length; i++)
-        {
+        for (int i = 0; i < arr.length; i++) {
             int stringLength = arr[i].toCharArray().length;
             Set<Character> set = new HashSet<Character>();
 
-            for (int j = 0; j < stringLength; j++)
-            {
+            for (int j = 0; j < stringLength; j++) {
 
                 char c = arr[i].charAt(j);
                 if (set.contains(c))
@@ -1686,19 +1548,16 @@ public class HackerRankTest
     }
 
     @Test
-    public void funnyString()
-    {
+    public void funnyString() {
         String s = "acxz";
         int[] diffAsc = new int[s.length() - 1];
         int[] diffDesc = new int[s.length() - 1];
 
-        for (int i = 0; i < s.length() - 1; i++)
-        {
+        for (int i = 0; i < s.length() - 1; i++) {
             diffAsc[i] = Math.abs((int) s.charAt(i + 1) - (int) s.charAt(i));
         }
         int count = 0;
-        for (int i = s.length() - 1; i > 0; i--)
-        {
+        for (int i = s.length() - 1; i > 0; i--) {
             diffDesc[count] = Math.abs((int) s.charAt(i) - (int) s.charAt(i - 1));
             ++count;
         }
@@ -1707,25 +1566,21 @@ public class HackerRankTest
     }
 
     @Test
-    public void separateNumbers()
-    {
+    public void separateNumbers() {
         String s = "101103";
         boolean valid = false;
         long firstx = -1;
         // Try each possible starting number
-        for (int i = 1; i <= s.length() / 2; ++i)
-        {
+        for (int i = 1; i <= s.length() / 2; ++i) {
             long x = Long.parseLong(s.substring(0, i));
             firstx = x;
             // Build up sequence starting with this number
             String test = Long.toString(x);
-            while (test.length() < s.length())
-            {
+            while (test.length() < s.length()) {
                 test += Long.toString(++x);
             }
             // Compare to original
-            if (test.equals(s))
-            {
+            if (test.equals(s)) {
                 valid = true;
                 break;
             }
@@ -1734,18 +1589,16 @@ public class HackerRankTest
     }
 
     @Test
-    public void weightedUniformStrings()
-    {
+    public void weightedUniformStrings() {
         char[] alphaBet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 
         Map<Character, Integer> map = new HashMap<>();
-        for (int i = 0; i < alphaBet.length; i++)
-        {
+        for (int i = 0; i < alphaBet.length; i++) {
             map.put(alphaBet[i], i + 1);
         }
 
         String s = "aaabbbbcccddd";
-        int[] queries = new int[] { 9, 7, 8, 12, 5 };
+        int[] queries = new int[]{9, 7, 8, 12, 5};
 
         Set<Integer> set = new HashSet<Integer>();
         char c = s.charAt(0);
@@ -1753,11 +1606,9 @@ public class HackerRankTest
         int count = weight;
         set.add(count);
 
-        for (int i = 1; i < s.toCharArray().length; i++)
-        {
+        for (int i = 1; i < s.toCharArray().length; i++) {
             char ch = s.charAt(i);
-            if (ch == c)
-            {
+            if (ch == c) {
                 count += weight;
                 set.add(count);
                 continue;
@@ -1771,8 +1622,7 @@ public class HackerRankTest
 
         String[] toReturn = new String[queries.length];
 
-        for (int i = 0; i < queries.length; i++)
-        {
+        for (int i = 0; i < queries.length; i++) {
             toReturn[i] = "No";
 
             if (set.contains(queries[i]))
@@ -1784,13 +1634,11 @@ public class HackerRankTest
     }
 
     @Test
-    public void pangram()
-    {
+    public void pangram() {
         String s = "We promptly judged antique ivory buckles for the prize".toLowerCase().replaceAll("\\s", "");
         Set<Character> set = new HashSet<Character>();
 
-        for (int i = 0; i < s.toCharArray().length; i++)
-        {
+        for (int i = 0; i < s.toCharArray().length; i++) {
             set.add(s.charAt(i));
         }
 
@@ -1799,20 +1647,17 @@ public class HackerRankTest
     }
 
     @Test
-    public void hackerrankInString()
-    {
+    public void hackerrankInString() {
 
         String hack = "hackerrank";
         Queue<Character> queue = new LinkedList<Character>();
 
-        for (int i = 0; i < hack.toCharArray().length; i++)
-        {
+        for (int i = 0; i < hack.toCharArray().length; i++) {
             queue.add(hack.charAt(i));
         }
         String s = "hacakaeararanaka";
 
-        for (int i = 0; i < s.toCharArray().length; i++)
-        {
+        for (int i = 0; i < s.toCharArray().length; i++) {
             if (queue.peek() == s.charAt(i))
                 queue.poll();
 
@@ -1825,35 +1670,29 @@ public class HackerRankTest
     }
 
     @Test
-    public void marsExploration()
-    {
+    public void marsExploration() {
         String s = "SOSSOT";
         int cycleOfThree = 0;
         boolean isOdd = true;
         boolean tmp = false;
         int count = 0;
 
-        for (int i = 0; i < s.length(); i++)
-        {
+        for (int i = 0; i < s.length(); i++) {
             isOdd = (i & 1) == 1;
 
             if (tmp)
                 isOdd = !isOdd;
 
-            if (!isOdd)
-            {
+            if (!isOdd) {
                 if (s.charAt(i) != 'S')
                     count++;
-            }
-            else
-            {
+            } else {
                 if (s.charAt(i) != 'O')
                     count++;
             }
 
             cycleOfThree++;
-            if (cycleOfThree == 3)
-            {
+            if (cycleOfThree == 3) {
                 tmp = !tmp;
                 cycleOfThree = 0;
                 continue;
@@ -1864,8 +1703,7 @@ public class HackerRankTest
     }
 
     @Test
-    public void caesarCipher()
-    {
+    public void caesarCipher() {
 
         char[] alphaBet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
         int length = alphaBet.length;
@@ -1874,8 +1712,7 @@ public class HackerRankTest
 
         Map<Character, Integer> posToChar = new HashMap<>();
 
-        for (int i = 0; i < length; i++)
-        {
+        for (int i = 0; i < length; i++) {
             posToChar.put(alphaBet[i], i);
         }
 
@@ -1884,8 +1721,7 @@ public class HackerRankTest
         Integer pos = 0;
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < sLength; i++)
-        {
+        for (int i = 0; i < sLength; i++) {
             char c = s.charAt(i);
             boolean isUpperCase = Character.isUpperCase(c);
             pos = posToChar.get(Character.toLowerCase(c));
@@ -1900,16 +1736,13 @@ public class HackerRankTest
     }
 
     @Test
-    public void cavityMap()
-    {
-        String[] grid = new String[] { "1112", "1912", "1892", "1234" };
+    public void cavityMap() {
+        String[] grid = new String[]{"1112", "1912", "1892", "1234"};
 
         int length = grid.length;
 
-        for (int i = 1; i < length - 1; i++)
-        {
-            for (int j = 1; j < grid.length - 1; j++)
-            {
+        for (int i = 1; i < length - 1; i++) {
+            for (int j = 1; j < grid.length - 1; j++) {
                 int cavity = Character.getNumericValue(grid[i].charAt(j));
                 int right = Character.getNumericValue(grid[i].charAt(j + 1));
                 int left = Character.getNumericValue(grid[i].charAt(j - 1));
@@ -1917,8 +1750,7 @@ public class HackerRankTest
                 int top = Character.getNumericValue(grid[i - 1].charAt(j));
                 int bottom = Character.getNumericValue(grid[i + 1].charAt(j));
 
-                if (cavity > right && cavity > left && cavity > top && cavity > bottom)
-                {
+                if (cavity > right && cavity > left && cavity > top && cavity > bottom) {
                     StringBuilder tmp = new StringBuilder(grid[i]);
                     tmp.setCharAt(j, 'X');
                     grid[i] = tmp.toString();
@@ -1931,27 +1763,23 @@ public class HackerRankTest
     }
 
     @Test
-    public void theTimeInWords()
-    {
+    public void theTimeInWords() {
 
         int h = 7;
         int m = 29;
 
         String time = "";
 
-        if (m == 0)
-        {
+        if (m == 0) {
             time += ones[h] + " " + ones[m];
             return;
         }
 
-        if (m <= 30)
-        {
+        if (m <= 30) {
 
             time += (m == 1 ? " minute" : (m == 15 || m == 30) ? "" : " minutes") + " past " + ones[h];
 
-            if (m < 20)
-            {
+            if (m < 20) {
 
                 time = ones[m] + time;
                 return;
@@ -1959,15 +1787,12 @@ public class HackerRankTest
 
             time = tens[(int) m / 10] + ((int) m % 10 == 0 ? "" : " " + ones[(int) m % 10]) + time;
 
-        }
-        else
-        {
+        } else {
             int to = 60 - m;
 
             time += (to == 1 ? " minute" : (to == 15) ? "" : " minutes") + " to " + ones[h + 1];
 
-            if (to < 20)
-            {
+            if (to < 20) {
 
                 time = ones[to] + time;
                 return;
@@ -1980,8 +1805,7 @@ public class HackerRankTest
     }
 
     @Test
-    public void halloweenSale()
-    {
+    public void halloweenSale() {
         int p = 100;
         int d = 19;
         int m = 1;
@@ -1996,8 +1820,7 @@ public class HackerRankTest
         int x = p;
         int toMin = (p - m) / d;
 
-        for (int i = 0; i < toMin; i++)
-        {
+        for (int i = 0; i < toMin; i++) {
 
             x = x - d;
 
@@ -2014,23 +1837,18 @@ public class HackerRankTest
     }
 
     @Test
-    public void minimumDistances()
-    {
+    public void minimumDistances() {
 
-        int[] a = new int[] { 7, 1, 3, 4, 1, 7 };
+        int[] a = new int[]{7, 1, 3, 4, 1, 7};
 
         Map<Integer, Integer> map = new HashMap<>();
         int maxDist = Integer.MAX_VALUE;
-        for (int i = 0; i < a.length; i++)
-        {
+        for (int i = 0; i < a.length; i++) {
 
-            if (map.get(a[i]) == null)
-            {
+            if (map.get(a[i]) == null) {
 
                 map.put(a[i], i);
-            }
-            else
-            {
+            } else {
 
                 maxDist = Math.min(i - map.get(a[i]), maxDist);
             }
@@ -2041,11 +1859,10 @@ public class HackerRankTest
     }
 
     @Test
-    public void beautifulTriplets()
-    {
+    public void beautifulTriplets() {
 
         // int[] arr = new int[] { 2, 2, 3, 6, 5 };
-        int[] arr = new int[] { 1, 2, 4, 5, 7, 8, 10 };
+        int[] arr = new int[]{1, 2, 4, 5, 7, 8, 10};
 
         int d = 3;
 
@@ -2057,20 +1874,17 @@ public class HackerRankTest
         currentTripl[0] = 0;
 
         int i = 1;
-        while (pivot < arr.length - 1)
-        {
+        while (pivot < arr.length - 1) {
             int diff = arr[i] - arr[pivot];
 
-            if (diff == d)
-            {
+            if (diff == d) {
                 if (countTriplets == 0)
                     currentTripl[0] = pivot;
 
                 countTriplets++;
                 pivot = i;
 
-                if (countTriplets == 2)
-                {
+                if (countTriplets == 2) {
                     pivot = currentTripl[0] + 1;
                     i = pivot + 1;
                     countTriplets = 0;
@@ -2080,8 +1894,7 @@ public class HackerRankTest
                 continue;
             }
 
-            if (i == arr.length - 1)
-            {
+            if (i == arr.length - 1) {
                 pivot = currentTripl[0] + 1;
                 i = pivot + 1;
                 currentTripl[0] = pivot;
@@ -2096,48 +1909,39 @@ public class HackerRankTest
     }
 
     @Test
-    public void kaprekarNumbers()
-    {
+    public void kaprekarNumbers() {
 
         int p = 1;
         int q = 100;
 
         boolean foundKaprekar = false;
-        for (int num = p; num <= q; num++)
-        {
-            if (isKaprekar(num))
-            {
+        for (int num = p; num <= q; num++) {
+            if (isKaprekar(num)) {
                 foundKaprekar = true;
             }
         }
-        if (!foundKaprekar)
-        {
+        if (!foundKaprekar) {
             System.out.println("INVALID RANGE");
         }
     }
 
-    private boolean isKaprekar(int num)
-    {
+    private boolean isKaprekar(int num) {
         long squared = (long) num * num;
         String str = String.valueOf(squared);
         String left = str.substring(0, str.length() / 2);
         String right = str.substring(str.length() / 2);
         int numL = (left.isEmpty()) ? 0 : Integer.parseInt(left);
         int numR = (right.isEmpty()) ? 0 : Integer.parseInt(right);
-        if (numL + numR == num)
-        {
+        if (numL + numR == num) {
             System.out.print(num + " ");
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
     @Test
-    public void taumAndBday()
-    {
+    public void taumAndBday() {
 
         int b = 27984;
         int w = 1402;
@@ -2147,20 +1951,15 @@ public class HackerRankTest
 
         Long cost = 0L;
 
-        if (bc + z < wc)
-        {
+        if (bc + z < wc) {
             cost += (long) w * (bc + z);
             cost += (long) b * bc;
 
-        }
-        else if (wc + z < bc)
-        {
+        } else if (wc + z < bc) {
 
             cost += (long) b * (wc + z);
             cost += (long) w * wc;
-        }
-        else
-        {
+        } else {
             cost += (long) b * bc;
             cost += (long) w * wc;
         }
@@ -2169,21 +1968,18 @@ public class HackerRankTest
     }
 
     @Test
-    public void twoStrings()
-    {
+    public void twoStrings() {
         String s1 = "hi";
         String s2 = "World";
         int[] chars = new int[128];
 
-        for (int i : s1.toCharArray())
-        {
+        for (int i : s1.toCharArray()) {
             chars[i]++;
 
         }
 
         int count = 0;
-        for (int i : s2.toCharArray())
-        {
+        for (int i : s2.toCharArray()) {
             if (chars[i] > 0)
                 count++;
 
@@ -2192,42 +1988,32 @@ public class HackerRankTest
     }
 
     @Test
-    public void hashTablesRansomNote()
-    {
+    public void hashTablesRansomNote() {
 
-        String[] note = new String[] { "two", "times", "two", "is", "four" };
-        String[] magazine = new String[] { "two", "times", "three", "is", "not", "four" };
+        String[] note = new String[]{"two", "times", "two", "is", "four"};
+        String[] magazine = new String[]{"two", "times", "three", "is", "not", "four"};
 
         Map<String, Integer> magazineMap = new HashMap<String, Integer>();
 
-        for (String s : magazine)
-        {
-            if (magazineMap.get(s) != null)
-            {
+        for (String s : magazine) {
+            if (magazineMap.get(s) != null) {
                 magazineMap.put(s, magazineMap.get(s) + 1);
-            }
-            else
-            {
+            } else {
                 magazineMap.put(s, 1);
             }
         }
 
-        for (String s : note)
-        {
-            if (!magazineMap.containsKey(s))
-            {
+        for (String s : note) {
+            if (!magazineMap.containsKey(s)) {
                 System.out.println("No");
                 return;
             }
 
             int counter = magazineMap.get(s) - 1;
 
-            if (counter == 0)
-            {
+            if (counter == 0) {
                 magazineMap.remove(s);
-            }
-            else
-            {
+            } else {
                 magazineMap.put(s, counter);
             }
         }
@@ -2237,18 +2023,16 @@ public class HackerRankTest
     }
 
     @Test
-    public void sockMerchant()
-    {
+    public void sockMerchant() {
 
-        int[] ar = { 44, 55, 11, 15, 4, 72, 26, 91, 80, 14, 43, 78, 70, 75, 36, 83, 78, 91, 17, 17, 54, 65, 60, 21, 58,
+        int[] ar = {44, 55, 11, 15, 4, 72, 26, 91, 80, 14, 43, 78, 70, 75, 36, 83, 78, 91, 17, 17, 54, 65, 60, 21, 58,
                 98, 87, 45, 75, 97, 81, 18, 51, 43, 84, 54, 66, 10, 44, 45, 23, 38, 22, 44, 65, 9, 78, 42, 100, 94, 58,
                 5, 11, 69, 26, 20, 19, 64, 64, 93, 60, 96, 10, 10, 39, 94, 15, 4, 3, 10, 1, 77, 48, 74, 20, 12, 83, 97,
-                5, 82, 43, 15, 86, 5, 35, 63, 24, 53, 27, 87, 45, 38, 34, 7, 48, 24, 100, 14, 80, 54 };
+                5, 82, 43, 15, 86, 5, 35, 63, 24, 53, 27, 87, 45, 38, 34, 7, 48, 24, 100, 14, 80, 54};
 
         int[] arrayPair = new int[101];
 
-        for (int i = 0; i < ar.length; i++)
-        {
+        for (int i = 0; i < ar.length; i++) {
 
             arrayPair[ar[i]] = ++arrayPair[ar[i]];
         }
@@ -2257,8 +2041,7 @@ public class HackerRankTest
 
         int returnPair = 0;
 
-        for (int i = 0; i < arrayPair.length; i++)
-        {
+        for (int i = 0; i < arrayPair.length; i++) {
 
             if (arrayPair[i] > 1)
                 returnPair += arrayPair[i] / 2;
@@ -2270,8 +2053,7 @@ public class HackerRankTest
     }
 
     @Test
-    public void countingValleys()
-    {
+    public void countingValleys() {
 
         String s = "DDUUDDUDUUUD";
 
@@ -2279,8 +2061,7 @@ public class HackerRankTest
         int seaLevel = 0;
         int numValleys = 0;
 
-        for (char c : s.toCharArray())
-        {
+        for (char c : s.toCharArray()) {
 
             if (c == 'U')
                 seaLevel++;
@@ -2288,8 +2069,7 @@ public class HackerRankTest
             if (c == 'D')
                 seaLevel--;
 
-            if (seaLevel == 0 && isValley)
-            {
+            if (seaLevel == 0 && isValley) {
                 isValley = false;
                 numValleys++;
             }
@@ -2304,26 +2084,23 @@ public class HackerRankTest
     }
 
     @Test
-    public void jumpingOnTheClouds()
-    {
+    public void jumpingOnTheClouds() {
 
         // int[] c = { 0, 0, 1, 0, 0, 0, 0, 1, 0, 0 };
         // int[] c = { 0, 0, 0, 1, 0, 0 };
-        int[] c = { 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0,
+        int[] c = {0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0,
                 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0,
-                1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 };
+                1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0};
 
         int countZero = 0;
         int countStep = 0;
 
-        for (int i = 0; i < c.length; i++)
-        {
+        for (int i = 0; i < c.length; i++) {
 
             if (c[i] == 0)
                 countZero++;
 
-            if (c[i] == 1)
-            {
+            if (c[i] == 1) {
 
                 countStep++;
 
@@ -2332,8 +2109,7 @@ public class HackerRankTest
                 countZero = 0;
             }
 
-            if (i == c.length - 1)
-            {
+            if (i == c.length - 1) {
                 if (countZero > 1)
                     countStep += countZero / 2;
 
@@ -2344,8 +2120,7 @@ public class HackerRankTest
     }
 
     @Test
-    public void repeatedString()
-    {
+    public void repeatedString() {
 
         String s = "aba";
         long n = 10;
@@ -2367,28 +2142,24 @@ public class HackerRankTest
         System.out.println("Letter a count " + finalCount);
     }
 
-    private static long countOccourences(String s)
-    {
+    private static long countOccourences(String s) {
         Pattern pattern = Pattern.compile("[^a]*a");
         Matcher matcher = pattern.matcher(s);
         long count = 0;
 
-        while (matcher.find())
-        {
+        while (matcher.find()) {
             count++;
         }
         return count;
     }
 
     @Test
-    public void electronicsShop()
-    {
+    public void electronicsShop() {
 
     }
 
     @Test
-    public void catsAndAMouse()
-    {
+    public void catsAndAMouse() {
 
         int x = 0;
         int y = 0;
@@ -2397,18 +2168,13 @@ public class HackerRankTest
         int distCatA = Math.abs(x - z);
         int distCatB = Math.abs(y - z);
 
-        if (distCatA == distCatB)
-        {
+        if (distCatA == distCatB) {
 
             System.out.println("Mouse C");
-        }
-        else if (distCatA < distCatB)
-        {
+        } else if (distCatA < distCatB) {
             System.out.println("Cat A");
 
-        }
-        else
-        {
+        } else {
             System.out.println("Cat B");
 
         }
@@ -2416,23 +2182,20 @@ public class HackerRankTest
     }
 
     @Test
-    public void arraysLeftRotation()
-    {
+    public void arraysLeftRotation() {
 
         int d = 4;
-        int[] a = { 1, 2, 3, 4, 5 };
+        int[] a = {1, 2, 3, 4, 5};
         int arrayLength = a.length;
 
         int[] finalArray = new int[arrayLength];
 
         // Slow solution O(n*n)
-        for (int i = 0; i < arrayLength; i++)
-        {
+        for (int i = 0; i < arrayLength; i++) {
 
             int posTmp = i;
 
-            for (int j = 0; j < d; j++)
-            {
+            for (int j = 0; j < d; j++) {
 
                 if (posTmp == 0)
                     posTmp = arrayLength;
@@ -2446,8 +2209,7 @@ public class HackerRankTest
         }
 
         // Faster O(n)
-        for (int i = 0; i < arrayLength; i++)
-        {
+        for (int i = 0; i < arrayLength; i++) {
             int locSwitch = (i + (arrayLength - d));
 
             int newLocation = locSwitch % arrayLength;
@@ -2458,18 +2220,15 @@ public class HackerRankTest
     }
 
     @Test
-    public void newYearChaos()
-    {
+    public void newYearChaos() {
         // int[] q = { 2, 1, 5, 3, 4 };
         // int[] q = { 5, 1, 2, 3, 7, 8, 6, 4 };
-        int[] q = { 1, 2, 5, 3, 7, 8, 6, 4 };
+        int[] q = {1, 2, 5, 3, 7, 8, 6, 4};
 
         int countBribes = 0;
 
-        for (int i = q.length - 1; i >= 0; i--)
-        {
-            if (q[i] - (i + 1) > 2)
-            {
+        for (int i = q.length - 1; i >= 0; i--) {
+            if (q[i] - (i + 1) > 2) {
                 System.out.println("Too chaotic");
                 return;
             }
@@ -2483,8 +2242,7 @@ public class HackerRankTest
     }
 
     @Test
-    public void pickingNumbers()
-    {
+    public void pickingNumbers() {
 
         // int[] arr = { 1, 3, 5, 2, 4, 6, 7 };
         /*
@@ -2498,10 +2256,10 @@ public class HackerRankTest
          * 4, 97, 5, 97, 97, 97, 97, 4, 97, 5, 97, 5, 4, 97, 4, 5, 97, 97, 5, 97, 5, 97, 5, 97, 97, 97 };
          */
 
-        Integer[] arr = { 9, 6, 13, 16, 5, 18, 4, 10, 3, 19, 4, 5, 8, 1, 13, 10, 20, 17, 15, 10, 6, 10, 13, 20, 18, 17,
+        Integer[] arr = {9, 6, 13, 16, 5, 18, 4, 10, 3, 19, 4, 5, 8, 1, 13, 10, 20, 17, 15, 10, 6, 10, 13, 20, 18, 17,
                 7, 10, 6, 5, 16, 18, 13, 20, 19, 7, 16, 13, 20, 17, 4, 17, 8, 19, 12, 7, 17, 1, 18, 3, 16, 4, 5, 3, 15,
                 17, 6, 17, 14, 11, 11, 7, 11, 6, 15, 15, 12, 6, 17, 19, 8, 6, 13, 9, 10, 19, 14, 18, 7, 9, 11, 16, 11,
-                20, 4, 20, 10, 7, 8, 4, 2, 12, 11, 8, 12, 13, 19, 8, 8, 5 };
+                20, 4, 20, 10, 7, 8, 4, 2, 12, 11, 8, 12, 13, 19, 8, 8, 5};
 
         List<Integer> a = Arrays.asList(arr);
 
@@ -2516,16 +2274,15 @@ public class HackerRankTest
     }
 
     @Test
-    public void climbingTheLeaderboard() throws IOException
-    {
+    public void climbingTheLeaderboard() throws IOException {
 
-        int[] alice = new int[] { 5, 25, 50, 120 };
+        int[] alice = new int[]{5, 25, 50, 120};
 
-        int[] scores = new int[] { 100, 100, 50, 40, 40, 20, 10 };
+        int[] scores = new int[]{100, 100, 50, 40, 40, 20, 10};
 
         /*
          * int[] alice = new int[200000];
-         * 
+         *
          * int[] scores = new int[200000];
          */
 
@@ -2535,13 +2292,13 @@ public class HackerRankTest
 
         /*
          * InputStream is = new FileInputStream("src/test/resources/scores.txt"); BufferedReader buf = new BufferedReader(new InputStreamReader(is));
-         * 
+         *
          * String line = buf.readLine(); StringBuilder sb = new StringBuilder();
-         * 
+         *
          * while (line != null) { sb.append(line).append("\n"); line = buf.readLine(); }
-         * 
+         *
          * String[] scoresString = sb.toString().split(" ");
-         * 
+         *
          * for (int i = 0; i < scoresString.length; i++) { scores[i] = new Integer(scoresString[i].replace("\n", "")); }
          */
 
@@ -2551,13 +2308,13 @@ public class HackerRankTest
 
         /*
          * is = new FileInputStream("src/test/resources/alice.txt"); buf = new BufferedReader(new InputStreamReader(is));
-         * 
+         *
          * line = buf.readLine(); sb = new StringBuilder();
-         * 
+         *
          * while (line != null) { sb.append(line).append("\n"); line = buf.readLine(); }
-         * 
+         *
          * String[] aliceString = sb.toString().split(" ");
-         * 
+         *
          * for (int i = 0; i < aliceString.length; i++) { alice[i] = new Integer(aliceString[i].replace("\n", "")); }
          */
 
@@ -2568,21 +2325,17 @@ public class HackerRankTest
         int i = array.length - 1;
         int[] res = new int[alice.length];
         int c = 0;
-        for (int score : alice)
-        {
-            while (i >= 0)
-            {
+        for (int score : alice) {
+            while (i >= 0) {
                 if (score >= array[i])
                     i--;
-                else
-                {
+                else {
                     res[c] = i + 2;
                     c++;
                     break;
                 }
             }
-            if (i < 0)
-            {
+            if (i < 0) {
                 res[c] = 1;
                 c++;
             }
@@ -2591,11 +2344,10 @@ public class HackerRankTest
     }
 
     @Test
-    public void theHurdleRace()
-    {
+    public void theHurdleRace() {
 
         int k = 2;
-        int[] height = new int[] { 1, 6, 3, 5, 2 };
+        int[] height = new int[]{1, 6, 3, 5, 2};
 
         List<Integer> integersList = IntStream.of(height) // returns IntStream
                 .boxed().collect(Collectors.toList());
@@ -2606,10 +2358,9 @@ public class HackerRankTest
     }
 
     @Test
-    public void designerPDFViewer()
-    {
+    public void designerPDFViewer() {
 
-        int[] h = new int[] { 1, 3, 1, 3, 1, 4, 1, 3, 2, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7 };
+        int[] h = new int[]{1, 3, 1, 3, 1, 4, 1, 3, 2, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7};
         String word = new String("zaba");
 
         Map<Character, Integer> lettersMap = new HashMap<Character, Integer>();
@@ -2617,15 +2368,13 @@ public class HackerRankTest
         char ch;
         int count = 0;
 
-        for (ch = 'a'; ch <= 'z'; ch++)
-        {
+        for (ch = 'a'; ch <= 'z'; ch++) {
             lettersMap.put(ch, count);
             count++;
         }
 
         int maxHeight = 0;
-        for (char c : word.toCharArray())
-        {
+        for (char c : word.toCharArray()) {
 
             int position = lettersMap.get(c);
             maxHeight = Math.max(maxHeight, h[position]);
@@ -2635,19 +2384,14 @@ public class HackerRankTest
     }
 
     @Test
-    public void utopianTree()
-    {
+    public void utopianTree() {
         int n = 10;
 
         int i = 1, height = 1;
-        while (i <= n)
-        {
-            if (i % 2 == 0)
-            {
+        while (i <= n) {
+            if (i % 2 == 0) {
                 height += 1;
-            }
-            else
-            {
+            } else {
                 height *= 2;
             }
             i++;
@@ -2657,21 +2401,18 @@ public class HackerRankTest
     }
 
     @Test
-    public void beautifilDays()
-    {
+    public void beautifilDays() {
 
         int i = 20, j = 23, k = 6;
         int countBeautiful = 0;
         int num = 0;
         int reversed = 0;
 
-        for (int n = i; n <= j; n++)
-        {
+        for (int n = i; n <= j; n++) {
             reversed = 0;
             num = n;
 
-            while (num != 0)
-            {
+            while (num != 0) {
                 int digit = num % 10;
                 reversed = reversed * 10 + digit;
                 num /= 10;
@@ -2688,15 +2429,13 @@ public class HackerRankTest
     }
 
     @Test
-    public void extraLongFactorial()
-    {
+    public void extraLongFactorial() {
         Integer n = 25;
         System.out.println("Fattoriale di " + n + "--> " + factorial(BigInteger.valueOf(n)));
 
     }
 
-    static BigInteger factorial(BigInteger n)
-    {
+    static BigInteger factorial(BigInteger n) {
 
         if (n == BigInteger.ZERO)
             return new BigInteger("1");
@@ -2705,8 +2444,7 @@ public class HackerRankTest
     }
 
     @Test
-    public void sherlockAndSquares()
-    {
+    public void sherlockAndSquares() {
 
         int a = 24;
         int b = 49;
@@ -2718,8 +2456,7 @@ public class HackerRankTest
     }
 
     @Test
-    public void libraryFine()
-    {
+    public void libraryFine() {
         int d1 = 28;
         int m1 = 2;
         int y1 = 2015;
@@ -2731,20 +2468,14 @@ public class HackerRankTest
 
         int monthDiff = m1 - m2;
         int dayDiff = d1 - d2;
-        if (y2 - y1 > 0)
-        {
+        if (y2 - y1 > 0) {
 
-        }
-        else if (y2 - y1 != 0)
-        {
+        } else if (y2 - y1 != 0) {
 
-            if (monthDiff > 0)
-            {
+            if (monthDiff > 0) {
 
                 fine = 500 * monthDiff;
-            }
-            else if (monthDiff != 0)
-            {
+            } else if (monthDiff != 0) {
 
                 if (dayDiff > 0)
                     fine = 15 * dayDiff;
@@ -2755,24 +2486,21 @@ public class HackerRankTest
     }
 
     @Test
-    public void cutTheSticks()
-    {
-        int[] arr = new int[] { 5, 4, 4, 2, 2, 8 };
+    public void cutTheSticks() {
+        int[] arr = new int[]{5, 4, 4, 2, 2, 8};
 
         int[] arr1 = new int[1000];
 
         int count = arr.length;
 
-        for (int i = 0; i < arr.length; i++)
-        {
+        for (int i = 0; i < arr.length; i++) {
             arr1[arr[i]]++;
         }
 
         List<Integer> response = new LinkedList<Integer>();
         response.add(count);
 
-        for (int i = 0; i < arr1.length; i++)
-        {
+        for (int i = 0; i < arr1.length; i++) {
 
             if (arr1[i] == 0)
                 continue;
@@ -2790,11 +2518,10 @@ public class HackerRankTest
     }
 
     @Test
-    public void nonDivisibleSum()
-    {
+    public void nonDivisibleSum() {
         // int[] S = new int[] { 278, 576, 496, 727, 410, 124, 338, 149, 209, 702, 282,
         // 718, 771, 575, 436 };
-        int[] S = new int[] { 1, 7, 2, 4 };
+        int[] S = new int[]{1, 7, 2, 4};
         int N = S.length;
 
         int k = 3;
@@ -2827,11 +2554,9 @@ public class HackerRankTest
     /**
      * @return
      */
-    private LinkedList<Character> getSolution()
-    {
+    private LinkedList<Character> getSolution() {
         @SuppressWarnings("serial")
-        LinkedList<Character> solution = new LinkedList<Character>()
-        {
+        LinkedList<Character> solution = new LinkedList<Character>() {
             {
                 add('n');
                 add('z');
