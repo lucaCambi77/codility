@@ -23,23 +23,118 @@ public class HackerRank10DaysStat extends AbstractTest {
     private final PrintStream originalOut = System.out;
     private final PrintStream originalErr = System.err;
 
-    //@BeforeEach
+    @BeforeEach
     public void setUpStreams() {
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
     }
 
-    //@AfterEach
+    @AfterEach
     public void restoreStreams() {
         System.setOut(originalOut);
         System.setErr(originalErr);
     }
 
     @Test
+    public void standardDeviation() {
+
+        standardDeviation(5, "10 40 30 50 20");
+
+        assertEquals("14.1" + getCarriageReturn()
+                , outContent.toString());
+    }
+
+    public void standardDeviation(int size, String s) {
+
+        double[] array = Arrays.stream(s.split(" ")).mapToDouble(Double::parseDouble).toArray();
+
+        double sum = 0;
+        for (double v : array)
+            sum += v;
+
+
+        double mean = sum / size;
+        double sdtDev = 0;
+
+        for (double v : array)
+            sdtDev += Math.pow(v - mean, 2);
+
+
+        sdtDev = Math.sqrt(sdtDev / size);
+
+        BigDecimal bd = new BigDecimal(sdtDev);
+        bd = bd.setScale(1, RoundingMode.HALF_UP);
+
+        System.out.println(bd.doubleValue());
+
+    }
+
+    @Test
+    public void interQuartileRange() {
+
+        interQuartileRange("6 12 8 10 20 16", "5 4 3 2 1 5");
+
+        assertEquals("9.0" + getCarriageReturn()
+                , outContent.toString());
+
+    }
+
+    public void interQuartileRange(String s, String freq) {
+
+        int[] weight = Arrays.stream(freq.split(" ")).mapToInt(Integer::parseInt).toArray();
+
+        int size = Arrays.stream(weight).sum();
+
+        int[] array = Arrays.stream(s.split(" ")).mapToInt(Integer::parseInt).toArray();
+
+        int k = 0;
+        double[] values = new double[size];
+        int ithWeight = 0;
+
+        for (int i = 0; i < array.length; i++) {
+            ithWeight += weight[i];
+
+            while (k < ithWeight)
+                values[k++] = array[i];
+
+        }
+
+        Arrays.sort(values);
+
+        int middle = size / 2;
+
+        double q1 = getQuartile(values, 0, middle);
+
+        // if length is odd, we need to start position middle + 1, we don't need for q1 because starts at 0
+        double q3 = getQuartile(values, ((size & 1) != 0) ? middle + 1 : middle, size);
+
+        BigDecimal bd = new BigDecimal(q3 - q1);
+        bd = bd.setScale(1, RoundingMode.HALF_UP);
+
+        System.out.println(bd.doubleValue());
+    }
+
+    private double getQuartile(double[] values, int start, int end) {
+
+        int subMiddle = (start + end) / 2; // N / 2
+        int subMiddle1 = (start + end - 1) / 2; // N - 1 / 2
+        return ((end - start & 1) == 0) ? (values[subMiddle] + values[subMiddle1]) / 2 : values[subMiddle];
+    }
+
+    @Test
     public void quartiles() {
 
         quartiles("3 7 8 5 12 14 21 13 18");
-        quartiles("3 7 8 5 12 14 21 13 18 20");
+
+        assertEquals("6" + getCarriageReturn() + "12" + getCarriageReturn() + "16" + getCarriageReturn()
+                , outContent.toString());
+
+        outContent.reset();
+
+        quartiles("4 17 7 14 18 12 3 16 10 4 4 12");
+
+        assertEquals("4" + getCarriageReturn() + "11" + getCarriageReturn() + "15" + getCarriageReturn()
+                , outContent.toString());
 
     }
 
@@ -49,44 +144,25 @@ public class HackerRank10DaysStat extends AbstractTest {
         Arrays.sort(values);
 
         int size = values.length;
+        int middle = size / 2;
 
-        int q1 = 0;
-        int q2 = 0;
-        int q3 = 0;
+        int q2 = getQuartile(values, 0, size);
 
-        int middle = (size + 1) / 2;
-        int quartile;
+        int q1 = getQuartile(values, 0, middle);
 
-        if (((size & 1) == 0)) {
-
-            q2 = getQuartileEven(values, middle - 1, middle);
-
-            quartile = middle / 2;
-
-
-        } else {
-
-            q2 = values[middle - 1];
-
-            quartile = middle / 2;
-
-            q1 = getQuartileEven(values, quartile - 1, quartile);
-
-            quartile = (middle + size) / 2;
-
-            q3 = getQuartileEven(values, quartile - 1, quartile);
-
-
-        }
-
+        // if length is odd, we need to start position middle + 1, we don't need for q1 because starts at 0
+        int q3 = getQuartile(values, ((size & 1) != 0) ? middle + 1 : middle, size);
 
         System.out.println(q1);
         System.out.println(q2);
         System.out.println(q3);
     }
 
-    private int getQuartileEven(int[] values, int start, int end) {
-        return (values[start] + values[end]) / 2;
+    private int getQuartile(int[] values, int start, int end) {
+
+        int subMiddle = (start + end) / 2; // N / 2
+        int subMiddle1 = (start + end - 1) / 2; // N - 1 / 2
+        return ((end - start & 1) == 0) ? (values[subMiddle] + values[subMiddle1]) / 2 : values[subMiddle];
     }
 
 

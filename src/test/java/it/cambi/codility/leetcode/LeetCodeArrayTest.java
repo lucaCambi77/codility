@@ -138,6 +138,120 @@ public class LeetCodeArrayTest {
     }
 
     @Test
+    public void numMagicSquaresInside() {
+        assertEquals(1, numMagicSquaresInside(new int[][]{{4, 3, 8, 4}, {9, 5, 1, 9}, {2, 7, 6, 2}}));
+        assertEquals(0, numMagicSquaresInside(new int[][]{{5, 5, 5}, {5, 5, 5}, {5, 5, 5}}));
+        assertEquals(1, numMagicSquaresInside(new int[][]{{8, 1, 6}, {3, 5, 7}, {4, 9, 2}}));
+        assertEquals(0, numMagicSquaresInside(new int[][]{{10, 3, 5}, {1, 6, 11}, {7, 9, 2}}));
+        assertEquals(1, numMagicSquaresInside(new int[][]{{3, 2, 9, 2, 7}, {6, 1, 8, 4, 2}, {7, 5, 3, 2, 7}
+                , {2, 9, 4, 9, 6}, {4, 3, 8, 2, 5}}));
+
+    }
+
+    public int numMagicSquaresInside(int[][] grid) {
+
+        if (null == grid || (grid.length < 3 || grid[0].length < 3))
+            return 0;
+
+        int sol = 0;
+
+        int i = 0;
+        int j;
+        while (i + 2 < grid.length) {
+
+            int[] row1 = grid[i];
+            int[] row2 = grid[i + 1];
+            int[] row3 = grid[i + 2];
+
+            j = 0;
+            while (j + 2 < grid[i].length) {
+
+                HashSet<Integer> set = new HashSet<Integer>();
+
+                int z = j;
+
+                while (z < j + 3) {
+                    if (row1[z] > 0 && row1[z] < 10)
+                        set.add(row1[z]);
+
+                    if (row2[z] > 0 && row2[z] < 10)
+                        set.add(row2[z]);
+
+                    if (row3[z] > 0 && row3[z] < 10)
+                        set.add(row3[z]);
+
+                    z++;
+                }
+
+                if (set.size() == 9) {
+
+
+                    int rowSum1 = IntStream.range(j, j + 3).map(r -> row1[r]).sum();
+                    int rowSum2 = IntStream.range(j, j + 3).map(r -> row2[r]).sum();
+                    int rowSum3 = IntStream.range(j, j + 3).map(r -> row3[r]).sum();
+
+                    int columnSum1 = row1[j] + row2[j] + row3[j];
+                    int columnSum2 = row1[j + 1] + row2[j + 1] + row3[j + 1];
+                    int columnSum3 = row1[j + 2] + row2[j + 2] + row3[j + 2];
+
+                    int diagonal1 = row1[j] + row2[j + 1] + row3[j + 2];
+                    int diagonal2 = row1[j + 2] + row2[j + 1] + row3[j];
+
+                    if (rowSum1 - rowSum2 == 0 && rowSum2 - rowSum3 == 0 &&
+                            columnSum1 - columnSum2 == 0 && columnSum2 - columnSum3 == 0 && diagonal1 - diagonal2 == 0 &&
+                            diagonal1 - rowSum1 == 0
+                    )
+                        sol++;
+
+                }
+                j++;
+
+            }
+
+            i++;
+        }
+
+        return sol;
+    }
+
+    @Test
+    public void sumZero() {
+
+        sumZero(5);
+        sumZero(10);
+        sumZero(50);
+        sumZero(1000);
+    }
+
+    public int[] sumZero(int n) {
+
+        if (n == 1)
+            return new int[1];
+
+        int[] sol = new int[n];
+
+        sol[0] = 500;
+        sol[1] = -500;
+
+        int k = 2;
+        int i = 1;
+        while (k + 2 < n)
+            k = setRandomValues(sol, k, i++);
+
+        if ((n & 1) == 0)
+            setRandomValues(sol, n - 2, i);
+
+        return sol;
+    }
+
+    private int setRandomValues(int[] sol, int k, int value) {
+
+        sol[k++] = value;
+        sol[k++] = -value;
+        return k;
+    }
+
+    @Test
     public void dominantIndex() {
 
         assertEquals(1, dominantIndex(new int[]{3, 6, 1, 0}));
@@ -2883,7 +2997,8 @@ public class LeetCodeArrayTest {
         return ans;
     }
 
-    private void helper(int index, int target, int sum, int[] candidates, List<Integer> list, List<List<Integer>> ans) {
+    private void helper(int index, int target, int sum, int[] candidates, List<
+            Integer> list, List<List<Integer>> ans) {
         if (index > candidates.length - 1 || sum > target)
             return;
 
