@@ -65,8 +65,10 @@ public class LeetCodeArrayTest {
 
             if (Math.abs(target - middleEl) <= d)
                 return true;
-
-            return getDistanceValue(d, middle + 1, right, target, nums) || getDistanceValue(d, left, middle - 1, target, nums);
+            else if (middleEl < 0)
+                left = middle + 1;
+            else
+                right = middle - 1;
 
         }
 
