@@ -35,6 +35,81 @@ public class LeetCodeArrayTest {
     private int[] nums;
 
     @Test
+    public void findTheDistanceValue() {
+        assertEquals(2, findTheDistanceValue(new int[]{4, 5, 8}, new int[]{10, 9, 1, 8}, 2));
+        assertEquals(2, findTheDistanceValue(new int[]{1, 4, 2, 3}, new int[]{-4, -3, 6, 10, 20, 30}, 3));
+        assertEquals(1, findTheDistanceValue(new int[]{2, 1, 100, 3}, new int[]{-5, -2, 10, -3, 7}, 6));
+        assertEquals(0, findTheDistanceValue(new int[]{4, -3, -7, 0, 10}, new int[]{10}, 69));
+        assertEquals(2, findTheDistanceValue(new int[]{-3, 10, 2, 8, 0, 10}, new int[]{-9, -1, -4, -9, -8}, 9));
+    }
+
+    public int findTheDistanceValue(int[] arr1, int[] arr2, int d) {
+
+        Arrays.parallelSort(arr2);
+        int count = 0;
+
+        for (int i : arr1)
+            if (!getDistanceValue(d, 0, arr2.length - 1, i, arr2))
+                count++;
+
+        return count;
+    }
+
+    private boolean getDistanceValue(int d, int left, int right, int target, int[] nums) {
+
+        while (left <= right) {
+
+            int middle = (left + right) / 2;
+
+            int middleEl = nums[middle];
+
+            if (Math.abs(target - middleEl) <= d)
+                return true;
+
+            return getDistanceValue(d, middle + 1, right, target, nums) || getDistanceValue(d, left, middle - 1, target, nums);
+
+        }
+
+        return false;
+    }
+
+    @Test
+    public void duplicateZeros() {
+        int[] arr = new int[]{1, 0, 2, 3, 0, 4, 5, 0};
+        duplicateZeros(arr);
+        assertTrue(Arrays.equals(new int[]{1, 0, 0, 2, 3, 0, 0, 4}, arr));
+
+        arr = new int[]{1, 2, 3};
+        assertTrue(Arrays.equals(new int[]{1, 2, 3}, arr));
+
+    }
+
+    public void duplicateZeros(int[] arr) {
+
+        int i = 0;
+
+        while (i < arr.length) {
+
+            if (arr[i] == 0 && i != arr.length - 1) {
+                int j = i + 1;
+                int tmp = arr[j];
+
+                while (j + 1 < arr.length) {
+                    int tmp2 = arr[j + 1];
+                    arr[j + 1] = tmp;
+                    tmp = tmp2;
+                    j++;
+                }
+
+                arr[i + 1] = 0;
+                i++;
+            }
+
+            i++;
+        }
+    }
+
+    @Test
     public void minTimeToVisitAllPoints() {
         assertEquals(7, minTimeToVisitAllPoints(new int[][]{{1, 1}, {3, 4}, {-1, 0}}));
         assertEquals(5, minTimeToVisitAllPoints(new int[][]{{3, 2}, {-2, 2}}));
