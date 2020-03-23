@@ -35,6 +35,45 @@ public class LeetCodeArrayTest {
     private int[] nums;
 
     @Test
+    public void distanceBetweenBusStops() {
+        assertEquals(1, distanceBetweenBusStops(new int[]{1, 2, 3, 4}, 0, 1));
+        assertEquals(3, distanceBetweenBusStops(new int[]{1, 2, 3, 4}, 0, 2));
+        assertEquals(4, distanceBetweenBusStops(new int[]{1, 2, 3, 4}, 0, 3));
+        assertEquals(1, distanceBetweenBusStops(new int[]{1}, 0, 1));
+        assertEquals(0, distanceBetweenBusStops(new int[]{0}, 0, 1));
+        assertEquals(17, distanceBetweenBusStops(new int[]{7, 10, 1, 12, 11, 14, 5, 0}, 7, 2));
+        assertEquals(40, distanceBetweenBusStops(new int[]{14, 13, 4, 7, 10, 17, 8, 3, 2, 13}, 2, 9));
+    }
+
+    public int distanceBetweenBusStops(int[] distance, int start, int destination) {
+
+        if (distance.length == 1)
+            return distance[0];
+
+        int lowerSteps = 0;
+        int upperSteps = 0;
+
+        int clockWise = start;
+        int counterClockWise = start;
+
+        while (clockWise != destination || counterClockWise != destination) {
+
+            if (clockWise != destination) {
+                lowerSteps += distance[clockWise];
+                clockWise = clockWise + 1 > distance.length - 1 ? 0 : clockWise + 1;
+            }
+
+            if (counterClockWise != destination) {
+                counterClockWise = counterClockWise - 1 < 0 ? distance.length - 1 : counterClockWise - 1;
+                upperSteps += distance[counterClockWise];
+            }
+
+        }
+
+        return Math.min(upperSteps, lowerSteps);
+    }
+
+    @Test
     public void findTheDistanceValue() {
         assertEquals(2, findTheDistanceValue(new int[]{4, 5, 8}, new int[]{10, 9, 1, 8}, 2));
         assertEquals(2, findTheDistanceValue(new int[]{1, 4, 2, 3}, new int[]{-4, -3, 6, 10, 20, 30}, 3));
