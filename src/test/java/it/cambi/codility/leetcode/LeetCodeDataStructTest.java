@@ -3,12 +3,12 @@
  */
 package it.cambi.codility.leetcode;
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 

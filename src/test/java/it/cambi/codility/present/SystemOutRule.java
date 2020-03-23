@@ -3,13 +3,13 @@
  */
 package it.cambi.codility.present;
 
-import static org.mockito.Mockito.mock;
-
-import java.io.PrintStream;
-
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
+
+import java.io.PrintStream;
+
+import static org.mockito.Mockito.mock;
 
 /**
  * @author luca

@@ -3,12 +3,11 @@
  */
 package it.cambi.codility.pattern.test;
 
-import org.junit.jupiter.api.Test;
-
 import it.cambi.codility.pattern.Drawing;
 import it.cambi.codility.pattern.Rectangle;
 import it.cambi.codility.pattern.adapter.RhombusAdapter;
 import it.cambi.codility.pattern.adapter.TriangleAdapter;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author luca
