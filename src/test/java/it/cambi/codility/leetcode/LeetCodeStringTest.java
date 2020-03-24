@@ -3,7 +3,12 @@
  */
 package it.cambi.codility.leetcode;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import it.cambi.codility.coreJava.StringTest;
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.math.BigInteger;
 import java.util.*;
@@ -12,13 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-
-import it.cambi.codility.coreJava.StringTest;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author luca

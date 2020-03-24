@@ -73,6 +73,43 @@ public class LeetCodeArrayTest {
     }
 
     @Test
+    public void createTargetArray() {
+        assertArrayEquals(new int[]{0, 1, 2, 3, 4}, createTargetArray(new int[]{1, 2, 3, 4, 0}, new int[]{0, 1, 2, 3, 0}));
+        assertArrayEquals(new int[]{0, 4, 1, 3, 2}, createTargetArray(new int[]{0, 1, 2, 3, 4}, new int[]{0, 1, 2, 2, 1}));
+    }
+
+    public int[] createTargetArray(int[] nums, int[] index) {
+        int[] sol = new int[nums.length];
+        Arrays.fill(sol, -1);
+
+        int i = 0;
+
+        while (i < nums.length) {
+
+            if (sol[index[i]] != -1) {
+
+                int j = index[i];
+
+                int tmp = 0;
+                int replace = nums[i];
+
+                while (j < i + 1) {
+                    tmp = sol[j];
+                    sol[j] = replace;
+                    replace = tmp;
+                    j++;
+                }
+
+            } else
+                sol[index[i]] = nums[i];
+
+            i++;
+        }
+
+        return sol;
+    }
+
+    @Test
     public void distanceBetweenBusStops() {
         assertEquals(1, distanceBetweenBusStops(new int[]{1, 2, 3, 4}, 0, 1));
         assertEquals(3, distanceBetweenBusStops(new int[]{1, 2, 3, 4}, 0, 2));

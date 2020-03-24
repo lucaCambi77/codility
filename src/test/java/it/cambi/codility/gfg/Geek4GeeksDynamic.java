@@ -3,9 +3,9 @@
  */
 package it.cambi.codility.gfg;
 
-import java.util.Arrays;
-
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
 
 /**
  * @author luca

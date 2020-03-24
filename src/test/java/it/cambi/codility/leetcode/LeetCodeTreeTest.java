@@ -3,7 +3,11 @@
  */
 package it.cambi.codility.leetcode;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import it.cambi.codility.model.BinaryTree;
+import it.cambi.codility.model.Node;
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,12 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-
-import it.cambi.codility.model.BinaryTree;
-import it.cambi.codility.model.Node;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author luca
