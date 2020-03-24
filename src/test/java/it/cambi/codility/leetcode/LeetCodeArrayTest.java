@@ -35,6 +35,44 @@ public class LeetCodeArrayTest {
     private int[] nums;
 
     @Test
+    public void sumEvenAfterQueries() {
+        assertArrayEquals(new int[]{8, 6, 2, 4}, sumEvenAfterQueries(new int[]{1, 2, 3, 4}, new int[][]{{1, 0}, {-3, 1}, {-4, 0}, {2, 3}}));
+    }
+
+    public int[] sumEvenAfterQueries(int[] A, int[][] queries) {
+
+        int j = 0;
+        int[] sol = new int[A.length];
+
+        int sum = 0;
+
+        for (int i : A)
+            if (i % 2 == 0)
+                sum += i;
+
+        while (j < queries.length) {
+            int tmp = A[queries[j][1]];
+
+            A[queries[j][1]] = A[queries[j][1]] + queries[j][0];
+
+            if ((tmp & 1) != 0 && A[queries[j][1]] % 2 == 0)
+                sum += A[queries[j][1]];
+            else if ((tmp & 1) == 0 && A[queries[j][1]] % 2 == 0) {
+                sum -= tmp;
+                sum += A[queries[j][1]];
+            } else if ((tmp & 1) == 0 && A[queries[j][1]] % 2 != 0) {
+                sum -= tmp;
+            }
+
+            sol[j] = sum;
+
+            j++;
+        }
+
+        return sol;
+    }
+
+    @Test
     public void distanceBetweenBusStops() {
         assertEquals(1, distanceBetweenBusStops(new int[]{1, 2, 3, 4}, 0, 1));
         assertEquals(3, distanceBetweenBusStops(new int[]{1, 2, 3, 4}, 0, 2));
