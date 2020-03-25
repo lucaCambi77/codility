@@ -1,59 +1,52 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.model;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author luca
  *
  */
-public class Array
-{
+public class Array {
 
     @Test
-    public void sortArrayTest()
-    {
+    public void sortArrayTest() {
 
-        int[] array = new int[] { 1, 10, 5, 6, 2, 8, 4 };
+        int[] array = new int[]{1, 10, 5, 6, 2, 8, 4};
 
         quickSort(array, 0, array.length - 1);
 
-        assertArrayEquals(array, new int[] { 1, 2, 4, 5, 6, 8, 10 });
+        assertArrayEquals(array, new int[]{1, 2, 4, 5, 6, 8, 10});
 
     }
 
     /**
      * Quick sort using single pivot strategy
-     * 
+     *
      * Note that Arrays.sort() use dual pivot strategy
-     * 
+     *
      * We iterate through the array using a pivot (last element) using the leftmost element as indexing
-     * 
+     *
      * We then quick sort recursively from the left to the pivot and from the pivot to the end
-     * 
+     *
      * We compare every element with the pivot, if it is less than we increase the index and swap the element at that index.
-     * 
+     *
      * We return the index as next pivot.
-     * 
+     *
      * We basically divide every section in smaller part until there is only one element both ways.
-     * 
+     *
      * We exit the recursion when we get the last element from the rightmost recursion
-     * 
+     *
      * @param arr
      * @param begin
      * @param end
      */
-    public void quickSort(int arr[], int begin, int end)
-    {
-        if (begin < end)
-        {
+    public void quickSort(int arr[], int begin, int end) {
+        if (begin < end) {
             int partitionIndex = partition(arr, begin, end);
 
             quickSort(arr, begin, partitionIndex - 1);
@@ -61,15 +54,12 @@ public class Array
         }
     }
 
-    private int partition(int arr[], int begin, int end)
-    {
+    private int partition(int arr[], int begin, int end) {
         int pivot = arr[end];
         int i = (begin - 1);
 
-        for (int j = begin; j < end; j++)
-        {
-            if (arr[j] <= pivot)
-            {
+        for (int j = begin; j < end; j++) {
+            if (arr[j] <= pivot) {
                 i++;
 
                 int swapTemp = arr[i];
@@ -86,10 +76,9 @@ public class Array
     }
 
     @Test
-    public void binarySearchTest()
-    {
+    public void binarySearchTest() {
 
-        int[] array = new int[] { 1, 10, 5, 6, 2, 8, 4 };
+        int[] array = new int[]{1, 10, 5, 6, 2, 8, 4};
 
         quickSort(array, 0, array.length - 1);
 
@@ -99,28 +88,26 @@ public class Array
 
     /**
      * Binary search of element in array
-     * 
+     *
      * First we sort the array, then we loop through the array looking for the middle element
-     * 
+     *
      * If searched element is less than middle, we search in lower half
-     * 
+     *
      * If searched element is greater than middle, we search in upper half
-     * 
+     *
      * else we have found the element
-     * 
+     *
      * @param a
      * @param fromIndex
      * @param toIndex
      * @param key
      * @return
      */
-    public static int binarySearch(int[] a, int fromIndex, int toIndex, int key)
-    {
+    public static int binarySearch(int[] a, int fromIndex, int toIndex, int key) {
         int low = fromIndex;
         int high = toIndex - 1;
 
-        while (low <= high)
-        {
+        while (low <= high) {
             int mid = (low + high) >>> 1; // (low + high) / 2;
             int midVal = a[mid];
 
@@ -137,68 +124,67 @@ public class Array
 
     /**
      * Recursive implementation of binary search
-     * 
+     *
      * Same as above but we use recursion
-     * 
+     *
      * @param sortedArray
      * @param key
      * @param low
      * @param high
      * @return
      */
-    public int runBinarySearchRecursively(int[] sortedArray, int key, int low, int high)
-    {
+    public int runBinarySearchRecursively(int[] sortedArray, int key, int low, int high) {
         int middle = (low + high) / 2;
 
-        if (high < low)
-        {
+        if (high < low) {
             return -1;
         }
 
-        if (key == sortedArray[middle])
-        {
+        if (key == sortedArray[middle]) {
             return middle;
-        }
-        else if (key < sortedArray[middle])
-        {
+        } else if (key < sortedArray[middle]) {
             return runBinarySearchRecursively(sortedArray, key, low, middle - 1);
-        }
-        else
-        {
+        } else {
             return runBinarySearchRecursively(sortedArray, key, middle + 1, high);
         }
     }
 
     @Test
-    public void bubblesortAscend()
-    {
+    public void bubblesortAscend() {
 
-        int[] a = new int[] { 6, 4, 1 };
+        int[] a = new int[]{6, 4, 1};
+        int numSwaps = bubblesortAscend(a);
+        assertArrayEquals(new int[]{1, 4, 6}, a);
+        assertEquals(3, numSwaps);
+    }
+
+
+    public int bubblesortAscend(int[] a) {
+
         int n = a.length;
+        int numSwaps = 0;
 
-        for (int i = 0; i < n; i++)
-        {
+        for (int i = 0; i < n; i++) {
 
-            for (int j = 0; j < n - 1; j++)
-            {
+            for (int j = 0; j < n - 1; j++) {
                 // Swap adjacent elements if they are in decreasing order
-                if (a[j] > a[j + 1])
-                {
+                if (a[j] > a[j + 1]) {
                     swap(a, j, j + 1);
+                    numSwaps++;
                 }
             }
 
         }
 
-        System.out.println("Bubble sort ascending" + Arrays.toString(a));
+        return numSwaps;
+
     }
 
     /**
      * @param i
      * @param j
      */
-    private void swap(int[] a, int i, int j)
-    {
+    private void swap(int[] a, int i, int j) {
 
         int tmp = a[i];
         a[i] = a[j];
@@ -206,19 +192,16 @@ public class Array
     }
 
     @Test
-    public void mergeSortTest()
-    {
-        Integer[] arr = new Integer[] { 10, 5, 2, 7, 3, 9, 6, 2, 1, 4, 8 };
+    public void mergeSortTest() {
+        Integer[] arr = new Integer[]{10, 5, 2, 7, 3, 9, 6, 2, 1, 4, 8};
 
         mergeSort(arr);
     }
 
     @SuppressWarnings("rawtypes")
-    public static Comparable[] mergeSort(Comparable[] list)
-    {
+    public static Comparable[] mergeSort(Comparable[] list) {
         // If list is empty; no need to do anything
-        if (list.length <= 1)
-        {
+        if (list.length <= 1) {
             return list;
         }
 
@@ -237,9 +220,8 @@ public class Array
         return list;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    private static void merge(Comparable[] first, Comparable[] second, Comparable[] result)
-    {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private static void merge(Comparable[] first, Comparable[] second, Comparable[] result) {
         // Index Position in first array - starting with first element
         int iFirst = 0;
 
@@ -251,15 +233,11 @@ public class Array
 
         // Compare elements at iFirst and iSecond,
         // and move smaller element at iMerged
-        while (iFirst < first.length && iSecond < second.length)
-        {
-            if (first[iFirst].compareTo(second[iSecond]) < 0)
-            {
+        while (iFirst < first.length && iSecond < second.length) {
+            if (first[iFirst].compareTo(second[iSecond]) < 0) {
                 result[iMerged] = first[iFirst];
                 iFirst++;
-            }
-            else
-            {
+            } else {
                 result[iMerged] = second[iSecond];
                 iSecond++;
             }
