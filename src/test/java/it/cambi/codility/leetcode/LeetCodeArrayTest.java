@@ -35,6 +35,53 @@ public class LeetCodeArrayTest {
     private int[] nums;
 
     @Test
+    public void smallerNumbersThanCurrent() {
+        assertArrayEquals(new int[]{4, 0, 1, 1, 3}, smallerNumbersThanCurrent(new int[]{8, 1, 2, 2, 3}));
+        assertArrayEquals(new int[]{4, 4, 0, 1, 1, 3}, smallerNumbersThanCurrent(new int[]{8, 8, 1, 2, 2, 3}));
+        assertArrayEquals(new int[]{0, 0, 0, 0}, smallerNumbersThanCurrent(new int[]{7, 7, 7, 7}));
+        assertArrayEquals(new int[]{0, 0}, smallerNumbersThanCurrent(new int[]{7, 7}));
+        assertArrayEquals(new int[]{0, 1}, smallerNumbersThanCurrent(new int[]{1, 2}));
+    }
+
+    public int[] smallerNumbersThanCurrent(int[] nums) {
+
+        int[] clone = nums.clone();
+
+        Arrays.parallelSort(nums);
+
+        int count = 1;
+        int currVal = nums[0];
+
+        int i = 1;
+
+        Map<Integer, Integer> map = new HashMap<>();
+
+        map.put(nums[0], 0);
+
+        while (i < nums.length) {
+            if (nums[i] > currVal) {
+                currVal = nums[i];
+                map.put(nums[i], count);
+                count = i;
+                continue;
+            }
+
+            count++;
+            i++;
+
+        }
+
+        i = 0;
+
+        while (i < clone.length) {
+            clone[i] = map.getOrDefault(clone[i], map.size());
+            i++;
+        }
+
+        return clone;
+    }
+
+    @Test
     public void sumEvenAfterQueries() {
         assertArrayEquals(new int[]{8, 6, 2, 4}, sumEvenAfterQueries(new int[]{1, 2, 3, 4}, new int[][]{{1, 0}, {-3, 1}, {-4, 0}, {2, 3}}));
     }
