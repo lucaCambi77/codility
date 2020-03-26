@@ -35,6 +35,119 @@ public class LeetCodeArrayTest {
     private int[] nums;
 
     @Test
+    public void numRookCaptures() {
+
+        assertEquals(3, numRookCaptures(new char[][]{
+                {'.', '.', '.', '.', '.', '.', '.', '.'},
+                {'.', '.', '.', 'p', '.', '.', '.', '.'},
+                {'.', '.', '.', 'R', '.', '.', '.', 'p'},
+                {'.', '.', '.', '.', '.', '.', '.', '.'},
+                {'.', '.', '.', '.', '.', '.', '.', '.'},
+                {'.', '.', '.', 'p', '.', '.', '.', '.'},
+                {'.', '.', '.', '.', '.', '.', '.', '.'},
+                {'.', '.', '.', '.', '.', '.', '.', '.'}}));
+
+        assertEquals(0, numRookCaptures(new char[][]{{'.', '.', '.', '.', '.', '.', '.', '.'},
+                {'.', 'p', 'p', 'p', 'p', 'p', '.', '.'},
+                {'.', 'p', 'p', 'B', 'p', 'p', '.', '.'},
+                {'.', 'p', 'B', 'R', 'B', 'p', '.', '.'},
+                {'.', 'p', 'p', 'B', 'p', 'p', '.', '.'},
+                {'.', 'p', 'p', 'p', 'p', 'p', '.', '.'},
+                {'.', '.', '.', '.', '.', '.', '.', '.'},
+                {'.', '.', '.', '.', '.', '.', '.', '.'}}));
+    }
+
+    public int numRookCaptures(char[][] board) {
+
+        int i = 0;
+
+        int rockAxis = 0;
+        int rockOrd = 0;
+
+        loop:
+        while (i < board.length) {
+
+            char[] line = board[i];
+            int j = 0;
+
+            while (j < line.length) {
+                if (line[j] == 'R') {
+                    rockAxis = j;
+                    rockOrd = i;
+                    break loop;
+                }
+
+                j++;
+            }
+
+            i++;
+        }
+
+        int result = 0;
+
+        char[] posToCheck;
+
+        int up = rockOrd - 1;
+        int down = rockOrd + 1;
+        int east = rockAxis + 1;
+        int west = rockAxis - 1;
+
+        while (up >= 0 || down < board.length || east < board.length || west >= 0) {
+
+            if (up >= 0) {
+
+                posToCheck = board[up];
+                if (posToCheck[rockAxis] == 'B')
+                    up = -1;
+                else if (posToCheck[rockAxis] == 'p') {
+                    result++;
+                    up = -1;
+                }
+                up--;
+            }
+
+            if (down < board.length) {
+                posToCheck = board[down];
+
+                if (posToCheck[rockAxis] == 'B')
+                    down = board.length;
+                else if (posToCheck[rockAxis] == 'p') {
+                    result++;
+                    down = board.length;
+                }
+
+                down++;
+            }
+
+            if (east < board.length) {
+                posToCheck = board[rockOrd];
+
+                if (posToCheck[east] == 'B')
+                    east = board.length;
+                else if (posToCheck[east] == 'p') {
+                    result++;
+                    east = board.length;
+                }
+                east++;
+            }
+
+            if (west >= 0) {
+                posToCheck = board[rockOrd];
+
+                if (posToCheck[west] == 'B')
+                    west = -1;
+                else if (posToCheck[west] == 'p') {
+                    result++;
+                    west = -1;
+                }
+                west--;
+            }
+        }
+
+        return result;
+    }
+
+    @Test
     public void smallerNumbersThanCurrent() {
         assertArrayEquals(new int[]{4, 0, 1, 1, 3}, smallerNumbersThanCurrent(new int[]{8, 1, 2, 2, 3}));
         assertArrayEquals(new int[]{4, 4, 0, 1, 1, 3}, smallerNumbersThanCurrent(new int[]{8, 8, 1, 2, 2, 3}));
