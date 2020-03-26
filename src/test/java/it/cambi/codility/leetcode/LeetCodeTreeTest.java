@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.leetcode;
 
@@ -9,10 +9,7 @@ import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,12 +19,78 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  */
 @TestMethodOrder(Alphanumeric.class)
-public class LeetCodeTreeTest
-{
+public class LeetCodeTreeTest {
+
+    class NodeNAry {
+        public int val;
+        public List<NodeNAry> children;
+
+        public NodeNAry() {
+        }
+
+        public NodeNAry(int _val) {
+            val = _val;
+        }
+
+        public NodeNAry(int _val, List<NodeNAry> _children) {
+            val = _val;
+            children = _children;
+        }
+    }
+
 
     @Test
-    public void hasPathSum()
-    {
+    public void preorderNAry() {
+
+        NodeNAry root = getNodeNAryTest();
+        List<Integer> sol = new ArrayList<>();
+        preorderNAry(root, sol);
+
+        assertEquals(Arrays.asList(new LinkedList<Integer>() {{
+            add(1);
+            add(3);
+            add(5);
+            add(6);
+            add(2);
+            add(4);
+        }}), Arrays.asList(sol));
+    }
+
+    private NodeNAry getNodeNAryTest() {
+        NodeNAry root = new NodeNAry(1);
+
+        LinkedList<NodeNAry> list1 = new LinkedList<>();
+        NodeNAry node1 = new NodeNAry(3);
+        node1.children = new LinkedList<NodeNAry>() {{
+            add(new NodeNAry(5));
+            add(new NodeNAry(6));
+        }};
+
+        list1.add(node1);
+        list1.add(new NodeNAry(2));
+        list1.add(new NodeNAry(4));
+
+        root.children = list1;
+        return root;
+    }
+
+    public void preorderNAry(NodeNAry root, List<Integer> list) {
+
+        if (root != null) {
+
+            List<NodeNAry> nodes = root.children;
+            list.add(root.val);
+            if (null != nodes)
+                for (NodeNAry node : nodes) {
+                    preorderNAry(node, list);
+                }
+
+        }
+
+    }
+
+    @Test
+    public void hasPathSum() {
         assertEquals(true, hasPathSum(BinaryTree.getBSTExample(), 100));
         assertEquals(true, hasPathSum(BinaryTree.getBSTExample(), 200));
         assertEquals(false, hasPathSum(BinaryTree.getBSTExample(), 101));
@@ -41,15 +104,13 @@ public class LeetCodeTreeTest
 
     }
 
-    private boolean hasPathSum(Node root, int sum)
-    {
+    private boolean hasPathSum(Node root, int sum) {
 
         return hasPathSum(root, 0, sum);
 
     }
 
-    private boolean hasPathSum(Node root, int sumSoFar, int sum)
-    {
+    private boolean hasPathSum(Node root, int sumSoFar, int sum) {
         if (root == null)
             return false;
 
@@ -63,8 +124,7 @@ public class LeetCodeTreeTest
     }
 
     @Test
-    public void mergeTrees()
-    {
+    public void mergeTrees() {
 
         Node t1 = new Node(1);
 
@@ -143,8 +203,7 @@ public class LeetCodeTreeTest
         assertEquals(true, isSameTree(nodeX, node4));
     }
 
-    public Node mergeTrees(Node t1, Node t2)
-    {
+    public Node mergeTrees(Node t1, Node t2) {
 
         if (null == t1 && null == t2)
             return null;
@@ -155,8 +214,7 @@ public class LeetCodeTreeTest
         if (null != t1 && null == t2)
             return t1;
 
-        if (null != t1 && null != t2)
-        {
+        if (null != t1 && null != t2) {
             t1.data = t2.data + t1.data;
 
             t1.left = mergeTrees(t1.left, t2.left);
@@ -170,13 +228,11 @@ public class LeetCodeTreeTest
     }
 
     @Test
-    public void isSameTree()
-    {
+    public void isSameTree() {
         assertEquals(true, isSameTree(BinaryTree.getBSTExample(), BinaryTree.getBSTExample()));
     }
 
-    private boolean isSameTree(Node p, Node q)
-    {
+    private boolean isSameTree(Node p, Node q) {
         if (p == null && q == null)
             return true;
 
@@ -188,8 +244,7 @@ public class LeetCodeTreeTest
     }
 
     @Test
-    public void rangeSumBST()
-    {
+    public void rangeSumBST() {
         Node root = new Node(10);
 
         Node left = new Node(5);
@@ -209,8 +264,7 @@ public class LeetCodeTreeTest
         assertEquals(32, sum.get());
     }
 
-    public void rangeSumBST(Node root, int left, int right, AtomicInteger sum)
-    {
+    public void rangeSumBST(Node root, int left, int right, AtomicInteger sum) {
 
         if (root == null)
             return;
@@ -223,8 +277,7 @@ public class LeetCodeTreeTest
     }
 
     @Test
-    public void findTarget()
-    {
+    public void findTarget() {
         Node root = BinaryTree.getBSTExample();
 
         List<Integer> listLeft = new ArrayList<Integer>();
@@ -238,11 +291,9 @@ public class LeetCodeTreeTest
         assertEquals(true, twoSum(listLeft, 110));
     }
 
-    private void branchList(Node root, List<Integer> listLeft)
-    {
+    private void branchList(Node root, List<Integer> listLeft) {
 
-        if (null != root)
-        {
+        if (null != root) {
             listLeft.add(root.data);
             branchList(root.left, listLeft);
             branchList(root.right, listLeft);
@@ -250,19 +301,16 @@ public class LeetCodeTreeTest
         }
     }
 
-    private boolean twoSum(List<Integer> nums, int target)
-    {
+    private boolean twoSum(List<Integer> nums, int target) {
         Map<Integer, Integer> keyToIndex = new HashMap<Integer, Integer>();
         int size = nums.size();
 
         boolean hasSum = false;
 
-        for (int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             int diff = target - nums.get(i);
 
-            if (null != keyToIndex.get(diff))
-            {
+            if (null != keyToIndex.get(diff)) {
                 hasSum = true;
                 break;
             }
