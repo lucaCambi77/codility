@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.hackerRank;
 
@@ -21,20 +21,17 @@ import static org.mockito.Mockito.mock;
  * @author luca
  *
  */
-public class HackerRankTreesTest
-{
+public class HackerRankTreesTest {
     private PrintStream out;
 
     @BeforeEach
-    public void setUpStreams()
-    {
+    public void setUpStreams() {
         out = mock(PrintStream.class);
         System.setOut(out);
     }
 
     @Test
-    public void binaryTreeInsertion()
-    {
+    public void binaryTreeInsertion() {
         List<Integer> list = new ArrayList<Integer>();
         list.add(4);
         list.add(2);
@@ -45,8 +42,7 @@ public class HackerRankTreesTest
 
         Node root = null;
 
-        for (Integer node : list)
-        {
+        for (Integer node : list) {
             root = binaryTreeInsertion(root, node);
         }
 
@@ -54,26 +50,23 @@ public class HackerRankTreesTest
 
         InOrder orderVerifier = Mockito.inOrder(out);
 
-        String[] solution = new String[] { "4 ", "2 ", "1 ", "3 ", "7 ", "6 " };
+        String[] solution = new String[]{"4 ", "2 ", "1 ", "3 ", "7 ", "6 "};
 
         for (String sol : solution)
             orderVerifier.verify(out, atLeastOnce()).print(sol);
 
     }
 
-    private void preOrderTrasvPrint(Node root)
-    {
+    private void preOrderTrasvPrint(Node root) {
 
-        if (root != null)
-        {
+        if (root != null) {
             System.out.print(root.data + " ");
             preOrderTrasvPrint(root.left);
             preOrderTrasvPrint(root.right);
         }
     }
 
-    public Node binaryTreeInsertion(Node root, int data)
-    {
+    public Node binaryTreeInsertion(Node root, int data) {
         if (root == null)
             return new Node(data);
 
@@ -88,8 +81,7 @@ public class HackerRankTreesTest
     }
 
     @Test
-    public void levelOrderTrasv()
-    {
+    public void levelOrderTrasv() {
         Node root = Node.getExampleNode();
         Queue<Node> queue = new LinkedList<Node>();
         queue.add(root);
@@ -98,35 +90,30 @@ public class HackerRankTreesTest
 
         InOrder orderVerifier = Mockito.inOrder(out);
 
-        String[] solution = new String[] { "0 ", "1 ", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 ", "10 ", "11 ", "12 ", "13 ", "14 " };
+        String[] solution = new String[]{"0 ", "1 ", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 ", "10 ", "11 ", "12 ", "13 ", "14 "};
 
         for (String sol : solution)
             orderVerifier.verify(out, atLeastOnce()).print(sol);
     }
 
-    public void levelOrderTrasv(Queue<Node> queue)
-    {
-        while (!queue.isEmpty())
-        {
+    public void levelOrderTrasv(Queue<Node> queue) {
+        while (!queue.isEmpty()) {
             int size = queue.size();
 
-            for (Node root : queue)
-            {
+            for (Node root : queue) {
                 System.out.print(root.data + " ");
             }
 
             List<Node> list = new ArrayList<Node>();
 
-            for (Node root : queue)
-            {
+            for (Node root : queue) {
                 if (null != root.left)
                     list.add(root.left);
                 if (null != root.right)
                     list.add(root.right);
             }
             queue.addAll(list);
-            for (int i = 0; i < size; i++)
-            {
+            for (int i = 0; i < size; i++) {
                 queue.poll();
             }
             levelOrderTrasv(queue);
@@ -134,8 +121,7 @@ public class HackerRankTreesTest
     }
 
     @Test
-    public void topTreeView() throws NumberFormatException, IOException
-    {
+    public void topTreeView() throws NumberFormatException, IOException {
         InputStream is = new FileInputStream("src/test/resources/tree/topTreeView.txt");
         BufferedReader buf = new BufferedReader(new InputStreamReader(is));
 
@@ -157,17 +143,15 @@ public class HackerRankTreesTest
 
         InOrder orderVerifier = Mockito.inOrder(out);
 
-        String[] solution = new String[] { "1 ", "2 ", "4 ", "14 ", "23 ", "37 ", "108 ", "111 ", "115 ", "116 ", "83 ", "84 ", "85 " };
+        String[] solution = new String[]{"1 ", "2 ", "4 ", "14 ", "23 ", "37 ", "108 ", "111 ", "115 ", "116 ", "83 ", "84 ", "85 "};
 
         for (String sol : solution)
             orderVerifier.verify(out, atLeastOnce()).print(sol);
     }
 
-    public void topTreeView(Queue<QueueObj> queue, TreeMap<Integer, Node> map)
-    {
+    public void topTreeView(Queue<QueueObj> queue, TreeMap<Integer, Node> map) {
 
-        while (!queue.isEmpty())
-        {
+        while (!queue.isEmpty()) {
 
             QueueObj obj = queue.poll();
 
@@ -184,37 +168,28 @@ public class HackerRankTreesTest
         map.entrySet().stream().forEach(queueObj -> System.out.print(queueObj.getValue().data + " "));
     }
 
-    class QueueObj
-    {
+    class QueueObj {
         Node node;
         int hd;
 
         /**
-         * 
+         *
          */
-        public QueueObj(Node node, int hd)
-        {
+        public QueueObj(Node node, int hd) {
             this.node = node;
             this.hd = hd;
         }
     }
 
-    public static Node insert(Node root, int data)
-    {
-        if (root == null)
-        {
+    public static Node insert(Node root, int data) {
+        if (root == null) {
             return new Node(data);
-        }
-        else
-        {
+        } else {
             Node cur;
-            if (data <= root.data)
-            {
+            if (data <= root.data) {
                 cur = insert(root.left, data);
                 root.left = cur;
-            }
-            else
-            {
+            } else {
                 cur = insert(root.right, data);
                 root.right = cur;
             }
@@ -226,8 +201,7 @@ public class HackerRankTreesTest
      * least common ancestor
      */
     @Test
-    public void lca()
-    {
+    public void lca() {
 
         Node root = new Node(4);
 
@@ -260,8 +234,7 @@ public class HackerRankTreesTest
         i--;
         j--;
 
-        while (i >= 0 && j >= 0)
-        {
+        while (i >= 0 && j >= 0) {
 
             integer1 = listV1.get(i);
             integer2 = listV2.get(j);
@@ -277,20 +250,17 @@ public class HackerRankTreesTest
         assertEquals(4, result);
     }
 
-    public boolean lca(Node root, int v, List<Integer> list)
-    {
+    public boolean lca(Node root, int v, List<Integer> list) {
 
         if (null == root)
             return false;
 
-        if (root.data == v)
-        {
+        if (root.data == v) {
             list.add(root.data);
             return true;
         }
 
-        if (lca(root.left, v, list) || lca(root.right, v, list))
-        {
+        if (lca(root.left, v, list) || lca(root.right, v, list)) {
             list.add(root.data);
             return true;
         }
@@ -298,15 +268,16 @@ public class HackerRankTreesTest
         return false;
     }
 
+    /*
+        Number of edges not number of nodes
+     */
     @Test
-    public void heightOfBinaryTree()
-    {
+    public void heightOfBinaryTree() {
         Node root = Node.getExampleNode();
         assertEquals(3, getMaxHeight(root, 0) - 1);
     }
 
-    private int getMaxHeight(Node root, int count)
-    {
+    private int getMaxHeight(Node root, int count) {
 
         if (root == null)
             return count;
