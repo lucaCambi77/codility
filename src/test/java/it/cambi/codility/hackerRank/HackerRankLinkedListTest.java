@@ -109,6 +109,9 @@ public class HackerRankLinkedListTest {
         return head;
     }
 
+    Stack<Integer> s1 = new Stack<Integer>();
+    Stack<Integer> s2 = new Stack<Integer>();
+
     @Test
     public void queueUsingTwoStacks() {
         queueUsingTwoStacks(10, new String[]{"1 42", "2", "1 14", "3", "1 28", "3", "1 60", "1 78", "2", "2"});
@@ -117,8 +120,6 @@ public class HackerRankLinkedListTest {
 
     public void queueUsingTwoStacks(int t, String[] lines) {
 
-        Stack<Integer> stack1 = new Stack<Integer>();
-        Stack<Integer> stack2 = new Stack<Integer>();
         int count = 0;
 
         while (count < t) {
@@ -127,24 +128,29 @@ public class HackerRankLinkedListTest {
             int query = Integer.valueOf(split[0]);
             switch (query) {
                 case 1:
-                    stack1.push(Integer.valueOf(split[1]));
-                    stack2.add(0, Integer.valueOf(split[1]));
+                    s1.push(Integer.valueOf(split[1]));
                     break;
 
                 case 2:
-                    stack1.remove(0);
-                    stack2.pop();
+                    prepOld();
+                    s2.pop();
 
                     break;
 
                 case 3:
-
-                    System.out.println(stack2.peek());
+                    prepOld();
+                    System.out.println(s2.peek());
                     break;
             }
             count++;
         }
 
+    }
+
+    private void prepOld() {
+        if (s2.isEmpty())
+            while (!s1.isEmpty())
+                s2.push(s1.pop());
     }
 
     @Test
