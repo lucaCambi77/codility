@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.gfg;
 
@@ -16,26 +16,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author luca
  *
  */
-public class Geeks4GeeksLinkedList
-{
+public class Geeks4GeeksLinkedList {
 
-    class Node
-    {
+    class Node {
 
         // node variables
         int data;
         Node next;
 
-        public Node(int data)
-        {
+        public Node(int data) {
             this.data = data;
             this.next = null;
         }
     }
 
     @Test
-    public void countNodes()
-    {
+    public void countNodes() {
 
         Node head = new Node(5);
         head.next = new Node(4);
@@ -43,16 +39,14 @@ public class Geeks4GeeksLinkedList
         assertEquals(2, getCount(head));
     }
 
-    private int getCount(Node head)
-    {
+    private int getCount(Node head) {
 
         int count = 0;
 
         if (null == head)
             return count;
 
-        while (head.next != null)
-        {
+        while (head.next != null) {
             head = head.next;
             count++;
         }
@@ -60,8 +54,7 @@ public class Geeks4GeeksLinkedList
     }
 
     @Test
-    public void getNth()
-    {
+    public void getNth() {
 
         Node head = new Node(5);
         head.next = new Node(4);
@@ -70,12 +63,10 @@ public class Geeks4GeeksLinkedList
         assertEquals(6, getNth(head, 3));
     }
 
-    private static int getNth(Node node, int ind)
-    {
+    private static int getNth(Node node, int ind) {
         int count = 0;
 
-        while (null != node.next)
-        {
+        while (null != node.next) {
             if (++count == ind)
                 return node.data;
 
@@ -85,8 +76,7 @@ public class Geeks4GeeksLinkedList
         return node.data;
     }
 
-    public void getMiddle()
-    {
+    public void getMiddle() {
 
         Node head = new Node(5);
         head.next = new Node(4);
@@ -95,12 +85,10 @@ public class Geeks4GeeksLinkedList
         assertEquals(4, getMiddle(head));
     }
 
-    private int getMiddle(Node head)
-    {
+    private int getMiddle(Node head) {
         LinkedList<Node> list = new LinkedList<Node>();
 
-        while (null != head)
-        {
+        while (null != head) {
             list.add(head);
             head = head.next;
 
@@ -114,8 +102,7 @@ public class Geeks4GeeksLinkedList
     }
 
     @Test
-    public void reverseList()
-    {
+    public void reverseList() {
         Node head = new Node(5);
         head.next = new Node(4);
         head.next.next = new Node(6);
@@ -123,13 +110,11 @@ public class Geeks4GeeksLinkedList
         reverseList(head);
     }
 
-    private Node reverseList(Node node)
-    {
+    private Node reverseList(Node node) {
         Node prev = null;
         Node current = node;
         Node next = null;
-        while (current != null)
-        {
+        while (current != null) {
             next = current.next;
             current.next = prev;
             prev = current;
@@ -140,8 +125,7 @@ public class Geeks4GeeksLinkedList
     }
 
     @Test
-    public void reverseQueue()
-    {
+    public void reverseQueue() {
 
         Queue<Integer> queue = new LinkedList<Integer>();
         queue.add(1);
@@ -156,17 +140,14 @@ public class Geeks4GeeksLinkedList
         assertEquals(queue1, reverseQueue(queue));
     }
 
-    private Queue<Integer> reverseQueue(Queue<Integer> queue)
-    {
+    private Queue<Integer> reverseQueue(Queue<Integer> queue) {
         Stack<Integer> stack = new Stack<>();
-        while (!queue.isEmpty())
-        {
+        while (!queue.isEmpty()) {
             stack.add(queue.peek());
             queue.remove();
         }
 
-        while (!stack.isEmpty())
-        {
+        while (!stack.isEmpty()) {
             queue.add(stack.pop());
         }
 
@@ -177,8 +158,7 @@ public class Geeks4GeeksLinkedList
     private Stack<Integer> s2 = new Stack<Integer>();
 
     @Test
-    public void twoStackAsQueue()
-    {
+    public void twoStackAsQueue() {
 
         insert(2);
         insert(3);
@@ -190,24 +170,26 @@ public class Geeks4GeeksLinkedList
         stack.push(2);
         stack.push(3);
 
-        assertEquals(Arrays.toString(new int[] { 2, 3 }), Arrays.toString(new int[] { r1, r2 }));
+        assertEquals(Arrays.toString(new int[]{2, 3}), Arrays.toString(new int[]{r1, r2}));
     }
 
-    void insert(int B)
-    {
+    public void insert(int B) {
         s1.push(B);
-        s2.clear();
-
-        for (int i = s1.size() - 1; i >= 0; i--)
-            s2.add(s1.get(i));
-
     }
 
-    int remove()
-    {
-        if (!s1.isEmpty())
-            s1.remove(0);
+    public int remove() {
+        prepOld();
+        return s2.pop();
+    }
 
-        return s2.isEmpty() ? -1 : s2.pop();
+    public int peek() {
+        prepOld();
+        return s2.peek();
+    }
+
+    private void prepOld() {
+        if (s2.isEmpty())
+            while (!s1.isEmpty())
+                s2.push(s1.pop());
     }
 }
