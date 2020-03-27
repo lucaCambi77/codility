@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.leetcode;
 
@@ -15,25 +15,107 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author luca
  *
  */
-public class LeetCodeLinkedListTest
-{
+public class LeetCodeLinkedListTest {
 
-    class ListNode
-    {
+    class ListNode {
 
         int val;
         ListNode next;
 
-        public ListNode(int val)
-        {
+        public ListNode(int val) {
             this.val = val;
             this.next = null;
         }
     }
 
     @Test
-    public void swapPairs()
-    {
+    public void getDecimalValue() {
+
+        ListNode head = new ListNode(1);
+        head.next = new ListNode(0);
+        head.next.next = new ListNode(1);
+
+        assertEquals(5, getDecimalValue(head));
+
+        head = new ListNode(1);
+        head.next = new ListNode(0);
+        head.next.next = new ListNode(0);
+        head.next.next.next = new ListNode(1);
+        head.next.next.next.next = new ListNode(0);
+        head.next.next.next.next.next = new ListNode(0);
+        head.next.next.next.next.next.next = new ListNode(1);
+        head.next.next.next.next.next.next.next = new ListNode(1);
+        head.next.next.next.next.next.next.next.next = new ListNode(1);
+        head.next.next.next.next.next.next.next.next.next = new ListNode(0);
+        head.next.next.next.next.next.next.next.next.next.next = new ListNode(0);
+        head.next.next.next.next.next.next.next.next.next.next.next = new ListNode(0);
+        head.next.next.next.next.next.next.next.next.next.next.next.next = new ListNode(0);
+        head.next.next.next.next.next.next.next.next.next.next.next.next.next = new ListNode(0);
+        head.next.next.next.next.next.next.next.next.next.next.next.next.next.next = new ListNode(0);
+
+        assertEquals(18880, getDecimalValueBitWise(head));
+
+    }
+
+    public int getDecimalValue(ListNode head) {
+
+        StringBuilder builder = new StringBuilder();
+
+        while (head != null) {
+            builder.append(head.val);
+            head = head.next;
+        }
+
+        return Integer.parseInt(builder.toString(), 2);
+    }
+
+    // Shift and adds next bit. So multiply by 2 and adds previous sum when one
+    public int getDecimalValueBitWise(ListNode head) {
+        int num = head.val;
+        while ((head = head.next) != null)
+            num = (num << 1) + head.val;
+        return num;
+    }
+
+    @Test
+    public void middleNode() {
+        ListNode head = new ListNode(1);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(3);
+        head.next.next.next = new ListNode(4);
+        head.next.next.next.next = new ListNode(5);
+
+        assertEquals(3, middleNode(head).val);
+
+        head = new ListNode(1);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(3);
+        head.next.next.next = new ListNode(4);
+        head.next.next.next.next = new ListNode(5);
+        head.next.next.next.next.next = new ListNode(6);
+
+        assertEquals(4, middleNode(head).val);
+
+        head = new ListNode(1);
+        assertEquals(1, middleNode(head).val);
+
+
+    }
+
+    public ListNode middleNode(ListNode head) {
+
+        List<ListNode> stack = new LinkedList<>();
+
+        while (head != null) {
+            stack.add(head);
+            head = head.next;
+        }
+
+        return stack.get(stack.size() / 2);
+    }
+
+    @Test
+    public void swapPairs() {
         ListNode head = new ListNode(4);
         head.next = new ListNode(1);
         head.next.next = new ListNode(8);
@@ -49,8 +131,7 @@ public class LeetCodeLinkedListTest
         assertTrue(areIdentical(listCompare, swapPairs(head)));
     }
 
-    private ListNode swapPairs(ListNode head)
-    {
+    private ListNode swapPairs(ListNode head) {
         if (head == null || (head != null && head.next == null))
             return head;
 
@@ -65,8 +146,7 @@ public class LeetCodeLinkedListTest
     }
 
     @Test
-    public void getIntersectionNode()
-    {
+    public void getIntersectionNode() {
 
         ListNode headA = new ListNode(4);
         headA.next = new ListNode(1);
@@ -88,14 +168,12 @@ public class LeetCodeLinkedListTest
         assertEquals(true, areIdentical(node, getIntersectionNode(headA, headB)));
     }
 
-    public ListNode getIntersectionNode(ListNode headA, ListNode headB)
-    {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         return null;
     }
 
     @Test
-    public void deleteDuplicates()
-    {
+    public void deleteDuplicates() {
         ListNode l1 = new ListNode(1);
         l1.next = new ListNode(1);
         l1.next.next = new ListNode(2);
@@ -107,8 +185,7 @@ public class LeetCodeLinkedListTest
                 deleteDuplicates(l1)));
     }
 
-    public ListNode deleteDuplicates(ListNode head)
-    {
+    public ListNode deleteDuplicates(ListNode head) {
         if (head == null)
             return head;
 
@@ -117,11 +194,9 @@ public class LeetCodeLinkedListTest
         ListNode copy = head;
         ListNode prev = head;
 
-        while (copy != null)
-        {
+        while (copy != null) {
 
-            if (!values.add(copy.val))
-            {
+            if (!values.add(copy.val)) {
                 ListNode tmp = copy;
                 copy = prev;
                 copy.next = tmp.next;
@@ -139,8 +214,7 @@ public class LeetCodeLinkedListTest
     }
 
     @Test
-    public void mergeTwoLists()
-    {
+    public void mergeTwoLists() {
         ListNode l1 = new ListNode(1);
         l1.next = new ListNode(2);
         l1.next.next = new ListNode(4);
@@ -159,19 +233,16 @@ public class LeetCodeLinkedListTest
         assertEquals(true, areIdentical(mergeTwoLists(l1, l2), result));
     }
 
-    private ListNode mergeTwoLists(ListNode l1, ListNode l2)
-    {
+    private ListNode mergeTwoLists(ListNode l1, ListNode l2) {
 
         List<Integer> list = new ArrayList<Integer>();
 
-        while (null != l1)
-        {
+        while (null != l1) {
             list.add(l1.val);
             l1 = l1.next;
         }
 
-        while (null != l2)
-        {
+        while (null != l2) {
             list.add(l2.val);
             l2 = l2.next;
         }
@@ -184,8 +255,7 @@ public class LeetCodeLinkedListTest
         ListNode node = new ListNode(list.get(0));
         ListNode head = node;
 
-        for (int i = 1; i < list.size(); i++)
-        {
+        for (int i = 1; i < list.size(); i++) {
             head.next = new ListNode(list.get(i));
             head = head.next;
         }
@@ -194,8 +264,7 @@ public class LeetCodeLinkedListTest
     }
 
     @Test
-    public void isPalindrome()
-    {
+    public void isPalindrome() {
 
         ListNode l1 = new ListNode(2);
         l1.next = new ListNode(4);
@@ -210,20 +279,17 @@ public class LeetCodeLinkedListTest
         assertEquals(true, isPalindrome(l2));
     }
 
-    public boolean isPalindrome(ListNode head)
-    {
+    public boolean isPalindrome(ListNode head) {
         Deque<Integer> queue = new LinkedList<Integer>();
 
-        while (head != null)
-        {
+        while (head != null) {
             queue.push(head.val);
             head = head.next;
         }
 
         int size = queue.size() / 2;
 
-        for (int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             int first = queue.poll();
             int last = queue.pollLast();
 
@@ -236,8 +302,7 @@ public class LeetCodeLinkedListTest
     }
 
     @Test
-    public void addTwoNumbers()
-    {
+    public void addTwoNumbers() {
         ListNode l1 = new ListNode(2);
         l1.next = new ListNode(4);
         l1.next.next = new ListNode(3);
@@ -254,22 +319,20 @@ public class LeetCodeLinkedListTest
 
         ListNode l4 = new ListNode(9);
 
-        int[] array = new int[] { 1, 9, 9, 9, 9, 9, 9, 9, 9, 9 };
+        int[] array = new int[]{1, 9, 9, 9, 9, 9, 9, 9, 9, 9};
 
         ListNode l5 = new ListNode(Integer.valueOf(array[0]));
         ListNode tmp = l5;
-        for (int i = 1; i < array.length; i++)
-        {
+        for (int i = 1; i < array.length; i++) {
             tmp.next = new ListNode(array[i]);
             tmp = tmp.next;
         }
 
-        array = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+        array = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
 
         ListNode l6 = new ListNode(Integer.valueOf(array[0]));
         tmp = l6;
-        for (int i = 1; i < array.length; i++)
-        {
+        for (int i = 1; i < array.length; i++) {
             tmp.next = new ListNode(array[i]);
             tmp = tmp.next;
         }
@@ -277,12 +340,10 @@ public class LeetCodeLinkedListTest
         assertEquals(true, areIdentical(l6, addTwoNumbers(l4, l5)));
     }
 
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2)
-    {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         StringBuilder builder = new StringBuilder();
 
-        while (l1 != null)
-        {
+        while (l1 != null) {
             builder.append(l1.val);
             l1 = l1.next;
         }
@@ -291,8 +352,7 @@ public class LeetCodeLinkedListTest
 
         builder.setLength(0);
 
-        while (l2 != null)
-        {
+        while (l2 != null) {
             builder.append(l2.val);
             l2 = l2.next;
         }
@@ -306,8 +366,7 @@ public class LeetCodeLinkedListTest
         ListNode head = new ListNode(Integer.valueOf(Character.toString(sumToString.charAt(length))));
         ListNode tmp = head;
 
-        for (int i = length - 1; i >= 0; i--)
-        {
+        for (int i = length - 1; i >= 0; i--) {
             tmp.next = new ListNode(Integer.valueOf(Character.toString(sumToString.charAt(i))));
             tmp = tmp.next;
         }
@@ -316,11 +375,9 @@ public class LeetCodeLinkedListTest
 
     }
 
-    boolean areIdentical(ListNode lista, ListNode listb)
-    {
+    boolean areIdentical(ListNode lista, ListNode listb) {
         ListNode a = lista, b = listb;
-        while (a != null && b != null)
-        {
+        while (a != null && b != null) {
             if (a.val != b.val)
                 return false;
 
