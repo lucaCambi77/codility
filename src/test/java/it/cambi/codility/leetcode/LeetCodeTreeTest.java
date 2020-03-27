@@ -38,7 +38,66 @@ public class LeetCodeTreeTest {
         }
     }
 
+    @Test
+    public void longestUnivaluePath() {
 
+        Node head = new Node(5);
+        Node left = new Node(4);
+        Node right = new Node(5);
+
+        right.right = new Node(5);
+
+        left.left = new Node(1);
+        left.right = new Node(1);
+
+        head.left = left;
+        head.right = right;
+
+        assertEquals(2, longestUnivaluePath(head, 0, 0));
+
+        head = new Node(1);
+        Node left1 = new Node(4);
+        Node right1 = new Node(5);
+
+        right1.right = new Node(5);
+
+        left1.left = new Node(4);
+        left1.right = new Node(4);
+
+        head.left = left1;
+        head.right = right1;
+
+        assertEquals(2, longestUnivaluePath(head, 0, 0));
+    }
+
+    public int longestUnivaluePath(Node root, int count, int max) {
+
+        if (root == null)
+            return max;
+
+        int checkLeft = checkNodes(root.left, root.data);
+        int checkRight = checkNodes(root.right, root.data);
+
+        int maxLeft = checkLeft == 0 ? 0 : count + checkLeft;
+        int maxRight = checkRight == 0 ? 0 : count + checkRight;
+
+        int left = longestUnivaluePath(root.left, maxLeft, Math.max(maxLeft + maxRight, max));
+        int right = longestUnivaluePath(root.right, maxRight, Math.max(maxLeft + maxRight, max));
+
+        return Math.max(left, right);
+    }
+
+    private int checkNodes(Node root, int data) {
+
+        if (null == root)
+            return 0;
+
+        return root.data - data == 0 ? 1 : 0;
+    }
+
+    /*
+        TODO Iterative solution
+     */
     @Test
     public void preorderNAry() {
 
