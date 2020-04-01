@@ -221,46 +221,88 @@ public class HackerRankLinkedListTest {
         int pos = 0;
 
         while (line != null) {
-            insertAtPos(pos, new Integer(line), head2);
-
+            insertAtPos(pos, Integer.parseInt(line), head2);
             line = buf.readLine();
             pos++;
         }
 
         buf.close();
 
-        // Solution
-        Set<Integer> seen = new HashSet<Integer>();
-
-        seen.add(head2.data);
-
-        SinglyLinkedListNode head = head2;
-
-        int position = 0;
-        while (head.next != null) {
-            if (seen.contains(head.next.data)) {
-                head2 = deleteNodeAtPosition(position, head2);
-                // decrease position to match the actual linked list
-                position--;
-            }
-
-            if (head.next == null)
-                break;
-
-            seen.add(head.next.data);
-
-            position++;
-            head = head.next;
-        }
+        removeDuplicates(head2);
 
         // check no duplicates
-        seen = new HashSet<Integer>();
+        Set<Integer> seen = new HashSet<Integer>();
         boolean check = true;
         while (head2 != null) {
             check = seen.add(head2.data);
             assertEquals(check, true);
             head2 = head2.next;
         }
+    }
+
+
+    private void removeDuplicates(SinglyLinkedListNode head2) {
+
+        // Solution
+        Set<Integer> seen = new HashSet<Integer>();
+
+        SinglyLinkedListNode head = head2;
+
+        int position = 0;
+        while (head != null) {
+            if (seen.contains(head.data)) {
+                head2 = deleteNodeAtPosition(position, head2);
+                position--;
+            }
+
+            seen.add(head.data);
+            position++;
+
+            head = head.next;
+        }
+
+    }
+
+    @Test
+    public void deleteNodeAtPos() {
+
+        int position = 1;
+        SinglyLinkedListNode head = getLinkedListExample1();
+
+        deleteNodeAtPosition(position, head);
+
+        SinglyLinkedListNode sol = new SinglyLinkedListNode(16);
+        SinglyLinkedListNode node1 = new SinglyLinkedListNode(17);
+        sol.next = node1;
+
+        while (head != null && sol != null) {
+            assertEquals(head.data, sol.data);
+            head = head.next;
+            sol = sol.next;
+        }
+    }
+
+    /**
+     * @param position
+     * @param head
+     * @return
+     */
+    private SinglyLinkedListNode deleteNodeAtPosition(int position, SinglyLinkedListNode head) {
+        if (position == 0) {
+            head = head.next;
+            return head;
+        }
+
+        int pos = 0;
+        SinglyLinkedListNode temp = head;
+        while (pos != position - 1) {
+            temp = temp.next;
+            pos++;
+        }
+
+        temp.next = temp.next.next;
+
+        return head;
     }
 
     @Test
@@ -382,39 +424,6 @@ public class HackerRankLinkedListTest {
         nextAtInsert.next = nextAfterInsert;
 
         temp.next = nextAtInsert;
-
-        return head;
-    }
-
-    @Test
-    public void deleteNodeAtPos() {
-
-        int position = 1;
-        SinglyLinkedListNode head = getLinkedListExample1();
-
-        deleteNodeAtPosition(position, head);
-
-    }
-
-    /**
-     * @param position
-     * @param head
-     * @return
-     */
-    private SinglyLinkedListNode deleteNodeAtPosition(int position, SinglyLinkedListNode head) {
-        if (position == 0) {
-            head = head.next;
-            return head;
-        }
-
-        int pos = 0;
-        SinglyLinkedListNode temp = head;
-        while (pos != position - 1) {
-            temp = temp.next;
-            pos++;
-        }
-
-        temp.next = temp.next.next;
 
         return head;
     }
