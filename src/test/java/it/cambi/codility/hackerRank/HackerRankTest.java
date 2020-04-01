@@ -25,8 +25,6 @@ import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-;
-
 @TestMethodOrder(Alphanumeric.class)
 public class HackerRankTest {
 
@@ -48,6 +46,64 @@ public class HackerRankTest {
         out = mock(PrintStream.class);
         System.setOut(out);
     }
+
+    @Test
+    public void nestedLogic() {
+
+        nestedLogic("31 8 2004", "20 1 2004");
+        verify(out, times(1)).println(3500L);
+
+        out.flush();
+        nestedLogic("1 1 2010", "31 12 2009");
+        verify(out, times(1)).println(10000L);
+
+        out.flush();
+        nestedLogic("9 6 2015", "6 6 2015");
+        verify(out, times(1)).println(45L);
+
+        out.flush();
+        nestedLogic("24 10 1776", "10 10 1776");
+        verify(out, times(1)).println(210L);
+    }
+
+
+    public void nestedLogic(String returnedDate, String expectedDate) {
+
+        String[] returnedDateString = returnedDate.split(" ");
+        String[] expectedDatedDateString = expectedDate.split(" ");
+
+        Calendar calendarReturn = Calendar.getInstance();
+        calendarReturn.set(Integer.parseInt(returnedDateString[2])
+                , Integer.parseInt(returnedDateString[1]) - 1
+                , Integer.parseInt(returnedDateString[0]), 0, 0, 0);
+
+        Calendar calendarExpect = Calendar.getInstance();
+        calendarExpect.set(Integer.parseInt(expectedDatedDateString[2])
+                , Integer.parseInt(expectedDatedDateString[1]) - 1
+                , Integer.parseInt(expectedDatedDateString[0]), 0, 0, 0);
+
+        if (calendarReturn.get(Calendar.YEAR) - calendarExpect.get(Calendar.YEAR) > 0)
+            System.out.println(10000L);
+        else if (calendarReturn.getTime().getTime() > calendarExpect.getTime().getTime()
+                && calendarExpect.get(Calendar.MONTH) == calendarReturn.get(Calendar.MONTH)
+                && calendarExpect.get(Calendar.YEAR) - calendarReturn.get(Calendar.YEAR) == 0) {
+
+            long diff = calendarReturn.getTimeInMillis() - calendarExpect.getTimeInMillis();
+
+            System.out.println((diff / (24 * 60 * 60 * 1000)) * 15L);
+
+        } else if (calendarReturn.getTime().getTime() > calendarExpect.getTime().getTime() &&
+                calendarReturn.get(Calendar.MONTH) > calendarExpect.get(Calendar.MONTH)) {
+            long diff = calendarReturn.get(Calendar.MONTH) - calendarExpect.get(Calendar.MONTH);
+            System.out.println(diff * 500L);
+
+        } else {
+            System.out.println(0L);
+
+        }
+
+    }
+
 
     @Test
     public void countConsecutivesOnesInBinaryString() {
