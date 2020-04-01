@@ -48,6 +48,46 @@ public class HackerRankTest {
     }
 
     @Test
+    public void sortNameByEmailRegEx() {
+
+        assertEquals(Arrays.asList(new ArrayList<String>() {{
+            add("julia");
+            add("julia");
+            add("riya");
+            add("samantha");
+            add("tanya");
+        }}), Arrays.asList(sortNameByEmailRegEx(new ArrayList<String>() {{
+            add("riya riya@gmail.com");
+            add("julia julia@julia.me");
+            add("julia sjulia@gmail.com");
+            add("julia sjulia@gmail.com");
+            add("samantha samantha@gmail.com");
+            add("tanya tanya@gmail.com");
+        }})));
+    }
+
+    public List<String> sortNameByEmailRegEx(List<String> list) {
+
+        List<String> sol = new ArrayList<>();
+
+        for (String s : list) {
+            String[] firstNameEmailID = s.split(" ");
+
+            String firstName = firstNameEmailID[0];
+
+            String emailID = firstNameEmailID[1];
+
+            if (emailID.contains("@gmail.com"))
+                sol.add(firstName);
+        }
+
+        Collections.sort(sol);
+
+        return sol;
+    }
+
+
+    @Test
     public void nestedLogic() {
 
         nestedLogic("31 8 2004", "20 1 2004");
