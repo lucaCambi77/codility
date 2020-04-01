@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.hackerRank;
 
@@ -570,6 +570,7 @@ public class HackerRankJavaTest extends AbstractTest
     {
         assertEquals("EVEN", javaLambaExpression("1 4"));
         assertEquals("PRIME", javaLambaExpression("2 5"));
+        assertEquals("PRIME", javaLambaExpression("2 1"));
         assertEquals("PALINDROME", javaLambaExpression("3 898"));
         assertEquals("ODD", javaLambaExpression("1 3"));
         assertEquals("COMPOSITE", javaLambaExpression("2 12"));
