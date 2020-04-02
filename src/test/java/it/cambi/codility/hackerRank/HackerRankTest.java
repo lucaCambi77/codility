@@ -47,6 +47,61 @@ public class HackerRankTest {
         System.setOut(out);
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"src/test/resources/bitWiseAnd/bitWiseAnd"})
+    public void bitWiseAnd(String path) throws IOException {
+
+        InputStream is = new FileInputStream(path + ".txt");
+        BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+
+        String line = buf.readLine();
+
+        InputStream is1 = new FileInputStream(path + "Sol.txt");
+        BufferedReader buf1 = new BufferedReader(new InputStreamReader(is1));
+
+        String line1 = buf1.readLine();
+
+        while (line != null && line1 != null) {
+
+            assertEquals(Integer.parseInt(line1), getMaxBitWiseAnd(line));
+
+            line = buf.readLine();
+            line1 = buf1.readLine();
+
+        }
+
+    }
+
+    public int getMaxBitWiseAnd(String input) {
+
+        String[] nk = input.split(" ");
+
+        int n = Integer.parseInt(nk[0]);
+
+        int k = Integer.parseInt(nk[1]);
+
+        int i = 1;
+        int sol = 0;
+
+        while (i < n) {
+
+            int tmp = n;
+
+            while (tmp > i) {
+                int value = i & tmp;
+
+                if (value > 0 && value < k)
+                    sol = Math.max(sol, value);
+
+                tmp--;
+            }
+
+            i++;
+        }
+
+        return sol;
+    }
+
     @Test
     public void sortNameByEmailRegEx() {
 
