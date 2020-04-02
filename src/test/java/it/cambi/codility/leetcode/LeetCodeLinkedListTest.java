@@ -38,21 +38,14 @@ public class LeetCodeLinkedListTest {
         assertEquals(5, getDecimalValue(head));
 
         head = new ListNode(1);
-        head.next = new ListNode(0);
-        head.next.next = new ListNode(0);
-        head.next.next.next = new ListNode(1);
-        head.next.next.next.next = new ListNode(0);
-        head.next.next.next.next.next = new ListNode(0);
-        head.next.next.next.next.next.next = new ListNode(1);
-        head.next.next.next.next.next.next.next = new ListNode(1);
-        head.next.next.next.next.next.next.next.next = new ListNode(1);
-        head.next.next.next.next.next.next.next.next.next = new ListNode(0);
-        head.next.next.next.next.next.next.next.next.next.next = new ListNode(0);
-        head.next.next.next.next.next.next.next.next.next.next.next = new ListNode(0);
-        head.next.next.next.next.next.next.next.next.next.next.next.next = new ListNode(0);
-        head.next.next.next.next.next.next.next.next.next.next.next.next.next = new ListNode(0);
-        head.next.next.next.next.next.next.next.next.next.next.next.next.next.next = new ListNode(0);
 
+        int[] arr = new int[]{0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0};
+
+        ListNode tmp = head;
+        for (int i : arr) {
+            tmp.next = new ListNode(i);
+            tmp = tmp.next;
+        }
         assertEquals(18880, getDecimalValueBitWise(head));
 
     }
