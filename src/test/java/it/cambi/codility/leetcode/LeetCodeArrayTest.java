@@ -35,6 +35,34 @@ public class LeetCodeArrayTest {
     private int[] nums;
 
     @Test
+    public void findLucky() {
+        assertEquals(2, findLucky(new int[]{2, 2, 3, 4}));
+        assertEquals(3, findLucky(new int[]{1, 2, 2, 3, 3, 3}));
+        assertEquals(-1, findLucky(new int[]{2, 2, 2, 3, 3}));
+        assertEquals(-1, findLucky(new int[]{5}));
+    }
+
+    public int findLucky(int[] arr) {
+
+        Map<Integer, Integer> map = new HashMap<>();
+        Set<Integer> set = new HashSet<>();
+
+        for (int i : arr) {
+            map.put(i, map.getOrDefault(i, 0) + 1);
+            set.add(i);
+        }
+
+        PriorityQueue<Integer> list = new PriorityQueue<>(Collections.reverseOrder());
+
+        for (int i : set) {
+            if (i == map.get(i))
+                list.add(i);
+        }
+
+        return list.isEmpty() ? -1 : list.peek();
+    }
+
+    @Test
     public void relativeSortArray() {
         assertArrayEquals(new int[]{2, 2, 2, 1, 4, 3, 3, 9, 6, 7, 19}, relativeSortArray(new int[]{2, 3, 1, 3, 2, 4, 6, 7, 9, 2, 19}, new int[]{2, 1, 4, 3, 9, 6}));
         assertArrayEquals(new int[]{22, 28, 8, 6, 17, 44}, relativeSortArray(new int[]{28, 6, 22, 8, 44, 17}, new int[]{22, 28, 8, 6}));
