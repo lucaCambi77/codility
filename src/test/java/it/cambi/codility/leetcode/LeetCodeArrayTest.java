@@ -35,6 +35,45 @@ public class LeetCodeArrayTest {
     private int[] nums;
 
     @Test
+    public void countCharacters() {
+
+        assertEquals(6, countCharacters(new String[]{"cat", "bt", "hat", "tree"}, "atach"));
+        assertEquals(10, countCharacters(new String[]{"hello", "world", "leetcode"}, "welldonehoneyr"));
+    }
+
+    public int countCharacters(String[] words, String chars) {
+
+        char[] letters = chars.toCharArray();
+        int[] frequency = new int[128];
+
+        for (char letter : letters) {
+            frequency[letter] = ++frequency[letter];
+        }
+
+        int sol = 0;
+
+        for (String word : words) {
+            int[] clone = frequency.clone();
+            boolean isOk = true;
+
+            for (char c : word.toCharArray()) {
+                if (clone[c] > 0)
+                    clone[c] = --clone[c];
+                else {
+                    isOk = false;
+                    break;
+                }
+            }
+
+            if (isOk)
+                sol += word.length();
+
+        }
+
+        return sol;
+    }
+
+    @Test
     public void numRookCaptures() {
 
         assertEquals(3, numRookCaptures(new char[][]{
