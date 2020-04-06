@@ -34,6 +34,48 @@ public class LeetCodeArrayTest {
 
     private int[] nums;
 
+
+    private String[] daysOfWeek = new String[]{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+
+    @Test
+    public void dayOfTheWeek() {
+        assertEquals(daysOfWeek[6], dayOfTheWeek(31, 8, 2019));
+        assertEquals(daysOfWeek[0], dayOfTheWeek(18, 7, 1999));
+        assertEquals(daysOfWeek[0], dayOfTheWeek(15, 8, 1993));
+    }
+
+    private String dayOfTheWeek(int day, int month, int year) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month - 1, day);
+
+        return daysOfWeek[calendar.get(Calendar.DAY_OF_WEEK) - 1];
+
+    }
+
+    @Test
+    public void heightChecker() {
+
+        assertEquals(3, heightChecker(new int[]{1, 1, 4, 2, 1, 3}));
+        assertEquals(5, heightChecker(new int[]{5, 1, 2, 3, 4}));
+    }
+
+    private int heightChecker(int[] heights) {
+
+        int[] clone = heights.clone();
+
+        Arrays.parallelSort(heights);
+
+        int count = 0;
+
+        for (int i = 0; i < clone.length; i++) {
+            if (clone[i] != heights[i])
+                count++;
+        }
+
+        return count;
+    }
+
     @Test
     public void findLucky() {
         assertEquals(2, findLucky(new int[]{2, 2, 3, 4}));
@@ -42,7 +84,7 @@ public class LeetCodeArrayTest {
         assertEquals(-1, findLucky(new int[]{5}));
     }
 
-    public int findLucky(int[] arr) {
+    private int findLucky(int[] arr) {
 
         Map<Integer, Integer> map = new HashMap<>();
         Set<Integer> set = new HashSet<>();
@@ -56,7 +98,7 @@ public class LeetCodeArrayTest {
 
         for (int i : set) {
             if (i == map.get(i))
-               sol = Math.max(sol, i);
+                sol = Math.max(sol, i);
         }
 
         return sol;
@@ -69,7 +111,7 @@ public class LeetCodeArrayTest {
         assertArrayEquals(new int[]{21, 11, 26, 20, 1, 18, 34, 50}, relativeSortArray(new int[]{26, 21, 11, 20, 50, 34, 1, 18}, new int[]{21, 11, 26, 20}));
     }
 
-    public int[] relativeSortArray(int[] arr1, int[] arr2) {
+    private int[] relativeSortArray(int[] arr1, int[] arr2) {
 
         Map<Integer, Integer> map = new HashMap<>();
 
@@ -109,7 +151,7 @@ public class LeetCodeArrayTest {
         assertEquals(10, countCharacters(new String[]{"hello", "world", "leetcode"}, "welldonehoneyr"));
     }
 
-    public int countCharacters(String[] words, String chars) {
+    private int countCharacters(String[] words, String chars) {
 
         char[] letters = chars.toCharArray();
         int[] frequency = new int[128];
@@ -164,7 +206,7 @@ public class LeetCodeArrayTest {
                 {'.', '.', '.', '.', '.', '.', '.', '.'}}));
     }
 
-    public int numRookCaptures(char[][] board) {
+    private int numRookCaptures(char[][] board) {
 
         int i = 0;
 
@@ -263,7 +305,7 @@ public class LeetCodeArrayTest {
         assertArrayEquals(new int[]{0, 1}, smallerNumbersThanCurrent(new int[]{1, 2}));
     }
 
-    public int[] smallerNumbersThanCurrent(int[] nums) {
+    private int[] smallerNumbersThanCurrent(int[] nums) {
 
         int[] clone = nums.clone();
 
@@ -306,7 +348,7 @@ public class LeetCodeArrayTest {
         assertArrayEquals(new int[]{8, 6, 2, 4}, sumEvenAfterQueries(new int[]{1, 2, 3, 4}, new int[][]{{1, 0}, {-3, 1}, {-4, 0}, {2, 3}}));
     }
 
-    public int[] sumEvenAfterQueries(int[] A, int[][] queries) {
+    private int[] sumEvenAfterQueries(int[] A, int[][] queries) {
 
         int j = 0;
         int[] sol = new int[A.length];
