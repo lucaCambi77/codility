@@ -52,14 +52,14 @@ public class LeetCodeArrayTest {
             set.add(i);
         }
 
-        PriorityQueue<Integer> list = new PriorityQueue<>(Collections.reverseOrder());
+        int sol = -1;
 
         for (int i : set) {
             if (i == map.get(i))
-                list.add(i);
+               sol = Math.max(sol, i);
         }
 
-        return list.isEmpty() ? -1 : list.peek();
+        return sol;
     }
 
     @Test
