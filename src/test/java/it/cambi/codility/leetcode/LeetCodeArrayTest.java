@@ -38,6 +38,52 @@ public class LeetCodeArrayTest {
     private String[] daysOfWeek = new String[]{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
     @Test
+    public void oddCells() {
+        assertEquals(6, oddCells(2, 3, new int[][]{{0, 1}, {1, 1}}));
+        assertEquals(0, oddCells(2, 2, new int[][]{{1, 1}, {0, 0}}));
+
+    }
+
+    private int oddCells(int n, int m, int[][] indices) {
+
+        int[][] matrix = new int[n][m];
+        int sol = 0;
+        for (int[] ints : indices) {
+
+            int[] row = matrix[ints[0]];
+            for (int i = 0; i < row.length; i++) {
+                int prev = row[i];
+                row[i] = prev + 1;
+
+                if ((row[i] & 1) != 0)
+                    sol++;
+
+                if (prev != 0 && (prev & 1) == 1) {
+                    sol--;
+                }
+
+            }
+
+            int column = ints[1];
+
+            for (int i = 0; i < matrix.length; i++) {
+                int[] rows = matrix[i];
+                int prev = rows[column];
+                rows[column] = prev + 1;
+
+                if ((rows[column] & 1) != 0)
+                    sol++;
+                if (prev != 0 && (prev & 1) == 1) {
+                    sol--;
+                }
+            }
+
+        }
+
+        return sol;
+    }
+
+    @Test
     public void dayOfTheWeek() {
         assertEquals(daysOfWeek[6], dayOfTheWeek(31, 8, 2019));
         assertEquals(daysOfWeek[0], dayOfTheWeek(18, 7, 1999));
