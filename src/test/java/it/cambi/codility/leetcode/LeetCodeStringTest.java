@@ -63,6 +63,26 @@ public class LeetCodeStringTest {
         }
     };
 
+    @Test
+    public void numJewelsInStones() {
+        assertEquals(3, numJewelsInStones("aA", "aAAbbbb"));
+        assertEquals(0, numJewelsInStones("z", "ZZ"));
+    }
+
+    private int numJewelsInStones(String J, String S) {
+
+        Map<Character, Integer> map = new HashMap<>();
+
+        for (Character aChar : S.toCharArray())
+            map.put(aChar, map.getOrDefault(aChar, 0) + 1);
+
+        int solution = 0;
+
+        for (Character character : J.toCharArray())
+            solution += map.getOrDefault(character, 0);
+
+        return solution;
+    }
 
     @Test
     public void mostCommonWord() {
@@ -75,7 +95,7 @@ public class LeetCodeStringTest {
                 , new String[]{"a"}));
     }
 
-    public String mostCommonWord(String paragraph, String[] banned) {
+    private String mostCommonWord(String paragraph, String[] banned) {
 
         Set<String> words = Arrays.asList(banned).stream().collect(Collectors.toSet());
 
@@ -116,7 +136,7 @@ public class LeetCodeStringTest {
 
     }
 
-    public int rotatedDigits(int N) {
+    private int rotatedDigits(int N) {
 
         Pattern match
                 = Pattern.compile("[347]");
@@ -174,7 +194,7 @@ public class LeetCodeStringTest {
 
     }
 
-    public int findLUSlength(String a, String b) {
+    private int findLUSlength(String a, String b) {
 
         int aLength = a.length();
         int bLength = b.length();
@@ -217,7 +237,7 @@ public class LeetCodeStringTest {
 
     }
 
-    public String licenseKeyFormatting(String S, int K) {
+    private String licenseKeyFormatting(String S, int K) {
         String replace = S.replaceAll("-", "").toUpperCase();
 
         if (replace.length() < K)
@@ -260,7 +280,7 @@ public class LeetCodeStringTest {
 
     }
 
-    public String removeOuterParentheses(String S) {
+    private String removeOuterParentheses(String S) {
         Stack<Character> stack = new Stack<Character>();
         char c = S.charAt(0);
         boolean isOuterMost = false;
