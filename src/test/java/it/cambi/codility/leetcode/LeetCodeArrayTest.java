@@ -38,6 +38,50 @@ public class LeetCodeArrayTest {
     private String[] daysOfWeek = new String[]{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
     @Test
+    public void numEquivDominoPairs() {
+        assertEquals(1, numEquivDominoPairs(new int[][]{{1, 2}, {2, 1}, {3, 4}, {5, 6}}));
+        assertEquals(3, numEquivDominoPairs(new int[][]{{1, 2}, {1, 2}, {1, 1}, {1, 2}, {2, 2}}));
+    }
+
+    private int numEquivDominoPairs(int[][] dominoes) {
+
+        Map<Integer, Map<Integer, Integer>> dominoesMap = new HashMap<Integer, Map<Integer, Integer>>();
+
+        int count = 0;
+
+        for (int[] dominoe : dominoes) {
+
+        }
+
+
+        return count;
+    }
+
+    @Test
+    public void uniqueOccurrences() {
+        assertEquals(true, uniqueOccurrences(new int[]{1, 2, 2, 1, 1, 3}));
+        assertEquals(false, uniqueOccurrences(new int[]{1, 2}));
+        assertEquals(true, uniqueOccurrences(new int[]{-3, 0, 1, -3, 1, 1, 1, -3, 10, 0}));
+    }
+
+    public boolean uniqueOccurrences(int[] arr) {
+
+        Map<Integer, Integer> freq = new HashMap<>();
+
+        for (int i : arr)
+            freq.put(i, freq.getOrDefault(i, 0) + 1);
+
+        HashSet<Integer> seen = new HashSet<>();
+
+        for (Integer integer : freq.values()) {
+            if (!seen.add(integer))
+                return false;
+        }
+
+        return true;
+    }
+
+    @Test
     public void oddCells() {
         assertEquals(6, oddCells(2, 3, new int[][]{{0, 1}, {1, 1}}));
         assertEquals(0, oddCells(2, 2, new int[][]{{1, 1}, {0, 0}}));
