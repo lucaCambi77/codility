@@ -53,7 +53,6 @@ public class LeetCodeArrayTest {
 
         }
 
-
         return count;
     }
 
