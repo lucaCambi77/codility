@@ -57,12 +57,35 @@ public class LeetCodeArrayTest {
     }
 
     @Test
+    public void findOcurrences() {
+        assertArrayEquals(new String[]{"girl", "student"}, findOcurrences("alice is a good girl she is a good student", "a", "good"));
+        assertArrayEquals(new String[]{"we", "rock"}, findOcurrences("we will we will rock you", "we", "will"));
+        assertArrayEquals(new String[]{"kcyxdfnoa", "kcyxdfnoa", "kcyxdfnoa"}, findOcurrences("jkypmsxd jkypmsxd kcyxdfnoa jkypmsxd kcyxdfnoa jkypmsxd kcyxdfnoa kcyxdfnoa jkypmsxd kcyxdfnoa",
+                "kcyxdfnoa",
+                "jkypmsxd"));
+    }
+
+    private String[] findOcurrences(String text, String first, String second) {
+
+        String[] split = text.split(" ");
+
+        LinkedList<String> list = new LinkedList<>();
+
+        for (int position = 0; position < split.length; position++) {
+            if (position - 1 >= 0 && split[position].equals(second) && position + 1 < split.length && split[position - 1].equals(first))
+                list.add(split[position + 1]);
+        }
+
+        return list.stream().toArray(String[]::new);
+    }
+
+    @Test
     public void dailyTemperatures() {
         assertArrayEquals(new int[]{1, 1, 4, 2, 1, 1, 0, 0}, dailyTemperatures(new int[]{73, 74, 75, 71, 69, 72, 76, 73}));
         assertArrayEquals(new int[]{8, 1, 5, 4, 3, 2, 1, 1, 0, 0}, dailyTemperatures(new int[]{89, 62, 70, 58, 47, 47, 46, 76, 100, 70}));
     }
 
-    public int[] dailyTemperatures(int[] T) {
+    private int[] dailyTemperatures(int[] T) {
 
         int[] positions = new int[101];
 
