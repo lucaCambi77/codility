@@ -57,6 +57,43 @@ public class LeetCodeArrayTest {
     }
 
     @Test
+    public void dailyTemperatures() {
+        assertArrayEquals(new int[]{1, 1, 4, 2, 1, 1, 0, 0}, dailyTemperatures(new int[]{73, 74, 75, 71, 69, 72, 76, 73}));
+        assertArrayEquals(new int[]{8, 1, 5, 4, 3, 2, 1, 1, 0, 0}, dailyTemperatures(new int[]{89, 62, 70, 58, 47, 47, 46, 76, 100, 70}));
+    }
+
+    public int[] dailyTemperatures(int[] T) {
+
+        int[] positions = new int[101];
+
+        int[] sol = new int[T.length];
+        sol[T.length - 1] = 0;
+        int i = T.length - 1;
+        positions[T[i]] = i;
+
+        while (--i >= 0) {
+
+            int value = T[i];
+
+            int position = value;
+
+            int result = Integer.MAX_VALUE;
+
+            while (++position < 101) {
+                if (positions[position] > i)
+                    result = Math.min(result, positions[position] - i);
+
+            }
+
+            sol[i] = result == Integer.MAX_VALUE ? 0 : result;
+            positions[value] = i;
+
+        }
+
+        return sol;
+    }
+
+    @Test
     public void uniqueOccurrences() {
         assertEquals(true, uniqueOccurrences(new int[]{1, 2, 2, 1, 1, 3}));
         assertEquals(false, uniqueOccurrences(new int[]{1, 2}));
@@ -2900,6 +2937,7 @@ public class LeetCodeArrayTest {
         public int getMin() {
             return min;
         }
+
     }
 
     @Test
