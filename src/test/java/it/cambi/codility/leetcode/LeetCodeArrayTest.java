@@ -57,6 +57,29 @@ public class LeetCodeArrayTest {
     }
 
     @Test
+    public void repeatedNTimes() {
+
+        assertEquals(3, repeatedNTimes(new int[]{1, 2, 3, 3}));
+        assertEquals(2, repeatedNTimes(new int[]{2, 1, 2, 5, 3, 2}));
+        assertEquals(5, repeatedNTimes(new int[]{5, 1, 5, 2, 5, 3, 5, 4}));
+    }
+
+    private int repeatedNTimes(int[] A) {
+
+        int half = A.length / 2;
+
+        int[] freq = new int[10001];
+
+        for (int i : A) {
+            int frequency = ++freq[i];
+            if (frequency - half == 0)
+                return i;
+        }
+
+        return -1;
+    }
+
+    @Test
     public void findOcurrences() {
         assertArrayEquals(new String[]{"girl", "student"}, findOcurrences("alice is a good girl she is a good student", "a", "good"));
         assertArrayEquals(new String[]{"we", "rock"}, findOcurrences("we will we will rock you", "we", "will"));
