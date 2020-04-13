@@ -6,7 +6,6 @@ package it.cambi.codility.leetcode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.cambi.codility.model.Array;
-import it.cambi.codility.model.Trie;
 import javafx.util.Pair;
 import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 import org.junit.jupiter.api.Test;
