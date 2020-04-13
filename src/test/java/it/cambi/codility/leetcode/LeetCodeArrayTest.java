@@ -6,6 +6,7 @@ package it.cambi.codility.leetcode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.cambi.codility.model.Array;
+import it.cambi.codility.model.Trie;
 import javafx.util.Pair;
 import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 import org.junit.jupiter.api.Test;
@@ -62,6 +63,10 @@ public class LeetCodeArrayTest {
         assertEquals("world", longestWord(new String[]{"w", "wo", "wor", "worl", "world"}));
         assertEquals("breakfast", longestWord(new String[]{"b", "br", "bre", "brea", "break", "breakf", "breakfa", "breakfas", "breakfast", "l", "lu", "lun", "lunc", "lunch", "d", "di", "din", "dinn", "dinne", "dinner"}));
         assertEquals("yodn", longestWord(new String[]{"yo", "ew", "fc", "zrc", "yodn", "fcm", "qm", "qmo", "fcmz", "z", "ewq", "yod", "ewqz", "y"}));
+        assertEquals("eyj"
+                , longestWord(new String[]{"ogz", "eyj", "e", "ey", "hmn", "v", "hm", "ogznkb", "ogzn", "hmnm", "eyjuo", "vuq", "ogznk", "og", "eyjuoi", "d"}));
+        assertEquals("otif"
+                , longestWord(new String[]{"rac", "rs", "ra", "on", "r", "otif", "o", "onpdu", "rsf", "rs", "ot", "oti", "racy", "onpd"}));
 
     }
 
@@ -69,44 +74,35 @@ public class LeetCodeArrayTest {
 
         Arrays.parallelSort(words);
 
-        Map<Integer, Set<String>> map = new HashMap<>();
+        Set<String> seenSeed = new HashSet<>();
 
-
-        for (int i = 0; i < words.length; i++) {
-
-            String word = null;
-            int count = 0;
-            for (int j = i + 1; j < words.length; j++) {
-
-                if (words[j].startsWith(words[i])) {
-                    if (null != word && words[j].length() == word.length()) {
-                        if (words[j].compareTo(word) < 0)
-                            word = words[j];
-                    } else {
-
-                        word = words[j];
-                        count++;
-                    }
-                }
+        String word = "";
+        for (String s : words) {
+            if (s.length() == 1) {
+                seenSeed.add(s);
+                word = checkWord(word, s);
+                continue;
             }
 
-            if (null != word)
-                map.computeIfAbsent(count, f -> new HashSet<String>()).add(word);
+            if (seenSeed.contains(s.substring(0, s.length() - 1))) {
+                seenSeed.add(s);
+
+                word = checkWord(word, s);
+            }
 
         }
 
-        LinkedList<String> list = map.entrySet().stream()
-                .sorted(Collections.reverseOrder(Map.Entry.comparingByKey())).iterator().next().getValue().stream().sorted(new Comparator<String>() {
-                    @Override
-                    public int compare(String s1, String s2) {
-                        if (s1.length() - s2.length() == 0)
-                            return s1.compareTo(s2);
+        return word;
+    }
 
-                        return s2.length() - s1.length();
-                    }
-                }).collect(Collectors.toCollection(LinkedList::new));
-
-        return list.get(0);
+    private String checkWord(String word, String s) {
+        if (s.length() - word.length() > 0)
+            word = s;
+        else if (s.length() - word.length() == 0) {
+            if (s.compareTo(word) < 0)
+                word = s;
+        }
+        return word;
     }
 
     @Test
@@ -131,6 +127,7 @@ public class LeetCodeArrayTest {
 
         return -1;
     }
+
 
     @Test
     public void findOcurrences() {
