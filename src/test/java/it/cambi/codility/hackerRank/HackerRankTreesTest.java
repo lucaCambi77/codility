@@ -100,9 +100,9 @@ public class HackerRankTreesTest {
         while (!queue.isEmpty()) {
             int size = queue.size();
 
-            for (Node root : queue) {
+            for (Node root : queue)
                 System.out.print(root.data + " ");
-            }
+
 
             List<Node> list = new ArrayList<Node>();
 
@@ -112,10 +112,12 @@ public class HackerRankTreesTest {
                 if (null != root.right)
                     list.add(root.right);
             }
+
             queue.addAll(list);
-            for (int i = 0; i < size; i++) {
+
+            for (int i = 0; i < size; i++)
                 queue.poll();
-            }
+
             levelOrderTrasv(queue);
         }
     }
