@@ -56,6 +56,71 @@ public class LeetCodeArrayTest {
         return count;
     }
 
+
+    @Test
+    public void islandPerimeter() {
+        assertEquals(16, islandPerimeter(new int[][]
+                {{0, 1, 0, 0},
+                        {1, 1, 1, 0},
+                        {0, 1, 0, 0},
+                        {1, 1, 0, 0}}));
+
+        assertEquals(4, islandPerimeter(new int[][]
+                {{1, 0, 0, 0},
+                        {0, 0, 0, 0},
+                        {0, 0, 0, 0},
+                        {0, 0, 0, 0}}));
+
+        assertEquals(8, islandPerimeter(new int[][]
+                {{1, 0, 0, 0},
+                        {1, 1, 0, 0},
+                        {0, 0, 0, 0},
+                        {0, 0, 0, 0}}));
+    }
+
+    private int islandPerimeter(int[][] grid) {
+
+        int sol = 0;
+
+        for (int i = 0; i < grid.length; i++) {
+            int[] arr = grid[i];
+
+            for (int j = 0; j < arr.length; j++) {
+
+                if (arr[j] == 1) {
+                    sol += 4;
+
+                    if (j - 1 >= 0) {
+                        if (arr[j - 1] == 1)
+                            sol -= 1;
+                    }
+
+                    if (j + 1 < arr.length) {
+                        if (arr[j + 1] == 1)
+                            sol -= 1;
+                    }
+
+                    if (i + 1 < grid.length) {
+                        if (grid[i + 1][j] == 1)
+                            sol -= 1;
+
+                    }
+
+                    if (i - 1 >= 0) {
+                        if (grid[i - 1][j] == 1)
+                            sol -= 1;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        return sol;
+    }
+
     @Test
     public void longestWord() {
         assertEquals("apple", longestWord(new String[]{"a", "banana", "app", "appl", "ap", "apply", "apple"}));
