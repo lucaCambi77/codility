@@ -6,10 +6,34 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class LeetCodeHashMapTest {
+
+    @Test
+    public void uncommonFromSentences() {
+        assertArrayEquals(new String[]{"sweet", "sour"}, uncommonFromSentences("this apple is sweet", "this apple is sour"));
+    }
+
+    private String[] uncommonFromSentences(String A, String B) {
+
+        Map<String, Integer> freqMap = new HashMap<>();
+
+        String[] split = A.split(" ");
+        String[] split1 = B.split(" ");
+
+        for (String s : split) {
+            freqMap.put(s, freqMap.getOrDefault(s, 0) + 1);
+        }
+
+        for (String s : split1) {
+            freqMap.put(s, freqMap.getOrDefault(s, 0) + 1);
+        }
+
+        return freqMap.entrySet().stream().filter(x -> x.getValue() == 1).map(x -> x.getKey()).toArray(String[]::new);
+    }
 
     @Test
     public void findLucky() {
