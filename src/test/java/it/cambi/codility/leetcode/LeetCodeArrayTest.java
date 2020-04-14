@@ -67,9 +67,12 @@ public class LeetCodeArrayTest {
         assertEquals("otif"
                 , longestWord(new String[]{"rac", "rs", "ra", "on", "r", "otif", "o", "onpdu", "rsf", "rs", "ot", "oti", "racy", "onpd"}));
 
+        assertEquals("otif"
+                , longestWord1(new String[]{"rac", "rs", "ra", "on", "r", "otif", "o", "onpdu", "rsf", "rs", "ot", "oti", "racy", "onpd"}));
+
     }
 
-    public String longestWord(String[] words) {
+    private String longestWord(String[] words) {
 
         Arrays.parallelSort(words);
 
@@ -102,6 +105,67 @@ public class LeetCodeArrayTest {
                 word = s;
         }
         return word;
+    }
+
+    private String longestWord1(String[] words) {
+        Trie trie = new Trie();
+        int index = 0;
+        for (String word : words) {
+            trie.insert(word, ++index); //indexed by 1
+        }
+        trie.words = words;
+        return trie.dfs();
+    }
+
+
+    class Node {
+        char c;
+        HashMap<Character, Node> children = new HashMap();
+        int end;
+
+        public Node(char c) {
+            this.c = c;
+        }
+    }
+
+    class Trie {
+        Node root;
+        String[] words;
+
+        public Trie() {
+            root = new Node('0');
+        }
+
+        public void insert(String word, int index) {
+            Node cur = root;
+            for (char c : word.toCharArray()) {
+                cur.children.putIfAbsent(c, new Node(c));
+                cur = cur.children.get(c);
+            }
+            cur.end = index;
+        }
+
+        public String dfs() {
+            String ans = "";
+            Stack<Node> stack = new Stack();
+            stack.push(root);
+            while (!stack.empty()) {
+                Node node = stack.pop();
+                if (node.end > 0 || node == root) {
+                    if (node != root) {
+                        String word = words[node.end - 1];
+                        if (word.length() > ans.length() ||
+                                word.length() == ans.length() && word.compareTo(ans) < 0) {
+                            ans = word;
+                        }
+                    }
+                    for (Node nei : node.children.values()) {
+                        stack.push(nei);
+                    }
+                }
+            }
+            return ans;
+        }
     }
 
     @Test
@@ -189,30 +253,6 @@ public class LeetCodeArrayTest {
     }
 
     @Test
-    public void uniqueOccurrences() {
-        assertEquals(true, uniqueOccurrences(new int[]{1, 2, 2, 1, 1, 3}));
-        assertEquals(false, uniqueOccurrences(new int[]{1, 2}));
-        assertEquals(true, uniqueOccurrences(new int[]{-3, 0, 1, -3, 1, 1, 1, -3, 10, 0}));
-    }
-
-    public boolean uniqueOccurrences(int[] arr) {
-
-        Map<Integer, Integer> freq = new HashMap<>();
-
-        for (int i : arr)
-            freq.put(i, freq.getOrDefault(i, 0) + 1);
-
-        HashSet<Integer> seen = new HashSet<>();
-
-        for (Integer integer : freq.values()) {
-            if (!seen.add(integer))
-                return false;
-        }
-
-        return true;
-    }
-
-    @Test
     public void oddCells() {
         assertEquals(6, oddCells(2, 3, new int[][]{{0, 1}, {1, 1}}));
         assertEquals(0, oddCells(2, 2, new int[][]{{1, 1}, {0, 0}}));
@@ -295,34 +335,6 @@ public class LeetCodeArrayTest {
         }
 
         return count;
-    }
-
-    @Test
-    public void findLucky() {
-        assertEquals(2, findLucky(new int[]{2, 2, 3, 4}));
-        assertEquals(3, findLucky(new int[]{1, 2, 2, 3, 3, 3}));
-        assertEquals(-1, findLucky(new int[]{2, 2, 2, 3, 3}));
-        assertEquals(-1, findLucky(new int[]{5}));
-    }
-
-    private int findLucky(int[] arr) {
-
-        Map<Integer, Integer> map = new HashMap<>();
-        Set<Integer> set = new HashSet<>();
-
-        for (int i : arr) {
-            map.put(i, map.getOrDefault(i, 0) + 1);
-            set.add(i);
-        }
-
-        int sol = -1;
-
-        for (int i : set) {
-            if (i == map.get(i))
-                sol = Math.max(sol, i);
-        }
-
-        return sol;
     }
 
     @Test
