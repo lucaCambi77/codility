@@ -56,6 +56,105 @@ public class LeetCodeArrayTest {
         return count;
     }
 
+    @Test
+    public void floodFill() {
+
+        assertArrayEquals(new int[][]{{0, 0, 0}, {0, 1, 1}}
+                , floodFill(new int[][]{{0, 0, 0}, {0, 1, 1}}, 1, 1, 1));
+
+        assertArrayEquals(new int[][]{{2, 2, 2}, {2, 2, 0}, {2, 0, 1}}
+                , floodFill(new int[][]{{1, 1, 1}, {1, 1, 0}, {1, 0, 1}}, 1, 1, 2));
+
+        assertArrayEquals(new int[][]{{1, 1, 1}, {1, 1, 0}, {1, 0, 2}}
+                , floodFill(new int[][]{{1, 1, 1}, {1, 1, 0}, {1, 0, 1}}, 2, 2, 2));
+
+        assertArrayEquals(new int[][]{{2, 2, 2}, {2, 2, 0}, {2, 0, 1}}
+                , floodFill(new int[][]{{1, 1, 1}, {1, 1, 0}, {1, 0, 1}}, 0, 0, 2));
+
+        assertArrayEquals(new int[][]{{1, 1, 1}, {1, 1, 2}, {1, 0, 1}}
+                , floodFill(new int[][]{{1, 1, 1}, {1, 1, 0}, {1, 0, 1}}, 1, 2, 2));
+
+        assertArrayEquals(new int[][]{{2, 2, 2}, {2, 2, 1}}
+                , floodFill(new int[][]{{0, 0, 0}, {0, 0, 1}}, 1, 0, 2));
+
+        assertArrayEquals(new int[][]{{2, 2, 2}, {2, 1, 2}}
+                , floodFill(new int[][]{{0, 0, 0}, {0, 1, 0}}, 0, 0, 2));
+
+        assertArrayEquals(new int[][]{{1, 1, 0}, {1, 1, 1}}
+                , floodFill(new int[][]{{0, 1, 0}, {0, 0, 1}}, 1, 1, 1));
+
+        assertArrayEquals(new int[][]{{8, 4, 5, 3, 2, 2, 2, 6, 9, 5}
+                        , {3, 1, 3, 7, 4, 8, 9, 0, 1, 6}
+                        , {0, 7, 1, 7, 5, 2, 2, 8, 6, 9}
+                        , {9, 1, 0, 5, 8, 8, 0, 5, 5, 9}
+                        , {3, 4, 9, 5, 4, 8, 0, 2, 7, 5}
+                        , {5, 1, 1, 8, 1, 6, 5, 9, 7, 8}
+                        , {9, 7, 9, 4, 5, 3, 4, 1, 8, 2}
+                        , {5, 1, 6, 3, 5, 4, 8, 9, 0, 8}
+                        , {9, 9, 6, 1, 0, 8, 0, 6, 9, 9}
+                        , {4, 1, 8, 7, 3, 6, 9, 6, 6, 1}}
+                , floodFill(new int[][]{{8, 4, 5, 3, 2, 2, 2, 6, 9, 5}
+                        , {3, 1, 3, 7, 4, 8, 9, 0, 1, 6}
+                        , {0, 7, 1, 7, 5, 2, 2, 8, 6, 9}
+                        , {9, 1, 0, 5, 8, 8, 0, 5, 5, 9}
+                        , {3, 4, 9, 5, 4, 8, 0, 2, 7, 5}
+                        , {5, 1, 1, 8, 1, 6, 5, 9, 7, 8}
+                        , {9, 7, 9, 4, 5, 3, 4, 1, 8, 2}
+                        , {5, 1, 6, 3, 5, 4, 8, 9, 0, 8}
+                        , {8, 8, 6, 1, 0, 8, 0, 6, 9, 9}
+                        , {4, 1, 8, 7, 3, 6, 9, 6, 6, 1}}, 8, 0, 9));
+
+    }
+
+    private int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+
+        if (image[sr][sc] == newColor)
+            return image;
+
+        int oldColor = image[sr][sc];
+        image[sr][sc] = newColor;
+
+        floodFill(image, sr, sc, newColor, oldColor);
+
+        return image;
+    }
+
+
+    private void floodFill(int[][] image, int sr, int sc, int newColor, int oldColor) {
+
+
+        if (sr >= 0 && sr < image.length && sc >= 0 && sc < image[sr].length) {
+
+            // check directions
+            if (sr + 1 < image.length &&
+                    checkPoint(image, sc, oldColor, newColor, sr + 1))
+                floodFill(image, sr + 1, sc, newColor, oldColor);
+
+            if (sr - 1 >= 0 &&
+                    checkPoint(image, sc, oldColor, newColor, sr - 1))
+                floodFill(image, sr - 1, sc, newColor, oldColor);
+
+            if (sc + 1 < image[sr].length &&
+                    checkPoint(image, sc + 1, oldColor, newColor, sr))
+                floodFill(image, sr, sc + 1, newColor, oldColor);
+
+            if (sc - 1 >= 0 &&
+                    checkPoint(image, sc - 1, oldColor, newColor, sr))
+                floodFill(image, sr, sc - 1, newColor, oldColor);
+
+        }
+
+    }
+
+    private boolean checkPoint(int[][] image, int sc, int oldColor, int newColor, int sr) {
+
+        if (image[sr][sc] - oldColor != 0)
+            return false;
+
+        image[sr][sc] = newColor;
+
+        return true;
+    }
 
     @Test
     public void islandPerimeter() {
