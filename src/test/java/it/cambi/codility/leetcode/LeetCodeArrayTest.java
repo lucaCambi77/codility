@@ -57,6 +57,94 @@ public class LeetCodeArrayTest {
     }
 
     @Test
+    public void isAlienSorted() {
+        assertEquals(true, isAlienSorted(new String[]{"hello", "leetcode"}, "hlabcdefgijkmnopqrstuvwxyz"));
+        assertEquals(false, isAlienSorted(new String[]{"word", "world", "row"}, "worldabcefghijkmnpqstuvxyz"));
+        assertEquals(false, isAlienSorted(new String[]{"apple", "app"}, "abcdefghijklmnopqrstuvwxyz"));
+    }
+
+    private boolean isAlienSorted(String[] words, String order) {
+
+        int i = 0;
+
+        while (i + 1 < words.length) {
+            String word1 = words[i];
+            String word2 = words[i + 1];
+
+            int length = Math.min(word1.length(), word2.length());
+
+            int j = 0;
+
+            while (j < length) {
+                if (order.indexOf(word1.charAt(j)) > order.indexOf(word2.charAt(j)))
+                    return false;
+                else if (order.indexOf(word1.charAt(j)) < order.indexOf(word2.charAt(j)))
+                    break;
+
+                j++;
+            }
+
+            if (j == length && word1.length() > word2.length())
+                return false;
+
+            i++;
+        }
+
+        return true;
+    }
+
+    @Test
+    public void shortestCompletingWord() {
+        assertEquals("steps", shortestCompletingWord("1s3 PSt", new String[]{"step", "steps", "stripe", "stepple"}));
+        assertEquals("pest", shortestCompletingWord("1s3 456", new String[]{"looks", "pest", "stew", "show"}));
+    }
+
+    public String shortestCompletingWord(String licensePlate, String[] words) {
+
+        String word = null;
+        Map<Character, Integer> map = new HashMap<>();
+        int licensPlateWordLength = 0;
+
+        for (char s : licensePlate.toCharArray()) {
+            if ((s >= 65 && s <= 90) || (s >= 97 && s <= 122)) {
+                licensPlateWordLength++;
+                char lower = Character.toLowerCase(s);
+                map.put(lower, map.getOrDefault(lower, 0) + 1);
+            }
+        }
+
+        Set<Character> seen = new HashSet<>();
+        int countChars;
+
+        for (String s : words) {
+            countChars = 0;
+            for (char c : s.toCharArray()) {
+                if (seen.add(c)) {
+                    long count = s.chars().filter(ch -> ch == c).count();
+
+                    int mapCount = map.getOrDefault(c, 0);
+
+                    if (mapCount != 0 && mapCount <= count)
+                        countChars += mapCount;
+                }
+            }
+
+            if (countChars >= licensPlateWordLength)
+                if (word == null) {
+                    word = s;
+                } else {
+                    if (s.length() < word.length())
+                        word = s;
+                }
+
+            seen = new HashSet<>();
+        }
+
+
+        return word;
+    }
+
+    @Test
     public void maxNumberOfBalloons() {
         assertEquals(1, maxNumberOfBalloons("nlaebolko"));
         assertEquals(2, maxNumberOfBalloons("loonbalxballpoon"));
@@ -93,7 +181,7 @@ public class LeetCodeArrayTest {
             chars[n] = --chars[n];
         }
 
-        
+
         return count;
     }
 
