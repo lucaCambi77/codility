@@ -13,6 +13,37 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class LeetCodeHashMapTest {
 
     @Test
+    public void findErrorNums() {
+
+        assertArrayEquals(new int[]{2, 3}, findErrorNums(new int[]{1, 2, 2, 4}));
+        assertArrayEquals(new int[]{2, 1}, findErrorNums(new int[]{2, 2}));
+        assertArrayEquals(new int[]{4, 5}, findErrorNums(new int[]{1, 2, 3, 4, 4, 6}));
+        assertArrayEquals(new int[]{3, 1}, findErrorNums(new int[]{3, 2, 3, 4, 6, 5}));
+        assertArrayEquals(new int[]{3, 2}, findErrorNums(new int[]{3, 3, 1}));
+    }
+
+    private int[] findErrorNums(int[] nums) {
+
+        Set<Integer> set = new HashSet<>();
+        int repeat = 0;
+        int seq = 0;
+
+        for (int num : nums) {
+            if (!set.add(num)) {
+                repeat = num;
+            }
+        }
+
+        while (++seq < nums.length + 1) {
+            if (!set.contains(seq))
+                return new int[]{repeat, seq};
+
+        }
+
+        return null;
+    }
+
+    @Test
     public void uncommonFromSentences() {
         assertArrayEquals(new String[]{"sweet", "sour"}, uncommonFromSentences("this apple is sweet", "this apple is sour"));
     }
