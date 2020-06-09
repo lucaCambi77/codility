@@ -41,6 +41,7 @@ public class LeetCodeTreeTest {
     @Test
     public void longestUnivaluePath() {
 
+/*
         Node head = new Node(5);
         Node left = new Node(4);
         Node right = new Node(5);
@@ -68,6 +69,26 @@ public class LeetCodeTreeTest {
         head.right = right1;
 
         assertEquals(2, longestUnivaluePath(head, 0, 0));
+*/
+
+        Node head = new Node(1);
+        Node left2 = new Node(2);
+        Node right2 = new Node(2);
+
+        right2.right = new Node(2);
+        right2.left = new Node(2);
+
+        Node leftLeft = new Node(2);
+        leftLeft.left = new Node(2);
+
+        left2.left = leftLeft;
+
+        left2.right = new Node(2);
+
+        head.left = left2;
+        head.right = right2;
+
+        assertEquals(3, longestUnivaluePath(head, 0, 0));
     }
 
     public int longestUnivaluePath(Node root, int count, int max) {
