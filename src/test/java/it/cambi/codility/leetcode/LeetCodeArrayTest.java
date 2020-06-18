@@ -14,6 +14,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -33,6 +34,64 @@ public class LeetCodeArrayTest {
       new String[] {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
   @Test
+  public void reorderLogFiles() {
+    assertArrayEquals(
+        new String[] {
+          "let1 art can", "let3 art zero", "let2 own kit dig", "dig1 8 1 5 1", "dig2 3 6"
+        },
+        reorderLogFiles(
+            new String[] {
+              "dig1 8 1 5 1", "let1 art can", "dig2 3 6", "let2 own kit dig", "let3 art zero"
+            }));
+
+    assertArrayEquals(
+        new String[] {
+          "a2 act car", "g1 act car", "a8 act zoo", "ab1 off key dog", "a1 9 2 3 1", "zo4 4 7"
+        },
+        reorderLogFiles(
+            new String[] {
+              "a1 9 2 3 1", "g1 act car", "zo4 4 7", "ab1 off key dog", "a8 act zoo", "a2 act car"
+            }));
+
+    assertArrayEquals(
+        new String[] {"t kvr", "7 so", "r 3 1", "i 403", "t 54"},
+        reorderLogFiles(new String[] {"t kvr", "r 3 1", "i 403", "7 so", "t 54"}));
+  }
+
+  private String[] reorderLogFiles(String[] logs) {
+
+    Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+
+    Arrays.sort(
+        logs,
+        new Comparator<String>() {
+          @Override
+          public int compare(String o1, String o2) {
+            String[] split = o1.split(" ");
+            String[] split1 = o2.split(" ");
+
+            if (!pattern.matcher(split[1]).matches() && !pattern.matcher(split1[1]).matches()) {
+              String patho1 = o1.substring(split[0].length() + 1);
+              String patho2 = o2.substring(split1[0].length() + 1);
+
+              if (patho1.compareTo(patho2) == 0) return split[0].compareTo(split1[0]);
+
+              return patho1.compareTo(patho2);
+            }
+
+            if (pattern.matcher(split[1]).matches() && pattern.matcher(split1[1]).matches())
+              return 0;
+
+            if (!pattern.matcher(split[1]).matches()) return -1;
+
+            return 1;
+          }
+        });
+
+    return logs;
+  }
+
+  @Test
   public void findDuplicates() {
 
     assertArrayEquals(
@@ -40,7 +99,7 @@ public class LeetCodeArrayTest {
         findDuplicates(new int[] {4, 3, 2, 7, 8, 2, 3, 1}).stream().mapToInt(i -> i).toArray());
   }
 
-  public List<Integer> findDuplicates(int[] nums) {
+  private List<Integer> findDuplicates(int[] nums) {
 
     Set<Integer> sol = new HashSet<>();
     List<Integer> list = new ArrayList<>();
@@ -57,7 +116,7 @@ public class LeetCodeArrayTest {
     assertTrue(canBeEqual(new int[] {1, 2, 3, 4}, new int[] {2, 4, 1, 3}));
   }
 
-  public boolean canBeEqual(int[] target, int[] arr) {
+  private boolean canBeEqual(int[] target, int[] arr) {
     Arrays.sort(target);
     Arrays.sort(arr);
 
@@ -86,7 +145,7 @@ public class LeetCodeArrayTest {
         Arrays.asList(luckyNumbers(new int[][] {{1, 10, 4, 2}, {9, 3, 8, 7}, {15, 16, 17, 12}})));
   }
 
-  public List<Integer> luckyNumbers(int[][] matrix) {
+  private List<Integer> luckyNumbers(int[][] matrix) {
 
     int length = matrix.length;
     int rowLentgh = matrix[0].length;
@@ -147,7 +206,7 @@ public class LeetCodeArrayTest {
   }
 
   @Test
-  public int[] shuffle(int[] nums, int n) {
+  private int[] shuffle(int[] nums, int n) {
 
     if (nums.length == 0) return new int[] {};
 
