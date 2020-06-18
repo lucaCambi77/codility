@@ -76,7 +76,7 @@ public class LeetCodeStringTest {
       if (s.charAt(i) == '#') {
         int pos =
             Integer.parseInt(
-                Character.toString(s.charAt(i - 2)) + Character.toString(s.charAt(i - 1)));
+                s.charAt(i - 2) + Character.toString(s.charAt(i - 1)));
         sol.append(alphabet[pos - 1]);
         --i;
         --i;
