@@ -56,6 +56,28 @@ public class LeetCodeStringTest {
       };
 
   @Test
+  public void isPrefixOfWord() {
+    assertEquals(4, isPrefixOfWord("i love eating burger", "burg"));
+    assertEquals(2, isPrefixOfWord("this problem is an easy problem", "pro"));
+    assertEquals(-1, isPrefixOfWord("i am tired", "you"));
+    assertEquals(-1, isPrefixOfWord("hellohello hellohellohello", "ell"));
+  }
+
+  private int isPrefixOfWord(String sentence, String searchWord) {
+
+    String[] split = sentence.split(" ");
+
+    int pos = 1;
+    for (String s : split) {
+      int prefix = s.indexOf(searchWord);
+      if (prefix == 0) return pos;
+      pos++;
+    }
+
+    return -1;
+  }
+
+  @Test
   public void freqAlphabets() {
 
     assertEquals("jkab", freqAlphabets("10#11#12"));
@@ -74,9 +96,7 @@ public class LeetCodeStringTest {
 
     for (int i = s.length() - 1; i >= 0; i--) {
       if (s.charAt(i) == '#') {
-        int pos =
-            Integer.parseInt(
-                s.charAt(i - 2) + Character.toString(s.charAt(i - 1)));
+        int pos = Integer.parseInt(s.charAt(i - 2) + Character.toString(s.charAt(i - 1)));
         sol.append(alphabet[pos - 1]);
         --i;
         --i;
