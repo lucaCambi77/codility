@@ -34,6 +34,23 @@ public class LeetCodeArrayTest {
       new String[] {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
   @Test
+  public void runningSum() {
+    assertArrayEquals(new int[] {1, 3, 6, 10}, runningSum(new int[] {1, 2, 3, 4}));
+    assertArrayEquals(new int[] {1, 2, 3, 4, 5}, runningSum(new int[] {1, 1, 1, 1, 1}));
+    assertArrayEquals(new int[] {3, 4, 6, 16, 17}, runningSum(new int[] {3, 1, 2, 10, 1}));
+    assertArrayEquals(new int[] {1}, runningSum(new int[] {1}));
+  }
+
+  private int[] runningSum(int[] nums) {
+
+    for (int i = 1; i < nums.length; i++) {
+      nums[i] = nums[i] + nums[i - 1];
+    }
+
+    return nums;
+  }
+
+  @Test
   public void reorderLogFiles() {
     assertArrayEquals(
         new String[] {
@@ -70,7 +87,10 @@ public class LeetCodeArrayTest {
             String[] split = o1.split(" ");
             String[] split1 = o2.split(" ");
 
-            if (!pattern.matcher(split[1]).matches() && !pattern.matcher(split1[1]).matches()) {
+            boolean o1Matches = pattern.matcher(split[1]).matches();
+            boolean o2Matches = pattern.matcher(split1[1]).matches();
+
+            if (!o1Matches && !o2Matches) {
               String patho1 = o1.substring(split[0].length() + 1);
               String patho2 = o2.substring(split1[0].length() + 1);
 
@@ -79,10 +99,9 @@ public class LeetCodeArrayTest {
               return patho1.compareTo(patho2);
             }
 
-            if (pattern.matcher(split[1]).matches() && pattern.matcher(split1[1]).matches())
-              return 0;
+            if (o1Matches && o2Matches) return 0;
 
-            if (!pattern.matcher(split[1]).matches()) return -1;
+            if (!o1Matches) return -1;
 
             return 1;
           }
@@ -127,22 +146,11 @@ public class LeetCodeArrayTest {
   public void luckyNumbers() {
 
     assertEquals(
-        Arrays.asList(
-            new LinkedList<Integer>() {
-              {
-                add(15);
-              }
-            }),
-        Arrays.asList(luckyNumbers(new int[][] {{3, 7, 8}, {9, 11, 13}, {15, 16, 17}})));
+        Arrays.asList(15), luckyNumbers(new int[][] {{3, 7, 8}, {9, 11, 13}, {15, 16, 17}}));
 
     assertEquals(
-        Arrays.asList(
-            new LinkedList<Integer>() {
-              {
-                add(12);
-              }
-            }),
-        Arrays.asList(luckyNumbers(new int[][] {{1, 10, 4, 2}, {9, 3, 8, 7}, {15, 16, 17, 12}})));
+        Arrays.asList(12),
+        luckyNumbers(new int[][] {{1, 10, 4, 2}, {9, 3, 8, 7}, {15, 16, 17, 12}}));
   }
 
   private List<Integer> luckyNumbers(int[][] matrix) {
