@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.cambi.codility.model.Array;
 import javafx.util.Pair;
+import lombok.ToString;
 import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -32,6 +33,214 @@ public class LeetCodeArrayTest {
 
   private String[] daysOfWeek =
       new String[] {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+
+  class IntObj implements Comparable<IntObj> {
+    private int value;
+    private int freq;
+
+    public IntObj(int value, int freq) {
+      this.value = value;
+      this.freq = freq;
+    }
+
+    @Override
+    public int compareTo(IntObj o) {
+      int freq = o.freq;
+
+      if (freq - this.freq > 0) return 1;
+      if (freq - this.freq < 0) return -1;
+
+      return 0;
+    }
+  }
+
+  @Test
+  public void maximumProduct() {
+    assertEquals(6, maximumProduct(new int[] {1, 2, 3}));
+    assertEquals(24, maximumProduct(new int[] {1, 2, 3, 4}));
+    assertEquals(720, maximumProduct(new int[] {-4, -3, -2, -1, 60}));
+  }
+
+  public int maximumProduct(int[] nums) {
+    if (nums.length == 3) return nums[0] * nums[1] * nums[2];
+
+    Arrays.sort(nums);
+
+    return Math.max(
+        Math.max(
+            (nums[0] * nums[1] * nums[2]),
+            (nums[nums.length - 3] * nums[nums.length - 2] * nums[nums.length - 1])),
+        (nums[0] * nums[1] * nums[nums.length - 1]));
+  }
+
+  @Test
+  public void busyStudent() {
+    assertEquals(1, busyStudent(new int[] {1, 2, 3}, new int[] {3, 2, 7}, 4));
+    assertEquals(1, busyStudent(new int[] {4}, new int[] {4}, 4));
+    assertEquals(0, busyStudent(new int[] {4}, new int[] {4}, 5));
+    assertEquals(0, busyStudent(new int[] {1, 1, 1, 1}, new int[] {1, 3, 2, 4}, 0));
+    assertEquals(
+        5,
+        busyStudent(
+            new int[] {9, 8, 7, 6, 5, 4, 3, 2, 1},
+            new int[] {10, 10, 10, 10, 10, 10, 10, 10, 10},
+            5));
+  }
+
+  public int busyStudent(int[] startTime, int[] endTime, int queryTime) {
+    int count = 0;
+
+    for (int i = 0; i < startTime.length; i++) {
+      if (startTime[i] <= queryTime) if (queryTime <= endTime[i]) count++;
+    }
+
+    return count;
+  }
+
+  @Test
+  public void maxProduct() {
+    assertEquals(12, maxProduct(new int[] {3, 4, 5, 2}));
+    assertEquals(16, maxProduct(new int[] {1, 5, 4, 5}));
+    assertEquals(12, maxProduct(new int[] {3, 7}));
+  }
+
+  public int maxProduct(int[] nums) {
+
+    Arrays.sort(nums);
+    return (nums[nums.length - 1] - 1) * (nums[nums.length - 2] - 1);
+  }
+
+  @Test
+  public void kidsWithCandies() {
+    assertEquals(
+        Arrays.asList(true, true, true, false, true),
+        kidsWithCandies(new int[] {2, 3, 5, 1, 3}, 3));
+
+    assertEquals(
+        Arrays.asList(true, false, false, false, false),
+        kidsWithCandies(new int[] {4, 2, 1, 1, 2}, 1));
+
+    assertEquals(Arrays.asList(true, false, true), kidsWithCandies(new int[] {12, 1, 12}, 10));
+  }
+
+  public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
+
+    List<Boolean> result = new LinkedList<>();
+
+    int max = candies[0];
+
+    for (int i = 1; i < candies.length; i++) {
+      if (candies[i] > max) max = candies[i];
+    }
+
+    for (int candy : candies) {
+      result.add(candy + extraCandies >= max ? true : false);
+    }
+
+    return result;
+  }
+
+  @Test
+  public void isToeplitzMatrix() {
+
+    assertEquals(
+        true,
+        isToeplitzMatrix(
+            new int[][] {
+              {1, 2, 3, 4},
+              {5, 1, 2, 3},
+              {9, 5, 1, 2}
+            }));
+
+    assertEquals(
+        false,
+        isToeplitzMatrix(
+            new int[][] {
+              {1, 2},
+              {1, 2}
+            }));
+
+    assertEquals(
+        false,
+        isToeplitzMatrix(
+            new int[][] {
+              {44, 35, 39}, {15, 44, 35}, {17, 15, 44}, {80, 17, 15}, {43, 80, 0}, {77, 43, 80}
+            }));
+  }
+
+  private boolean isToeplitzMatrix(int[][] matrix) {
+
+    int rows = 0;
+    int cols = matrix[0].length - 1;
+
+    while (rows < matrix.length && cols >= 0) {
+      int rowsTmp = rows;
+      int colsTmp = cols;
+
+      int value = matrix[rowsTmp][colsTmp];
+      while (--rowsTmp >= 0 && --colsTmp >= 0) {
+        if (value - matrix[rowsTmp][colsTmp] == 0) continue;
+        else return false;
+      }
+
+      if (rows == matrix.length - 1) {
+        rows = matrix.length - 1;
+        cols--;
+      } else rows++;
+    }
+
+    return true;
+  }
+
+  @Test
+  public void minSetSize() {
+    assertEquals(2, minSetSize(new int[] {3, 3, 3, 3, 5, 5, 5, 2, 2, 7}));
+    assertEquals(1, minSetSize(new int[] {7, 7, 7, 7, 7, 7}));
+    assertEquals(1, minSetSize(new int[] {1, 9}));
+    assertEquals(1, minSetSize(new int[] {1000, 1000, 3, 7}));
+    assertEquals(5, minSetSize(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 107}));
+    assertEquals(0, minSetSize(new int[] {}));
+  }
+
+  private int minSetSize(int[] arr) {
+
+    if (arr == null || arr.length == 0) return 0;
+
+    Arrays.sort(arr);
+
+    PriorityQueue<IntObj> queue = new PriorityQueue<>();
+
+    int value = arr[0];
+    int freq = 1;
+
+    for (int i = 1; i < arr.length; i++) {
+
+      if (arr[i] - value == 0) {
+        freq++;
+        continue;
+      }
+
+      queue.add(new IntObj(value, freq));
+      freq = 1;
+      value = arr[i];
+    }
+
+    queue.add(new IntObj(value, freq));
+
+    int arrCheck = arr.length;
+    int setCount = 0;
+
+    while (queue.size() >= 0) {
+      IntObj intObj = queue.poll();
+
+      setCount++;
+      arrCheck -= intObj.freq;
+
+      if (arrCheck <= arr.length / 2) break;
+    }
+
+    return setCount;
+  }
 
   @Test
   public void runningSum() {
@@ -73,6 +282,11 @@ public class LeetCodeArrayTest {
     assertArrayEquals(
         new String[] {"t kvr", "7 so", "r 3 1", "i 403", "t 54"},
         reorderLogFiles(new String[] {"t kvr", "r 3 1", "i 403", "7 so", "t 54"}));
+
+    assertArrayEquals(
+        new String[] {"g1 Act car", "a8 act zoo", "ab1 off KEY dog", "a1 9 2 3 1", "zo4 4 7"},
+        reorderLogFiles(
+            new String[] {"a1 9 2 3 1", "g1 Act car", "zo4 4 7", "ab1 off KEY dog", "a8 act zoo"}));
   }
 
   private String[] reorderLogFiles(String[] logs) {
