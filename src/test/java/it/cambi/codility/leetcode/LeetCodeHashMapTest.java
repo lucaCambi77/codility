@@ -14,6 +14,41 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class LeetCodeHashMapTest {
 
   @Test
+  public void findLeastNumOfUniqueInts() {
+
+    assertEquals(1, findLeastNumOfUniqueInts(new int[] {5, 5, 4}, 1));
+    assertEquals(2, findLeastNumOfUniqueInts(new int[] {4, 3, 1, 1, 3, 3, 2}, 3));
+  }
+
+  @Test
+  public int findLeastNumOfUniqueInts(int[] arr, int k) {
+
+    Map<Integer, Integer> valueToFreq = new HashMap<>();
+
+    for (int i : arr) {
+      valueToFreq.put(i, valueToFreq.getOrDefault(i, 0) + 1);
+    }
+
+    LinkedHashMap<Integer, Integer> sortedMap = new LinkedHashMap<>();
+
+    valueToFreq.entrySet().stream()
+        .sorted(Map.Entry.comparingByValue())
+        .forEachOrdered(x -> sortedMap.put(x.getKey(), x.getValue()));
+
+    int i = 0;
+
+    for (Map.Entry<Integer, Integer> entry : sortedMap.entrySet()) {
+      i++;
+
+      k -= entry.getValue();
+
+      if (k <= 0) break;
+    }
+
+    return k == 0 ? sortedMap.size() - i : sortedMap.size() - i + 1;
+  }
+
+  @Test
   public void destCity() {
 
     assertEquals(
