@@ -56,6 +56,26 @@ public class LeetCodeStringTest {
       };
 
   @Test
+  public void generateTheString() {
+    assertEquals("aaab", generateTheString(4));
+    assertEquals("aaa", generateTheString(3));
+  }
+
+  public String generateTheString(int n) {
+
+    int i = 0;
+    StringBuilder builder = new StringBuilder();
+
+    while (i++ < n) {
+      builder.append('a');
+    }
+
+    if ((n & 1) == 0) builder.setCharAt(n -1, 'b');
+
+    return builder.toString();
+  }
+
+  @Test
   public void isPrefixOfWord() {
     assertEquals(4, isPrefixOfWord("i love eating burger", "burg"));
     assertEquals(2, isPrefixOfWord("this problem is an easy problem", "pro"));
