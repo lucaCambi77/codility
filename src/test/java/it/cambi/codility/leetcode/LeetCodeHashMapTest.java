@@ -14,6 +14,49 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class LeetCodeHashMapTest {
 
   @Test
+  public void groupThePeople() {
+    assertEquals(
+        Arrays.asList(Arrays.asList(5), Arrays.asList(0, 1, 2), Arrays.asList(3, 4, 6)),
+        groupThePeople(new int[] {3, 3, 3, 3, 3, 1, 3}));
+  }
+
+  public List<List<Integer>> groupThePeople(int[] groupSizes) {
+
+    Map<Integer, List<Integer>> groupToPeople = new HashMap<>();
+
+    for (int i = 0; i < groupSizes.length; i++) {
+
+      List<Integer> peopleList = groupToPeople.getOrDefault(groupSizes[i], new ArrayList<>());
+      peopleList.add(i);
+      groupToPeople.put(groupSizes[i], peopleList);
+    }
+
+    List<List<Integer>> result = new ArrayList<>();
+
+    for (Map.Entry<Integer, List<Integer>> integerListEntry : groupToPeople.entrySet()) {
+
+      List<Integer> groupPeople = integerListEntry.getValue();
+
+      List<Integer> group = new ArrayList<>();
+      int count = 0;
+
+      for (Integer groupPerson : groupPeople) {
+        count++;
+        group.add(groupPerson);
+
+        if (count >= integerListEntry.getKey()) {
+          result.add(group);
+          group = new ArrayList<>();
+          count = 0;
+        }
+
+      }
+    }
+
+    return result;
+  }
+
+  @Test
   public void findLeastNumOfUniqueInts() {
 
     assertEquals(1, findLeastNumOfUniqueInts(new int[] {5, 5, 4}, 1));
