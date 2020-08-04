@@ -81,6 +81,106 @@ public class LeetCodeArrayTest {
   }
 
   @Test
+  public void minDeletionSize() {
+    assertEquals(1, minDeletionSize(new String[] {"cba", "daf", "ghi"}));
+    assertEquals(0, minDeletionSize(new String[] {"a", "b"}));
+    assertEquals(3, minDeletionSize(new String[] {"zyx", "wvu", "tsr"}));
+  }
+
+  public int minDeletionSize(String[] A) {
+
+    int lettersLength = A[0].length();
+    int result = 0;
+    for (int i = 0; i < lettersLength; i++) {
+
+      for (int j = 1; j < A.length; j++) {
+        if (A[j].charAt(i) < A[j - 1].charAt(i)) {
+          result++;
+          break;
+        }
+      }
+    }
+
+    return result;
+  }
+
+  @Test
+  public void isOneBitCharacter() {
+
+    assertEquals(true, isOneBitCharacter(new int[] {1, 0, 0}));
+    assertEquals(false, isOneBitCharacter(new int[] {1, 1, 1, 0}));
+    assertEquals(false, isOneBitCharacter(new int[] {1}));
+    assertEquals(true, isOneBitCharacter(new int[] {0}));
+  }
+
+  public boolean isOneBitCharacter(int[] bits) {
+
+    boolean twoBits = false;
+
+    for (int i = 0; i < bits.length; i++) {
+
+      if (i == bits.length - 1 && twoBits) return false;
+
+      if (bits[i] == 1 || twoBits) twoBits = !twoBits;
+    }
+
+    return bits[bits.length - 1] == 0;
+  }
+
+  @Test
+  public void findPeakElement() {
+    assertEquals(0, findPeakElement(new int[] {1}));
+    assertEquals(1, findPeakElement(new int[] {1, 2}));
+    assertEquals(2, findPeakElement(new int[] {1, 2, 3}));
+    assertEquals(2, findPeakElement(new int[] {1, 2, 3, 1}));
+  }
+
+  public int findPeakElement(int[] nums) {
+    int i = 0;
+
+    while (i + 1 < nums.length && nums[i] < nums[i + 1]) i++;
+
+    return i;
+  }
+
+  @Test
+  public void peakIndexInMountainArray() {
+
+    assertEquals(1, peakIndexInMountainArray(new int[] {0, 1, 0}));
+    assertEquals(1, peakIndexInMountainArray(new int[] {0, 2, 1, 0}));
+  }
+
+  public int peakIndexInMountainArray(int[] A) {
+    int i;
+    for (i = 1; i < A.length; i++) {
+
+      if (i < A.length - 1 && A[i - 1] < A[i] && A[i + 1] < A[i]) return i;
+    }
+
+    return -1;
+  }
+
+  @Test
+  public void numTeams() {
+    assertEquals(3, numTeams(new int[] {2, 5, 3, 4, 1}));
+    assertEquals(0, numTeams(new int[] {2, 1, 3}));
+    assertEquals(4, numTeams(new int[] {1, 2, 3, 4}));
+  }
+
+  public int numTeams(int[] rating) {
+
+    int countIncr = 0;
+    int countDecr = 0;
+
+    for (int i = 0; i < rating.length; i++) {
+
+      for (int j = i; j < rating.length; j++) {}
+    }
+
+    return countIncr + countDecr;
+  }
+
+  @Test
   public void peopleIndexes() {
 
     assertEquals(
