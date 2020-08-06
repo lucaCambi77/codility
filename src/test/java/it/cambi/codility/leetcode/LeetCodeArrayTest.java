@@ -81,6 +81,71 @@ public class LeetCodeArrayTest {
   }
 
   @Test
+  public void largestSumAfterKNegations() {
+    assertEquals(5, largestSumAfterKNegations(new int[] {4, 2, 3}, 1));
+    assertEquals(6, largestSumAfterKNegations(new int[] {3, -1, 0, 2}, 3));
+    assertEquals(13, largestSumAfterKNegations(new int[] {2, -3, -1, 5, -4}, 2));
+    assertEquals(32, largestSumAfterKNegations(new int[] {-2, 9, 9, 8, 4}, 5));
+    assertEquals(11, largestSumAfterKNegations(new int[] {-5, 6}, 1));
+    assertEquals(1, largestSumAfterKNegations(new int[] {-5, 6}, 2));
+    assertEquals(11, largestSumAfterKNegations(new int[] {-5, 0, 6}, 2));
+    assertEquals(11, largestSumAfterKNegations(new int[] {-5, 0, 6}, 1));
+    assertEquals(26, largestSumAfterKNegations(new int[] {1, 3, 2, 6, 7, 9}, 3));
+    assertEquals(53, largestSumAfterKNegations(new int[] {8, -7, -3, -9, 1, 9, -6, -9, 3}, 8));
+  }
+
+  public int largestSumAfterKNegations(int[] A, int K) {
+    Arrays.sort(A);
+
+    int i = 0;
+
+    while (K > 0) {
+
+      if (A[i] <= A[i + 1]) {
+        A[i] = -A[i];
+        K--;
+        continue;
+      }
+
+      i++;
+    }
+
+    return Arrays.stream(A).sum();
+  }
+
+  @Test
+  public void twoCitySchedCost() {
+    assertEquals(
+        1859,
+        twoCitySchedCost(
+            new int[][] {{259, 770}, {448, 54}, {926, 667}, {184, 139}, {840, 118}, {577, 469}}));
+
+  }
+
+  public int twoCitySchedCost(int[][] costs) {
+    if (costs.length == 0) return 0;
+
+    Arrays.sort(costs, (a, b) -> Math.abs(b[0] - b[1]) - Math.abs(a[0] - a[1]));
+
+    int min = 0;
+    int cityA = 0;
+    int cityB = 0;
+    int N = costs.length / 2;
+
+    for (int i = 0; i < costs.length; i++) {
+      if (costs[i][0] < costs[i][1] && cityA < N || (cityB == N)) {
+        min += costs[i][0];
+        cityA++;
+      } else {
+        min += costs[i][1];
+        cityB++;
+      }
+    }
+
+    return min;
+  }
+
+  @Test
   public void minDeletionSize() {
     assertEquals(1, minDeletionSize(new String[] {"cba", "daf", "ghi"}));
     assertEquals(0, minDeletionSize(new String[] {"a", "b"}));
