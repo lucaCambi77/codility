@@ -43,8 +43,59 @@ public class HackerRankArraysTest extends AbstractTest {
     assertEquals(2, activityNotifications(new int[] {2, 3, 4, 2, 3, 6, 8, 4, 5}, 5));
   }
 
-  static int activityNotifications(int[] expenditure, int d) {
+  private int activityNotifications(int[] expenditure, int d) {
+    return 0;
+  }
 
+  @Test
+  public void balancedSums() {
+
+    assertEquals("NO", balancedSums(Arrays.asList(1, 2, 3)));
+    assertEquals("YES", balancedSums(Arrays.asList(1, 2, 3, 3)));
+    assertEquals("YES", balancedSums(Arrays.asList(1, 1, 4, 1, 1)));
+    assertEquals("YES", balancedSums(Arrays.asList(2, 0, 0, 0)));
+    assertEquals("YES", balancedSums(Arrays.asList(0, 0, 2, 0, 0)));
+    assertEquals("NO", balancedSums( null));
+  }
+
+  private String balancedSums(List<Integer> arr) {
+
+    if (arr == null || arr.size() == 0) return "NO";
+
+    int sum = arr.stream().reduce(0, (a, b) -> a + b);
+    int partialSum = 0;
+
+    for (int i = 0; i < arr.size(); i++) {
+      if (partialSum == (sum - partialSum - arr.get(i))) return "YES";
+
+      partialSum += arr.get(i);
+    }
+
+    return "NO";
+  }
+
+  @Test
+  public void pairs() {
+    assertEquals(3, pairs(2, new int[] {1, 5, 3, 4, 2}));
+  }
+
+  private int pairs(int k, int[] arr) {
+
+    Arrays.parallelSort(arr);
+
+    Set<Integer> seen = new HashSet<>();
+
+    for (int i : arr) {
+      seen.add(i + k);
+    }
+
+    int result = 0;
+
+    for (int i : arr) {
+      if (seen.contains(i)) result++;
+    }
+
+    return result;
   }
 
   @Test
@@ -94,7 +145,7 @@ public class HackerRankArraysTest extends AbstractTest {
     }
   }
 
-  public int[] missingNumbers(int[] arr, int[] brr) {
+  private int[] missingNumbers(int[] arr, int[] brr) {
 
     Arrays.parallelSort(arr);
 
@@ -246,7 +297,7 @@ public class HackerRankArraysTest extends AbstractTest {
                 Arrays.asList(1, 527554061, 434103342))));
   }
 
-  public static List<Integer> dynamicArray(int n, List<List<Integer>> queries) {
+  private static List<Integer> dynamicArray(int n, List<List<Integer>> queries) {
 
     List<LinkedList<Integer>> list = new ArrayList<>();
 
