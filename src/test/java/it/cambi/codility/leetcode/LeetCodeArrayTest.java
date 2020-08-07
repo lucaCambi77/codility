@@ -81,6 +81,79 @@ public class LeetCodeArrayTest {
   }
 
   @Test
+  public void countPrimes() {
+    assertEquals(4, countPrimes(10));
+  }
+
+  private int countPrimes(int n) {
+    boolean[] isPrime = new boolean[n];
+    for (int i = 2; i < n; i++) {
+      isPrime[i] = true;
+    }
+
+    for (int i = 2; i * i < n; i++) {
+      if (!isPrime[i]) continue;
+      for (int j = i * i; j < n; j += i) {
+        isPrime[j] = false;
+      }
+    }
+    int count = 0;
+    for (int i = 2; i < n; i++) {
+      if (isPrime[i]) count++;
+    }
+    return count;
+  }
+
+  @Test
+  public void hIndex() {
+
+    assertEquals(3, hIndex(new int[] {3, 0, 6, 1, 5}));
+    assertEquals(1, hIndex(new int[] {0, 1}));
+    assertEquals(1, hIndex(new int[] {0, 0, 3}));
+    assertEquals(1, hIndex(new int[] {0, 2}));
+  }
+
+  private int hIndex(int[] citations) {
+
+    int n = citations.length;
+
+    Arrays.sort(citations);
+    if (n == 0 || citations[0] == 0 & n == 1) return 0;
+    if (n == 1) return 1;
+    int i = n - 1;
+    while (i >= 0) {
+      if (citations[i] < (n - i)) break;
+      i--;
+    }
+    return n - i - 1;
+  }
+
+  @Test
+  public void restoreString() {
+    assertEquals("leetcode", restoreString("codeleet", new int[] {4, 5, 6, 7, 0, 2, 1, 3}));
+    assertEquals("abc", restoreString("abc", new int[] {0, 1, 2}));
+    assertEquals("nihao", restoreString("aiohn", new int[] {3, 1, 4, 2, 0}));
+    assertEquals("arigatou", restoreString("aaiougrt", new int[] {4, 0, 2, 6, 7, 3, 1, 5}));
+    assertEquals("rat", restoreString("art", new int[] {1, 0, 2}));
+  }
+
+  public String restoreString(String s, int[] indices) {
+
+    char[] chars = new char[s.length()];
+
+    for (int i = 0; i < indices.length; i++) {
+      chars[indices[i]] = s.charAt(i);
+    }
+
+    StringBuilder result = new StringBuilder();
+    for (char c : chars) {
+      result.append(c);
+    }
+
+    return result.toString();
+  }
+
+  @Test
   public void largestSumAfterKNegations() {
     assertEquals(5, largestSumAfterKNegations(new int[] {4, 2, 3}, 1));
     assertEquals(6, largestSumAfterKNegations(new int[] {3, -1, 0, 2}, 3));
@@ -119,7 +192,6 @@ public class LeetCodeArrayTest {
         1859,
         twoCitySchedCost(
             new int[][] {{259, 770}, {448, 54}, {926, 667}, {184, 139}, {840, 118}, {577, 469}}));
-
   }
 
   public int twoCitySchedCost(int[][] costs) {
@@ -836,7 +908,6 @@ public class LeetCodeArrayTest {
     assertArrayEquals(new int[] {1, 2, 1, 2}, shuffle(new int[] {1, 1, 2, 2}, 2));
   }
 
-  @Test
   private int[] shuffle(int[] nums, int n) {
 
     if (nums.length == 0) return new int[] {};
