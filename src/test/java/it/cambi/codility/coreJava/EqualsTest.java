@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.coreJava;
 
@@ -27,7 +27,7 @@ public class EqualsTest {
 	 */
 	@Test
 	@Order(1)
-	public void notEquals() {
+	protected void notEquals() {
 		Map<DataKey, Integer> hm = getAllData();
 
 		DataKey dk = new DataKey();
@@ -61,7 +61,7 @@ public class EqualsTest {
 	 */
 	@Test
 	@Order(2)
-	public void notEquals1() {
+	protected void notEquals1() {
 		Map<DataKey, Integer> hm = getAllData1();
 
 		DataKey dk = new DataKey() {
@@ -154,7 +154,7 @@ public class EqualsTest {
 	 */
 	@Test
 	@Order(3)
-	public void equals() {
+	protected void equals() {
 		Map<DataKeyEquals, Integer> hm = getAllData2();
 
 		DataKeyEquals dk = new DataKeyEquals();

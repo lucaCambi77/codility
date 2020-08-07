@@ -524,7 +524,6 @@ public class HackerRankTest {
   }
 
   @Test
-  @Disabled
   public void abbreviation() {
 
     assertEquals("YES", abbreviation("cacahaccccaaahacCHh", "CCH"));
@@ -1140,7 +1139,7 @@ public class HackerRankTest {
   public void gradingStudent() {
 
     assertEquals(
-        new ArrayList<Integer>() {
+        new LinkedList<>() {
           {
             add(75);
             add(67);
@@ -1149,7 +1148,7 @@ public class HackerRankTest {
           }
         },
         gradingStudents(
-            new ArrayList<Integer>() {
+            new ArrayList<>() {
               {
                 add(73);
                 add(67);

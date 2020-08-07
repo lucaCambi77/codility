@@ -235,7 +235,7 @@ public class HackerRankLinkedListTest {
         boolean check = true;
         while (head2 != null) {
             check = seen.add(head2.data);
-            assertEquals(check, true);
+            assertEquals(true, check);
             head2 = head2.next;
         }
     }
