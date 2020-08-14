@@ -43,6 +43,7 @@ public class HackerRankArraysTest extends AbstractTest {
         System.setErr(originalErr);
     }
 
+
     @Test
     public void dynamicArray() {
         assertEquals(Arrays.asList(7, 3), dynamicArray(2, Arrays.asList(Arrays.asList(1, 0, 5), Arrays.asList(1, 1, 7), Arrays.asList(1, 0, 3), Arrays.asList(2, 1, 0), Arrays.asList(2, 1, 1))));

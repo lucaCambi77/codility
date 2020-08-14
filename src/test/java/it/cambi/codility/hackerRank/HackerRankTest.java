@@ -2494,27 +2494,21 @@ public class HackerRankTest {
     @Test
     public void designerPDFViewer() {
 
-        int[] h = new int[]{1, 3, 1, 3, 1, 4, 1, 3, 2, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7};
-        String word = new String("zaba");
+        assertEquals(28, designerPDFViewer(new int[]{1, 3, 1, 3, 1, 4, 1, 3, 2, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7}, "zaba"));
+    }
 
-        Map<Character, Integer> lettersMap = new HashMap<Character, Integer>();
+    public int designerPDFViewer(int[] h, String word) {
 
-        char ch;
-        int count = 0;
-
-        for (ch = 'a'; ch <= 'z'; ch++) {
-            lettersMap.put(ch, count);
-            count++;
-        }
+        String alphaBet = "abcdefghijklmnopqrstuvwxyz";
 
         int maxHeight = 0;
         for (char c : word.toCharArray()) {
 
-            int position = lettersMap.get(c);
+            int position = alphaBet.indexOf(c);
             maxHeight = Math.max(maxHeight, h[position]);
         }
 
-        System.out.println("PDFViewer Area -->" + maxHeight * word.length());
+        return maxHeight * word.length();
     }
 
     @Test
