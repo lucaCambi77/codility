@@ -28,11 +28,31 @@ import static org.mockito.Mockito.*;
 @TestMethodOrder(Alphanumeric.class)
 public class HackerRankTest {
 
-    public static String[] ones = {"o' clock", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
-            "ten", "eleven", "twelve", "thirteen", "fourteen", "quarter", "sixteen", "seventeen", "eighteen",
-            "nineteen"};
+    public static String[] ones = {
+            "o' clock",
+            "one",
+            "two",
+            "three",
+            "four",
+            "five",
+            "six",
+            "seven",
+            "eight",
+            "nine",
+            "ten",
+            "eleven",
+            "twelve",
+            "thirteen",
+            "fourteen",
+            "quarter",
+            "sixteen",
+            "seventeen",
+            "eighteen",
+            "nineteen"
+    };
 
-    public static String[] tens = {"", // 0
+    public static String[] tens = {
+            "", // 0
             "", // 10 min
             "twenty", // 20 min
             "half", // 30 min
@@ -45,6 +65,35 @@ public class HackerRankTest {
     public void setUpStreams() {
         out = mock(PrintStream.class);
         System.setOut(out);
+    }
+
+    @Test
+    public void superReducedString() {
+        assertEquals("abd", superReducedString("aaabccddd"));
+        assertEquals("Empty String", superReducedString("aa"));
+        assertEquals("Empty String", superReducedString("baab"));
+    }
+
+    private String superReducedString(String s) {
+
+        StringBuilder builder = new StringBuilder();
+        int i = 0;
+
+        while (i < s.length()) {
+
+            if (i + 1 < s.length() && s.charAt(i) == s.charAt(i + 1)) {
+                i = i + 2;
+                continue;
+            }
+
+            if (builder.length() != 0 && builder.charAt(builder.length() - 1) == s.charAt(i))
+                builder.deleteCharAt(builder.length() - 1);
+            else builder.append(s.charAt(i));
+
+            i++;
+        }
+
+        return builder.length() == 0 ? "Empty String" : builder.toString();
     }
 
     @ParameterizedTest
@@ -67,9 +116,7 @@ public class HackerRankTest {
 
             line = buf.readLine();
             line1 = buf1.readLine();
-
         }
-
     }
 
     public int getMaxBitWiseAnd(String input) {
@@ -90,8 +137,7 @@ public class HackerRankTest {
             while (tmp > i) {
                 int value = i & tmp;
 
-                if (value > 0 && value < k)
-                    sol = Math.max(sol, value);
+                if (value > 0 && value < k) sol = Math.max(sol, value);
 
                 tmp--;
             }
@@ -105,20 +151,29 @@ public class HackerRankTest {
     @Test
     public void sortNameByEmailRegEx() {
 
-        assertEquals(Arrays.asList(new ArrayList<String>() {{
-            add("julia");
-            add("julia");
-            add("riya");
-            add("samantha");
-            add("tanya");
-        }}), Arrays.asList(sortNameByEmailRegEx(new ArrayList<String>() {{
-            add("riya riya@gmail.com");
-            add("julia julia@julia.me");
-            add("julia sjulia@gmail.com");
-            add("julia sjulia@gmail.com");
-            add("samantha samantha@gmail.com");
-            add("tanya tanya@gmail.com");
-        }})));
+        assertEquals(
+                Arrays.asList(
+                        new ArrayList<String>() {
+                            {
+                                add("julia");
+                                add("julia");
+                                add("riya");
+                                add("samantha");
+                                add("tanya");
+                            }
+                        }),
+                Arrays.asList(
+                        sortNameByEmailRegEx(
+                                new ArrayList<String>() {
+                                    {
+                                        add("riya riya@gmail.com");
+                                        add("julia julia@julia.me");
+                                        add("julia sjulia@gmail.com");
+                                        add("julia sjulia@gmail.com");
+                                        add("samantha samantha@gmail.com");
+                                        add("tanya tanya@gmail.com");
+                                    }
+                                })));
     }
 
     public List<String> sortNameByEmailRegEx(List<String> list) {
@@ -132,15 +187,13 @@ public class HackerRankTest {
 
             String emailID = firstNameEmailID[1];
 
-            if (emailID.contains("@gmail.com"))
-                sol.add(firstName);
+            if (emailID.contains("@gmail.com")) sol.add(firstName);
         }
 
         Collections.sort(sol);
 
         return sol;
     }
-
 
     @Test
     public void nestedLogic() {
@@ -161,21 +214,28 @@ public class HackerRankTest {
         verify(out, times(1)).println(210L);
     }
 
-
     public void nestedLogic(String returnedDate, String expectedDate) {
 
         String[] returnedDateString = returnedDate.split(" ");
         String[] expectedDatedDateString = expectedDate.split(" ");
 
         Calendar calendarReturn = Calendar.getInstance();
-        calendarReturn.set(Integer.parseInt(returnedDateString[2])
-                , Integer.parseInt(returnedDateString[1]) - 1
-                , Integer.parseInt(returnedDateString[0]), 0, 0, 0);
+        calendarReturn.set(
+                Integer.parseInt(returnedDateString[2]),
+                Integer.parseInt(returnedDateString[1]) - 1,
+                Integer.parseInt(returnedDateString[0]),
+                0,
+                0,
+                0);
 
         Calendar calendarExpect = Calendar.getInstance();
-        calendarExpect.set(Integer.parseInt(expectedDatedDateString[2])
-                , Integer.parseInt(expectedDatedDateString[1]) - 1
-                , Integer.parseInt(expectedDatedDateString[0]), 0, 0, 0);
+        calendarExpect.set(
+                Integer.parseInt(expectedDatedDateString[2]),
+                Integer.parseInt(expectedDatedDateString[1]) - 1,
+                Integer.parseInt(expectedDatedDateString[0]),
+                0,
+                0,
+                0);
 
         if (calendarReturn.get(Calendar.YEAR) - calendarExpect.get(Calendar.YEAR) > 0)
             System.out.println(10000L);
@@ -187,18 +247,15 @@ public class HackerRankTest {
 
             System.out.println((diff / (24 * 60 * 60 * 1000)) * 15L);
 
-        } else if (calendarReturn.getTime().getTime() > calendarExpect.getTime().getTime() &&
-                calendarReturn.get(Calendar.MONTH) > calendarExpect.get(Calendar.MONTH)) {
+        } else if (calendarReturn.getTime().getTime() > calendarExpect.getTime().getTime()
+                && calendarReturn.get(Calendar.MONTH) > calendarExpect.get(Calendar.MONTH)) {
             long diff = calendarReturn.get(Calendar.MONTH) - calendarExpect.get(Calendar.MONTH);
             System.out.println(diff * 500L);
 
         } else {
             System.out.println(0L);
-
         }
-
     }
-
 
     @Test
     public void countConsecutivesOnesInBinaryString() {
@@ -207,7 +264,6 @@ public class HackerRankTest {
         out.flush();
         countConsecutivesOnesInBinaryString(439);
         verify(out, times(1)).println(3);
-
     }
 
     public void countConsecutivesOnesInBinaryString(int n) {
@@ -231,8 +287,6 @@ public class HackerRankTest {
         sol = Math.max(sol, count);
 
         System.out.println(sol);
-
-
     }
 
     @Test
@@ -247,7 +301,6 @@ public class HackerRankTest {
         assertEquals("YES", happyLadybugs("_"));
         assertEquals("NO", happyLadybugs("AABCBC"));
         assertEquals("YES", happyLadybugs("AABBCC"));
-
     }
 
     private String happyLadybugs(String b) {
@@ -262,19 +315,14 @@ public class HackerRankTest {
             if (c != '_') {
                 int freq = map.getOrDefault(b.charAt(i), 0) + 1;
                 map.put(b.charAt(i), freq);
-            } else
-                countUnderScores++;
-
+            } else countUnderScores++;
         }
 
-        if (map.size() == 0 && countUnderScores > 0)
-            return "YES";
+        if (map.size() == 0 && countUnderScores > 0) return "YES";
 
-        if (map.values().contains(1))
-            return "NO";
+        if (map.values().contains(1)) return "NO";
 
-        if (countUnderScores > 0)
-            return "YES";
+        if (countUnderScores > 0) return "YES";
 
         // check string happy
 
@@ -288,14 +336,11 @@ public class HackerRankTest {
             while (index != -1) {
                 index = b.indexOf(c, ++index);
 
-                if (index == -1)
-                    continue;
+                if (index == -1) continue;
                 else if (index - prevIndex == 1) {
                     prevIndex = index;
                     continue;
-                } else
-                    return "NO";
-
+                } else return "NO";
             }
         }
         return "YES";
@@ -307,7 +352,6 @@ public class HackerRankTest {
         assertEquals("13.09.2007", dayOfProgrammer(2007));
         assertEquals("12.09.1800", dayOfProgrammer(1800));
         assertEquals("26.09.1918", dayOfProgrammer(1918));
-
     }
 
     private String dayOfProgrammer(int year) {
@@ -316,20 +360,16 @@ public class HackerRankTest {
         int day = 13;
 
         if (year < 1918) {
-            if (year % 4 == 0)
-                --day;
+            if (year % 4 == 0) --day;
         } else if (year > 1918) {
 
-            if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0))
-                --day;
+            if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) --day;
 
         } else {
             day = 26;
-
         }
 
         return sdf.format(new GregorianCalendar(year, month, day).getTime());
-
     }
 
     @Test
@@ -340,15 +380,13 @@ public class HackerRankTest {
         assertEquals(5, flatlandSpaceStations(8, new int[]{2}));
         assertEquals(3, flatlandSpaceStations(8, new int[]{0, 2, 4}));
         assertEquals(0, flatlandSpaceStations(6, new int[]{0, 1, 2, 4, 3, 5}));
-
     }
 
     private int flatlandSpaceStations(int n, int[] c) {
         Arrays.sort(c);
         int numOfGasStation = c.length;
 
-        if (n - 1 == numOfGasStation)
-            return 0;
+        if (n - 1 == numOfGasStation) return 0;
 
         int gasStationIndex = 0;
         int lastGasStation = c[numOfGasStation - 1];
@@ -360,12 +398,10 @@ public class HackerRankTest {
         int city = 0;
 
         while (gasStationIndex < numOfGasStation && city < n) {
-            if (city >= lastGasStation)
-                return Math.max(maxDistance, n - lastGasStation - 1);
+            if (city >= lastGasStation) return Math.max(maxDistance, n - lastGasStation - 1);
 
             if (city == gasStation) {
-                if (gasStation == n - 1)
-                    break;
+                if (gasStation == n - 1) break;
 
                 prevGasStation = gasStation;
                 gasStation = c[++gasStationIndex];
@@ -374,7 +410,9 @@ public class HackerRankTest {
                 continue;
             }
 
-            maxDistance = Math.max(maxDistance, Math.min(Math.abs(city - gasStation), Math.abs(city - prevGasStation)));
+            maxDistance =
+                    Math.max(
+                            maxDistance, Math.min(Math.abs(city - gasStation), Math.abs(city - prevGasStation)));
             city++;
         }
 
@@ -388,7 +426,6 @@ public class HackerRankTest {
         assertEquals("No", appendAndDelete("ashley", "ash", 2));
         assertEquals("No", appendAndDelete("y", "yu", 2));
         assertEquals("Yes", appendAndDelete("aaaaaaaaaa", "aaaaa", 7));
-
     }
 
     public String appendAndDelete(String s, String t, int k) {
@@ -404,7 +441,6 @@ public class HackerRankTest {
             if (s.charAt(common) == t.charAt(common)) {
                 common++;
                 continue;
-
             }
 
             condition = false;
@@ -414,20 +450,20 @@ public class HackerRankTest {
 
         int actualMissing = length - common;
 
-        if (deleted > k)
-            return "No";
+        if (deleted > k) return "No";
 
         int missing = k - deleted;
 
-        if (missing % 2 == 0)
-            return "Yes";
-        else
-            return "No";
-
+        if (missing % 2 == 0) return "Yes";
+        else return "No";
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"src/test/resources/saveThePrisoner/saveThePrisoner1", "src/test/resources/saveThePrisoner/saveThePrisoner2"})
+    @ValueSource(
+            strings = {
+                    "src/test/resources/saveThePrisoner/saveThePrisoner1",
+                    "src/test/resources/saveThePrisoner/saveThePrisoner2"
+            })
     public void saveThePrisoner(String path) throws IOException {
         InputStream is = new FileInputStream(path + ".txt");
         BufferedReader buf = new BufferedReader(new InputStreamReader(is));
@@ -443,16 +479,17 @@ public class HackerRankTest {
 
             String[] split = line.split(" ");
 
-            assertEquals(Integer.valueOf(line1), saveThePrisoner(Integer.valueOf(split[0]), Integer.valueOf(split[1]), Integer.valueOf(split[2])));
+            assertEquals(
+                    Integer.valueOf(line1),
+                    saveThePrisoner(
+                            Integer.valueOf(split[0]), Integer.valueOf(split[1]), Integer.valueOf(split[2])));
 
             line = buf.readLine();
             line1 = buf1.readLine();
-
         }
 
         buf.close();
         buf1.close();
-
     }
 
     private int saveThePrisoner(int n, int m, int s) {
@@ -462,10 +499,8 @@ public class HackerRankTest {
 
         int sol = 0;
 
-        if (reminder + s > n)
-            sol = s + reminder - n - 1;
-        else
-            sol = reminder + s - 1;
+        if (reminder + s > n) sol = s + reminder - n - 1;
+        else sol = reminder + s - 1;
 
         return sol == 0 ? n : sol;
     }
@@ -489,7 +524,6 @@ public class HackerRankTest {
     }
 
     @Test
-    @Disabled
     public void abbreviation() {
 
         assertEquals("YES", abbreviation("cacahaccccaaahacCHh", "CCH"));
@@ -504,77 +538,112 @@ public class HackerRankTest {
         assertEquals("YES", abbreviation("beFgH", "EFH"));
         assertEquals("NO", abbreviation("beFgH", "EFG"));
 
-        assertEquals("NO", abbreviation(
-                "RDWPJPAMKGRIWAPBZSYWALDBLDOFLWIQPMPLEMCJXKAENTLVYMSJNRJAQQPWAGVcGOHEWQYZDJRAXZOYDMNZJVUSJGKKKSYNCSFWKVNHOGVYULALKEBUNZHERDDOFCYWBUCJGbvqlddfazmmohcewjg",
-                "RDPJPAMKGRIWAPBZSYWALDBLOFWIQPMPLEMCJXKAENTLVYMJNRJAQQPWAGVGOHEWQYZDJRAXZOYDMNZJVUSJGKKKSYNCSFWKVNHOGVYULALKEBUNZHERDOFCYWBUCJG"));
+        assertEquals(
+                "NO",
+                abbreviation(
+                        "RDWPJPAMKGRIWAPBZSYWALDBLDOFLWIQPMPLEMCJXKAENTLVYMSJNRJAQQPWAGVcGOHEWQYZDJRAXZOYDMNZJVUSJGKKKSYNCSFWKVNHOGVYULALKEBUNZHERDDOFCYWBUCJGbvqlddfazmmohcewjg",
+                        "RDPJPAMKGRIWAPBZSYWALDBLOFWIQPMPLEMCJXKAENTLVYMJNRJAQQPWAGVGOHEWQYZDJRAXZOYDMNZJVUSJGKKKSYNCSFWKVNHOGVYULALKEBUNZHERDOFCYWBUCJG"));
         assertEquals("NO", abbreviation("MBQEVZPBjcbswirgrmkkfvfvcpiukuxlnxkkenqp", "MBQEVZP"));
-        assertEquals("YES", abbreviation(
-                "DINVMKSOfsVQByBnCWNKPRFRKMhFRSkNQRBVNTIKNBXRSXdADOSeNDcLWFCERZOLQjEZCEPKXPCYKCVKALNxBADQBFDQUpdqunpelxauyyrwtjpkwoxlrrqbjtxlkvkcajhpqhqeitafcsjxwtttzyhzvh",
-                "DINVMKSOVQBBCWNKPRFRKMFRSNQRBVNTIKNBXRSXADOSNDLWFCERZOLQEZCEPKXPCYKCVKALNBADQBFDQU"));
-        assertEquals("YES", abbreviation(
-                "BFZZVHdQYHQEMNEFFRFJTQmNWHFVXRXlGTFNBqWQmyOWYWSTDSTMJRYHjBNTEWADLgHVgGIRGKFQSeCXNFNaIFAXOiQORUDROaNoJPXWZXIAABZKSZYFTDDTRGZXVZZNWNRHMvSTGEQCYAJSFvbqivjuqvuzafvwwifnrlcxgbjmigkms",
-                "BFZZVHQYHQEMNEFFRFJTQNWHFVXRXGTFNBWQOWYWSTDSTMJRYHBNTEWADLHVGIRGKFQSCXNFNIFAXOQORUDRONJPXWZXIAABZKSZYFTDDTRGZXVZZNWNRHMSTGEQCYAJSF"));
+        assertEquals(
+                "YES",
+                abbreviation(
+                        "DINVMKSOfsVQByBnCWNKPRFRKMhFRSkNQRBVNTIKNBXRSXdADOSeNDcLWFCERZOLQjEZCEPKXPCYKCVKALNxBADQBFDQUpdqunpelxauyyrwtjpkwoxlrrqbjtxlkvkcajhpqhqeitafcsjxwtttzyhzvh",
+                        "DINVMKSOVQBBCWNKPRFRKMFRSNQRBVNTIKNBXRSXADOSNDLWFCERZOLQEZCEPKXPCYKCVKALNBADQBFDQU"));
+        assertEquals(
+                "YES",
+                abbreviation(
+                        "BFZZVHdQYHQEMNEFFRFJTQmNWHFVXRXlGTFNBqWQmyOWYWSTDSTMJRYHjBNTEWADLgHVgGIRGKFQSeCXNFNaIFAXOiQORUDROaNoJPXWZXIAABZKSZYFTDDTRGZXVZZNWNRHMvSTGEQCYAJSFvbqivjuqvuzafvwwifnrlcxgbjmigkms",
+                        "BFZZVHQYHQEMNEFFRFJTQNWHFVXRXGTFNBWQOWYWSTDSTMJRYHBNTEWADLHVGIRGKFQSCXNFNIFAXOQORUDRONJPXWZXIAABZKSZYFTDDTRGZXVZZNWNRHMSTGEQCYAJSF"));
 
-        assertEquals("YES", abbreviation(
-                "OPZFFVQLADBQFBXLOSUMZZWQUKASCUVQZZVWfPIRTytlvpijddqegbwitkhhsbuehtnpndvcandzjzyepvlnkayfkwzegvbratvwezddjqxrxocqgcghuohlmsondvicocltqhvqfqjpctxfomjoukrheijhhndcbipiobvpbskemgykepokluwqhhejdaimvdvlegfyrrwckgojsbsxmsvhhrlnvcrxfaxinjzsjgvvrlcczqlkvgtftsvktvhtfpaklumhkovphilrappbvkarfhvwxxtrugypracozyqyvaqjityoiyemyavpbchaoagrvujocpueczsgcqdjvkjckxhmnaseshjgecusrxozuxgeieleewwskmiprlqnshvmcp",
-                "OPZFFVQLADBQFBXLOSUMZZWQUKASCUVQZZVWPIRT"));
+        assertEquals(
+                "YES",
+                abbreviation(
+                        "OPZFFVQLADBQFBXLOSUMZZWQUKASCUVQZZVWfPIRTytlvpijddqegbwitkhhsbuehtnpndvcandzjzyepvlnkayfkwzegvbratvwezddjqxrxocqgcghuohlmsondvicocltqhvqfqjpctxfomjoukrheijhhndcbipiobvpbskemgykepokluwqhhejdaimvdvlegfyrrwckgojsbsxmsvhhrlnvcrxfaxinjzsjgvvrlcczqlkvgtftsvktvhtfpaklumhkovphilrappbvkarfhvwxxtrugypracozyqyvaqjityoiyemyavpbchaoagrvujocpueczsgcqdjvkjckxhmnaseshjgecusrxozuxgeieleewwskmiprlqnshvmcp",
+                        "OPZFFVQLADBQFBXLOSUMZZWQUKASCUVQZZVWPIRT"));
 
-        assertEquals("YES", abbreviation(
-                "WLWlVFFTKWXXVNXUAHAWBKCQMKEHKSJNLLISGUWMDTkURJTLXyJFEHQYTCuRFXRDHSFPIRCCQSDRRHCSDPKXGOCHFAWKPGMCZICTFFTNZBANHHELBMAWVPRekbsqbxqqwsizsjnnorxamaoudznbaqanqtucsrouxcdxfqahygyupaxfvtvigahlkpoduwmgvbvwshvazgsjkimnbjvzvwtdlomsfatfxxsfdvxcyfiycehomhhaaginwnrtoqtkhvmjikzymaqppjbtjomfjn",
-                "WLWVFFTKWXXVNXUAHAWBKCQMKEHKSJNLLISGUWMDTURJTLXJFEHQYTCRFXRDHSFPIRCCQSDRRHCSDPKXGOCHFAWKPGMCZICTFFTNZBANHHELBMAWVPR"));
+        assertEquals(
+                "YES",
+                abbreviation(
+                        "WLWlVFFTKWXXVNXUAHAWBKCQMKEHKSJNLLISGUWMDTkURJTLXyJFEHQYTCuRFXRDHSFPIRCCQSDRRHCSDPKXGOCHFAWKPGMCZICTFFTNZBANHHELBMAWVPRekbsqbxqqwsizsjnnorxamaoudznbaqanqtucsrouxcdxfqahygyupaxfvtvigahlkpoduwmgvbvwshvazgsjkimnbjvzvwtdlomsfatfxxsfdvxcyfiycehomhhaaginwnrtoqtkhvmjikzymaqppjbtjomfjn",
+                        "WLWVFFTKWXXVNXUAHAWBKCQMKEHKSJNLLISGUWMDTURJTLXJFEHQYTCRFXRDHSFPIRCCQSDRRHCSDPKXGOCHFAWKPGMCZICTFFTNZBANHHELBMAWVPR"));
 
-        assertEquals("YES", abbreviation(
-                "PDXCyKDOkWPOTXQUEQHOEIaIAROHeAXrGISVQbnksreozjryuzlttptkufhzaqejqszwsscpsbrfjrqaixtfvazzihgrnkgrultyewhaniegnzqapbzugermphypdryqcobcglcytzcysjbuchazswrvckkmwgityneeyqeflcyhesmdhsskudnsuqtlvpplothlpilpffyuyvnjvymiwrrqappuwbinbgcb",
-                "PDXCKDOWPOTXQUEQHOEIIAROHAXGISVQ"));
+        assertEquals(
+                "YES",
+                abbreviation(
+                        "PDXCyKDOkWPOTXQUEQHOEIaIAROHeAXrGISVQbnksreozjryuzlttptkufhzaqejqszwsscpsbrfjrqaixtfvazzihgrnkgrultyewhaniegnzqapbzugermphypdryqcobcglcytzcysjbuchazswrvckkmwgityneeyqeflcyhesmdhsskudnsuqtlvpplothlpilpffyuyvnjvymiwrrqappuwbinbgcb",
+                        "PDXCKDOWPOTXQUEQHOEIIAROHAXGISVQ"));
 
-        assertEquals("YES", abbreviation(
-                "RUJNEGMMMEGIRGILRHKWKSNZWMQAFKISNVVBOVNZBHRITDHZIKHXuZRRJOVNHIKLBIZTTHQCDRDDPQIWIJRAKXSAFKNZQQTUCGYBKKIFJBKYDLICJZZCDSHRCKRNXTNZAKNNFPLCLBMJJGOZLIIJYFIMYHPNHLXGZICXOCDNWKKEMGOSJUGVXIEGBWLNGXUQNBWKJIUURRBZYBKEVUSDUpAUQKVANNJWNJZZAIJCYTJPUMIYAFJKBBCEDOGWVUCTBRhHXTTZDFTPYTypxornxsclmxzsuwaqlsjwpztodbwnowpplxcvbpubodwobdlwphmcyenwdjwdzwblrejfhvoprxsiekxz",
-                "RUJNEGMMMEGIRGILRHKWKSNZWMQAFKISNVVBOVNZBHRITDHZIKHXZRRJOVNHIKLBIZTTHQCDRDDPQIWIJRAKXSAFKNZQQTUCGYBKKIFJBKYDLICJZZCDSHRCKRNXTNZAKNNFPLCLBMJJGOZLIIJYFIMYHPNHLXGZICXOCDNWKKEMGOSJUGVXIEGBWLNGXUQNBWKJIUURRBZYBKEVUSDUAUQKVANNJWNJZZAIJCYTJPUMIYAFJKBBCEDOGWVUCTBRHXTTZDFTPYT"));
+        assertEquals(
+                "YES",
+                abbreviation(
+                        "RUJNEGMMMEGIRGILRHKWKSNZWMQAFKISNVVBOVNZBHRITDHZIKHXuZRRJOVNHIKLBIZTTHQCDRDDPQIWIJRAKXSAFKNZQQTUCGYBKKIFJBKYDLICJZZCDSHRCKRNXTNZAKNNFPLCLBMJJGOZLIIJYFIMYHPNHLXGZICXOCDNWKKEMGOSJUGVXIEGBWLNGXUQNBWKJIUURRBZYBKEVUSDUpAUQKVANNJWNJZZAIJCYTJPUMIYAFJKBBCEDOGWVUCTBRhHXTTZDFTPYTypxornxsclmxzsuwaqlsjwpztodbwnowpplxcvbpubodwobdlwphmcyenwdjwdzwblrejfhvoprxsiekxz",
+                        "RUJNEGMMMEGIRGILRHKWKSNZWMQAFKISNVVBOVNZBHRITDHZIKHXZRRJOVNHIKLBIZTTHQCDRDDPQIWIJRAKXSAFKNZQQTUCGYBKKIFJBKYDLICJZZCDSHRCKRNXTNZAKNNFPLCLBMJJGOZLIIJYFIMYHPNHLXGZICXOCDNWKKEMGOSJUGVXIEGBWLNGXUQNBWKJIUURRBZYBKEVUSDUAUQKVANNJWNJZZAIJCYTJPUMIYAFJKBBCEDOGWVUCTBRHXTTZDFTPYT"));
 
-        assertEquals("NO", abbreviation(
-                "CIVQEESyFYnGDSSUUUGMPXYUKRMLXRXtWAWKQRUWCXKBMTGDOWSPRFOCUOETTLIWeXTUHSSPWYQKJSIlRJGOIDARFIILFXQUBCXUQHJCtJXTJBOSJKJUAIFaBVQWBXWZIYRMYOCVYGTCJJjDMBAESZlXMDPIREZHVJGJQHAFQGGXLzIEAPcZGBOEHDXQIUDfBEYQOjTYJUJVTWEIXcBUYEyXHPDYAEHOZDPHAQAYEQNKoVBOOMTUOJHyFOLRmVKMwFVCJMTAMFVPAGYYIBZZLCPJYXLWXMHLVXXQOGSZKGZZOENOSNHJNOMXxNMRZGODIUnEZGRDFLNuZJASKXHMSJGIWGIUYWPPXQQZYDSISXFQRPLHFPHMZMGMVOLXeJWYZOZUEOHWZOFUQEGEGLPRISELSNHIGDlLqEDCCDJYKAFTLLPIYUQENFuWJJFHUAECO",
-                "CIVQEESFYGDSSUUUGMPXYUKRMLXRXWAWKQRUWCXKBMTGDOWSPRFOCUOETTLIWXTUHSSPWYQKJSIRJGOIDARFIILFXQUBCXUQHJCJXTJBOSJKJUAIFBVQWBXWZIYRMYOCVYGTCJJDMBAESZXMDPIREZHVJGJQHAFQGGXLIEAPZGBOEHDXQIUDBEYQOTYJUJVTWEIXBUYEXHPDYAEHOZDPHAQAYEQNKVBOOMTUOJHFOLRVKMFVCJMTAMFVPAGYYIBZZLCPJYXLWXMHLVXXQOGSZKGZZOENOSNHJNOMXNMRZGODIUEZGRDFLNZJASKXHMSJGIWGIUYWPPXQQZYDSISXFQRPLHFPHMZMGMVOLXJWYZOZUEOHWZOFUQEGEGLPRISELSNHIGDLEDCCDJYKAFTLLPIYUQENFWJJFHUAECOMN"));
+        assertEquals(
+                "NO",
+                abbreviation(
+                        "CIVQEESyFYnGDSSUUUGMPXYUKRMLXRXtWAWKQRUWCXKBMTGDOWSPRFOCUOETTLIWeXTUHSSPWYQKJSIlRJGOIDARFIILFXQUBCXUQHJCtJXTJBOSJKJUAIFaBVQWBXWZIYRMYOCVYGTCJJjDMBAESZlXMDPIREZHVJGJQHAFQGGXLzIEAPcZGBOEHDXQIUDfBEYQOjTYJUJVTWEIXcBUYEyXHPDYAEHOZDPHAQAYEQNKoVBOOMTUOJHyFOLRmVKMwFVCJMTAMFVPAGYYIBZZLCPJYXLWXMHLVXXQOGSZKGZZOENOSNHJNOMXxNMRZGODIUnEZGRDFLNuZJASKXHMSJGIWGIUYWPPXQQZYDSISXFQRPLHFPHMZMGMVOLXeJWYZOZUEOHWZOFUQEGEGLPRISELSNHIGDlLqEDCCDJYKAFTLLPIYUQENFuWJJFHUAECO",
+                        "CIVQEESFYGDSSUUUGMPXYUKRMLXRXWAWKQRUWCXKBMTGDOWSPRFOCUOETTLIWXTUHSSPWYQKJSIRJGOIDARFIILFXQUBCXUQHJCJXTJBOSJKJUAIFBVQWBXWZIYRMYOCVYGTCJJDMBAESZXMDPIREZHVJGJQHAFQGGXLIEAPZGBOEHDXQIUDBEYQOTYJUJVTWEIXBUYEXHPDYAEHOZDPHAQAYEQNKVBOOMTUOJHFOLRVKMFVCJMTAMFVPAGYYIBZZLCPJYXLWXMHLVXXQOGSZKGZZOENOSNHJNOMXNMRZGODIUEZGRDFLNZJASKXHMSJGIWGIUYWPPXQQZYDSISXFQRPLHFPHMZMGMVOLXJWYZOZUEOHWZOFUQEGEGLPRISELSNHIGDLEDCCDJYKAFTLLPIYUQENFWJJFHUAECOMN"));
 
-        assertEquals("YES", abbreviation(
-                "SVAHHHMVIIDYIcOSHMDUAVJRIBxBZQSUBIVEBHfVTZVSHATUYDJGDRRUBQFHEEEUZLQGXTNKFWUYBAeFKUHSFLZEUINBZYRIXOPYYXAEZZWELUPIEIWGZHEIYIROLQLAVHhMKRDSOQTJYYLTCTSIXIDAnPIHNXENWFFZFJASRZRDAPVYPAViVBLVGRHObnwlcyprcfhdpfjkyvgyzpovsgvlqbhtwrucvszaqinbgeafuswkjrcexvyzq",
-                "SVAHHHMVIIDYIOSHMDUAVJRIBBZQSUBIVEBHVTZVSHATUYDJGDRRUBQFHEEEUZLQGXTNKFWUYBAFKUHSFLZEUINBZYRIXOPYYXAEZZWELUPIEIWGZHEIYIROLQLAVHMKRDSOQTJYYLTCTSIXIDAPIHNXENWFFZFJASRZRDAPVYPAVVBLVGRHO"));
+        assertEquals(
+                "YES",
+                abbreviation(
+                        "SVAHHHMVIIDYIcOSHMDUAVJRIBxBZQSUBIVEBHfVTZVSHATUYDJGDRRUBQFHEEEUZLQGXTNKFWUYBAeFKUHSFLZEUINBZYRIXOPYYXAEZZWELUPIEIWGZHEIYIROLQLAVHhMKRDSOQTJYYLTCTSIXIDAnPIHNXENWFFZFJASRZRDAPVYPAViVBLVGRHObnwlcyprcfhdpfjkyvgyzpovsgvlqbhtwrucvszaqinbgeafuswkjrcexvyzq",
+                        "SVAHHHMVIIDYIOSHMDUAVJRIBBZQSUBIVEBHVTZVSHATUYDJGDRRUBQFHEEEUZLQGXTNKFWUYBAFKUHSFLZEUINBZYRIXOPYYXAEZZWELUPIEIWGZHEIYIROLQLAVHMKRDSOQTJYYLTCTSIXIDAPIHNXENWFFZFJASRZRDAPVYPAVVBLVGRHO"));
 
-        assertEquals("YES", abbreviation(
-                "WIRUQDCAQUTtZVVAzLKMVWIOXLBESKUQSUOAEHEFMMhwwiyrqhaiixtqhaynwcsoihabohxepjbyroaglaobfwwzymlijsdhdsqlxazqggesnhdnblqbgouwjyowpjfmbshfenrtcoqyszmpamoaehnepi",
-                "WIRUQDCAQUTZVVALKMVWIOXLBESKUQSUOAEHEFMM"));
+        assertEquals(
+                "YES",
+                abbreviation(
+                        "WIRUQDCAQUTtZVVAzLKMVWIOXLBESKUQSUOAEHEFMMhwwiyrqhaiixtqhaynwcsoihabohxepjbyroaglaobfwwzymlijsdhdsqlxazqggesnhdnblqbgouwjyowpjfmbshfenrtcoqyszmpamoaehnepi",
+                        "WIRUQDCAQUTZVVALKMVWIOXLBESKUQSUOAEHEFMM"));
 
-        assertEquals("YES", abbreviation(
-                "EPgDKTFPMjMXHIOYEFAFDWqNXNXCYOQwXOYDHNEJGBIKZYxiPrUALJFEVMRJEVKWZXNEMMPWAXMCAOjAsAGBhYTTKZHITGSYQQGyUMSLVDSFWOLJICNEWUBOMNOBOuFKUMREWGTObXRFKORKVUWNZMWCPXJGQNJETWHyKPNBYXLfWYUXQIXVVHFMGPNLcOKGRQFCADNCRmfBSbZJwLSWEpXvELKSDUMKsZlUHNYFEf",
-                "EPDKTFPMMXHIOYEFAFDWNXNXCYOQXOYDHNEJGBIKZYPUALJFEVMRJEVKWZXNEMMPWAXMCAOAAGBYTTKZHITGSYQQGUMSLVDSFWOLJICNEWUBOMNOBOFKUMREWGTOXRFKORKVUWNZMWCPXJGQNJETWHKPNBYXLWYUXQIXVVHFMGPNLOKGRQFCADNCRBSZJLSWEXELKSDUMKZUHNYFE"));
+        assertEquals(
+                "YES",
+                abbreviation(
+                        "EPgDKTFPMjMXHIOYEFAFDWqNXNXCYOQwXOYDHNEJGBIKZYxiPrUALJFEVMRJEVKWZXNEMMPWAXMCAOjAsAGBhYTTKZHITGSYQQGyUMSLVDSFWOLJICNEWUBOMNOBOuFKUMREWGTObXRFKORKVUWNZMWCPXJGQNJETWHyKPNBYXLfWYUXQIXVVHFMGPNLcOKGRQFCADNCRmfBSbZJwLSWEpXvELKSDUMKsZlUHNYFEf",
+                        "EPDKTFPMMXHIOYEFAFDWNXNXCYOQXOYDHNEJGBIKZYPUALJFEVMRJEVKWZXNEMMPWAXMCAOAAGBYTTKZHITGSYQQGUMSLVDSFWOLJICNEWUBOMNOBOFKUMREWGTOXRFKORKVUWNZMWCPXJGQNJETWHKPNBYXLWYUXQIXVVHFMGPNLOKGRQFCADNCRBSZJLSWEXELKSDUMKZUHNYFE"));
 
-        assertEquals("YES", abbreviation(
-                "XWUTAMOTDYULFGPIZVLGEVUWTNCDFWMDMGOADGOGYWIKACOARBPBGCCEQZWCURWCDSFCCWVIRZJNVYWUXHNXABVQXUNGEQWSDJAMIQBDLRPHUVLMRXLDJIWKRWBDKIACCPGVXINRCSQNBWDVEVNVLGLSCCSALXRKICOGTOHYVXUUSMZCFMXUDEESPXPMBXRJSQGWBUXMXNJDWZVLWPVTNSJYVTPCDTWSCJFINKELQCDVPPXZISqmgnrzwt",
-                "XWUTAMOTDYULFGPIZVLGEVUWTNCDFWMDMGOADGOGYWIKACOARBPBGCCEQZWCURWCDSFCCWVIRZJNVYWUXHNXABVQXUNGEQWSDJAMIQBDLRPHUVLMRXLDJIWKRWBDKIACCPGVXINRCSQNBWDVEVNVLGLSCCSALXRKICOGTOHYVXUUSMZCFMXUDEESPXPMBXRJSQGWBUXMXNJDWZVLWPVTNSJYVTPCDTWSCJFINKELQCDVPPXZIS"));
+        assertEquals(
+                "YES",
+                abbreviation(
+                        "XWUTAMOTDYULFGPIZVLGEVUWTNCDFWMDMGOADGOGYWIKACOARBPBGCCEQZWCURWCDSFCCWVIRZJNVYWUXHNXABVQXUNGEQWSDJAMIQBDLRPHUVLMRXLDJIWKRWBDKIACCPGVXINRCSQNBWDVEVNVLGLSCCSALXRKICOGTOHYVXUUSMZCFMXUDEESPXPMBXRJSQGWBUXMXNJDWZVLWPVTNSJYVTPCDTWSCJFINKELQCDVPPXZISqmgnrzwt",
+                        "XWUTAMOTDYULFGPIZVLGEVUWTNCDFWMDMGOADGOGYWIKACOARBPBGCCEQZWCURWCDSFCCWVIRZJNVYWUXHNXABVQXUNGEQWSDJAMIQBDLRPHUVLMRXLDJIWKRWBDKIACCPGVXINRCSQNBWDVEVNVLGLSCCSALXRKICOGTOHYVXUUSMZCFMXUDEESPXPMBXRJSQGWBUXMXNJDWZVLWPVTNSJYVTPCDTWSCJFINKELQCDVPPXZIS"));
 
-        assertEquals("YES", abbreviation(
-                "ALRIGJCXcFvZDTYFKWEEJSpayhsytgccieascmcgdejyunrwguxnuxneurbgfegnfpwbxsuolsxchasjegjdhwpzmwsyocdfnoiajkxugbliytqsthglmkawozahjsrhwdojwnpyycbbgxwxlsbslapslyphdxqjdgpplhcpug",
-                "ALRIGJCXFZDTYFKWEEJS"));
+        assertEquals(
+                "YES",
+                abbreviation(
+                        "ALRIGJCXcFvZDTYFKWEEJSpayhsytgccieascmcgdejyunrwguxnuxneurbgfegnfpwbxsuolsxchasjegjdhwpzmwsyocdfnoiajkxugbliytqsthglmkawozahjsrhwdojwnpyycbbgxwxlsbslapslyphdxqjdgpplhcpug",
+                        "ALRIGJCXFZDTYFKWEEJS"));
 
-        assertEquals("YES", abbreviation(
-                "QGBOZKPCPMvEHGOFRWOXUOBCZDADERSPXNNJPOjMNUIHFZRACZJZWMZSNHJHJUYNCHSJKFDSLFBGKVYFJdkfxesjrixmzefcgewgrnn",
-                "QGBOZKPCPMEHGOFRWOXUOBCZDADERSPXNNJPOMNUIHFZRACZJZWMZSNHJHJUYNCHSJKFDSLFBGKVYFJ"));
+        assertEquals(
+                "YES",
+                abbreviation(
+                        "QGBOZKPCPMvEHGOFRWOXUOBCZDADERSPXNNJPOjMNUIHFZRACZJZWMZSNHJHJUYNCHSJKFDSLFBGKVYFJdkfxesjrixmzefcgewgrnn",
+                        "QGBOZKPCPMEHGOFRWOXUOBCZDADERSPXNNJPOMNUIHFZRACZJZWMZSNHJHJUYNCHSJKFDSLFBGKVYFJ"));
 
-        assertEquals("YES", abbreviation(
-                "lHJCJMWDFhSMRRZUKEUJxRZGVWATJtFRJPOOWkFEIEKsYBVILWARcDISwXAVPOYJHWRNHUQNDBUSRGIRIZTMHdXxodmgzkfxbpperyhufxymrphzkyzewldrijewezvobdshebnbtzxkupcvgrscyscrtxuwsmywoyuuxvyzxajccydqdngartsmbeptpabthasbgqccvzqvbmnokjwwqpzqcqqb",
-                "HJCJMWDFSMRRZUKEUJRZGVWATJFRJPOOWFEIEKYBVILWARDISXAVPOYJHWRNHUQNDBUSRGIRIZTMHX"));
+        assertEquals(
+                "YES",
+                abbreviation(
+                        "lHJCJMWDFhSMRRZUKEUJxRZGVWATJtFRJPOOWkFEIEKsYBVILWARcDISwXAVPOYJHWRNHUQNDBUSRGIRIZTMHdXxodmgzkfxbpperyhufxymrphzkyzewldrijewezvobdshebnbtzxkupcvgrscyscrtxuwsmywoyuuxvyzxajccydqdngartsmbeptpabthasbgqccvzqvbmnokjwwqpzqcqqb",
+                        "HJCJMWDFSMRRZUKEUJRZGVWATJFRJPOOWFEIEKYBVILWARDISXAVPOYJHWRNHUQNDBUSRGIRIZTMHX"));
 
-        assertEquals("YES", abbreviation(
-                "TIJTQKlOTDVMEMKKMNYZtZIWLZOLJPPGCGTGTQBKILAXYMDXOOQMONZYXDZSgSVGJBmIIXXaTOLdMLbSCODRIUANIBRIQLVSXokicxpigmnirkneh",
-                "TIJTQKOTDVMEMKKMNYZZIWLZOLJPPGCGTGTQBKILAXYMDXOOQMONZYXDZSSVGJBIIXXTOLMLSCODRIUANIBRIQLVSX"));
+        assertEquals(
+                "YES",
+                abbreviation(
+                        "TIJTQKlOTDVMEMKKMNYZtZIWLZOLJPPGCGTGTQBKILAXYMDXOOQMONZYXDZSgSVGJBmIIXXaTOLdMLbSCODRIUANIBRIQLVSXokicxpigmnirkneh",
+                        "TIJTQKOTDVMEMKKMNYZZIWLZOLJPPGCGTGTQBKILAXYMDXOOQMONZYXDZSSVGJBIIXXTOLMLSCODRIUANIBRIQLVSX"));
 
-        assertEquals("YES", abbreviation(
-                "MCLGDNAYZOVXJqJDAYrFHrBYZOUDBGEFfBTBZpNEZLURWEcDEBJQWIITUTNEteBHYYKOEGROMXmLEudSEWlUEFFTvINEHWNFObNOMWTNJMIyBEXTWBWOAKHNZKeEdCFuUSfAPXXZUZTDCVYmDFTSSGECgOHOQHSPEBUUWTspaviedpoeh",
-                "MCLGDNAYZOVXJJDAYFHBYZOUDBGEFBTBZNEZLURWEDEBJQWIITUTNEBHYYKOEGROMXLESEWUEFFTINEHWNFONOMWTNJMIBEXTWBWOAKHNZKECFUSAPXXZUZTDCVYDFTSSGECOHOQHSPEBUUWT"));
+        assertEquals(
+                "YES",
+                abbreviation(
+                        "MCLGDNAYZOVXJqJDAYrFHrBYZOUDBGEFfBTBZpNEZLURWEcDEBJQWIITUTNEteBHYYKOEGROMXmLEudSEWlUEFFTvINEHWNFObNOMWTNJMIyBEXTWBWOAKHNZKeEdCFuUSfAPXXZUZTDCVYmDFTSSGECgOHOQHSPEBUUWTspaviedpoeh",
+                        "MCLGDNAYZOVXJJDAYFHBYZOUDBGEFBTBZNEZLURWEDEBJQWIITUTNEBHYYKOEGROMXLESEWUEFFTINEHWNFONOMWTNJMIBEXTWBWOAKHNZKECFUSAPXXZUZTDCVYDFTSSGECOHOQHSPEBUUWT"));
 
-        assertEquals("YES", abbreviation(
-                "hHhAhhcahhacaccacccahhchhcHcahaahhchhhchaachcaCchhchcaccccchhhcaahhhhcaacchccCaahhaahachhacaahhaachhhaaaCalhhchaccaAahHcchcazhachhhaaahaahhaacchAahccacahahhcHhccahaachAchahacaahcahacaahcahacaHhccccaahaahacaachcchhahhacchahhhaahcacacachhahchcaAhhcaahchHhhaacHcacahaccccaaahacCHhChchhhahhchcahaaCccccahhcaachhhacaaahcaaaccccaacaaHachaahcchaahhchhhcahahahhcaachhchacahhahahahAahaAcchahaahcaaaaahhChacahcacachacahcchHcaahchhcahaachnachhhhcachchahhhacHhCcaHhhhcaCccccaaahcahacahchahcaachcchaachahhhhhhhhcahhacacCcchahccaaaaaHhhccaAaaaCchahhccaahhacaccchhcahhcahaahhgacahcahhchcaaAccchahhhaahhccaaHcchaccacahHahChachhcaaacAhacacaacacchhchchacchchcacchachacaahachccchhhaccahcacchaccaahaaaccccccaaaaaaaHhcahcchmcHchcchaaahaccchaaachchHahcaccaaccahcacacahAhaacaacaccaccaaacahhhcacAhaCchcaacCcccachhchchcchhchahchchahchchhchcacaachahhccacachaAhaaachchhchchchhaachahaahahachhaaaccacahhcacchhhaaachaaacAahhcachchachhhcacchacaaChCahhhccahChaachhcahacchanaaacchhhccacacchcahccchAcahacaaachhacchachccaaHacaacAhahcCh",
-                "HAHHCHAACCCAHCHHAHHAHCACCHCCHHCAAHHCACCCAHHHACAAHHHHCHHCAHHAHHAAAHAACAAHAHHCAHAHACHACHCHACACHAAHHAAAHCAHHACACAACHHHCHAHCAHCHHHAHAHACCAAAHCHHCHHCCAACCCCAACHACAACAAHACHCHAHHACCHCAHHHAAACHACAACHCACACAHHCCHAHACCCACCAACHCHHHCCCCCHCCAHHCAAHHAHHHHHHHAACCCCAHCCAAAAAHHHAAAACCAHHCAHACACCHHCHAHAHHCHAACHHHHHCCHCCAHAHCHCAAACCACCCCHACCACHHACHHACACHACCAACCCCAAAAHHAHCHHHCCAHCCHACHHAHCCACACCHAHAAACACCCCAHCCAHACCCCCCHCCHHCHHHHCHCHCAHHHACHAHAACCCAAAACHAACAAAHHAAHAAAHACHHCACHCCHCHAACHACACHHCCCCCAHCACHAAAHCHCAHACAAC"));
-
+        assertEquals(
+                "YES",
+                abbreviation(
+                        "hHhAhhcahhacaccacccahhchhcHcahaahhchhhchaachcaCchhchcaccccchhhcaahhhhcaacchccCaahhaahachhacaahhaachhhaaaCalhhchaccaAahHcchcazhachhhaaahaahhaacchAahccacahahhcHhccahaachAchahacaahcahacaahcahacaHhccccaahaahacaachcchhahhacchahhhaahcacacachhahchcaAhhcaahchHhhaacHcacahaccccaaahacCHhChchhhahhchcahaaCccccahhcaachhhacaaahcaaaccccaacaaHachaahcchaahhchhhcahahahhcaachhchacahhahahahAahaAcchahaahcaaaaahhChacahcacachacahcchHcaahchhcahaachnachhhhcachchahhhacHhCcaHhhhcaCccccaaahcahacahchahcaachcchaachahhhhhhhhcahhacacCcchahccaaaaaHhhccaAaaaCchahhccaahhacaccchhcahhcahaahhgacahcahhchcaaAccchahhhaahhccaaHcchaccacahHahChachhcaaacAhacacaacacchhchchacchchcacchachacaahachccchhhaccahcacchaccaahaaaccccccaaaaaaaHhcahcchmcHchcchaaahaccchaaachchHahcaccaaccahcacacahAhaacaacaccaccaaacahhhcacAhaCchcaacCcccachhchchcchhchahchchahchchhchcacaachahhccacachaAhaaachchhchchchhaachahaahahachhaaaccacahhcacchhhaaachaaacAahhcachchachhhcacchacaaChCahhhccahChaachhcahacchanaaacchhhccacacchcahccchAcahacaaachhacchachccaaHacaacAhahcCh",
+                        "HAHHCHAACCCAHCHHAHHAHCACCHCCHHCAAHHCACCCAHHHACAAHHHHCHHCAHHAHHAAAHAACAAHAHHCAHAHACHACHCHACACHAAHHAAAHCAHHACACAACHHHCHAHCAHCHHHAHAHACCAAAHCHHCHHCCAACCCCAACHACAACAAHACHCHAHHACCHCAHHHAAACHACAACHCACACAHHCCHAHACCCACCAACHCHHHCCCCCHCCAHHCAAHHAHHHHHHHAACCCCAHCCAAAAAHHHAAAACCAHHCAHACACCHHCHAHAHHCHAACHHHHHCCHCCAHAHCHCAAACCACCCCHACCACHHACHHACACHACCAACCCCAAAAHHAHCHHHCCAHCCHACHHAHCCACACCHAHAAACACCCCAHCCAHACCCCCCHCCHHCHHHHCHCHCAHHHACHAHAACCCAAAACHAACAAAHHAAHAAAHACHHCACHCCHCHAACHACACHHCCCCCAHCACHAAAHCHCAHACAAC"));
     }
 
     private String abbreviation(String a, String b) {
@@ -599,11 +668,9 @@ public class HackerRankTest {
 
                 s.append(c);
             }
-
         }
 
-        if (builderTmp.length() > 0)
-            builder.append(builderTmp.toString());
+        if (builderTmp.length() > 0) builder.append(builderTmp.toString());
 
         builder.append("-");
         int start = 0;
@@ -652,7 +719,6 @@ public class HackerRankTest {
                             } else {
                                 return "NO";
                             }
-
                         }
                     }
                 } else {
@@ -671,14 +737,12 @@ public class HackerRankTest {
 
                         i++;
 
-                        if (chunckTmp.length() == 0)
-                            break;
+                        if (chunckTmp.length() == 0) break;
                     }
                 }
 
             } else {
                 return s.toString().equals(b) ? "YES" : "NO";
-
             }
         }
 
@@ -691,8 +755,7 @@ public class HackerRankTest {
         dp[0][0] = true;
 
         for (int j = 1; j < dp[0].length; j++) {
-            if (Character.isLowerCase(a.charAt(j - 1)))
-                dp[0][j] = dp[0][j - 1];
+            if (Character.isLowerCase(a.charAt(j - 1))) dp[0][j] = dp[0][j - 1];
         }
 
         for (int i = 1; i < dp.length; i++) {
@@ -704,16 +767,13 @@ public class HackerRankTest {
                     }
                 } else {
                     ca = Character.toUpperCase(ca);
-                    if (ca == cb)
-                        dp[i][j] = dp[i - 1][j - 1] || dp[i][j - 1];
-                    else
-                        dp[i][j] = dp[i][j - 1];
+                    if (ca == cb) dp[i][j] = dp[i - 1][j - 1] || dp[i][j - 1];
+                    else dp[i][j] = dp[i][j - 1];
                 }
             }
         }
 
         return dp[b.length()][a.length()] ? "YES" : "NO";
-
     }
 
     @Test
@@ -723,17 +783,26 @@ public class HackerRankTest {
         InOrder orderVerifier = Mockito.inOrder(out);
         Character[] sol = new Character[]{'c', 'y', 'a'};
 
-        for (char string : sol)
-            orderVerifier.verify(out, atLeastOnce()).println(string);
+        for (char string : sol) orderVerifier.verify(out, atLeastOnce()).println(string);
         out.flush();
 
-        simpleTextEditor(new String[]{"1 lchbfcjtfpsmjrqsdgci", "3 19", "1 cpcvixlm", "1 apdjgjydvpbpvyiy", "2 29",
-                "4", "4", "3 9", "4", "4"});
+        simpleTextEditor(
+                new String[]{
+                        "1 lchbfcjtfpsmjrqsdgci",
+                        "3 19",
+                        "1 cpcvixlm",
+                        "1 apdjgjydvpbpvyiy",
+                        "2 29",
+                        "4",
+                        "4",
+                        "3 9",
+                        "4",
+                        "4"
+                });
 
         Character[] sol1 = new Character[]{'c', 'f'};
 
-        for (char string : sol1)
-            orderVerifier.verify(out, atLeastOnce()).println(string);
+        for (char string : sol1) orderVerifier.verify(out, atLeastOnce()).println(string);
         out.flush();
 
         InputStream is = new FileInputStream("src/test/resources/textEditor/simpleTextEditor1.txt");
@@ -751,9 +820,7 @@ public class HackerRankTest {
         buf.close();
         simpleTextEditor(list.stream().toArray(String[]::new));
 
-        /**
-         * this is not working, sequence of chars seems that is not respected
-         */
+        /** this is not working, sequence of chars seems that is not respected */
         /*
          * LinkedList<Character> solution = getSolution();
          *
@@ -771,15 +838,15 @@ public class HackerRankTest {
             if (split.length > 1) {
                 switch (split[0]) {
                     case "1":
-
                         currentWord.append(split[1]);
                         stack.push(currentWord.toString());
 
                         break;
 
                     case "2":
-                        currentWord = new StringBuilder(
-                                currentWord.substring(0, currentWord.length() - Integer.valueOf(split[1])));
+                        currentWord =
+                                new StringBuilder(
+                                        currentWord.substring(0, currentWord.length() - Integer.valueOf(split[1])));
                         stack.push(currentWord.toString());
 
                         break;
@@ -794,12 +861,9 @@ public class HackerRankTest {
 
                 stack.pop();
 
-                if (stack.size() > 0)
-                    currentWord = new StringBuilder(stack.peek());
-                else
-                    currentWord = new StringBuilder();
+                if (stack.size() > 0) currentWord = new StringBuilder(stack.peek());
+                else currentWord = new StringBuilder();
             }
-
         }
     }
 
@@ -809,12 +873,10 @@ public class HackerRankTest {
         assertEquals("Louise", counterGame(132));
         assertEquals("Richard", counterGame(1));
         assertEquals("Richard", counterGame(6));
-
     }
 
     public String counterGame(long n) {
-        if (n == 1)
-            return "Richard";
+        if (n == 1) return "Richard";
 
         double[] power = new double[65];
 
@@ -829,10 +891,8 @@ public class HackerRankTest {
 
         while (counter > 1) {
             if (((counter & (counter - 1)) == 0)) {
-                if (isPowerOfTwo)
-                    counter = counter / 2;
-                else
-                    counter = n - counter;
+                if (isPowerOfTwo) counter = counter / 2;
+                else counter = n - counter;
 
                 n = counter;
                 isPowerOfTwo = true;
@@ -842,16 +902,13 @@ public class HackerRankTest {
 
                 int i = 0;
 
-                while (Double.compare((double) counter, power[i]) > 0)
-                    i++;
+                while (Double.compare((double) counter, power[i]) > 0) i++;
 
                 counter = (long) power[i - 1];
             }
-
         }
 
         return (count & 1) != 0 ? "Louise" : "Richard";
-
     }
 
     @Test
@@ -869,8 +926,11 @@ public class HackerRankTest {
 
         int requiredDigits = 6;
 
-        int miss = matchRegEx(password, "[0-9]+") + matchRegEx(password, "[!@#$%^&*\\(\\)\\-\\+]+")
-                + matchRegEx(password, "[A-Z]+") + matchRegEx(password, "[a-z]+");
+        int miss =
+                matchRegEx(password, "[0-9]+")
+                        + matchRegEx(password, "[!@#$%^&*\\(\\)\\-\\+]+")
+                        + matchRegEx(password, "[A-Z]+")
+                        + matchRegEx(password, "[a-z]+");
 
         int lengthDiff = requiredDigits - length;
 
@@ -879,8 +939,7 @@ public class HackerRankTest {
 
     private int matchRegEx(String input, String regEx) {
 
-        if (Pattern.compile(regEx).matcher(input).find())
-            return 0;
+        if (Pattern.compile(regEx).matcher(input).find()) return 0;
 
         return 1;
     }
@@ -889,7 +948,6 @@ public class HackerRankTest {
     public void camelcase() {
         assertEquals(3, camelcase("oneTwoThree"));
         assertEquals(5, camelcase("saveChangesInTheEditor"));
-
     }
 
     private int camelcase(String s) {
@@ -899,8 +957,7 @@ public class HackerRankTest {
         Matcher matcher = pattern.matcher(s);
         int count = 1;
 
-        while (matcher.find())
-            count++;
+        while (matcher.find()) count++;
 
         return count;
     }
@@ -913,7 +970,6 @@ public class HackerRankTest {
         assertEquals(1, pageCount(6, 5));
         assertEquals(0, pageCount(5, 5));
         assertEquals(0, pageCount(5, 1));
-
     }
 
     private int pageCount(int n, int p) {
@@ -925,7 +981,6 @@ public class HackerRankTest {
         int fromEnd = (n1 - p) / 2;
 
         return Math.min(fromStart, fromEnd);
-
     }
 
     @Test
@@ -944,13 +999,11 @@ public class HackerRankTest {
 
         for (int i = 0; i < s.size(); i++) {
 
-            if (i + m > s.size())
-                break;
+            if (i + m > s.size()) break;
 
             int sum = s.subList(i, i + m).stream().mapToInt(Integer::intValue).sum();
 
-            if (sum == d)
-                count++;
+            if (sum == d) count++;
         }
 
         return count;
@@ -959,8 +1012,10 @@ public class HackerRankTest {
     @Test
     public void breakingRecords() {
 
-        assertEquals(true,
-                Arrays.equals(new int[]{2, 4}, breakingRecords(new int[]{10, 5, 20, 20, 4, 5, 2, 25, 1})));
+        assertEquals(
+                true,
+                Arrays.equals(
+                        new int[]{2, 4}, breakingRecords(new int[]{10, 5, 20, 20, 4, 5, 2, 25, 1})));
     }
 
     private int[] breakingRecords(int[] scores) {
@@ -987,46 +1042,54 @@ public class HackerRankTest {
     @Test
     public void getTotalX() {
 
-        assertEquals(3, getTotalX(new ArrayList<Integer>() {
-            {
-                add(2);
-                add(4);
+        assertEquals(
+                3,
+                getTotalX(
+                        new ArrayList<Integer>() {
+                            {
+                                add(2);
+                                add(4);
+                            }
+                        },
+                        new ArrayList<Integer>() {
+                            {
+                                add(16);
+                                add(32);
+                                add(96);
+                            }
+                        }));
 
-            }
-        }, new ArrayList<Integer>() {
-            {
-                add(16);
-                add(32);
-                add(96);
-            }
-        }));
+        assertEquals(
+                2,
+                getTotalX(
+                        new ArrayList<Integer>() {
+                            {
+                                add(3);
+                                add(4);
+                            }
+                        },
+                        new ArrayList<Integer>() {
+                            {
+                                add(24);
+                                add(48);
+                            }
+                        }));
 
-        assertEquals(2, getTotalX(new ArrayList<Integer>() {
-            {
-                add(3);
-                add(4);
-
-            }
-        }, new ArrayList<Integer>() {
-            {
-                add(24);
-                add(48);
-            }
-        }));
-
-        assertEquals(1, getTotalX(new ArrayList<Integer>() {
-            {
-                add(2);
-
-            }
-        }, new ArrayList<Integer>() {
-            {
-                add(20);
-                add(30);
-                add(12);
-
-            }
-        }));
+        assertEquals(
+                1,
+                getTotalX(
+                        new ArrayList<Integer>() {
+                            {
+                                add(2);
+                            }
+                        },
+                        new ArrayList<Integer>() {
+                            {
+                                add(20);
+                                add(30);
+                                add(12);
+                            }
+                        }));
     }
 
     public int getTotalX(List<Integer> a, List<Integer> b) {
@@ -1043,16 +1106,14 @@ public class HackerRankTest {
         for (int i = first; i <= last; i++) {
 
             for (Integer integer : a) {
-                if (i % integer == 0)
-                    set.add(i);
+                if (i % integer == 0) set.add(i);
             }
         }
 
         for (int i = 0; i < a.size(); i++) {
 
             for (Integer integer : set) {
-                if (integer % a.get(i) != 0)
-                    toRemove.add(integer);
+                if (integer % a.get(i) != 0) toRemove.add(integer);
             }
         }
         set.removeAll(toRemove);
@@ -1064,12 +1125,10 @@ public class HackerRankTest {
             countNotDiv = 0;
             for (int i = b.size() - 1; i >= 0; i--) {
 
-                if (b.get(i) % integer2 != 0)
-                    countNotDiv++;
+                if (b.get(i) % integer2 != 0) countNotDiv++;
             }
 
-            if (countNotDiv == 0)
-                count++;
+            if (countNotDiv == 0) count++;
         }
 
         return count;
@@ -1079,23 +1138,24 @@ public class HackerRankTest {
     @Test
     public void gradingStudent() {
 
-        assertEquals(new ArrayList<Integer>() {
-            {
-                add(75);
-                add(67);
-                add(40);
-                add(33);
-
-            }
-        }, gradingStudents(new ArrayList<Integer>() {
-            {
-                add(73);
-                add(67);
-                add(38);
-                add(33);
-
-            }
-        }));
+        assertEquals(
+                new LinkedList<>() {
+                    {
+                        add(75);
+                        add(67);
+                        add(40);
+                        add(33);
+                    }
+                },
+                gradingStudents(
+                        new ArrayList<>() {
+                            {
+                                add(73);
+                                add(67);
+                                add(38);
+                                add(33);
+                            }
+                        }));
     }
 
     /**
@@ -1114,11 +1174,8 @@ public class HackerRankTest {
 
             Integer round = 5 * (integer / 5);
 
-            if ((round + 5) - integer < 3)
-                list.add(round + 5);
-            else
-                list.add(integer);
-
+            if ((round + 5) - integer < 3) list.add(round + 5);
+            else list.add(integer);
         }
         return list;
     }
@@ -1129,15 +1186,13 @@ public class HackerRankTest {
         assertEquals("NO", calculateIntersectionPoint(0, 2, 5, 3));
         assertEquals("NO", calculateIntersectionPoint(21, 6, 47, 3));
         assertEquals("NO", calculateIntersectionPoint(35, 1, 45, 3));
-
     }
 
     private String calculateIntersectionPoint(int b1, int m1, int b2, int m2) {
 
         double x = (double) (b2 - b1) / (m1 - m2);
 
-        if (x < 0 || !(x % 1 == 0))
-            return "NO";
+        if (x < 0 || !(x % 1 == 0)) return "NO";
 
         double y = m1 * x + b1;
 
@@ -1149,7 +1204,6 @@ public class HackerRankTest {
 
         countApplesAndOranges(7, 11, 5, 15, new int[]{-2, 2, 1}, new int[]{5, -6});
         countApplesAndOranges(2, 3, 1, 1, new int[]{-2}, new int[]{-1});
-
     }
 
     private void countApplesAndOranges(int s, int t, int a, int b, int[] apples, int[] oranges) {
@@ -1160,20 +1214,17 @@ public class HackerRankTest {
         for (int j = 0; j < apples.length; j++) {
             int dist = a + apples[j];
 
-            if (dist >= s && dist <= t)
-                countApple++;
+            if (dist >= s && dist <= t) countApple++;
         }
 
         for (int i = 0; i < oranges.length; i++) {
             int dist = b + oranges[i];
 
-            if (dist >= s && dist <= t)
-                countOrange++;
+            if (dist >= s && dist <= t) countOrange++;
         }
 
         System.out.println(countApple);
         System.out.println(countOrange);
-
     }
 
     @Test
@@ -1182,7 +1233,6 @@ public class HackerRankTest {
         assertEquals("19:05:45", timeConversion("07:05:45PM"));
         assertEquals("07:05:45", timeConversion("07:05:45AM"));
         assertEquals("00:05:45", timeConversion("12:05:45AM"));
-
     }
 
     /**
@@ -1196,24 +1246,18 @@ public class HackerRankTest {
         Integer hour = Integer.parseInt(time.substring(0, 2));
 
         switch (format) {
-
             case "AM":
-
                 if (hour == 12) {
                     time = "00" + time.substring(2, 8);
 
                 } else {
-                    if (hour < 10)
-                        time = "0" + Integer.toString(hour) + time.substring(2, 8);
-
+                    if (hour < 10) time = "0" + Integer.toString(hour) + time.substring(2, 8);
                 }
 
                 break;
 
             default:
-
-                if (hour != 12)
-                    time = Integer.toString(hour + 12) + time.substring(2, 8);
+                if (hour != 12) time = Integer.toString(hour + 12) + time.substring(2, 8);
 
                 break;
         }
@@ -1241,7 +1285,6 @@ public class HackerRankTest {
 
             for (int h = 0; h < n - spaces; h++) {
                 System.out.print("#");
-
             }
             System.out.println("");
 
@@ -1266,13 +1309,9 @@ public class HackerRankTest {
 
         for (int i = 0; i < arr.length; i++) {
 
-            if (arr[i] > 0)
-                ++count[0];
-            else if (arr[i] < 0)
-                ++count[1];
-            else
-                ++count[2];
-
+            if (arr[i] > 0) ++count[0];
+            else if (arr[i] < 0) ++count[1];
+            else ++count[2];
         }
 
         for (int i = 0; i < count.length; i++) {
@@ -1286,8 +1325,10 @@ public class HackerRankTest {
         assertEquals("NO", isValidString("aaaabbcc"));
         assertEquals("YES", isValidString("abcdefghhgfedecba"));
         assertEquals("YES", isValidString("aabbc"));
-        assertEquals("YES", isValidString(
-                "ibfdgaeadiaefgbhbdghhhbgdfgeiccbiehhfcggchgghadhdhagfbahhddgghbdehidbibaeaagaeeigffcebfbaieggabcfbiiedcabfihchdfabifahcbhagccbdfifhghcadfiadeeaheeddddiecaicbgigccageicehfdhdgafaddhffadigfhhcaedcedecafeacbdacgfgfeeibgaiffdehigebhhehiaahfidibccdcdagifgaihacihadecgifihbebffebdfbchbgigeccahgihbcbcaggebaaafgfedbfgagfediddghdgbgehhhifhgcedechahidcbchebheihaadbbbiaiccededchdagfhccfdefigfibifabeiaccghcegfbcghaefifbachebaacbhbfgfddeceababbacgffbagidebeadfihaefefegbghgddbbgddeehgfbhafbccidebgehifafgbghafacgfdccgifdcbbbidfifhdaibgigebigaedeaaiadegfefbhacgddhchgcbgcaeaieiegiffchbgbebgbehbbfcebciiagacaiechdigbgbghefcahgbhfibhedaeeiffebdiabcifgccdefabccdghehfibfiifdaicfedagahhdcbhbicdgibgcedieihcichadgchgbdcdagaihebbabhibcihicadgadfcihdheefbhffiageddhgahaidfdhhdbgciiaciegchiiebfbcbhaeagccfhbfhaddagnfieihghfbaggiffbbfbecgaiiidccdceadbbdfgigibgcgchafccdchgifdeieicbaididhfcfdedbhaadedfageigfdehgcdaecaebebebfcieaecfagfdieaefdiedbcadchabhebgehiidfcgahcdhcdhgchhiiheffiifeegcfdgbdeffhgeghdfhbfbifgidcafbfcd"));
+        assertEquals(
+                "YES",
+                isValidString(
+                        "ibfdgaeadiaefgbhbdghhhbgdfgeiccbiehhfcggchgghadhdhagfbahhddgghbdehidbibaeaagaeeigffcebfbaieggabcfbiiedcabfihchdfabifahcbhagccbdfifhghcadfiadeeaheeddddiecaicbgigccageicehfdhdgafaddhffadigfhhcaedcedecafeacbdacgfgfeeibgaiffdehigebhhehiaahfidibccdcdagifgaihacihadecgifihbebffebdfbchbgigeccahgihbcbcaggebaaafgfedbfgagfediddghdgbgehhhifhgcedechahidcbchebheihaadbbbiaiccededchdagfhccfdefigfibifabeiaccghcegfbcghaefifbachebaacbhbfgfddeceababbacgffbagidebeadfihaefefegbghgddbbgddeehgfbhafbccidebgehifafgbghafacgfdccgifdcbbbidfifhdaibgigebigaedeaaiadegfefbhacgddhchgcbgcaeaieiegiffchbgbebgbehbbfcebciiagacaiechdigbgbghefcahgbhfibhedaeeiffebdiabcifgccdefabccdghehfibfiifdaicfedagahhdcbhbicdgibgcedieihcichadgchgbdcdagaihebbabhibcihicadgadfcihdheefbhffiageddhgahaidfdhhdbgciiaciegchiiebfbcbhaeagccfhbfhaddagnfieihghfbaggiffbbfbecgaiiidccdceadbbdfgigibgcgchafccdchgifdeieicbaididhfcfdedbhaadedfageigfdehgcdaecaebebebfcieaecfagfdieaefdiedbcadchabhebgehiidfcgahcdhcdhgchhiiheffiifeegcfdgbdeffhgeghdfhbfbifgidcafbfcd"));
 
         assertEquals("NO", isValidString("aabbcd"));
         assertEquals("NO", isValidString("xxxaabbccrry"));
@@ -1299,35 +1340,39 @@ public class HackerRankTest {
      */
     private String isValidString(String s) {
 
-        List<Entry<Character, Integer>> sortedEntries = s.chars().boxed().collect(Collectors.toMap(
-                // key = char
-                k -> Character.valueOf((char) k.intValue()), v -> 1, // 1 occurence
-                Integer::sum)).entrySet().stream().sorted(new Comparator<Entry<Character, Integer>>() {
-            @Override
-            public int compare(Entry<Character, Integer> e1, Entry<Character, Integer> e2) {
-                return e2.getValue().compareTo(e1.getValue());
-            }
-        }).collect(Collectors.toCollection(LinkedList::new));
+        List<Entry<Character, Integer>> sortedEntries =
+                s
+                        .chars()
+                        .boxed()
+                        .collect(
+                                Collectors.toMap(
+                                        // key = char
+                                        k -> Character.valueOf((char) k.intValue()),
+                                        v -> 1, // 1 occurence
+                                        Integer::sum))
+                        .entrySet()
+                        .stream()
+                        .sorted(
+                                new Comparator<Entry<Character, Integer>>() {
+                                    @Override
+                                    public int compare(Entry<Character, Integer> e1, Entry<Character, Integer> e2) {
+                                        return e2.getValue().compareTo(e1.getValue());
+                                    }
+                                })
+                        .collect(Collectors.toCollection(LinkedList::new));
 
         int lastIndex = sortedEntries.size() - 1;
 
         int diff = sortedEntries.get(0).getValue() - sortedEntries.get(lastIndex).getValue();
 
-        /**
-         * First and last have same frequency
-         */
+        /** First and last have same frequency */
         if (diff == 0
-                /**
-                 * Last has frequency 1 and all others elements have same frequency
-                 */
+                /** Last has frequency 1 and all others elements have same frequency */
                 || sortedEntries.get(lastIndex).getValue() == 1
                 && sortedEntries.get(0).getValue() - sortedEntries.get(lastIndex - 1).getValue() == 0
-                /**
-                 * First and second element are 1 step away and all others elements have same frequency
-                 */
+                /** First and second element are 1 step away and all others elements have same frequency */
                 || sortedEntries.get(1).getValue() == sortedEntries.get(lastIndex).getValue()
-                && sortedEntries.get(0).getValue() - sortedEntries.get(1).getValue() == 1)
-            return "YES";
+                && sortedEntries.get(0).getValue() - sortedEntries.get(1).getValue() == 1) return "YES";
 
         return "NO";
     }
@@ -1337,10 +1382,11 @@ public class HackerRankTest {
         assertEquals(3, stringConstruction("abcabc"));
         assertEquals(4, stringConstruction("abcd"));
         assertEquals(2, stringConstruction("bccb"));
-        assertEquals(7, stringConstruction(
-                "gbcebabbfffcdgfeeaadecaeecabbabbgcafeabgecfeffcbafgdegdacefcadabbfdcgcebegbfgeeebfegfacdagbbgeagaaceefcaedceacceebdgebeecedcbdbeebecgcfcgdaaaegfbcbfffccffabbceafaagdedadbfcaedaffbaggebfedegfabefafefgdbafedbggabccaedabfgfgggbcfgeggdcdfeebaedaaccefgegbffaaggdcbbbfdbgaaffbbgcfafccdgcaabccbfbgbabegddagcgfbcdfdaccegbabfedbbdaddebddgegedgaabebfeeggddagaeececcafdgddceddcbdagaecceacgfabgccecgecgcefaafcaedfccdeeceffefadeffefggaeggbbfgcacgfaeefbfbccggcbcgeagcaacdcbegcdaacdgbebdaabddeagafbfagfebfefffcbcgefbcfeggafccabfagegccefe"));
+        assertEquals(
+                7,
+                stringConstruction(
+                        "gbcebabbfffcdgfeeaadecaeecabbabbgcafeabgecfeffcbafgdegdacefcadabbfdcgcebegbfgeeebfegfacdagbbgeagaaceefcaedceacceebdgebeecedcbdbeebecgcfcgdaaaegfbcbfffccffabbceafaagdedadbfcaedaffbaggebfedegfabefafefgdbafedbggabccaedabfgfgggbcfgeggdcdfeebaedaaccefgegbffaaggdcbbbfdbgaaffbbgcfafccdgcaabccbfbgbabegddagcgfbcdfdaccegbabfedbbdaddebddgegedgaabebfeeggddagaeececcafdgddceddcbdagaecceacgfabgccecgecgcefaafcaedfccdeeceffefadeffefggaeggbbfgcacgfaeefbfbccggcbcgeagcaacdcbegcdaacdgbebdaabddeagafbfagfebfefffcbcgefbcfeggafccabfagegccefe"));
         assertEquals(3, stringConstruction("abcaaabcaa"));
-
     }
 
     /**
@@ -1355,7 +1401,6 @@ public class HackerRankTest {
         for (int i = 0; i < length; i++) {
 
             set.add(s.charAt(i));
-
         }
         return set.size();
     }
@@ -1387,7 +1432,6 @@ public class HackerRankTest {
         assertEquals(5, anagram("fdhlvosfpafhalll"));
 
         assertEquals(0, anagram("xyyx"));
-
     }
 
     /**
@@ -1395,8 +1439,7 @@ public class HackerRankTest {
      * @return
      */
     private int anagram(String s) {
-        if (s.length() % 2 != 0)
-            return -1;
+        if (s.length() % 2 != 0) return -1;
 
         int middle = s.length() / 2;
 
@@ -1417,7 +1460,8 @@ public class HackerRankTest {
      * @param secPart
      * @return
      */
-    private int compareStringForAnagram(String firstPart, String secPart, Map<Character, Integer> secPartMap) {
+    private int compareStringForAnagram(
+            String firstPart, String secPart, Map<Character, Integer> secPartMap) {
 
         int count = 0;
 
@@ -1438,15 +1482,29 @@ public class HackerRankTest {
     @Test
     public void hourglassSum() {
 
-        assertEquals(19, hourGlassSum(new int[][]{{1, 1, 1, 0, 0, 0}, {0, 1, 0, 0, 0, 0}, {1, 1, 1, 0, 0, 0},
-                {0, 0, 2, 4, 4, 0}, {0, 0, 0, 2, 0, 0}, {0, 0, 1, 2, 4, 0}}));
+        assertEquals(
+                19,
+                hourGlassSum(
+                        new int[][]{
+                                {1, 1, 1, 0, 0, 0},
+                                {0, 1, 0, 0, 0, 0},
+                                {1, 1, 1, 0, 0, 0},
+                                {0, 0, 2, 4, 4, 0},
+                                {0, 0, 0, 2, 0, 0},
+                                {0, 0, 1, 2, 4, 0}
+                        }));
 
-        assertEquals(-6, hourGlassSum(new int[][]{{-1, -1, 0, -9, -2, -2},
-                {-2, -1, -6, -8, -2, -5},
-                {-1, -1, -1, -2, -3, -4},
-                {-1, -9, -2, -4, -4, -5},
-                {-7, -3, -3, -2, -9, -9},
-                {-1, -3, -1, -2, -4, -5}}));
+        assertEquals(
+                -6,
+                hourGlassSum(
+                        new int[][]{
+                                {-1, -1, 0, -9, -2, -2},
+                                {-2, -1, -6, -8, -2, -5},
+                                {-1, -1, -1, -2, -3, -4},
+                                {-1, -9, -2, -4, -4, -5},
+                                {-7, -3, -3, -2, -9, -9},
+                                {-1, -3, -1, -2, -4, -5}
+                        }));
     }
 
     private long hourGlassSum(int[][] arr) {
@@ -1456,15 +1514,26 @@ public class HackerRankTest {
         for (int i = 0; i < arr.length - 2; i++) {
 
             for (int j = 0; j < arr.length - 2; j++) {
-                List<Integer> list1 = Arrays.stream(arr[i]).boxed().collect(Collectors.toCollection(LinkedList::new))
-                        .subList(j, j + 3);
-                Integer middle = Arrays.stream(arr[i + 1]).boxed().collect(Collectors.toCollection(LinkedList::new))
-                        .get(j + 2 / 2);
-                List<Integer> list3 = Arrays.stream(arr[i + 2]).boxed()
-                        .collect(Collectors.toCollection(LinkedList::new)).subList(j, j + 3);
+                List<Integer> list1 =
+                        Arrays.stream(arr[i])
+                                .boxed()
+                                .collect(Collectors.toCollection(LinkedList::new))
+                                .subList(j, j + 3);
+                Integer middle =
+                        Arrays.stream(arr[i + 1])
+                                .boxed()
+                                .collect(Collectors.toCollection(LinkedList::new))
+                                .get(j + 2 / 2);
+                List<Integer> list3 =
+                        Arrays.stream(arr[i + 2])
+                                .boxed()
+                                .collect(Collectors.toCollection(LinkedList::new))
+                                .subList(j, j + 3);
 
-                long sum = list1.stream().reduce((x, y) -> x + y).get() + list3.stream().reduce((x, y) -> x + y).get()
-                        + middle.longValue();
+                long sum =
+                        list1.stream().reduce((x, y) -> x + y).get()
+                                + list3.stream().reduce((x, y) -> x + y).get()
+                                + middle.longValue();
 
                 sol = Math.max(sol, sum);
             }
@@ -1504,16 +1573,17 @@ public class HackerRankTest {
     @Test
     public void countTriplets() {
         @SuppressWarnings("serial")
-        List<Long> arr = new ArrayList<Long>() {
-            {
-                add(1L);
-                add(3L);
-                add(9L);
-                add(9L);
-                add(27L);
-                add(81L);
-            }
-        };
+        List<Long> arr =
+                new ArrayList<Long>() {
+                    {
+                        add(1L);
+                        add(3L);
+                        add(9L);
+                        add(9L);
+                        add(27L);
+                        add(81L);
+                    }
+                };
         long r = 3;
 
         Map<Long, Long> t2 = new HashMap<>();
@@ -1551,12 +1621,10 @@ public class HackerRankTest {
                     count++;
                 }
             }
-
         }
         System.out.println("Array is sorted in " + count + " swaps.");
         System.out.println("First Element: " + a[0]);
         System.out.println("Last Element: " + a[n - 1]);
-
     }
 
     @Test
@@ -1608,9 +1676,7 @@ public class HackerRankTest {
         String B = "0100101010";
         System.out.println((B.length() - B.replaceAll("010", "").length()) / 3);
 
-        /**
-         *
-         */
+        /** */
         int step = 0;
         for (int i = 0; i <= B.length() - 3; ) {
             if (B.substring(i, i + 3).equals("010")) {
@@ -1635,8 +1701,7 @@ public class HackerRankTest {
         for (int i = 1; i < stringLength; i++) {
             char ch = s.charAt(i);
 
-            if (c == ch)
-                continue;
+            if (c == ch) continue;
 
             sb.append(Character.toString(ch));
             c = ch;
@@ -1667,14 +1732,12 @@ public class HackerRankTest {
             for (int j = 0; j < stringLength; j++) {
 
                 char c = arr[i].charAt(j);
-                if (set.contains(c))
-                    continue;
+                if (set.contains(c)) continue;
 
                 set.add(c);
                 int pos = map.get(c);
 
-                if (++alphabet[pos] == arr.length)
-                    countGemStone++;
+                if (++alphabet[pos] == arr.length) countGemStone++;
             }
         }
 
@@ -1746,7 +1809,6 @@ public class HackerRankTest {
                 count += weight;
                 set.add(count);
                 continue;
-
             }
             weight = map.get(ch);
             count = weight;
@@ -1759,9 +1821,7 @@ public class HackerRankTest {
         for (int i = 0; i < queries.length; i++) {
             toReturn[i] = "No";
 
-            if (set.contains(queries[i]))
-                toReturn[i] = "Yes";
-
+            if (set.contains(queries[i])) toReturn[i] = "Yes";
         }
 
         System.out.println(Arrays.toString(toReturn));
@@ -1769,7 +1829,10 @@ public class HackerRankTest {
 
     @Test
     public void pangram() {
-        String s = "We promptly judged antique ivory buckles for the prize".toLowerCase().replaceAll("\\s", "");
+        String s =
+                "We promptly judged antique ivory buckles for the prize"
+                        .toLowerCase()
+                        .replaceAll("\\s", "");
         Set<Character> set = new HashSet<Character>();
 
         for (int i = 0; i < s.toCharArray().length; i++) {
@@ -1792,15 +1855,12 @@ public class HackerRankTest {
         String s = "hacakaeararanaka";
 
         for (int i = 0; i < s.toCharArray().length; i++) {
-            if (queue.peek() == s.charAt(i))
-                queue.poll();
+            if (queue.peek() == s.charAt(i)) queue.poll();
 
-            if (queue.size() == 0)
-                break;
+            if (queue.size() == 0) break;
         }
 
         assertEquals(0, queue.size());
-
     }
 
     @Test
@@ -1814,15 +1874,12 @@ public class HackerRankTest {
         for (int i = 0; i < s.length(); i++) {
             isOdd = (i & 1) == 1;
 
-            if (tmp)
-                isOdd = !isOdd;
+            if (tmp) isOdd = !isOdd;
 
             if (!isOdd) {
-                if (s.charAt(i) != 'S')
-                    count++;
+                if (s.charAt(i) != 'S') count++;
             } else {
-                if (s.charAt(i) != 'O')
-                    count++;
+                if (s.charAt(i) != 'O') count++;
             }
 
             cycleOfThree++;
@@ -1831,7 +1888,6 @@ public class HackerRankTest {
                 cycleOfThree = 0;
                 continue;
             }
-
         }
         assertEquals(1, count);
     }
@@ -1860,13 +1916,13 @@ public class HackerRankTest {
             boolean isUpperCase = Character.isUpperCase(c);
             pos = posToChar.get(Character.toLowerCase(c));
 
-            char newChar = null == pos ? c : alphaBet[pos + shift < length ? pos + shift : shift - (length - pos)];
+            char newChar =
+                    null == pos ? c : alphaBet[pos + shift < length ? pos + shift : shift - (length - pos)];
 
             sb.append(isUpperCase ? Character.toUpperCase(newChar) : newChar);
         }
 
         assertEquals("fff.jkl.gh", sb.toString());
-
     }
 
     @Test
@@ -1890,7 +1946,6 @@ public class HackerRankTest {
                     grid[i] = tmp.toString();
                 }
             }
-
         }
 
         System.out.println("Array with cavities : " + Arrays.toString(grid));
@@ -1933,7 +1988,6 @@ public class HackerRankTest {
             }
 
             time = tens[(int) to / 10] + ((int) to % 10 == 0 ? "" : " " + ones[(int) to % 10]) + time;
-
         }
         System.out.println(time);
     }
@@ -1945,8 +1999,7 @@ public class HackerRankTest {
         int m = 1;
         int s = 180;
 
-        if (s < p)
-            return;
+        if (s < p) return;
 
         int buy = 1;
 
@@ -1958,8 +2011,7 @@ public class HackerRankTest {
 
             x = x - d;
 
-            if (sum + x > s)
-                return;
+            if (sum + x > s) return;
 
             sum += x;
             buy++;
@@ -1986,7 +2038,6 @@ public class HackerRankTest {
 
                 maxDist = Math.min(i - map.get(a[i]), maxDist);
             }
-
         }
 
         assertEquals(3, maxDist);
@@ -2012,8 +2063,7 @@ public class HackerRankTest {
             int diff = arr[i] - arr[pivot];
 
             if (diff == d) {
-                if (countTriplets == 0)
-                    currentTripl[0] = pivot;
+                if (countTriplets == 0) currentTripl[0] = pivot;
 
                 countTriplets++;
                 pivot = i;
@@ -2109,14 +2159,11 @@ public class HackerRankTest {
 
         for (int i : s1.toCharArray()) {
             chars[i]++;
-
         }
 
         int count = 0;
         for (int i : s2.toCharArray()) {
-            if (chars[i] > 0)
-                count++;
-
+            if (chars[i] > 0) count++;
         }
         System.out.println(count);
     }
@@ -2153,16 +2200,18 @@ public class HackerRankTest {
         }
 
         System.out.println("Yes");
-
     }
 
     @Test
     public void sockMerchant() {
 
-        int[] ar = {44, 55, 11, 15, 4, 72, 26, 91, 80, 14, 43, 78, 70, 75, 36, 83, 78, 91, 17, 17, 54, 65, 60, 21, 58,
-                98, 87, 45, 75, 97, 81, 18, 51, 43, 84, 54, 66, 10, 44, 45, 23, 38, 22, 44, 65, 9, 78, 42, 100, 94, 58,
-                5, 11, 69, 26, 20, 19, 64, 64, 93, 60, 96, 10, 10, 39, 94, 15, 4, 3, 10, 1, 77, 48, 74, 20, 12, 83, 97,
-                5, 82, 43, 15, 86, 5, 35, 63, 24, 53, 27, 87, 45, 38, 34, 7, 48, 24, 100, 14, 80, 54};
+        int[] ar = {
+                44, 55, 11, 15, 4, 72, 26, 91, 80, 14, 43, 78, 70, 75, 36, 83, 78, 91, 17, 17, 54, 65, 60, 21,
+                58, 98, 87, 45, 75, 97, 81, 18, 51, 43, 84, 54, 66, 10, 44, 45, 23, 38, 22, 44, 65, 9, 78, 42,
+                100, 94, 58, 5, 11, 69, 26, 20, 19, 64, 64, 93, 60, 96, 10, 10, 39, 94, 15, 4, 3, 10, 1, 77,
+                48, 74, 20, 12, 83, 97, 5, 82, 43, 15, 86, 5, 35, 63, 24, 53, 27, 87, 45, 38, 34, 7, 48, 24,
+                100, 14, 80, 54
+        };
 
         int[] arrayPair = new int[101];
 
@@ -2177,13 +2226,10 @@ public class HackerRankTest {
 
         for (int i = 0; i < arrayPair.length; i++) {
 
-            if (arrayPair[i] > 1)
-                returnPair += arrayPair[i] / 2;
-
+            if (arrayPair[i] > 1) returnPair += arrayPair[i] / 2;
         }
 
         System.out.println("Number of Pairs --> " + returnPair);
-
     }
 
     @Test
@@ -2197,24 +2243,20 @@ public class HackerRankTest {
 
         for (char c : s.toCharArray()) {
 
-            if (c == 'U')
-                seaLevel++;
+            if (c == 'U') seaLevel++;
 
-            if (c == 'D')
-                seaLevel--;
+            if (c == 'D') seaLevel--;
 
             if (seaLevel == 0 && isValley) {
                 isValley = false;
                 numValleys++;
             }
 
-            if (seaLevel < 0)
-                isValley = true;
+            if (seaLevel < 0) isValley = true;
 
             System.out.println("Sea level " + seaLevel);
         }
         System.out.println("Num Valleys " + numValleys);
-
     }
 
     @Test
@@ -2222,17 +2264,19 @@ public class HackerRankTest {
 
         // int[] c = { 0, 0, 1, 0, 0, 0, 0, 1, 0, 0 };
         // int[] c = { 0, 0, 0, 1, 0, 0 };
-        int[] c = {0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0,
-                1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0,
-                1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0};
+        int[] c = {
+                0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0,
+                1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1,
+                0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0,
+                0, 0, 0, 1, 0, 0, 0
+        };
 
         int countZero = 0;
         int countStep = 0;
 
         for (int i = 0; i < c.length; i++) {
 
-            if (c[i] == 0)
-                countZero++;
+            if (c[i] == 0) countZero++;
 
             if (c[i] == 1) {
 
@@ -2244,9 +2288,7 @@ public class HackerRankTest {
             }
 
             if (i == c.length - 1) {
-                if (countZero > 1)
-                    countStep += countZero / 2;
-
+                if (countZero > 1) countStep += countZero / 2;
             }
         }
 
@@ -2289,7 +2331,6 @@ public class HackerRankTest {
 
     @Test
     public void electronicsShop() {
-
     }
 
     @Test
@@ -2310,9 +2351,7 @@ public class HackerRankTest {
 
         } else {
             System.out.println("Cat B");
-
         }
-
     }
 
     @Test
@@ -2331,15 +2370,12 @@ public class HackerRankTest {
 
             for (int j = 0; j < d; j++) {
 
-                if (posTmp == 0)
-                    posTmp = arrayLength;
+                if (posTmp == 0) posTmp = arrayLength;
 
                 posTmp--;
-
             }
 
             finalArray[posTmp] = a[i];
-
         }
 
         // Faster O(n)
@@ -2350,7 +2386,8 @@ public class HackerRankTest {
             finalArray[newLocation] = a[i];
         }
 
-        System.out.println("Array ruotato a sinistra di " + d + " times :" + Arrays.toString(finalArray));
+        System.out.println(
+                "Array ruotato a sinistra di " + d + " times :" + Arrays.toString(finalArray));
     }
 
     @Test
@@ -2367,9 +2404,7 @@ public class HackerRankTest {
                 return;
             }
 
-            for (int j = Math.max(0, q[i] - 2); j < i; j++)
-                if (q[j] > q[i])
-                    countBribes++;
+            for (int j = Math.max(0, q[i] - 2); j < i; j++) if (q[j] > q[i]) countBribes++;
         }
 
         System.out.println(countBribes);
@@ -2390,21 +2425,21 @@ public class HackerRankTest {
          * 4, 97, 5, 97, 97, 97, 97, 4, 97, 5, 97, 5, 4, 97, 4, 5, 97, 97, 5, 97, 5, 97, 5, 97, 97, 97 };
          */
 
-        Integer[] arr = {9, 6, 13, 16, 5, 18, 4, 10, 3, 19, 4, 5, 8, 1, 13, 10, 20, 17, 15, 10, 6, 10, 13, 20, 18, 17,
-                7, 10, 6, 5, 16, 18, 13, 20, 19, 7, 16, 13, 20, 17, 4, 17, 8, 19, 12, 7, 17, 1, 18, 3, 16, 4, 5, 3, 15,
-                17, 6, 17, 14, 11, 11, 7, 11, 6, 15, 15, 12, 6, 17, 19, 8, 6, 13, 9, 10, 19, 14, 18, 7, 9, 11, 16, 11,
-                20, 4, 20, 10, 7, 8, 4, 2, 12, 11, 8, 12, 13, 19, 8, 8, 5};
+        Integer[] arr = {
+                9, 6, 13, 16, 5, 18, 4, 10, 3, 19, 4, 5, 8, 1, 13, 10, 20, 17, 15, 10, 6, 10, 13, 20, 18, 17,
+                7, 10, 6, 5, 16, 18, 13, 20, 19, 7, 16, 13, 20, 17, 4, 17, 8, 19, 12, 7, 17, 1, 18, 3, 16, 4,
+                5, 3, 15, 17, 6, 17, 14, 11, 11, 7, 11, 6, 15, 15, 12, 6, 17, 19, 8, 6, 13, 9, 10, 19, 14, 18,
+                7, 9, 11, 16, 11, 20, 4, 20, 10, 7, 8, 4, 2, 12, 11, 8, 12, 13, 19, 8, 8, 5
+        };
 
         List<Integer> a = Arrays.asList(arr);
 
         int z = 0;
         int[] freq = new int[100];
 
-        for (int i = 0; i < a.size(); i++)
-            freq[a.get(i)]++;
+        for (int i = 0; i < a.size(); i++) freq[a.get(i)]++;
 
-        for (int i = 2; i < 100; i++)
-            z = Math.max(z, freq[i] + freq[i - 1]);
+        for (int i = 2; i < 100; i++) z = Math.max(z, freq[i] + freq[i - 1]);
     }
 
     @Test
@@ -2420,9 +2455,7 @@ public class HackerRankTest {
          * int[] scores = new int[200000];
          */
 
-        /**
-         * Global scores
-         */
+        /** Global scores */
 
         /*
          * InputStream is = new FileInputStream("src/test/resources/scores.txt"); BufferedReader buf = new BufferedReader(new InputStreamReader(is));
@@ -2436,9 +2469,7 @@ public class HackerRankTest {
          * for (int i = 0; i < scoresString.length; i++) { scores[i] = new Integer(scoresString[i].replace("\n", "")); }
          */
 
-        /**
-         * Alice scores
-         */
+        /** Alice scores */
 
         /*
          * is = new FileInputStream("src/test/resources/alice.txt"); buf = new BufferedReader(new InputStreamReader(is));
@@ -2452,17 +2483,14 @@ public class HackerRankTest {
          * for (int i = 0; i < aliceString.length; i++) { alice[i] = new Integer(aliceString[i].replace("\n", "")); }
          */
 
-        /**
-         * Start
-         */
+        /** Start */
         int[] array = IntStream.of(scores).distinct().toArray();
         int i = array.length - 1;
         int[] res = new int[alice.length];
         int c = 0;
         for (int score : alice) {
             while (i >= 0) {
-                if (score >= array[i])
-                    i--;
+                if (score >= array[i]) i--;
                 else {
                     res[c] = i + 2;
                     c++;
@@ -2474,7 +2502,6 @@ public class HackerRankTest {
                 c++;
             }
         }
-
     }
 
     @Test
@@ -2483,12 +2510,13 @@ public class HackerRankTest {
         int k = 2;
         int[] height = new int[]{1, 6, 3, 5, 2};
 
-        List<Integer> integersList = IntStream.of(height) // returns IntStream
-                .boxed().collect(Collectors.toList());
+        List<Integer> integersList =
+                IntStream.of(height) // returns IntStream
+                        .boxed()
+                        .collect(Collectors.toList());
         Collections.sort(integersList, Collections.reverseOrder());
 
         System.out.println("Max hurdle --> " + (integersList.get(0) - k));
-
     }
 
     @Test
@@ -2548,9 +2576,7 @@ public class HackerRankTest {
 
             double result = (double) (n - reversed) / k;
 
-            if (result % 1 == 0)
-                countBeautiful++;
-
+            if (result % 1 == 0) countBeautiful++;
         }
 
         System.out.println("Count beautiful days --> " + countBeautiful);
@@ -2560,13 +2586,11 @@ public class HackerRankTest {
     public void extraLongFactorial() {
         Integer n = 25;
         System.out.println("Fattoriale di " + n + "--> " + factorial(BigInteger.valueOf(n)));
-
     }
 
     static BigInteger factorial(BigInteger n) {
 
-        if (n == BigInteger.ZERO)
-            return new BigInteger("1");
+        if (n == BigInteger.ZERO) return new BigInteger("1");
 
         return n.multiply(factorial(n.subtract(new BigInteger("1"))));
     }
@@ -2580,7 +2604,6 @@ public class HackerRankTest {
         int count = (int) (Math.floor(Math.sqrt(b)) - Math.ceil(Math.sqrt(a))) + 1;
 
         System.out.println("Square root tra " + a + " e " + b + " sono " + count);
-
     }
 
     @Test
@@ -2605,8 +2628,7 @@ public class HackerRankTest {
                 fine = 500 * monthDiff;
             } else if (monthDiff != 0) {
 
-                if (dayDiff > 0)
-                    fine = 15 * dayDiff;
+                if (dayDiff > 0) fine = 15 * dayDiff;
             }
         }
 
@@ -2630,12 +2652,10 @@ public class HackerRankTest {
 
         for (int i = 0; i < arr1.length; i++) {
 
-            if (arr1[i] == 0)
-                continue;
+            if (arr1[i] == 0) continue;
 
             count -= arr1[i];
-            if (count == 0)
-                break;
+            if (count == 0) break;
 
             response.add(count);
         }
@@ -2659,12 +2679,10 @@ public class HackerRankTest {
         Arrays.fill(f, 0);
 
         // Fill frequency array with values modulo K
-        for (int i = 0; i < N; i++)
-            f[S[i] % k]++;
+        for (int i = 0; i < N; i++) f[S[i] % k]++;
 
         // if K is even, then update f[K/2]
-        if (k % 2 == 0)
-            f[k / 2] = Math.min(f[k / 2], 1);
+        if (k % 2 == 0) f[k / 2] = Math.min(f[k / 2], 1);
 
         // Initialize result by minimum of 1 or
         // count of numbers giving remainder 0
@@ -2672,11 +2690,9 @@ public class HackerRankTest {
 
         // Choose maximum of count of numbers
         // giving remainder i or K-i
-        for (int i = 1; i <= k / 2; i++)
-            res += Math.max(f[i], f[k - i]);
+        for (int i = 1; i <= k / 2; i++) res += Math.max(f[i], f[k - i]);
 
         System.out.println("nonDivisibleSum max array length" + res);
-
     }
 
     /**
@@ -2684,275 +2700,275 @@ public class HackerRankTest {
      */
     private LinkedList<Character> getSolution() {
         @SuppressWarnings("serial")
-        LinkedList<Character> solution = new LinkedList<Character>() {
-            {
-                add('n');
-                add('z');
-                add('y');
-                add('d');
-                add('a');
-                add('y');
-                add('a');
-                add('l');
-                add('v');
-                add('s');
-                add('g');
-                add('n');
-                add('d');
-                add('k');
-                add('w');
-                add('d');
-                add('l');
-                add('z');
-                add('p');
-                add('z');
-                add('b');
-                add('b');
-                add('t');
-                add('o');
-                add('t');
-                add('q');
-                add('s');
-                add('a');
-                add('v');
-                add('f');
-                add('m');
-                add('i');
-                add('v');
-                add('h');
-                add('s');
-                add('e');
-                add('a');
-                add('n');
-                add('x');
-                add('n');
-                add('y');
-                add('v');
-                add('a');
-                add('x');
-                add('s');
-                add('x');
-                add('y');
-                add('x');
-                add('o');
-                add('i');
-                add('b');
-                add('y');
-                add('y');
-                add('r');
-                add('s');
-                add('t');
-                add('i');
-                add('r');
-                add('s');
-                add('j');
-                add('e');
-                add('o');
-                add('k');
-                add('r');
-                add('k');
-                add('u');
-                add('n');
-                add('n');
-                add('h');
-                add('l');
-                add('j');
-                add('f');
-                add('t');
-                add('l');
-                add('t');
-                add('l');
-                add('k');
-                add('l');
-                add('q');
-                add('k');
-                add('e');
-                add('g');
-                add('o');
-                add('p');
-                add('l');
-                add('h');
-                add('b');
-                add('l');
-                add('p');
-                add('v');
-                add('x');
-                add('h');
-                add('n');
-                add('g');
-                add('k');
-                add('g');
-                add('l');
-                add('m');
-                add('d');
-                add('o');
-                add('m');
-                add('i');
-                add('y');
-                add('s');
-                add('r');
-                add('i');
-                add('v');
-                add('z');
-                add('b');
-                add('i');
-                add('u');
-                add('q');
-                add('c');
-                add('q');
-                add('z');
-                add('q');
-                add('g');
-                add('t');
-                add('n');
-                add('x');
-                add('j');
-                add('n');
-                add('b');
-                add('t');
-                add('g');
-                add('s');
-                add('d');
-                add('m');
-                add('b');
-                add('b');
-                add('w');
-                add('q');
-                add('i');
-                add('v');
-                add('g');
-                add('p');
-                add('v');
-                add('v');
-                add('h');
-                add('g');
-                add('e');
-                add('b');
-                add('a');
-                add('y');
-                add('i');
-                add('g');
-                add('q');
-                add('y');
-                add('w');
-                add('y');
-                add('g');
-                add('y');
-                add('y');
-                add('b');
-                add('b');
-                add('i');
-                add('b');
-                add('w');
-                add('i');
-                add('b');
-                add('b');
-                add('y');
-                add('u');
-                add('b');
-                add('b');
-                add('o');
-                add('s');
-                add('b');
-                add('r');
-                add('d');
-                add('p');
-                add('r');
-                add('r');
-                add('l');
-                add('q');
-                add('n');
-                add('r');
-                add('n');
-                add('m');
-                add('j');
-                add('f');
-                add('u');
-                add('n');
-                add('m');
-                add('u');
-                add('o');
-                add('q');
-                add('o');
-                add('b');
-                add('v');
-                add('p');
-                add('q');
-                add('o');
-                add('q');
-                add('p');
-                add('b');
-                add('p');
-                add('q');
-                add('p');
-                add('p');
-                add('p');
-                add('v');
-                add('p');
-                add('v');
-                add('a');
-                add('y');
-                add('n');
-                add('m');
-                add('q');
-                add('x');
-                add('f');
-                add('h');
-                add('w');
-                add('i');
-                add('z');
-                add('u');
-                add('x');
-                add('f');
-                add('z');
-                add('f');
-                add('w');
-                add('d');
-                add('p');
-                add('p');
-                add('p');
-                add('v');
-                add('u');
-                add('e');
-                add('z');
-                add('m');
-                add('x');
-                add('p');
-                add('q');
-                add('i');
-                add('p');
-                add('j');
-                add('s');
-                add('b');
-                add('b');
-                add('b');
-                add('v');
-                add('p');
-                add('v');
-                add('r');
-                add('o');
-                add('w');
-                add('j');
-                add('r');
-                add('h');
-                add('b');
-                add('w');
-                add('v');
-                add('r');
-                add('h');
-                add('e');
-                add('o');
-                add('v');
-                add('p');
-                add('d');
-                add('x');
-                add('s');
-                add('o');
-                add('x');
-                add('c');
-            }
-        };
+        LinkedList<Character> solution =
+                new LinkedList<Character>() {
+                    {
+                        add('n');
+                        add('z');
+                        add('y');
+                        add('d');
+                        add('a');
+                        add('y');
+                        add('a');
+                        add('l');
+                        add('v');
+                        add('s');
+                        add('g');
+                        add('n');
+                        add('d');
+                        add('k');
+                        add('w');
+                        add('d');
+                        add('l');
+                        add('z');
+                        add('p');
+                        add('z');
+                        add('b');
+                        add('b');
+                        add('t');
+                        add('o');
+                        add('t');
+                        add('q');
+                        add('s');
+                        add('a');
+                        add('v');
+                        add('f');
+                        add('m');
+                        add('i');
+                        add('v');
+                        add('h');
+                        add('s');
+                        add('e');
+                        add('a');
+                        add('n');
+                        add('x');
+                        add('n');
+                        add('y');
+                        add('v');
+                        add('a');
+                        add('x');
+                        add('s');
+                        add('x');
+                        add('y');
+                        add('x');
+                        add('o');
+                        add('i');
+                        add('b');
+                        add('y');
+                        add('y');
+                        add('r');
+                        add('s');
+                        add('t');
+                        add('i');
+                        add('r');
+                        add('s');
+                        add('j');
+                        add('e');
+                        add('o');
+                        add('k');
+                        add('r');
+                        add('k');
+                        add('u');
+                        add('n');
+                        add('n');
+                        add('h');
+                        add('l');
+                        add('j');
+                        add('f');
+                        add('t');
+                        add('l');
+                        add('t');
+                        add('l');
+                        add('k');
+                        add('l');
+                        add('q');
+                        add('k');
+                        add('e');
+                        add('g');
+                        add('o');
+                        add('p');
+                        add('l');
+                        add('h');
+                        add('b');
+                        add('l');
+                        add('p');
+                        add('v');
+                        add('x');
+                        add('h');
+                        add('n');
+                        add('g');
+                        add('k');
+                        add('g');
+                        add('l');
+                        add('m');
+                        add('d');
+                        add('o');
+                        add('m');
+                        add('i');
+                        add('y');
+                        add('s');
+                        add('r');
+                        add('i');
+                        add('v');
+                        add('z');
+                        add('b');
+                        add('i');
+                        add('u');
+                        add('q');
+                        add('c');
+                        add('q');
+                        add('z');
+                        add('q');
+                        add('g');
+                        add('t');
+                        add('n');
+                        add('x');
+                        add('j');
+                        add('n');
+                        add('b');
+                        add('t');
+                        add('g');
+                        add('s');
+                        add('d');
+                        add('m');
+                        add('b');
+                        add('b');
+                        add('w');
+                        add('q');
+                        add('i');
+                        add('v');
+                        add('g');
+                        add('p');
+                        add('v');
+                        add('v');
+                        add('h');
+                        add('g');
+                        add('e');
+                        add('b');
+                        add('a');
+                        add('y');
+                        add('i');
+                        add('g');
+                        add('q');
+                        add('y');
+                        add('w');
+                        add('y');
+                        add('g');
+                        add('y');
+                        add('y');
+                        add('b');
+                        add('b');
+                        add('i');
+                        add('b');
+                        add('w');
+                        add('i');
+                        add('b');
+                        add('b');
+                        add('y');
+                        add('u');
+                        add('b');
+                        add('b');
+                        add('o');
+                        add('s');
+                        add('b');
+                        add('r');
+                        add('d');
+                        add('p');
+                        add('r');
+                        add('r');
+                        add('l');
+                        add('q');
+                        add('n');
+                        add('r');
+                        add('n');
+                        add('m');
+                        add('j');
+                        add('f');
+                        add('u');
+                        add('n');
+                        add('m');
+                        add('u');
+                        add('o');
+                        add('q');
+                        add('o');
+                        add('b');
+                        add('v');
+                        add('p');
+                        add('q');
+                        add('o');
+                        add('q');
+                        add('p');
+                        add('b');
+                        add('p');
+                        add('q');
+                        add('p');
+                        add('p');
+                        add('p');
+                        add('v');
+                        add('p');
+                        add('v');
+                        add('a');
+                        add('y');
+                        add('n');
+                        add('m');
+                        add('q');
+                        add('x');
+                        add('f');
+                        add('h');
+                        add('w');
+                        add('i');
+                        add('z');
+                        add('u');
+                        add('x');
+                        add('f');
+                        add('z');
+                        add('f');
+                        add('w');
+                        add('d');
+                        add('p');
+                        add('p');
+                        add('p');
+                        add('v');
+                        add('u');
+                        add('e');
+                        add('z');
+                        add('m');
+                        add('x');
+                        add('p');
+                        add('q');
+                        add('i');
+                        add('p');
+                        add('j');
+                        add('s');
+                        add('b');
+                        add('b');
+                        add('b');
+                        add('v');
+                        add('p');
+                        add('v');
+                        add('r');
+                        add('o');
+                        add('w');
+                        add('j');
+                        add('r');
+                        add('h');
+                        add('b');
+                        add('w');
+                        add('v');
+                        add('r');
+                        add('h');
+                        add('e');
+                        add('o');
+                        add('v');
+                        add('p');
+                        add('d');
+                        add('x');
+                        add('s');
+                        add('o');
+                        add('x');
+                        add('c');
+                    }
+                };
         return solution;
     }
-
 }

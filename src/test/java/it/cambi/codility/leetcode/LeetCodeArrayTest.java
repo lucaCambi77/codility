@@ -5,12 +5,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.cambi.codility.model.Array;
 import javafx.util.Pair;
-import lombok.ToString;
 import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import java.math.BigInteger;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
@@ -52,6 +52,487 @@ public class LeetCodeArrayTest {
 
       return 0;
     }
+  }
+
+  class SubrectangleQueries {
+    private int[][] matrix;
+
+    public SubrectangleQueries(int[][] rectangle) {
+      matrix = rectangle;
+    }
+
+    public void updateSubrectangle(int row1, int col1, int row2, int col2, int newValue) {
+
+      while (row1 <= row2) {
+        int col = col1;
+
+        while (col <= col2) {
+
+          matrix[row1][col] = newValue;
+          col++;
+        }
+        row1++;
+      }
+    }
+
+    public int getValue(int row, int col) {
+      return matrix[row][col];
+    }
+  }
+
+  @Test
+  public void countPrimes() {
+    assertEquals(4, countPrimes(10));
+  }
+
+  private int countPrimes(int n) {
+    boolean[] isPrime = new boolean[n];
+    for (int i = 2; i < n; i++) {
+      isPrime[i] = true;
+    }
+
+    for (int i = 2; i * i < n; i++) {
+      if (!isPrime[i]) continue;
+      for (int j = i * i; j < n; j += i) {
+        isPrime[j] = false;
+      }
+    }
+    int count = 0;
+    for (int i = 2; i < n; i++) {
+      if (isPrime[i]) count++;
+    }
+    return count;
+  }
+
+  @Test
+  public void hIndex() {
+
+    assertEquals(3, hIndex(new int[] {3, 0, 6, 1, 5}));
+    assertEquals(1, hIndex(new int[] {0, 1}));
+    assertEquals(1, hIndex(new int[] {0, 0, 3}));
+    assertEquals(1, hIndex(new int[] {0, 2}));
+  }
+
+  private int hIndex(int[] citations) {
+
+    int n = citations.length;
+
+    Arrays.sort(citations);
+    if (n == 0 || citations[0] == 0 & n == 1) return 0;
+    if (n == 1) return 1;
+    int i = n - 1;
+    while (i >= 0) {
+      if (citations[i] < (n - i)) break;
+      i--;
+    }
+    return n - i - 1;
+  }
+
+  @Test
+  public void restoreString() {
+    assertEquals("leetcode", restoreString("codeleet", new int[] {4, 5, 6, 7, 0, 2, 1, 3}));
+    assertEquals("abc", restoreString("abc", new int[] {0, 1, 2}));
+    assertEquals("nihao", restoreString("aiohn", new int[] {3, 1, 4, 2, 0}));
+    assertEquals("arigatou", restoreString("aaiougrt", new int[] {4, 0, 2, 6, 7, 3, 1, 5}));
+    assertEquals("rat", restoreString("art", new int[] {1, 0, 2}));
+  }
+
+  public String restoreString(String s, int[] indices) {
+
+    char[] chars = new char[s.length()];
+
+    for (int i = 0; i < indices.length; i++) {
+      chars[indices[i]] = s.charAt(i);
+    }
+
+    StringBuilder result = new StringBuilder();
+    for (char c : chars) {
+      result.append(c);
+    }
+
+    return result.toString();
+  }
+
+  @Test
+  public void largestSumAfterKNegations() {
+    assertEquals(5, largestSumAfterKNegations(new int[] {4, 2, 3}, 1));
+    assertEquals(6, largestSumAfterKNegations(new int[] {3, -1, 0, 2}, 3));
+    assertEquals(13, largestSumAfterKNegations(new int[] {2, -3, -1, 5, -4}, 2));
+    assertEquals(32, largestSumAfterKNegations(new int[] {-2, 9, 9, 8, 4}, 5));
+    assertEquals(11, largestSumAfterKNegations(new int[] {-5, 6}, 1));
+    assertEquals(1, largestSumAfterKNegations(new int[] {-5, 6}, 2));
+    assertEquals(11, largestSumAfterKNegations(new int[] {-5, 0, 6}, 2));
+    assertEquals(11, largestSumAfterKNegations(new int[] {-5, 0, 6}, 1));
+    assertEquals(26, largestSumAfterKNegations(new int[] {1, 3, 2, 6, 7, 9}, 3));
+    assertEquals(53, largestSumAfterKNegations(new int[] {8, -7, -3, -9, 1, 9, -6, -9, 3}, 8));
+  }
+
+  public int largestSumAfterKNegations(int[] A, int K) {
+    Arrays.sort(A);
+
+    int i = 0;
+
+    while (K > 0) {
+
+      if (A[i] <= A[i + 1]) {
+        A[i] = -A[i];
+        K--;
+        continue;
+      }
+
+      i++;
+    }
+
+    return Arrays.stream(A).sum();
+  }
+
+  @Test
+  public void twoCitySchedCost() {
+    assertEquals(
+        1859,
+        twoCitySchedCost(
+            new int[][] {{259, 770}, {448, 54}, {926, 667}, {184, 139}, {840, 118}, {577, 469}}));
+  }
+
+  public int twoCitySchedCost(int[][] costs) {
+    if (costs.length == 0) return 0;
+
+    Arrays.sort(costs, (a, b) -> Math.abs(b[0] - b[1]) - Math.abs(a[0] - a[1]));
+
+    int min = 0;
+    int cityA = 0;
+    int cityB = 0;
+    int N = costs.length / 2;
+
+    for (int i = 0; i < costs.length; i++) {
+      if (costs[i][0] < costs[i][1] && cityA < N || (cityB == N)) {
+        min += costs[i][0];
+        cityA++;
+      } else {
+        min += costs[i][1];
+        cityB++;
+      }
+    }
+
+    return min;
+  }
+
+  @Test
+  public void minDeletionSize() {
+    assertEquals(1, minDeletionSize(new String[] {"cba", "daf", "ghi"}));
+    assertEquals(0, minDeletionSize(new String[] {"a", "b"}));
+    assertEquals(3, minDeletionSize(new String[] {"zyx", "wvu", "tsr"}));
+  }
+
+  public int minDeletionSize(String[] A) {
+
+    int lettersLength = A[0].length();
+    int result = 0;
+    for (int i = 0; i < lettersLength; i++) {
+
+      for (int j = 1; j < A.length; j++) {
+        if (A[j].charAt(i) < A[j - 1].charAt(i)) {
+          result++;
+          break;
+        }
+      }
+    }
+
+    return result;
+  }
+
+  @Test
+  public void isOneBitCharacter() {
+
+    assertEquals(true, isOneBitCharacter(new int[] {1, 0, 0}));
+    assertEquals(false, isOneBitCharacter(new int[] {1, 1, 1, 0}));
+    assertEquals(false, isOneBitCharacter(new int[] {1}));
+    assertEquals(true, isOneBitCharacter(new int[] {0}));
+  }
+
+  public boolean isOneBitCharacter(int[] bits) {
+
+    boolean twoBits = false;
+
+    for (int i = 0; i < bits.length; i++) {
+
+      if (i == bits.length - 1 && twoBits) return false;
+
+      if (bits[i] == 1 || twoBits) twoBits = !twoBits;
+    }
+
+    return bits[bits.length - 1] == 0;
+  }
+
+  @Test
+  public void findPeakElement() {
+    assertEquals(0, findPeakElement(new int[] {1}));
+    assertEquals(1, findPeakElement(new int[] {1, 2}));
+    assertEquals(2, findPeakElement(new int[] {1, 2, 3}));
+    assertEquals(2, findPeakElement(new int[] {1, 2, 3, 1}));
+  }
+
+  public int findPeakElement(int[] nums) {
+    int i = 0;
+
+    while (i + 1 < nums.length && nums[i] < nums[i + 1]) i++;
+
+    return i;
+  }
+
+  @Test
+  public void peakIndexInMountainArray() {
+
+    assertEquals(1, peakIndexInMountainArray(new int[] {0, 1, 0}));
+    assertEquals(1, peakIndexInMountainArray(new int[] {0, 2, 1, 0}));
+  }
+
+  public int peakIndexInMountainArray(int[] A) {
+    int i;
+    for (i = 1; i < A.length; i++) {
+
+      if (i < A.length - 1 && A[i - 1] < A[i] && A[i + 1] < A[i]) return i;
+    }
+
+    return -1;
+  }
+
+  @Test
+  public void numTeams() {
+    assertEquals(3, numTeams(new int[] {2, 5, 3, 4, 1}));
+    assertEquals(0, numTeams(new int[] {2, 1, 3}));
+    assertEquals(4, numTeams(new int[] {1, 2, 3, 4}));
+  }
+
+  public int numTeams(int[] rating) {
+
+    int countIncr = 0;
+    int countDecr = 0;
+
+    for (int i = 0; i < rating.length; i++) {
+
+      for (int j = i; j < rating.length; j++) {}
+    }
+
+    return countIncr + countDecr;
+  }
+
+  @Test
+  public void peopleIndexes() {
+
+    assertEquals(
+        Arrays.asList(0, 1, 4),
+        peopleIndexes(
+            Arrays.stream(
+                    new String[][] {
+                      {"leetcode", "google", "facebook"},
+                      {"google", "microsoft"},
+                      {"google", "facebook"},
+                      {"google"},
+                      {"amazon"},
+                    })
+                .map(Arrays::asList)
+                .collect(Collectors.toList())));
+  }
+
+  public List<Integer> peopleIndexes(List<List<String>> favoriteCompanies) {
+
+    List<Integer> result = new ArrayList<>();
+    boolean isContained;
+
+    for (int i = 0; i < favoriteCompanies.size(); i++) {
+      isContained = false;
+      for (int j = 0; j < favoriteCompanies.size(); j++) {
+        if (favoriteCompanies.get(j).size() > favoriteCompanies.get(i).size() && i != j) {
+
+          if (favoriteCompanies.get(j).containsAll(favoriteCompanies.get(i))) {
+            isContained = true;
+            break;
+          }
+        }
+      }
+      if (!isContained) result.add(i);
+    }
+
+    return result;
+  }
+
+  @Test
+  public void customSortString() {
+    assertEquals("cbad", customSortString("cba", "abcd"));
+    assertEquals("kqeep", customSortString("kqep", "pekeq"));
+  }
+
+  public String customSortString(String S, String T) {
+
+    StringBuilder alphabet = new StringBuilder("abcdefghijklmnopqrstuvwxyz");
+
+    int i = 0;
+
+    while (i < S.length()) {
+      alphabet.setCharAt(i, S.charAt(i));
+      i++;
+    }
+
+    String alpha = alphabet.toString();
+
+    Map<Character, Integer> map = new HashMap<>();
+    Map<Character, Integer> countMap = new HashMap<>();
+
+    i = 0;
+    while (i < T.length()) {
+      map.put(T.charAt(i), alpha.indexOf(T.charAt(i)));
+      countMap.put(T.charAt(i), countMap.getOrDefault(T.charAt(i), 0) + 1);
+      i++;
+    }
+
+    return map.entrySet().stream()
+        .sorted(Map.Entry.comparingByValue())
+        .map(
+            entry ->
+                String.join(
+                    "",
+                    Collections.nCopies(
+                        countMap.get(entry.getKey()), Character.toString(entry.getKey()))))
+        .collect(Collectors.joining(""));
+  }
+
+  @Test
+  public void average() {
+
+    assertEquals(2500.00000, average(new int[] {4000, 3000, 1000, 2000}));
+    assertEquals(2000.00000, average(new int[] {1000, 2000, 3000}));
+    assertEquals(3500.00000, average(new int[] {6000, 5000, 4000, 3000, 2000, 1000}));
+    assertEquals(4750.00000, average(new int[] {8000, 9000, 2000, 3000, 6000, 1000}));
+    assertEquals(
+        41111.11111,
+        average(
+            new int[] {
+              48000, 59000, 99000, 13000, 78000, 45000, 31000, 17000, 39000, 37000, 93000, 77000,
+              33000, 28000, 4000, 54000, 67000, 6000, 1000, 11000
+            }));
+    assertEquals(
+        41700.00000,
+        average(
+            new int[] {
+              25000, 48000, 57000, 86000, 33000, 10000, 42000, 3000, 54000, 29000, 79000, 40000
+            }));
+  }
+
+  public double average(int[] salary) {
+
+    if (salary.length == 2) return (salary[0] + salary[1]) / 2;
+
+    int min = Integer.MAX_VALUE;
+    int max = 0;
+
+    int sum = 0;
+    for (int i = 0; i < salary.length; i++) {
+      sum += salary[i];
+      min = Math.min(salary[i], min);
+      max = Math.max(salary[i], max);
+    }
+
+    sum = sum - min - max;
+    DecimalFormat numberFormat = new DecimalFormat("#.#####");
+    String value = numberFormat.format((double) sum / (salary.length - 2));
+    return Double.valueOf(value);
+  }
+
+  @Test
+  public void finalPrices() {
+    assertArrayEquals(new int[] {4, 2, 4, 2, 3}, finalPrices(new int[] {8, 4, 6, 2, 3}));
+    assertArrayEquals(new int[] {1, 2, 3, 4, 5}, finalPrices(new int[] {1, 2, 3, 4, 5}));
+    assertArrayEquals(new int[] {9, 0, 1, 6}, finalPrices(new int[] {10, 1, 1, 6}));
+  }
+
+  public int[] finalPrices(int[] prices) {
+
+    for (int i = 0; i < prices.length - 1; i++) {
+      int price = prices[i];
+      int j = i + 1;
+
+      while (j < prices.length && price < prices[j]) {
+        j++;
+      }
+
+      if (j < prices.length) {
+        int discount = price - prices[j];
+        prices[i] = discount;
+      }
+    }
+
+    return prices;
+  }
+
+  @Test
+  public void canMakeArithmeticProgression() {
+
+    assertEquals(true, canMakeArithmeticProgression(new int[] {3, 5, 1}));
+    assertEquals(false, canMakeArithmeticProgression(new int[] {1, 2, 4}));
+  }
+
+  public boolean canMakeArithmeticProgression(int[] arr) {
+
+    if (arr.length == 2) return true;
+
+    Arrays.sort(arr);
+
+    int value = arr[0];
+    int diff = arr[1] - arr[0];
+
+    for (int i = 1; i < arr.length; i++) {
+
+      if ((arr[i] - value) - diff != 0) return false;
+
+      value = arr[i];
+    }
+
+    return true;
+  }
+
+  @Test
+  public void subRectangleQueries() {
+    SubrectangleQueries subrectangleQueries =
+        new SubrectangleQueries(new int[][] {{1, 2, 1}, {4, 3, 4}, {3, 2, 1}, {1, 1, 1}});
+
+    assertEquals(1, subrectangleQueries.getValue(0, 2));
+    subrectangleQueries.updateSubrectangle(0, 0, 3, 2, 5);
+    assertEquals(5, subrectangleQueries.getValue(0, 2));
+    assertEquals(5, subrectangleQueries.getValue(3, 1));
+    subrectangleQueries.updateSubrectangle(3, 0, 3, 2, 10);
+    assertEquals(10, subrectangleQueries.getValue(3, 1));
+    assertEquals(5, subrectangleQueries.getValue(0, 2));
+  }
+
+  @Test
+  public void maxProductSubArray() {
+    assertEquals(6, maxProductSubArray(new int[] {2, 3, -2, 4}));
+    assertEquals(0, maxProductSubArray(new int[] {-2, 0, -1}));
+    assertEquals(-2, maxProductSubArray(new int[] {-2}));
+    assertEquals(2, maxProductSubArray(new int[] {0, 2}));
+    assertEquals(24, maxProductSubArray(new int[] {-2, 3, -4}));
+    assertEquals(24, maxProductSubArray(new int[] {2, -5, -2, -4, 3}));
+  }
+
+  private int maxProductSubArray(int[] nums) {
+
+    if (null == nums || nums.length == 0) return 0;
+
+    int maxProduct = nums[0];
+
+    for (int i = 0; i < nums.length; i++) {
+      int value = nums[i];
+
+      for (int j = i + 1; j < nums.length; j++) {
+
+        maxProduct = Math.max(maxProduct, Math.max(value * nums[j], nums[j]));
+
+        value = value * nums[j];
+      }
+    }
+
+    return maxProduct;
   }
 
   @Test
@@ -427,7 +908,6 @@ public class LeetCodeArrayTest {
     assertArrayEquals(new int[] {1, 2, 1, 2}, shuffle(new int[] {1, 1, 2, 2}, 2));
   }
 
-  @Test
   private int[] shuffle(int[] nums, int n) {
 
     if (nums.length == 0) return new int[] {};
