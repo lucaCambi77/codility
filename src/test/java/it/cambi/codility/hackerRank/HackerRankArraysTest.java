@@ -41,6 +41,33 @@ public class HackerRankArraysTest extends AbstractTest {
     }
 
     @Test
+    public void gridChallenge() {
+
+        assertEquals("YES", gridChallenge(new String[]{"ebacd", "fghij", "olmkn", "trpqs", "xywuv"}));
+        assertEquals("NO", gridChallenge(new String[]{"ebacd", "dbacd"}));
+    }
+
+    char[] word;
+
+    private String gridChallenge(String[] grid) {
+
+        word = grid[0].toCharArray();
+        Arrays.parallelSort(word);
+
+        for (int i = 1; i < grid.length; i++) {
+            char[] word1 = grid[i].toCharArray();
+            Arrays.parallelSort(word1);
+
+            if (IntStream.range(0, word.length).anyMatch(index -> word1[index] < word[index]))
+                return "NO";
+
+            word = word1;
+        }
+
+        return "YES";
+    }
+
+    @Test
     public void activityNotifications() {
         assertEquals(2, activityNotifications(new int[]{2, 3, 4, 2, 3, 6, 8, 4, 5}, 5));
     }
