@@ -86,9 +86,10 @@ public class LeetCodeArrayTest {
 
         private int maxSize;
         Deque<Integer> queue;
+
         public CustomStack(int maxSize) {
             this.maxSize = maxSize;
-            this.queue =new LinkedList<>();
+            this.queue = new LinkedList<>();
         }
 
         public void push(int x) {
@@ -116,6 +117,39 @@ public class LeetCodeArrayTest {
                 queue.addLast(array[i] + val);
             }
         }
+    }
+
+    @Test
+    public void findKthPositive() {
+        assertEquals(9, findKthPositive(new int[]{2, 3, 4, 7, 11}, 5));
+        assertEquals(6, findKthPositive(new int[]{1, 2, 3, 4}, 2));
+    }
+
+    private int findKthPositive(int[] arr, int k) {
+
+        int countMissing = 0;
+        int i = 0;
+        int value = 1;
+        while (i < arr.length) {
+
+            if (value != arr[i]) {
+                while (value < arr[i]) {
+                    if (++countMissing == k)
+                        return value;
+
+                    value++;
+                }
+            } else {
+                i++;
+                value++;
+            }
+        }
+
+        if (countMissing < k)
+            while (++countMissing < k)
+                value++;
+
+        return value;
     }
 
     @Test
