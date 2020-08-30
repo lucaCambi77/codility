@@ -11,12 +11,28 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class InterviewBitMathTest {
 
     @Test
+    public void titleToNumber() {
+        assertEquals(1, titleToNumber("A"));
+        assertEquals(28, titleToNumber("AB"));
+    }
+
+    private int titleToNumber(String A) {
+
+        int result = 0;
+        for (char c : A.toCharArray()) {
+            result = result * 26 + (c - 'A') + 1;
+        }
+        return result;
+    }
+
+
+    @Test
     public void fizzBuzz() {
         assertArrayEquals(new String[]{"1", "2", "Fizz", "4", "Buzz"}, fizzBuzz(5));
     }
 
     @Test
-    public String[] fizzBuzz(int A) {
+    private String[] fizzBuzz(int A) {
 
         int i = 1;
         String[] sol = new String[A];
