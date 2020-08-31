@@ -2,13 +2,47 @@ package it.cambi.codility.interviewBit;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InterviewBitArrayTest {
+
+    @Test
+    public void twoOutOfThree() {
+        assertArrayEquals(new int[]{2, 3}, twoOutOfThree(new int[]{1, 1, 2}, new int[]{2, 3}, new int[]{3}));
+        assertArrayEquals(new int[]{1, 2, 3}, twoOutOfThree(new int[]{1, 2}, new int[]{1, 3}, new int[]{2, 3}));
+    }
+
+    public int[] twoOutOfThree(int[] A, int[] B, int[] C) {
+        HashMap<Integer, Integer> a, b, c;
+        a = new HashMap();
+        b = new HashMap();
+        c = new HashMap();
+        HashSet set = new HashSet();
+        for (int i : A) {
+            if (a.containsKey(i)) {
+                a.put(i, a.get(i) + 1);
+            } else a.put(i, 1);
+        }
+        for (int i : B) {
+            if (b.containsKey(i)) {
+                b.put(i, b.get(i) + 1);
+            } else b.put(i, 1);
+        }
+        for (int i : C) {
+            if (c.containsKey(i)) {
+                c.put(i, c.get(i) + 1);
+            } else c.put(i, 1);
+        }
+        for (int i : a.keySet()) if (b.containsKey(i) || c.containsKey(i)) set.add(i);
+        for (int i : b.keySet()) if (a.containsKey(i) || c.containsKey(i)) set.add(i);
+        for (int i : c.keySet()) if (b.containsKey(i) || a.containsKey(i)) set.add(i);
+        ArrayList<Integer> ans = new ArrayList<Integer>(set);
+        Collections.sort(ans);
+        return ans.stream().mapToInt(i -> i).toArray();
+    }
 
     public int[] solve(int[] A) {
         // 2 pointers
@@ -89,7 +123,7 @@ public class InterviewBitArrayTest {
                         }));
     }
 
-    public int perfectPeakArray(int[] A) {
+    private int perfectPeakArray(int[] A) {
 
         int left[] = new int[A.length];
         int right[] = new int[A.length];
@@ -110,7 +144,7 @@ public class InterviewBitArrayTest {
         assertArrayEquals(new int[]{2}, leaderInArray(new int[]{1, 2}));
     }
 
-    public int[] leaderInArray(int[] A) {
+    private int[] leaderInArray(int[] A) {
 
         int max = 0;
         List<Integer> list = new ArrayList<>();

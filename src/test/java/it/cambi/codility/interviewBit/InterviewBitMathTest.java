@@ -25,7 +25,6 @@ public class InterviewBitMathTest {
         return result;
     }
 
-
     @Test
     public void fizzBuzz() {
         assertArrayEquals(new String[]{"1", "2", "Fizz", "4", "Buzz"}, fizzBuzz(5));
