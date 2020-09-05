@@ -2,11 +2,73 @@ package it.cambi.codility.interviewBit;
 
 import org.junit.jupiter.api.Test;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InterviewBitStringTest {
+
+    @Test
+    public void compareVersion() {
+        assertEquals(0, compareVersion("0.1", "0.1"));
+        assertEquals(1, compareVersion("0.2", "0.1"));
+        assertEquals(1, compareVersion("0.1.1", "0.1"));
+        assertEquals(-1, compareVersion("0.1.1", "1.1"));
+        assertEquals(-1, compareVersion("1.13", "1.13.4"));
+        assertEquals(1, compareVersion("4444371174137455", "5.168"));
+        assertEquals(-1, compareVersion("444444444444444444444444", "4444444444444444444444444"));
+        assertEquals(0, compareVersion("1.0", "1"));
+        assertEquals(0, compareVersion("1.0.0", "1"));
+    }
+
+    public int compareVersion(String A, String B) {
+        String[] version1 = A.split("\\.");
+        String[] version2 = B.split("\\.");
+
+        int i = 0;
+        int j = 0;
+        while (i < version1.length || j < version2.length) {
+
+            if (new BigInteger(i < version1.length ? version1[i] : "0").compareTo(new BigInteger(j < version2.length ? version2[j] : "0")) == -1)
+                return -1;
+            else if (new BigInteger(i < version1.length ? version1[i] : "0").compareTo(new BigInteger(j < version2.length ? version2[j] : "0")) == 1)
+                return 1;
+
+            if (i < version1.length)
+                i++;
+
+            if (j < version2.length)
+                j++;
+        }
+
+        return 0;
+    }
+
+    @Test
+    public void minimumParenthesis() {
+        assertEquals(1, minimumParenthesis("())"));
+        assertEquals(3, minimumParenthesis("((("));
+        assertEquals(2, minimumParenthesis(")("));
+    }
+
+    public int minimumParenthesis(String A) {
+        Stack<Character> stack = new Stack<>();
+
+        for (int i = 0; i < A.length(); i++) {
+
+            if (!stack.isEmpty() && stack.peek() == '(' && A.charAt(i) == ')') {
+                stack.pop();
+                continue;
+            }
+
+            stack.push(A.charAt(i));
+        }
+
+        return stack.size();
+    }
 
     @Test
     public void fullJustify() {

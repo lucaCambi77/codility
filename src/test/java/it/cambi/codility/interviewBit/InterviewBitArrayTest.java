@@ -10,38 +10,78 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class InterviewBitArrayTest {
 
     @Test
-    public void twoOutOfThree() {
-        assertArrayEquals(new int[]{2, 3}, twoOutOfThree(new int[]{1, 1, 2}, new int[]{2, 3}, new int[]{3}));
-        assertArrayEquals(new int[]{1, 2, 3}, twoOutOfThree(new int[]{1, 2}, new int[]{1, 3}, new int[]{2, 3}));
+    public void setZeroes() {
+        List<List<Integer>> a = Arrays.asList(Arrays.asList(1, 0, 1), Arrays.asList(1, 1, 1), Arrays.asList(1, 1, 1));
+        setZeroes(a);
+        assertEquals(Arrays.asList(Arrays.asList(0, 0, 0), Arrays.asList(1, 0, 1), Arrays.asList(1, 0, 1)), a);
+
+        List<List<Integer>> b = Arrays.asList(Arrays.asList(1, 0, 1), Arrays.asList(1, 1, 1), Arrays.asList(1, 0, 1));
+        setZeroes(b);
+        assertEquals(Arrays.asList(Arrays.asList(0, 0, 0), Arrays.asList(1, 0, 1), Arrays.asList(0, 0, 0)), b);
     }
 
-    public int[] twoOutOfThree(int[] A, int[] B, int[] C) {
-        HashMap<Integer, Integer> a, b, c;
-        a = new HashMap();
-        b = new HashMap();
-        c = new HashMap();
-        HashSet set = new HashSet();
+    private void setZeroes(List<List<Integer>> a) {
+        int[] rows = new int[a.size()];
+        int[] columns = new int[a.get(0).size()];
+
+        for (int r = 0; r < a.size(); r++) {
+            for (int c = 0; c < a.get(r).size(); c++) {
+                if (a.get(r).get(c) == 0) {
+                    rows[r] = -1;
+                    columns[c] = -1;
+                }
+            }
+        }
+
+        for (int r = 0; r < a.size(); r++) {
+            for (int c = 0; c < a.get(r).size(); c++) {
+                if (rows[r] == -1 || columns[c] == -1)
+                    a.get(r).set(c, 0);
+            }
+        }
+    }
+
+    @Test
+    public void nobleInteger() {
+        assertEquals(1, nobleInteger(new int[]{3, 2, 1, 3}));
+        assertEquals(-1, nobleInteger(new int[]{1, 1, 3, 3}));
+        assertEquals(1, nobleInteger(new int[]{-4, -2, 0, -1, -6}));
+        assertEquals(1, nobleInteger(new int[]{0}));
+        assertEquals(-1, nobleInteger(new int[]{-4, 7, 5, 3, 5, -4, 2, -1, -9, -8, -3, 0, 9, -7, -4, -10, -4, 2, 6, 1, -2, -3, -1, -8, 0, -8, -7, -3, 5, -1, -8, -8, 8, -1, -3, 3, 6, 1, -8, -1, 3, -9, 9, -6, 7, 8, -6, 5, 0, 3, -4, 1, -10, 6, 3, -8, 0, 6, -9, -5, -5, -6, -3, 6, -5, -4, -1, 3, 7, -6, 5, -8, -5, 4, -3, 4, -6, -7, 0, -3, -2, 6, 8, -2, -6, -7, 1, 4, 9, 2, -10, 6, -2, 9, 2, -4, -4, 4, 9, 5, 0, 4, 8, -3, -9, 7, -8, 7, 2, 2, 6, -9, -10, -4, -9, -5, -1, -6, 9, -10, -1, 1, 7, 7, 1, -9, 5, -1, -3, -3, 6, 7, 3, -4, -5, -4, -7, 9, -6, -2, 1, 2, -1, -7, 9, 0, -2, -2, 5, -10, -1, 6, -7, 8, -5, -4, 1, -9, 5, 9, -2, -6, -2, -9, 0, 3, -10, 4, -6, -6, 4, -3, 6, -7, 1, -3, -5, 9, 6, 2, 1, 7, -2, 5}));
+    }
+
+    private int nobleInteger(int[] array) {
+
+        Arrays.sort(array);
+
+        if (array[array.length - 1] == 0)
+            return 1;
+
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == array.length - (i + 1) && (i + 1 < array.length && array[i + 1] != array[i]))
+                return 1;
+        }
+        return -1;
+    }
+
+
+    @Test
+    public void diffPossible() {
+        assertEquals(0, diffPossible(new int[]{1, 3, 2}, 0));
+    }
+
+    private int diffPossible(final int[] A, int B) {
+
+        Set<Integer> set = new HashSet<>();
+
         for (int i : A) {
-            if (a.containsKey(i)) {
-                a.put(i, a.get(i) + 1);
-            } else a.put(i, 1);
+            if (set.contains(i + B) || set.contains(i - B))
+                return 1;
+
+            set.add(i);
         }
-        for (int i : B) {
-            if (b.containsKey(i)) {
-                b.put(i, b.get(i) + 1);
-            } else b.put(i, 1);
-        }
-        for (int i : C) {
-            if (c.containsKey(i)) {
-                c.put(i, c.get(i) + 1);
-            } else c.put(i, 1);
-        }
-        for (int i : a.keySet()) if (b.containsKey(i) || c.containsKey(i)) set.add(i);
-        for (int i : b.keySet()) if (a.containsKey(i) || c.containsKey(i)) set.add(i);
-        for (int i : c.keySet()) if (b.containsKey(i) || a.containsKey(i)) set.add(i);
-        ArrayList<Integer> ans = new ArrayList<Integer>(set);
-        Collections.sort(ans);
-        return ans.stream().mapToInt(i -> i).toArray();
+
+        return 0;
     }
 
     public int[] solve(int[] A) {
