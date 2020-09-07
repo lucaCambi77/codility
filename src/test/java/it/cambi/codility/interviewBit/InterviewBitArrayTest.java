@@ -66,7 +66,7 @@ public class InterviewBitArrayTest {
     }
 
     public String largestNumber(final List<Integer> A) {
-        Collections.sort(A, new Comparator<>() {
+        Collections.sort(A, new Comparator<Integer>() {
             @Override
             public int compare(Integer o1, Integer o2) {
                 String first = Integer.toString(o1) + Integer.toString(o2);
@@ -75,6 +75,7 @@ public class InterviewBitArrayTest {
                 return new BigInteger(first).compareTo(new BigInteger(second)) < 0 ? 1 : -1;
             }
         });
+
 
         String sol = A.stream().map(String::valueOf).collect(Collectors.joining());
         return sol.replaceFirst("^0+(?!$)", "");

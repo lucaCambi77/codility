@@ -42,8 +42,8 @@ public class HackerRankArraysTest extends AbstractTest {
 
     @Test
     public void fairRotation() {
-        assertEquals("4", fairRotation(new int[] { 2, 3, 4, 5, 6 }));
-        assertEquals("NO", fairRotation(new int[] { 1,2}));
+        assertEquals("4", fairRotation(new int[]{2, 3, 4, 5, 6}));
+        assertEquals("NO", fairRotation(new int[]{1, 2}));
     }
 
     private String fairRotation(int[] B) {
@@ -66,9 +66,35 @@ public class HackerRankArraysTest extends AbstractTest {
         return "NO";
     }
 
+    public void gridChallenge() {
+
+        assertEquals("YES", gridChallenge(new String[]{"ebacd", "fghij", "olmkn", "trpqs", "xywuv"}));
+        assertEquals("NO", gridChallenge(new String[]{"ebacd", "dbacd"}));
+    }
+
+    char[] word;
+
+    private String gridChallenge(String[] grid) {
+
+        word = grid[0].toCharArray();
+        Arrays.parallelSort(word);
+
+        for (int i = 1; i < grid.length; i++) {
+            char[] word1 = grid[i].toCharArray();
+            Arrays.parallelSort(word1);
+
+            if (IntStream.range(0, word.length).anyMatch(index -> word1[index] < word[index]))
+                return "NO";
+
+            word = word1;
+        }
+
+        return "YES";
+    }
+
     @Test
     public void activityNotifications() {
-        assertEquals(2, activityNotifications(new int[] { 2, 3, 4, 2, 3, 6, 8, 4, 5 }, 5));
+        assertEquals(2, activityNotifications(new int[]{2, 3, 4, 2, 3, 6, 8, 4, 5}, 5));
     }
 
     private int activityNotifications(int[] expenditure, int d) {
@@ -106,7 +132,7 @@ public class HackerRankArraysTest extends AbstractTest {
 
     @Test
     public void pairs() {
-        assertEquals(3, pairs(2, new int[] { 1, 5, 3, 4, 2 }));
+        assertEquals(3, pairs(2, new int[]{1, 5, 3, 4, 2}));
     }
 
     private int pairs(int k, int[] arr) {
@@ -131,12 +157,12 @@ public class HackerRankArraysTest extends AbstractTest {
 
     @Test
     public void missingNumbers() throws IOException {
-        assertArrayEquals(new int[] { 204, 205, 206 },
-                missingNumbers(new int[] { 203, 203, 204, 204, 205, 205, 206, 206, 207, 208 },
-                        new int[] { 203, 203, 204, 204, 204, 205, 205, 205, 206, 206, 206, 207, 208 }));
+        assertArrayEquals(new int[]{204, 205, 206},
+                missingNumbers(new int[]{203, 203, 204, 204, 205, 205, 206, 206, 207, 208},
+                        new int[]{203, 203, 204, 204, 204, 205, 205, 205, 206, 206, 206, 207, 208}));
 
-        assertArrayEquals(new int[] { 4, 6 },
-                missingNumbers(new int[] { 7, 2, 5, 3, 5, 3 }, new int[] { 7, 2, 5, 4, 6, 3, 5, 3 }));
+        assertArrayEquals(new int[]{4, 6},
+                missingNumbers(new int[]{7, 2, 5, 3, 5, 3}, new int[]{7, 2, 5, 4, 6, 3, 5, 3}));
 
         try (BufferedReader in = new BufferedReader(new FileReader("src/test/resources/missingNumbers.txt"))) {
             String line = in.readLine();
@@ -163,8 +189,8 @@ public class HackerRankArraysTest extends AbstractTest {
                 i++;
             }
 
-            assertArrayEquals(new int[] { 2437, 2438, 2442, 2444, 2447, 2451, 2457, 2458, 2466, 2473, 2479, 2483, 2488,
-                    2489, 2510, 2515, 2517, 2518 }, missingNumbers(arrA, arrB));
+            assertArrayEquals(new int[]{2437, 2438, 2442, 2444, 2447, 2451, 2457, 2458, 2466, 2473, 2479, 2483, 2488,
+                    2489, 2510, 2515, 2517, 2518}, missingNumbers(arrA, arrB));
         }
     }
 
@@ -290,7 +316,7 @@ public class HackerRankArraysTest extends AbstractTest {
     @Test
     public void qHeap1() {
 
-        qHeap1(new String[] { "1 4", "1 9", "3", "2 4", "3" });
+        qHeap1(new String[]{"1 4", "1 9", "3", "2 4", "3"});
 
         assertEquals("4" + getCarriageReturn() + "9" + getCarriageReturn(), outContent.toString());
     }
@@ -324,10 +350,10 @@ public class HackerRankArraysTest extends AbstractTest {
         Arrays.fill(arr, 10000);
         assertEquals(998047, cookies(105823341, arr));
 
-        assertEquals(2, cookies(7, new int[] { 1, 2, 3, 9, 10, 12 }));
-        assertEquals(-1, cookies(10, new int[] { 1, 1, 1 }));
-        assertEquals(-1, cookies(2, new int[] { 1 }));
-        assertEquals(0, cookies(1, new int[] { 1 }));
+        assertEquals(2, cookies(7, new int[]{1, 2, 3, 9, 10, 12}));
+        assertEquals(-1, cookies(10, new int[]{1, 1, 1}));
+        assertEquals(-1, cookies(2, new int[]{1}));
+        assertEquals(0, cookies(1, new int[]{1}));
     }
 
     class NodeCookie {
@@ -404,8 +430,8 @@ public class HackerRankArraysTest extends AbstractTest {
 
     @Test
     public void workbook() {
-        assertEquals(4, workbook(5, 3, new int[] { 4, 2, 6, 1, 10 }));
-        assertEquals(8, workbook(10, 5, new int[] { 3, 8, 15, 11, 14, 1, 9, 2, 24, 31 }));
+        assertEquals(4, workbook(5, 3, new int[]{4, 2, 6, 1, 10}));
+        assertEquals(8, workbook(10, 5, new int[]{3, 8, 15, 11, 14, 1, 9, 2, 24, 31}));
     }
 
     private int workbook(int n, int k, int[] arr) {
@@ -452,8 +478,8 @@ public class HackerRankArraysTest extends AbstractTest {
 
     @Test
     public void serviceLane() {
-        assertArrayEquals(new int[] { 1, 2, 3, 2, 1, }, serviceLane(new int[] { 2, 3, 1, 2, 3, 2, 3, 3 },
-                new int[][] { { 0, 3 }, { 4, 6 }, { 6, 7 }, { 3, 5 }, { 0, 7 } }));
+        assertArrayEquals(new int[]{1, 2, 3, 2, 1,}, serviceLane(new int[]{2, 3, 1, 2, 3, 2, 3, 3},
+                new int[][]{{0, 3}, {4, 6}, {6, 7}, {3, 5}, {0, 7}}));
     }
 
     private int[] serviceLane(int[] width, int[][] cases) {
@@ -475,15 +501,15 @@ public class HackerRankArraysTest extends AbstractTest {
     /** 0 is also an item so all item between 0 and 4 are in 1 container */
     @Test
     public void toys() {
-        assertEquals(4, toys(new int[] { 1, 2, 3, 21, 7, 12, 14, 21 }));
-        assertEquals(3, toys(new int[] { 16, 18, 10, 13, 2, 9, 17, 17, 0, 19 }));
+        assertEquals(4, toys(new int[]{1, 2, 3, 21, 7, 12, 14, 21}));
+        assertEquals(3, toys(new int[]{16, 18, 10, 13, 2, 9, 17, 17, 0, 19}));
         assertEquals(66,
-                toys(new int[] { 724, 103, 403, 792, 195, 445, 676, 337, 142, 731, 274, 530, 478, 719, 966, 680, 202,
+                toys(new int[]{724, 103, 403, 792, 195, 445, 676, 337, 142, 731, 274, 530, 478, 719, 966, 680, 202,
                         692, 142, 260, 333, 555, 905, 517, 679, 432, 620, 477, 841, 340, 960, 566, 443, 715, 710, 639,
                         160, 386, 328, 655, 469, 955, 537, 299, 674, 855, 980, 228, 548, 122, 489, 881, 30, 746, 750,
                         709, 531, 370, 539, 372, 710, 499, 938, 505, 215, 0, 144, 727, 738, 825, 734, 207, 780, 271,
                         507, 806, 127, 839, 387, 675, 313, 228, 908, 343, 974, 658, 53, 857, 380, 592, 230, 442, 443,
-                        520, 947, 10, 521, 444, 738, 259 }));
+                        520, 947, 10, 521, 444, 738, 259}));
     }
 
     private int toys(int[] w) {
@@ -512,7 +538,7 @@ public class HackerRankArraysTest extends AbstractTest {
 
     @Test
     public void acmTeam() throws IOException {
-        assertArrayEquals(new int[] { 5, 2 }, acmTeam(new String[] { "10101", "11100", "11010", "00101" }));
+        assertArrayEquals(new int[]{5, 2}, acmTeam(new String[]{"10101", "11100", "11010", "00101"}));
         try (BufferedReader in = new BufferedReader(new FileReader("src/test/resources/acmTeam/acmTeam.txt"))) {
             String line = in.readLine();
             String[] split = line.split(" ");
@@ -527,7 +553,7 @@ public class HackerRankArraysTest extends AbstractTest {
                 i++;
             }
 
-            assertArrayEquals(new int[] { 97, 5 }, acmTeam(array));
+            assertArrayEquals(new int[]{97, 5}, acmTeam(array));
         }
     }
 
@@ -594,14 +620,14 @@ public class HackerRankArraysTest extends AbstractTest {
 
     @Test
     public void subArraySum() {
-        assertEquals(9, subArraySum(new int[] { 1, -2, 4, -5, 1 }));
+        assertEquals(9, subArraySum(new int[]{1, -2, 4, -5, 1}));
         assertEquals(953,
-                subArraySum(new int[] { 463, 589, -321, 164, -613, 246, -869, -889, -712, -251, 969, -603, 49, 185, 439,
+                subArraySum(new int[]{463, 589, -321, 164, -613, 246, -869, -889, -712, -251, 969, -603, 49, 185, 439,
                         479, 255, -660, 848, 157, 644, 498, -722, 82, -275, -645, -268, -255, 573, 910, 303, 267, -162,
                         487, 103, -823, 400, 612, -61, -260, 732, 286, 505, -22, 37, 443, 27, 603, 341, -904, -87, -895,
                         -753, 314, 257, 856, 832, -695, -387, 416, 354, 117, 273, -275, 811, -114, -962, -90, 868, 883,
                         -330, 467, 233, 852, 232, -44, 831, -672, -883, -774, -830, 297, -897, -860, 143, 594, 186,
-                        -988, 928, 391, -812, 99, 302, -803, -422, 583, 817, 748, -619, 183 }));
+                        -988, 928, 391, -812, 99, 302, -803, -422, 583, 817, 748, -619, 183}));
     }
 
     private int subArraySum(int[] array) {
@@ -635,16 +661,16 @@ public class HackerRankArraysTest extends AbstractTest {
 
     @Test
     public void twoDArray() {
-        assertEquals(19, twoDArray(new int[][] { { 1, 1, 1, 0, 0, 0 }, { 0, 1, 0, 0, 0, 0 }, { 1, 1, 1, 0, 0, 0 },
-                { 0, 0, 2, 4, 4, 0 }, { 0, 0, 0, 2, 0, 0 }, { 0, 0, 1, 2, 4, 0 } }));
+        assertEquals(19, twoDArray(new int[][]{{1, 1, 1, 0, 0, 0}, {0, 1, 0, 0, 0, 0}, {1, 1, 1, 0, 0, 0},
+                {0, 0, 2, 4, 4, 0}, {0, 0, 0, 2, 0, 0}, {0, 0, 1, 2, 4, 0}}));
 
-        assertEquals(13, twoDArray(new int[][] { { 1, 1, 1, 0, 0, 0 }, { 0, 1, 0, 0, 0, 0 }, { 1, 1, 1, 0, 0, 0 },
-                { 0, 9, 2, -4, -4, 0 }, { 0, 0, 0, -2, 0, 0 }, { 0, 0, -1, -2, -4, 0 } }));
+        assertEquals(13, twoDArray(new int[][]{{1, 1, 1, 0, 0, 0}, {0, 1, 0, 0, 0, 0}, {1, 1, 1, 0, 0, 0},
+                {0, 9, 2, -4, -4, 0}, {0, 0, 0, -2, 0, 0}, {0, 0, -1, -2, -4, 0}}));
 
         assertEquals(-6,
                 twoDArray(
-                        new int[][] { { -1, -1, 0, -9, -2, -2 }, { -2, -1, -6, -8, -2, -5 }, { -1, -1, -1, -2, -3, -4 },
-                                { -1, -9, -2, -4, -4, -5 }, { -7, -3, -3, -2, -9, -9 }, { -1, -3, -1, -2, -4, -5 } }));
+                        new int[][]{{-1, -1, 0, -9, -2, -2}, {-2, -1, -6, -8, -2, -5}, {-1, -1, -1, -2, -3, -4},
+                                {-1, -9, -2, -4, -4, -5}, {-7, -3, -3, -2, -9, -9}, {-1, -3, -1, -2, -4, -5}}));
     }
 
     private int twoDArray(int[][] array) {
@@ -713,9 +739,9 @@ public class HackerRankArraysTest extends AbstractTest {
 
     @Test
     public void jumpingOnClouds() {
-        assertEquals(92, jumpingOnClouds(new int[] { 0, 0, 1, 0, 0, 1, 1, 0 }, 2));
-        assertEquals(80, jumpingOnClouds(new int[] { 1, 1, 1, 0, 1, 1, 0, 0, 0, 0 }, 3));
-        assertEquals(97, jumpingOnClouds(new int[] { 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1 }, 19));
+        assertEquals(92, jumpingOnClouds(new int[]{0, 0, 1, 0, 0, 1, 1, 0}, 2));
+        assertEquals(80, jumpingOnClouds(new int[]{1, 1, 1, 0, 1, 1, 0, 0, 0, 0}, 3));
+        assertEquals(97, jumpingOnClouds(new int[]{1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1}, 19));
     }
 
     private int jumpingOnClouds(int[] c, int k) {
@@ -747,8 +773,8 @@ public class HackerRankArraysTest extends AbstractTest {
 
     @Test
     public void permutationEquation() {
-        assertArrayEquals(new int[] { 2, 3, 1 }, permutationEquation(new int[] { 2, 3, 1 }));
-        assertArrayEquals(new int[] { 1, 3, 5, 4, 2 }, permutationEquation(new int[] { 4, 3, 5, 1, 2 }));
+        assertArrayEquals(new int[]{2, 3, 1}, permutationEquation(new int[]{2, 3, 1}));
+        assertArrayEquals(new int[]{1, 3, 5, 4, 2}, permutationEquation(new int[]{4, 3, 5, 1, 2}));
     }
 
     private int[] permutationEquation(int[] p) {
@@ -770,7 +796,7 @@ public class HackerRankArraysTest extends AbstractTest {
 
     @Test
     public void circularArrayRotation() {
-        assertArrayEquals(new int[] { 5, 3 }, circularArrayRotation(new int[] { 3, 4, 5 }, 2, new int[] { 1, 2 }));
+        assertArrayEquals(new int[]{5, 3}, circularArrayRotation(new int[]{3, 4, 5}, 2, new int[]{1, 2}));
     }
 
     private int[] circularArrayRotation(int[] a, int k, int[] queries) {
@@ -800,13 +826,13 @@ public class HackerRankArraysTest extends AbstractTest {
     @Test
     public void largestRectangle() {
 
-        assertEquals(9, largestRectangle(new int[] { 1, 2, 3, 4, 5 }));
-        assertEquals(18, largestRectangle(new int[] { 1, 3, 5, 9, 11 }));
-        assertEquals(12, largestRectangle(new int[] { 1, 2, 3, 3, 4, 5 }));
-        assertEquals(1, largestRectangle(new int[] { 1 }));
-        assertEquals(2, largestRectangle(new int[] { 1, 2 }));
-        assertEquals(50, largestRectangle(new int[] { 11, 11, 10, 10, 10 }));
-        assertEquals(26152, largestRectangle(new int[] { 8979, 4570, 6436, 5083, 7780, 3269, 5400, 7579, 2324, 2116 }));
+        assertEquals(9, largestRectangle(new int[]{1, 2, 3, 4, 5}));
+        assertEquals(18, largestRectangle(new int[]{1, 3, 5, 9, 11}));
+        assertEquals(12, largestRectangle(new int[]{1, 2, 3, 3, 4, 5}));
+        assertEquals(1, largestRectangle(new int[]{1}));
+        assertEquals(2, largestRectangle(new int[]{1, 2}));
+        assertEquals(50, largestRectangle(new int[]{11, 11, 10, 10, 10}));
+        assertEquals(26152, largestRectangle(new int[]{8979, 4570, 6436, 5083, 7780, 3269, 5400, 7579, 2324, 2116}));
     }
 
     private long largestRectangle(int[] h) {
@@ -902,10 +928,10 @@ public class HackerRankArraysTest extends AbstractTest {
 
     @Test
     public void minimumAbsoluteDifference() {
-        assertEquals(2, minimumAbsoluteDifference(new int[] { -2, 2, 4 }));
-        assertEquals(3, minimumAbsoluteDifference(new int[] { 3, -7, 0 }));
-        assertEquals(1, minimumAbsoluteDifference(new int[] { -59, -36, -13, 1, -53, -92, -2, -96, -54, 75 }));
-        assertEquals(3, minimumAbsoluteDifference(new int[] { 1, -3, 71, 68, 17 }));
+        assertEquals(2, minimumAbsoluteDifference(new int[]{-2, 2, 4}));
+        assertEquals(3, minimumAbsoluteDifference(new int[]{3, -7, 0}));
+        assertEquals(1, minimumAbsoluteDifference(new int[]{-59, -36, -13, 1, -53, -92, -2, -96, -54, 75}));
+        assertEquals(3, minimumAbsoluteDifference(new int[]{1, -3, 71, 68, 17}));
     }
 
     private int minimumAbsoluteDifference(int[] arr) {
@@ -924,19 +950,19 @@ public class HackerRankArraysTest extends AbstractTest {
 
     @Test
     public void maxSumArray() throws IOException {
-        int[] array = new int[] { -2, 1, 3, -4, 5 };
+        int[] array = new int[]{-2, 1, 3, -4, 5};
 
         assertEquals(8, maxSumArray(array));
 
-        array = new int[] { 3, 7, 4, 6, 5 };
+        array = new int[]{3, 7, 4, 6, 5};
 
         assertEquals(13, maxSumArray(array));
 
-        array = new int[] { 2, 1, 5, 8, 4 };
+        array = new int[]{2, 1, 5, 8, 4};
 
         assertEquals(11, maxSumArray(array));
 
-        array = new int[] { 3, 5, -7, 8, 10 };
+        array = new int[]{3, 5, -7, 8, 10};
 
         assertEquals(15, maxSumArray(array));
 
@@ -1066,8 +1092,8 @@ public class HackerRankArraysTest extends AbstractTest {
 
     @Test
     public void equalStacks() {
-        assertEquals(5, equalStacks(new int[] { 3, 2, 1, 1, 1 }, new int[] { 4, 3, 2 }, new int[] { 1, 1, 4, 1 }));
-        assertEquals(0, equalStacks(new int[] { 1, 1, 1, 1, 2 }, new int[] { 3, 7 }, new int[] { 1, 3, 1 }));
+        assertEquals(5, equalStacks(new int[]{3, 2, 1, 1, 1}, new int[]{4, 3, 2}, new int[]{1, 1, 4, 1}));
+        assertEquals(0, equalStacks(new int[]{1, 1, 1, 1, 2}, new int[]{3, 7}, new int[]{1, 3, 1}));
     }
 
     public int equalStacks(int[] h1, int[] h2, int[] h3) {
@@ -1119,27 +1145,27 @@ public class HackerRankArraysTest extends AbstractTest {
     @Test
     public void freqQuery() throws IOException {
 
-        assertEquals(Arrays.asList(new Integer[] { 0, 1, 1 }), freqQuery(new ArrayList<int[]>() {
+        assertEquals(Arrays.asList(new Integer[]{0, 1, 1}), freqQuery(new ArrayList<int[]>() {
             {
-                add(new int[] { 1, 3 });
-                add(new int[] { 2, 3 });
-                add(new int[] { 3, 2 });
-                add(new int[] { 1, 4 });
-                add(new int[] { 1, 5 });
-                add(new int[] { 1, 5 });
-                add(new int[] { 1, 4 });
-                add(new int[] { 3, 2 });
-                add(new int[] { 2, 4 });
-                add(new int[] { 3, 2 });
+                add(new int[]{1, 3});
+                add(new int[]{2, 3});
+                add(new int[]{3, 2});
+                add(new int[]{1, 4});
+                add(new int[]{1, 5});
+                add(new int[]{1, 5});
+                add(new int[]{1, 4});
+                add(new int[]{3, 2});
+                add(new int[]{2, 4});
+                add(new int[]{3, 2});
             }
         }));
 
         assertEquals(Arrays.asList(0, 1), freqQuery(new ArrayList<int[]>() {
             {
-                add(new int[] { 3, 4 });
-                add(new int[] { 2, 1003 });
-                add(new int[] { 1, 16 });
-                add(new int[] { 3, 1 });
+                add(new int[]{3, 4});
+                add(new int[]{2, 1003});
+                add(new int[]{1, 16});
+                add(new int[]{3, 1});
             }
         }));
 
@@ -1169,7 +1195,7 @@ public class HackerRankArraysTest extends AbstractTest {
 
                     String[] split = line.split(" ");
 
-                    int[] list = new int[] { Integer.parseInt(split[0]), Integer.parseInt(split[1]) };
+                    int[] list = new int[]{Integer.parseInt(split[0]), Integer.parseInt(split[1])};
                     add(list);
                     line = buf.readLine();
                 }
@@ -1225,8 +1251,8 @@ public class HackerRankArraysTest extends AbstractTest {
 
     @Test
     public void divisibleSumPairs() {
-        assertEquals(3, divisibleSumPairs(6, 5, new int[] { 1, 2, 3, 4, 5, 6 }));
-        assertEquals(5, divisibleSumPairs(6, 3, new int[] { 1, 3, 2, 6, 1, 2 }));
+        assertEquals(3, divisibleSumPairs(6, 5, new int[]{1, 2, 3, 4, 5, 6}));
+        assertEquals(5, divisibleSumPairs(6, 3, new int[]{1, 3, 2, 6, 1, 2}));
     }
 
     private int divisibleSumPairs(int n, int k, int[] ar) {
@@ -1247,10 +1273,10 @@ public class HackerRankArraysTest extends AbstractTest {
 
     @Test
     public void lonelyinteger() {
-        assertEquals(4, lonelyinteger(new int[] { 1, 2, 3, 4, 3, 2, 1 }));
-        assertEquals(1, lonelyinteger(new int[] { 1 }));
-        assertEquals(2, lonelyinteger(new int[] { 1, 1, 2 }));
-        assertEquals(2, lonelyinteger(new int[] { 0, 0, 1, 2, 1 }));
+        assertEquals(4, lonelyinteger(new int[]{1, 2, 3, 4, 3, 2, 1}));
+        assertEquals(1, lonelyinteger(new int[]{1}));
+        assertEquals(2, lonelyinteger(new int[]{1, 1, 2}));
+        assertEquals(2, lonelyinteger(new int[]{0, 0, 1, 2, 1}));
     }
 
     private int lonelyinteger(int[] a) {
@@ -1321,8 +1347,8 @@ public class HackerRankArraysTest extends AbstractTest {
     @Test
     public void bonAppetit() {
 
-        assertEquals(5, bonAppetit(Arrays.asList(new Integer[] { 3, 10, 2, 9 }), 1, 12));
-        assertEquals(0, bonAppetit(Arrays.asList(new Integer[] { 3, 10, 2, 9 }), 1, 7));
+        assertEquals(5, bonAppetit(Arrays.asList(new Integer[]{3, 10, 2, 9}), 1, 12));
+        assertEquals(0, bonAppetit(Arrays.asList(new Integer[]{3, 10, 2, 9}), 1, 7));
     }
 
     private int bonAppetit(List<Integer> bill, int k, int b) {
@@ -1339,8 +1365,8 @@ public class HackerRankArraysTest extends AbstractTest {
 
     @Test
     public void migratoryBirds() {
-        assertEquals(4, migratoryBirds(Arrays.asList(new Integer[] { 1, 4, 4, 4, 5, 3 })));
-        assertEquals(3, migratoryBirds(Arrays.asList(new Integer[] { 1, 2, 3, 4, 5, 4, 3, 2, 1, 3, 4 })));
+        assertEquals(4, migratoryBirds(Arrays.asList(new Integer[]{1, 4, 4, 4, 5, 3})));
+        assertEquals(3, migratoryBirds(Arrays.asList(new Integer[]{1, 2, 3, 4, 5, 4, 3, 2, 1, 3, 4})));
     }
 
     private int migratoryBirds(List<Integer> arr) {
@@ -1463,7 +1489,7 @@ public class HackerRankArraysTest extends AbstractTest {
     @Test
     public void aVeryBigSum() {
 
-        long[] ar = new long[] { 1000000001, 1000000002, 1000000003, 1000000004, 1000000005 };
+        long[] ar = new long[]{1000000001, 1000000002, 1000000003, 1000000004, 1000000005};
 
         assertEquals(5000000015L, LongStream.of(ar).sum());
     }
@@ -1486,7 +1512,7 @@ public class HackerRankArraysTest extends AbstractTest {
             }
         });
 
-        assertArrayEquals(new int[] { 2, 1 }, list.stream().mapToInt(Integer::intValue).toArray());
+        assertArrayEquals(new int[]{2, 1}, list.stream().mapToInt(Integer::intValue).toArray());
 
         List<Integer> list1 = compareTriplets(new ArrayList<Integer>() {
             {
@@ -1502,7 +1528,7 @@ public class HackerRankArraysTest extends AbstractTest {
             }
         });
 
-        assertArrayEquals(new int[] { 1, 1 }, list1.stream().mapToInt(Integer::intValue).toArray());
+        assertArrayEquals(new int[]{1, 1}, list1.stream().mapToInt(Integer::intValue).toArray());
     }
 
     private List<Integer> compareTriplets(List<Integer> a, List<Integer> b) {
@@ -1549,7 +1575,7 @@ public class HackerRankArraysTest extends AbstractTest {
          */
         int n = 5;
 
-        int[][] queries = new int[][] { { 1, 2, 100 }, { 2, 5, 100 }, { 3, 4, 100 } };
+        int[][] queries = new int[][]{{1, 2, 100}, {2, 5, 100}, {3, 4, 100}};
 
         long[] arr = new long[n + 1];
 
@@ -1576,7 +1602,7 @@ public class HackerRankArraysTest extends AbstractTest {
     @Test
     public void equalizeTheArray() {
 
-        int[] arr = new int[] { 1, 2, 3, 1, 2, 3, 3, 3 };
+        int[] arr = new int[]{1, 2, 3, 1, 2, 3, 3, 3};
 
         int arrLength = arr.length;
         Arrays.sort(arr);
@@ -1613,7 +1639,7 @@ public class HackerRankArraysTest extends AbstractTest {
     @Test
     public void minimunTwoSwaps() {
 
-        int[] arr = new int[] { 1, 3, 5, 2, 4, 6, 7 };
+        int[] arr = new int[]{1, 3, 5, 2, 4, 6, 7};
         /*
          * int[] arr = new int[] { 8, 45, 35, 84, 79, 12, 74, 92, 81, 82, 61, 32, 36, 1,
          * 65, 44, 89, 40, 28, 20, 97, 90, 22, 87, 48, 26, 56, 18, 49, 71, 23, 34, 59,
