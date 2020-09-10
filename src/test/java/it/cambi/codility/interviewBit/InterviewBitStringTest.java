@@ -12,6 +12,37 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class InterviewBitStringTest {
 
     @Test
+    public void removeConsecutiveChars() {
+        assertEquals("bcd", removeConsecutiveChars("aabcd", 2));
+        assertEquals("d", removeConsecutiveChars("aabbccd", 2));
+    }
+
+    public String removeConsecutiveChars(String A, int B) {
+
+        char c = A.charAt(0);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(c);
+        StringBuilder sol = new StringBuilder();
+        for (int i = 1; i < A.length(); i++) {
+
+            if (A.charAt(i) != c) {
+                c = A.charAt(i);
+                if (sb.length() != B)
+                    sol.append(sb.toString());
+
+                sb = new StringBuilder();
+            }
+            sb.append(A.charAt(i));
+        }
+
+        if (sb.length() > 0 && sb.length() != B)
+            sol.append(sb.toString());
+
+        return sol.toString();
+    }
+
+    @Test
     public void compareVersion() {
         assertEquals(0, compareVersion("0.1", "0.1"));
         assertEquals(1, compareVersion("0.2", "0.1"));

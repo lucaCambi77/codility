@@ -36,6 +36,40 @@ public class InterviewBitArrayTest {
     }
 
     @Test
+    public void prettyPrint() {
+        assertEquals(new ArrayList<ArrayList<Integer>>() {{
+            add(new ArrayList<>() {{
+                add(2);
+                add(2);
+                add(2);
+            }});
+            add(new ArrayList<>() {{
+                add(2);
+                add(1);
+                add(2);
+            }});
+            add(new ArrayList<>() {{
+                add(2);
+                add(2);
+                add(2);
+            }});
+        }}, prettyPrint(2));
+    }
+
+    private ArrayList<ArrayList<Integer>> prettyPrint(int n) {
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+        for (int i = 1; i < (2 * n); i++) {
+            ArrayList<Integer> a = new ArrayList<>();
+            for (int j = 1; j < (2 * n); j++) {
+                a.add(Math.max(Math.abs(i - n), Math.abs(j - n)) + 1);
+            }
+            ans.add(a);
+        }
+        return ans;
+    }
+
+
+    @Test
     public void largestNumber() {
         assertEquals("9534330", largestNumber(new ArrayList<>() {{
             add(3);
