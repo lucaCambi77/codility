@@ -53,12 +53,7 @@ public class AmazonDemo {
     return result;
   }
 
-  static int gcd(int a, int b) {
-    if (a == 0) return b;
-    return gcd(b % a, a);
-  }
-
-  static int findGCD(int arr[], int n) {
+  int findGCD(int arr[], int n) {
     if (null == arr || arr.length == 0) return 0;
 
     int result = arr[0];
@@ -71,5 +66,10 @@ public class AmazonDemo {
     }
 
     return result;
+  }
+
+  int gcd(int a, int b) {
+    if (a == 0) return b;
+    return gcd(b % a, a);
   }
 }
