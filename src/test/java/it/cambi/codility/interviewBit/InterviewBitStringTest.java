@@ -4,12 +4,115 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InterviewBitStringTest {
+
+    @Test
+    public void intToRoman() {
+        assertEquals("IV", intToRoman(4));
+        assertEquals("XIV", intToRoman(14));
+        assertEquals("MCC", intToRoman(1200));
+        assertEquals("CLI", intToRoman(151));
+        assertEquals("CM", intToRoman(900));
+        assertEquals("XC", intToRoman(90));
+    }
+
+    private String intToRoman(int n) {
+        String s = "";
+
+        LinkedList<Integer> list = new LinkedList<>();
+
+        int i = 0;
+        while (n > 0) {
+            int x = n % 10;
+            int y = (int) Math.pow(10, i);
+            list.add(x * y);
+            n = n / 10;
+            i++;
+        }
+
+        int x = list.size();
+
+        for (i = x - 1; i >= 0; i--) {
+            int y = list.get(i);
+            if (y >= 1000) {
+                if (y == 1000) {
+                    s += "M";
+                } else if (y == 2000) {
+                    s += "MM";
+                } else if (y == 3000) {
+                    s += "MMM";
+                }
+
+            } else if (y >= 100 && y < 1000) {
+                if (y == 900) {
+                    s += "CM";
+                } else if (y == 800) {
+                    s += "DCCC";
+                } else if (y == 700) {
+                    s += "DCC";
+                } else if (y == 600) {
+                    s += "DC";
+                } else if (y == 500) {
+                    s += "D";
+                } else if (y == 400) {
+                    s += "CD";
+                } else if (y == 300) {
+                    s += "CCC";
+                } else if (y == 200) {
+                    s += "CC";
+                } else if (y == 100) {
+                    s += "C";
+                }
+            } else if (y >= 10 && y < 100) {
+                if (y == 90) {
+                    s += "XC";
+                } else if (y == 80) {
+                    s += "LXXX";
+                } else if (y == 70) {
+                    s += "LXX";
+                } else if (y == 60) {
+                    s += "LX";
+                } else if (y == 50) {
+                    s += "L";
+                } else if (y == 40) {
+                    s += "XL";
+                } else if (y == 30) {
+                    s += "XXX";
+                } else if (y == 20) {
+                    s += "XX";
+                } else if (y == 10) {
+                    s += "X";
+                }
+            } else if (y >= 1 && y < 10) {
+                if (y == 9) {
+                    s += "IX";
+                } else if (y == 8) {
+                    s += "VIII";
+                } else if (y == 7) {
+                    s += "VII";
+                } else if (y == 6) {
+                    s += "VI";
+                } else if (y == 5) {
+                    s += "V";
+                } else if (y == 4) {
+                    s += "IV";
+                } else if (y == 3) {
+                    s += "III";
+                } else if (y == 2) {
+                    s += "II";
+                } else if (y == 1) {
+                    s += "I";
+                }
+            }
+        }
+        return s;
+    }
 
     @Test
     public void compareVersion() {
