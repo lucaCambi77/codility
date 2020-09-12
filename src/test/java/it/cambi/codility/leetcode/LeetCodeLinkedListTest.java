@@ -125,7 +125,7 @@ public class LeetCodeLinkedListTest {
     }
 
     private ListNode swapPairs(ListNode head) {
-        if (head == null || (head != null && head.next == null))
+        if (head == null || head.next == null)
             return head;
 
         ListNode tmp = head;

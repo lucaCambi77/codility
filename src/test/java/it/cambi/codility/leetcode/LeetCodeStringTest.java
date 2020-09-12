@@ -58,6 +58,34 @@ public class LeetCodeStringTest {
             };
 
     @Test
+    public void isLongPressedName() {
+        assertEquals(true, isLongPressedName("alex", "aaleex"));
+        assertEquals(false, isLongPressedName("saeed", "ssaaedd"));
+        assertEquals(true, isLongPressedName("leelee", "lleeelee"));
+        assertEquals(true, isLongPressedName("laiden", "laiden"));
+        assertEquals(false, isLongPressedName("kikcxmvzi", "kiikcxxmmvvzz"));
+        assertEquals(false, isLongPressedName("dfuyalc", "fuuyallc"));
+    }
+
+    private boolean isLongPressedName(String name, String typed) {
+
+        int pointA = 0;
+        int pointB = 0;
+
+        while (pointA < name.length() && pointB < typed.length()) {
+            if (name.charAt(pointA) == typed.charAt(pointB)) {
+                pointA++;
+                pointB++;
+                continue;
+            } else if (name.charAt(pointA - 1 < 0 ? 0 : pointA - 1) == typed.charAt(pointB)) {
+                pointB++;
+            } else return false;
+        }
+
+        return name.charAt(name.length() - 1) == typed.charAt(typed.length() - 1);
+    }
+
+    @Test
     public void hammingDistance() {
 
         assertEquals(2, hammingDistance(1, 4));

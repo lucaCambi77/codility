@@ -945,5 +945,4 @@ public class Geeks4GeeksTree
             inOrderTrasv(root.right, list);
         }
     }
-
 }
