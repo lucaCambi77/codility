@@ -240,27 +240,15 @@ public class HackerRankLinkedListTest {
         }
     }
 
+    private void removeDuplicates(SinglyLinkedListNode node) {
+        SinglyLinkedListNode tmp = node;
 
-    private void removeDuplicates(SinglyLinkedListNode head2) {
-
-        // Solution
-        Set<Integer> seen = new HashSet<Integer>();
-
-        SinglyLinkedListNode head = head2;
-
-        int position = 0;
-        while (head != null) {
-            if (seen.contains(head.data)) {
-                head2 = deleteNodeAtPosition(position, head2);
-                position--;
-            }
-
-            seen.add(head.data);
-            position++;
-
-            head = head.next;
+        while (tmp.next != null) {
+            if (tmp.data == tmp.next.data)
+                tmp.next = tmp.next.next;
+            else
+                tmp = tmp.next;
         }
-
     }
 
     @Test
