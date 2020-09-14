@@ -2,9 +2,36 @@ package it.cambi.codility.interviewBit;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Stack;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InterviewBitBinarySearchTest {
+
+    @Test
+    public void validBSTfromPreorder() {
+        assertEquals(0, validBSTfromPreorder(new int[]{7, 7, 10, 10, 9, 5, 2, 8}));
+    }
+
+    public int validBSTfromPreorder(int[] A) {
+        Stack<Integer> s = new Stack<>();
+        int root = Integer.MIN_VALUE;
+
+        for (Integer a : A) {
+
+            if (a < root)
+                return 0;
+
+            while (!s.isEmpty() && s.peek() < a) {
+                root = s.peek();
+                s.pop();
+            }
+
+            s.push(a);
+
+        }
+        return 1;
+    }
 
     @Test
     public void searchBitonicArray() {

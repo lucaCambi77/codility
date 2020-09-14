@@ -36,6 +36,29 @@ public class InterviewBitArrayTest {
     }
 
     @Test
+    public void firstMissingPositive() {
+        assertEquals(3, firstMissingPositive(new int[]{1, 2, 0}));
+        assertEquals(2, firstMissingPositive(new int[]{3, 4, -1, 1}));
+        assertEquals(1, firstMissingPositive(new int[]{-8, -7, -6}));
+    }
+
+    public int firstMissingPositive(int[] A) {
+        Arrays.parallelSort(A);
+
+        int start = 1;
+
+        for (int i : A) {
+            if (i < start)
+                continue;
+            else if (i == start)
+                start++;
+            else return start;
+        }
+
+        return A[A.length - 1] < 0 ? 1 : start;
+    }
+
+    @Test
     public void prettyPrint() {
         assertEquals(new ArrayList<ArrayList<Integer>>() {{
             add(new ArrayList<>() {{
@@ -454,7 +477,7 @@ public class InterviewBitArrayTest {
         int[] output = new int[result.length()];
 
         for (int i = 0; i < result.length(); i++)
-            output[i] = Integer.valueOf(String.valueOf(result.charAt(i)));
+            output[i] = Integer.parseInt(String.valueOf(result.charAt(i)));
 
         return output;
     }
