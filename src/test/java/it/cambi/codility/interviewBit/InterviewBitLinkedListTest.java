@@ -2,10 +2,13 @@ package it.cambi.codility.interviewBit;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Stack;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class InterviewBitLinkedListTest {
+
 
     class ListNode {
         public int val;
@@ -18,6 +21,60 @@ public class InterviewBitLinkedListTest {
     }
 
     private ListNode listNode;
+
+    @Test
+    public void kReverseLinkedList() {
+
+        ListNode head = new ListNode(1);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(3);
+        head.next.next.next = new ListNode(4);
+        head.next.next.next.next = new ListNode(5);
+        head.next.next.next.next.next = new ListNode(6);
+
+        ListNode reversedList = kReverseLinkedList(head, 2, null);
+
+        ListNode sol = new ListNode(2);
+        sol.next = new ListNode(1);
+        sol.next.next = new ListNode(4);
+        sol.next.next.next = new ListNode(3);
+        sol.next.next.next.next = new ListNode(6);
+        sol.next.next.next.next.next = new ListNode(5);
+
+        assertEquals(true, areIdentical(sol, reversedList));
+
+    }
+
+    public ListNode kReverseLinkedList(ListNode listNode, int k, ListNode sol) {
+
+        if (listNode == null)
+            return sol;
+
+        int segm = k;
+
+        Stack<Integer> stack = new Stack<>();
+
+        while (listNode != null && segm-- > 0) {
+            stack.add(listNode.val);
+            listNode = listNode.next;
+        }
+
+        if (sol == null)
+            sol = new ListNode(stack.pop());
+
+        ListNode tmp1 = sol;
+
+        while (tmp1.next != null) {
+            tmp1 = tmp1.next;
+        }
+
+        while (!stack.isEmpty()) {
+            tmp1.next = new ListNode(stack.pop());
+            tmp1 = tmp1.next;
+        }
+
+        return kReverseLinkedList(listNode, k, sol);
+    }
 
     @Test
     public void removeDuplicatesFromSortedList() {
