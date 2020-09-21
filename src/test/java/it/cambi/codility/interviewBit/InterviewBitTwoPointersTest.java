@@ -10,6 +10,57 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class InterviewBitTwoPointersTest {
 
     @Test
+    public void removeDuplicates() {
+        assertEquals(2, removeDuplicates(Arrays.asList(1, 1, 2)));
+        assertEquals(4, removeDuplicates(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3)));
+    }
+
+    private int removeDuplicates(List<Integer> a) {
+        int pointer = 1;
+        int valueSoFar = a.get(0);
+
+        for (int i = 1; i < a.size(); i++) {
+
+            while (i < a.size() && a.get(i) == valueSoFar)
+                i++;
+
+            if (i == a.size()) {
+                a.set(pointer, valueSoFar);
+                break;
+            }
+
+            valueSoFar = a.get(i);
+            a.set(++pointer, valueSoFar);
+        }
+
+        return pointer;
+    }
+
+    @Test
+    public void countingSubArrays() {
+        assertEquals(4, countingSubArrays(new int[]{2, 5, 6}, 10));
+    }
+
+    private int countingSubArrays(int[] A, int B) {
+
+        int n = A.length;
+        int ans = 0, sum = 0;
+        int start = 0, end = 0;
+        while (end < n) {
+            if (sum + A[end] < B) {
+                sum += A[end];
+                ans += (end - start + 1);
+                end++;
+
+            } else {
+                sum -= A[start];
+                start++;
+            }
+        }
+        return ans;
+    }
+
+    @Test
     public void maxOneAfterModification() {
         assertEquals(4, maxOneAfterModification(new int[]{1, 0, 0, 1, 1, 0, 1}, 1));
         assertEquals(5, maxOneAfterModification(new int[]{1, 0, 0, 1, 0, 1, 0, 1, 0, 1}, 2));
