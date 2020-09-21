@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.model;
 
@@ -7,27 +7,25 @@ package it.cambi.codility.model;
  * @author luca
  *
  */
-public class BinaryTree
-{
+public class BinaryTree {
 
     private Node root;
 
-    public BinaryTree(int key)
-    {
+    public BinaryTree(int key) {
         root = new Node(key);
-    };
+    }
+
+    ;
 
     /*
      * Given a binary tree. Print its nodes in level order using array for implementing queue
      */
-    int size()
-    {
+    int size() {
         return size(root);
     }
 
     /* computes number of nodes in tree */
-    int size(Node node)
-    {
+    int size(Node node) {
         if (node == null)
             return 0;
         else
@@ -35,18 +33,15 @@ public class BinaryTree
     }
 
     // This method mainly calls insertRec()
-    void insert(int key)
-    {
+    void insert(int key) {
         root = insertRec(root, key);
     }
 
     /* A recursive function to insert a new key in BST */
-    Node insertRec(Node root, int key)
-    {
+    Node insertRec(Node root, int key) {
 
         /* If the tree is empty, return a new node */
-        if (root == null)
-        {
+        if (root == null) {
             root = new Node(key);
             return root;
         }
@@ -62,8 +57,7 @@ public class BinaryTree
     }
 
     // A utility function to search a given key in BST
-    public Node search(Node root, int key)
-    {
+    public Node search(Node root, int key) {
         // Base Cases: root is null or key is present at root
         if (root == null || root.data == key)
             return root;
@@ -77,87 +71,74 @@ public class BinaryTree
     }
 
     /**
-     * 
+     *
      */
-    public void inOrderTrasv()
-    {
+    public void inOrderTrasv() {
 
-        if (root != null)
-        {
+        if (root != null) {
             inOrderTrasv(root.left);
             System.out.println(root.data);
             inOrderTrasv(root.right);
         }
     }
 
-    private void inOrderTrasv(Node root)
-    {
+    private void inOrderTrasv(Node root) {
 
-        if (root != null)
-        {
+        if (root != null) {
             inOrderTrasv(root.left);
             System.out.println(root.data);
             inOrderTrasv(root.right);
         }
     }
 
-    public void preOrderTrasv()
-    {
+    public void preOrderTrasv() {
 
-        if (root != null)
-        {
+        if (root != null) {
             System.out.println(root.data);
             preOrderTrasv(root.left);
             preOrderTrasv(root.right);
         }
     }
 
-    private void preOrderTrasv(Node root)
-    {
+    private void preOrderTrasv(Node root) {
 
-        if (root != null)
-        {
+        if (root != null) {
             System.out.println(root.data);
             preOrderTrasv(root.left);
             preOrderTrasv(root.right);
         }
     }
 
-    public void postOrderTrasv()
-    {
+    public void postOrderTrasv() {
 
-        if (root != null)
-        {
+        if (root != null) {
             postOrderTrasv(root.left);
             postOrderTrasv(root.right);
             System.out.println(root.data);
         }
     }
 
-    private void postOrderTrasv(Node root)
-    {
+    private void postOrderTrasv(Node root) {
 
-        if (root != null)
-        {
+        if (root != null) {
             preOrderTrasv(root.left);
             preOrderTrasv(root.right);
             System.out.println(root.data);
         }
     }
 
-    public static Node getBSTExample()
-    {
+    public static Node getBSTExample() {
         Node root = new Node(50);
 
         Node left = new Node(30);
-        left.setRight(new Node(40));
         left.setLeft(new Node(20));
+        left.setRight(new Node(40));
 
         root.setLeft(left);
 
         Node right = new Node(70);
-        right.setRight(new Node(80));
         right.setLeft(new Node(60));
+        right.setRight(new Node(80));
 
         root.setRight(right);
         return root;
