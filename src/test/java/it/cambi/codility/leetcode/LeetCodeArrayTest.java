@@ -83,6 +83,60 @@ public class LeetCodeArrayTest {
     }
 
     @Test
+    public void threeConsecutiveOdds() {
+        assertEquals(false, threeConsecutiveOdds(new int[]{2, 6, 4, 1}));
+        assertEquals(true, threeConsecutiveOdds(new int[]{1, 2, 34, 3, 4, 5, 7, 23, 12}));
+        assertEquals(true, threeConsecutiveOdds(new int[]{1, 1, 1}));
+        assertEquals(true, threeConsecutiveOdds(new int[]{0, 1, 1, 1}));
+        assertEquals(false, threeConsecutiveOdds(new int[]{1}));
+    }
+
+    public boolean threeConsecutiveOdds(int[] arr) {
+
+        if (arr.length < 3)
+            return false;
+
+        if ((arr[0] & 1) == 1 && (arr[1] & 1) == 1 && (arr[2] & 1) == 1)
+            return true;
+
+        int i = 3;
+
+        while (i < arr.length) {
+            if ((arr[i] & 1) == 1 && (arr[i - 1] & 1) == 1 && (arr[i - 2] & 1) == 1)
+                return true;
+
+            i++;
+        }
+
+        return false;
+    }
+
+    @Test
+    public void countGoodTriplets() {
+        assertEquals(4, countGoodTriplets(new int[]{3, 0, 1, 1, 9, 7}, 7, 2, 3));
+    }
+
+    public int countGoodTriplets(int[] arr, int a, int b, int c) {
+
+        int count = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+
+            for (int j = i + 1; j < arr.length; j++) {
+
+                if (Math.abs(arr[i] - arr[j]) <= a) {
+                    for (int k = j + 1; k < arr.length; k++) {
+                        if (Math.abs(arr[j] - arr[k]) <= b && Math.abs(arr[i] - arr[k]) <= c)
+                            count++;
+                    }
+                }
+            }
+        }
+
+        return count;
+    }
+
+    @Test
     public void numIdenticalPairs() {
         assertEquals(4, numIdenticalPairs(new int[]{1, 2, 3, 1, 1, 3}));
         assertEquals(6, numIdenticalPairs(new int[]{1, 1, 1, 1}));
@@ -5107,15 +5161,13 @@ public class LeetCodeArrayTest {
     }
 
     private int removeDuplicates(int[] nums) {
-        LinkedList<Integer> b =
-                IntStream.of(nums).distinct().boxed().collect(Collectors.toCollection(LinkedList::new));
-        int size = b.size();
-
-        for (int i = 0; i < size; i++) {
-            nums[i] = b.poll();
+        int point = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] - nums[i - 1] == 1)
+                point++;
         }
 
-        return size;
+        return point;
     }
 
     @Test
