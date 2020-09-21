@@ -17,20 +17,18 @@ public class InterviewBitTwoPointersTest {
 
     private int removeDuplicates(List<Integer> a) {
         int pointer = 1;
-        int valueSoFar = a.get(0);
 
         for (int i = 1; i < a.size(); i++) {
 
-            while (i < a.size() && a.get(i) == valueSoFar)
+            while (i < a.size() && a.get(i) == a.get(pointer - 1))
                 i++;
 
             if (i == a.size()) {
-                a.set(pointer, valueSoFar);
+                a.set(pointer, a.get(pointer));
                 break;
             }
 
-            valueSoFar = a.get(i);
-            a.set(++pointer, valueSoFar);
+            a.set(pointer++, a.get(i));
         }
 
         return pointer;
