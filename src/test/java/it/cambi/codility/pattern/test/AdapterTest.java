@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.pattern.test;
 
@@ -13,12 +13,10 @@ import org.junit.jupiter.api.Test;
  * @author luca
  *
  */
-public class AdapterTest
-{
+public class AdapterTest {
 
     @Test
-    public void shapeAdapterTest()
-    {
+    public void shapeAdapterTest() {
 
         System.out.println("Creating drawing of shapes...");
 
