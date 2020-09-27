@@ -129,8 +129,7 @@ public class Codility {
     assertEquals(2, binaryGap(328));
   }
 
-  @Test
-  public int binaryGap(int input) {
+  private int binaryGap(int input) {
 
     String binary = Integer.toBinaryString(input);
 
@@ -161,35 +160,22 @@ public class Codility {
    */
   @Test
   public void oddOccurrences() {
-    log.info("********************************************************");
-    log.info(
-        "Sono in -------------------> "
-            + new Object() {}.getClass().getEnclosingMethod().getName());
+    assertEquals(7, oddOccurrences(new int[] {9, 3, 9, 3, 9, 7, 9, 1, 1}));
+    assertEquals(9, oddOccurrences(new int[] {9, 3, 9, 3, 9, 7, 7, 1, 1}));
+    assertEquals(7, oddOccurrences(new int[] {9, 3, 9, 3, 9, 7, 7, 7, 1, 1}));
+    assertEquals(1, oddOccurrences(new int[] {9, 3, 9, 3, 9, 7, 7, 7, 7, 1}));
+  }
 
-    int[] A = {9, 3, 9, 3, 9, 7, 9, 1, 1};
+  private int oddOccurrences(int[] A) {
 
-    int unpaired;
-    unpaired = A[0]; // initial
+    Arrays.sort(A);
 
     for (int i = 1; i < A.length; i++) {
-      unpaired = unpaired ^ A[i]; // xor
-
-      System.out.println(unpaired);
+      if (A[i] != A[i - 1]) return A[i - 1];
+      i++;
     }
 
-    Map<Integer, Integer> map = new HashMap<>();
-
-    for (int i = 0; i < A.length; i++) {
-      if (map.get(A[i]) == null) {
-
-        map.put(A[i], 1);
-        continue;
-      }
-
-      map.remove(A[i]);
-    }
-
-    System.out.println(map.entrySet().iterator().next().getKey());
+    return A[A.length - 1];
   }
 
   /**
@@ -207,7 +193,7 @@ public class Codility {
   }
 
   @Test
-  public int[] rotateArray(int[] array) {
+  private int[] rotateArray(int[] array) {
     int k = 2;
 
     int arrayLength = array.length;
