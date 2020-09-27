@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.pattern.adapter;
 
@@ -9,41 +9,37 @@ import it.cambi.codility.pattern.Shape;
  * @author luca
  *
  */
-public class RhombusAdapter extends GeometricShapeAdapter<Rhombus> implements Shape
-{
+public class RhombusAdapter extends Rhombus implements Shape {
 
-    public RhombusAdapter()
-    {
+    public RhombusAdapter() {
+        super();
+    }
 
-        super(new Rhombus());
+    public RhombusAdapter(double a, double b) {
+        super(a, b);
     }
 
     @Override
-    public void draw()
-    {
+    public void draw() {
 
-        getAdaptee().drawShape();
+        super.drawShape();
 
     }
 
     @Override
-    public void resize()
-    {
-
-        super.resize();
+    public void resize() {
+        System.out.println("Rhombus can't be resized. Please create new one with required values.");
     }
 
     @Override
-    public String getDescription()
-    {
+    public String getDescription() {
 
         return "Rhombus object";
 
     }
 
     @Override
-    public boolean isHide()
-    {
+    public boolean isHide() {
 
         return false;
 

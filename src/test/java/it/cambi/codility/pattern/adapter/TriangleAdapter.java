@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.pattern.adapter;
 
@@ -9,41 +9,38 @@ import it.cambi.codility.pattern.Shape;
  * @author luca
  *
  */
-public class TriangleAdapter extends GeometricShapeAdapter<Triangle> implements Shape
-{
+public class TriangleAdapter extends Triangle implements Shape {
 
-    public TriangleAdapter()
-    {
+    public TriangleAdapter() {
+        super();
+    }
 
-        super(new Triangle());
+    public TriangleAdapter(double a, double b, double c) {
+
+        super(a, b, c);
     }
 
     @Override
-    public void draw()
-    {
+    public void draw() {
 
-        getAdaptee().drawShape();
+        super.drawShape();
 
     }
 
     @Override
-    public void resize()
-    {
-
-        super.resize();
+    public void resize() {
+        System.out.println("Triangle can't be resized. Please create new one with required values.");
     }
 
     @Override
-    public String getDescription()
-    {
+    public String getDescription() {
 
         return "Triangle object";
 
     }
 
     @Override
-    public boolean isHide()
-    {
+    public boolean isHide() {
 
         return false;
 

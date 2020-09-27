@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.pattern;
 
@@ -10,62 +10,36 @@ import java.util.List;
  * @author luca
  *
  */
-public class Drawing
-{
+public class Drawing {
 
-    List<Shape> shapes = new ArrayList<Shape>();
+    List<Shape> shapes = new ArrayList<>();
 
-    public Drawing()
-    {
+    public Drawing() {
 
         super();
 
     }
 
-    public void addShape(Shape shape)
-    {
+    public void addShape(Shape shape) {
 
         shapes.add(shape);
 
     }
 
-    public List<Shape> getShapes()
-    {
+    public void draw() {
 
-        return new ArrayList<Shape>(shapes);
-
-    }
-
-    public void draw()
-    {
-
-        if (shapes.isEmpty())
-        {
-
+        if (shapes.isEmpty()) {
             System.out.println("Nothing to draw!");
-
-        }
-        else
-        {
-
+        } else {
             shapes.stream().forEach(shape -> shape.draw());
-
         }
-
     }
 
-    public void resize()
-    {
+    public void resize() {
 
-        if (shapes.isEmpty())
-        {
-
+        if (shapes.isEmpty()) {
             System.out.println("Nothing to resize!");
-
-        }
-        else
-        {
-
+        } else {
             shapes.stream().forEach(shape -> shape.resize());
 
         }
