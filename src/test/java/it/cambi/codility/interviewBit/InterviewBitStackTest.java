@@ -2,10 +2,9 @@ package it.cambi.codility.interviewBit;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InterviewBitStackTest {
@@ -19,6 +18,69 @@ public class InterviewBitStackTest {
             this.value = value;
         }
     }
+
+    @Test
+    public void prevSmaller() {
+        assertArrayEquals(new int[]{-1, 4, -1, 2, 2}, prevSmaller(new int[]{4, 5, 2, 10, 8}));
+        assertArrayEquals(new int[]{-1, 34, -1, 27, -1, 5, 28, 5, 20}, prevSmaller(new int[]{34, 35, 27, 42, 5, 28, 39, 20, 28}));
+        assertArrayEquals(new int[]{-1, -1, -1, -1, 4, 24, 24, -1}, prevSmaller(new int[]{39, 27, 11, 4, 24, 32, 32, 1}));
+    }
+
+    public int[] prevSmaller(int[] A) {
+        int[] sol = new int[A.length];
+
+        Stack<Integer> stack = new Stack<>();
+
+        for (int i = 0; i < A.length; i++) {
+
+            while (!stack.isEmpty() && stack.peek() >= A[i])
+                stack.pop();
+
+            sol[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(A[i]);
+        }
+
+        return sol;
+    }
+
+
+    @Test
+    public void evalRPN() {
+        assertEquals(9, evalRPN(Arrays.asList("2", "1", "+", "3", "*")));
+    }
+
+    @Test
+    public int evalRPN(List<String> list) {
+        Stack<String> stack = new Stack<>();
+        for (String s : list)
+            if (s.matches("\\*|/|\\+|-|") && !stack.empty()) {
+                int ele2 = Integer.parseInt(stack.pop());
+                int ele1 = Integer.parseInt(stack.pop());
+                int ans;
+
+                switch (s) {
+                    case "+":
+                        ans = ele1 + ele2;
+                        break;
+                    case "-":
+                        ans = ele1 - ele2;
+                        break;
+                    case "*":
+                        ans = ele1 * ele2;
+                        break;
+                    default:
+                        ans = ele1 / ele2;
+                        break;
+                }
+
+                stack.push(Integer.toString(ans));
+            } else {
+                stack.add(s);
+            }
+
+        return Integer.parseInt(stack.peek());
+    }
+
 
     @Test
     public void maxSpecialProduct() {
