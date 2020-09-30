@@ -1540,13 +1540,14 @@ public class LeetCodeStringTest {
         assertEquals(true, canArrangePalindrome("acbcca"));
         assertEquals(true, canArrangePalindrome("aba"));
         assertEquals(false, canArrangePalindrome("abc"));
+        assertEquals(true, canArrangePalindrome("abccba"));
     }
 
     private boolean canArrangePalindrome(String palindromeString) {
-        return isPalindrome(palindromeString, 0);
+        return isAlmostPalindrome(palindromeString, 0);
     }
 
-    private static boolean isPalindrome(String palindromeString, int count) {
+    private boolean isAlmostPalindrome(String palindromeString, int count) {
 
         int lengthOf = palindromeString.length();
         int middlePoint = ((lengthOf & 1) == 1) ? lengthOf / 2 : (lengthOf + 1) / 2;
@@ -1561,8 +1562,8 @@ public class LeetCodeStringTest {
                         palindromeString.substring(0, lengthOf - i - 1)
                                 + palindromeString.substring(lengthOf - i - 1 + 1);
 
-                boolean isS1 = isPalindrome(s1, 1);
-                boolean isS2 = isPalindrome(s2, 1);
+                boolean isS1 = isAlmostPalindrome(s1, 1);
+                boolean isS2 = isAlmostPalindrome(s2, 1);
 
                 return isS1 || isS2;
             }
