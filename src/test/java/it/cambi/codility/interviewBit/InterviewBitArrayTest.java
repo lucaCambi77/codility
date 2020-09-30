@@ -35,6 +35,78 @@ public class InterviewBitArrayTest {
     }
 
     @Test
+    public void maxset() {
+        assertArrayEquals(new int[]{1, 2, 5}, maxset(new int[]{1, 2, 5, -7, 2, 3}));
+        assertArrayEquals(new int[]{2, 3, 9}, maxset(new int[]{1, 2, 5, -7, 2, 3, 9}));
+        assertArrayEquals(new int[]{1, 2, 5}, maxset(new int[]{1, 2, 5, -7, 2, 3, 3}));
+        assertArrayEquals(new int[]{2, 3, 2, 1}, maxset(new int[]{1, 2, 5, -7, 2, 3, 2, 1}));
+        assertArrayEquals(new int[]{1967513926, 1540383426}, maxset(new int[]{1967513926, 1540383426, -1303455736, -521595368}));
+    }
+
+    public int[] maxset(int[] A) {
+
+        LinkedList<Integer> result = new LinkedList<>();
+        LinkedList<Integer> resultTmp = new LinkedList<>();
+        long sum = 0;
+        long sumTmp = 0;
+        for (int i = 0; i < A.length; i++) {
+
+            if (A[i] >= 0) {
+                resultTmp.add(A[i]);
+                sumTmp += A[i];
+            } else if (resultTmp.size() > 0) {
+
+                if (sum < sumTmp || (sum == sumTmp && resultTmp.size() > result.size())) {
+                    sum = sumTmp;
+                    result = new LinkedList<>(resultTmp);
+                }
+
+                resultTmp.clear();
+                sumTmp = 0;
+            }
+        }
+
+        if (sum < sumTmp || (sum == sumTmp && resultTmp.size() > result.size()))
+            return resultTmp.stream().mapToInt(i -> i).toArray();
+
+        return result.stream().mapToInt(i -> i).toArray();
+    }
+
+    /*
+     * Move to BairesDev company
+     * */
+    @Test
+    public void mostFrequent() {
+
+        assertEquals(34, mostFrequent(new int[]{34, 31, 34, 77, 82}, 5));
+        assertEquals(66, mostFrequent(new int[]{66}, 1));
+        assertEquals(101, mostFrequent(new int[]{22, 101, 102, 101, 102, 525, 88}, 7));
+        assertEquals(102, mostFrequent(new int[]{22, 102, 102, 101, 101, 102, 102}, 7));
+    }
+
+    private int mostFrequent(int[] array, int value) {
+
+        Arrays.sort(array);
+
+        int countTmp = 1;
+        int compare = array[0];
+        int count = 0;
+        for (int i = 1; i < value; i++) {
+            if (array[i] == array[i - 1])
+                countTmp++;
+            else {
+                if (countTmp > count) {
+                    count = countTmp;
+                    countTmp = 1;
+                    compare = array[i - 1];
+                }
+            }
+        }
+
+        return countTmp > count ? array[value - 1] : compare;
+    }
+
+    @Test
     public void firstMissingPositive() {
         assertEquals(3, firstMissingPositive(new int[]{1, 2, 0}));
         assertEquals(2, firstMissingPositive(new int[]{3, 4, -1, 1}));
