@@ -10,6 +10,58 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class InterviewBitMapTest {
 
     @Test
+    public void longestSubarrayLenght() {
+        assertEquals(5, longestSubarrayLength(new int[]{0, 1, 1, 0, 0, 1}));
+        assertEquals(1, longestSubarrayLength(new int[]{1, 0, 0, 1, 0}));
+        assertEquals(11, longestSubarrayLength(new int[]{0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1}));
+    }
+
+    private int longestSubarrayLength(int[] arr) {
+        int n = arr.length;
+        Map<Integer, Integer> um = new HashMap<>();
+        int sum = 0, maxLen = 0;
+
+        for (int i = 0; i < n; i++) {
+
+            // consider '0' as '-1'
+            sum += arr[i] == 0 ? -1 : 1;
+
+            // when subarray starts from index '0'
+            if (sum == 1)
+                maxLen = i + 1;
+            else um.putIfAbsent(sum, i);
+
+            // check if 'sum-1' is present in 'um' or not
+            if (um.get(sum - 1) != null) {
+                // update maxLength
+                if (maxLen < (i - um.get(sum - 1)))
+                    maxLen = i - um.get(sum - 1);
+            }
+        }
+
+        return maxLen;
+    }
+
+    @Test
+    public void twoSum() {
+        assertArrayEquals(new int[]{1, 2}, twoSum(new int[]{2, 7, 11, 15}, 9));
+        assertArrayEquals(new int[]{4, 8}, twoSum(new int[]{4, 7, -4, 2, 2, 2, 3, -5, -3, 9, -4, 9, -7, 7, -1, 9, 9, 4, 1, -4, -2, 3, -3, -5, 4, -7, 7, 9, -4, 4, -8}, -3));
+        assertArrayEquals(new int[]{1, 2}, twoSum(new int[]{1, 1, 1}, 2));
+        assertArrayEquals(new int[]{3, 4}, twoSum(new int[]{10, -3, 5, -7, -4, 5, 6, -7, 8, -5, 8, 0, 8, -5, -10, -1, 1, -6, 4, -1, -2, -2, 10, -2, -4, -7, 5, 1, 7, -10, 0, 5, 8, 6, -8, 8, -8, -8, 3, -9, -10, -5, -5, -10, 10, -4, 8, 0, -6, -2, 3, 7, -5, 5, 1, -7, 0, -5, 1, -3, 10, -4, -3, 3, 3, 5, 1, -2, -6, 3, -4, 10, -10, -3, -8, 2, -2, -3, 0, 10, -6, -8, -10, 6, 7, 0, 3, 9, -10, -7, 8, -7, -7}, -2));
+        assertArrayEquals(new int[]{4, 5}, twoSum(new int[]{9, -8, -10, -7, 7, -8, 2, -7, 4, 7, 0, -3, -4, -5, -1, -4, 5, 8, 1, 9, -2, 5, 10, -5, -7, -1, -6, 4, 1, -5, 3, 8, -4, -10, -9, -3, 10, 0, 7, 9, -8, 10, -9, 7, 8, 0, 6, -6, -7, 6, -4, 2, 0, 10, 1, -2, 5, -2}, 0));
+        assertArrayEquals(new int[]{10, 15}, twoSum(new int[]{-7, 7, -10, 6, -3, -10, 9, 1, 10, 5, 6, 7, -3, 9, 0, -5, 5, 8, -6, -10, 10, -4, -7, 7, 2, -5, 5, -7, -7, 8, 5, -3, 5, 10, 10, -8, -2, -3, -2, -2, -7, 8, -7, 1, -2, -8, -10, -5, -5}, 5));
+    }
+
+    public int[] twoSum(final int[] A, int B) {
+        Map<Integer, Integer> v = new HashMap<>();
+        for (int i = 0; i < A.length; i++) {
+            if (v.get(B - A[i]) != null) return new int[]{v.get(B - A[i]), i + 1};
+            v.putIfAbsent(A[i], i + 1);
+        }
+        return new int[]{};
+    }
+
+    @Test
     public void colorful() {
         assertEquals(1, colorful(2345));
         assertEquals(1, colorful1(2345));
