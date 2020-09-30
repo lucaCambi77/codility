@@ -314,50 +314,44 @@ public class Codility {
    */
   @Test
   public void permCheck() {
-    log.info("********************************************************");
-    log.info(
-        "Sono in -------------------> "
-            + new Object() {}.getClass().getEnclosingMethod().getName());
 
-    int[] A = {4, 3, 1, 2};
-    // int[] A = { 1, 1 };
+    assertEquals(1, permCheck(new int[] {4, 3, 1, 2}));
+    assertEquals(0, permCheck(new int[] {4, 3, 1}));
+  }
 
-    Set<Integer> set = new HashSet<Integer>();
+  private int permCheck(int[] A) {
 
-    for (int i = 0; i < A.length; i++) {
-      set.add(A[i]);
-    }
+    Set<Integer> set = new HashSet<>();
 
-    // check if "all" the elements from "1 to A.length" appeared
-    for (int i = 1; i <= A.length; i++) {
-      if (!set.contains(i)) return; // 0; // not a permutation (A[i] is missing)
-    }
+    for (int i = 0; i < A.length; i++) set.add(A[i]);
 
-    // if it contains all the elements (from "1 to A.length")
-    // then, "yes"
-    return; // 1;
+    for (int i = 1; i <= A.length; i++) if (!set.contains(i)) return 0;
+
+    return 1;
   }
 
   @Test
   public void frogRiverOne() {
 
-    int X = 3; // leaves
+    assertEquals(4, frogRiverOne(new int[] {1, 3, 1, 3, 2, 1, 3}, 3));
+    assertEquals(6, frogRiverOne(new int[] {1, 3, 1, 4, 2, 3, 5, 4}, 5));
+    assertEquals(-1, frogRiverOne(new int[] {1, 3, 1, 4, 3, 5, 4}, 5));
+    assertEquals(7, frogRiverOne(new int[] {1, 3, 1, 4, 3, 5, 1, 2}, 5));
+  }
 
-    int[] A = {1, 3, 1, 3, 2, 1, 3};
+  private int frogRiverOne(int[] A, int X) {
 
     Set<Integer> leaves = new HashSet<>();
-
-    for (int i = 1; i <= X; i++) {
-      leaves.add(i);
-    }
+    int count = 0;
 
     for (int i = 0; i < A.length; i++) {
-      if (leaves.contains(A[i])) leaves.remove(A[i]);
-
-      if (leaves.isEmpty()) return; // i;
+      if (leaves.add(A[i])) {
+        count += A[i];
+        if ((X * (X + 1)) / 2 == count) return i;
+      }
     }
 
-    return; // -1;
+    return -1;
   }
 
   @Test
