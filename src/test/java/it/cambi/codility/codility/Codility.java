@@ -385,24 +385,27 @@ public class Codility {
   public void minAvgTwoSlice() {
 
     assertEquals(2, minAvgTwoSlice(new int[] {-3, -5, -8, -4, -10}));
+    assertEquals(1, minAvgTwoSlice(new int[] {4, 2, 2, 5, 1, 5, 8}));
+    // {-8, -16, -20, -30}
   }
 
   public int minAvgTwoSlice(int[] A) {
-    int minIndex = A.length;
-    double minAvg = Integer.MAX_VALUE;
-    for (int i = 0; i < A.length; i++) {
-      int sum = A[i];
+    int min_idx = 0;
+    double min_value = 10001;
 
-      for (int j = i - 1; j >= 0; j--) {
-        sum += A[j];
-        double avg = (double) sum / (i - j + 1);
-        if (avg < minAvg) {
-          minAvg = avg;
-          minIndex = j;
-        }
+    for (int idx = 0; idx < A.length - 1; idx++) {
+      if ((A[idx] + A[idx + 1]) / 2.0 < min_value) {
+        min_idx = idx;
+        min_value = (A[idx] + A[idx + 1]) / 2.0;
+      }
+
+      if (idx < A.length - 2 && (A[idx] + A[idx + 1] + A[idx + 2]) / 3.0 < min_value) {
+        min_idx = idx;
+        min_value = (A[idx] + A[idx + 1] + A[idx + 2]) / 3.0;
       }
     }
-    return minIndex;
+
+    return min_idx;
   }
 
   @Test
