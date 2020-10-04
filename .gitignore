@@ -38,3 +38,4 @@ src/test/java/it/cambi/codility/company/
 ### Gradle ###
 .gradle
 **/build/
+bin/
