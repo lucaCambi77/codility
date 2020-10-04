@@ -53,12 +53,51 @@ public class InterviewBitArrayTest {
     }
 
     @Test
+    public void pascaleTriangle() {
+
+        assertArrayEquals(new int[][]{}, pascalTriangle(0));
+        assertArrayEquals(new int[][]{{1}}, pascalTriangle(1));
+        assertArrayEquals(new int[][]{{1}, {1, 1}}, pascalTriangle(2));
+        assertArrayEquals(new int[][]{{1}, {1, 1}, {1, 2, 1}}, pascalTriangle(3));
+        assertArrayEquals(new int[][]{{1}, {1, 1}, {1, 2, 1}, {1, 3, 3, 1}}, pascalTriangle(4));
+        assertArrayEquals(
+                new int[][]{{1}, {1, 1}, {1, 2, 1}, {1, 3, 3, 1}, {1, 4, 6, 4, 1}}, pascalTriangle(5));
+        assertArrayEquals(
+                new int[][]{{1}, {1, 1}, {1, 2, 1}, {1, 3, 3, 1}, {1, 4, 6, 4, 1}, {1, 5, 10, 10, 5, 1}},
+                pascalTriangle(6));
+    }
+
+    public int[][] pascalTriangle(int A) {
+
+        if (A == 0) return new int[][]{};
+
+        int[][] triangle = new int[A][];
+        triangle[0] = new int[]{1};
+
+        int i = 1;
+        while (i < A) {
+            int[] row = triangle[i - 1];
+            int[] sol = new int[i + 1];
+            sol[0] = 1;
+            sol[sol.length - 1] = 1;
+
+            for (int j = 0; j < sol.length - 2; j++) sol[j + 1] = row[j] + row[j + 1];
+
+            triangle[i++] = sol;
+        }
+
+        return triangle;
+    }
+
+    @Test
     public void maxset() {
         assertArrayEquals(new int[]{1, 2, 5}, maxset(new int[]{1, 2, 5, -7, 2, 3}));
         assertArrayEquals(new int[]{2, 3, 9}, maxset(new int[]{1, 2, 5, -7, 2, 3, 9}));
         assertArrayEquals(new int[]{1, 2, 5}, maxset(new int[]{1, 2, 5, -7, 2, 3, 3}));
         assertArrayEquals(new int[]{2, 3, 2, 1}, maxset(new int[]{1, 2, 5, -7, 2, 3, 2, 1}));
-        assertArrayEquals(new int[]{1967513926, 1540383426}, maxset(new int[]{1967513926, 1540383426, -1303455736, -521595368}));
+        assertArrayEquals(
+                new int[]{1967513926, 1540383426},
+                maxset(new int[]{1967513926, 1540383426, -1303455736, -521595368}));
     }
 
     public int[] maxset(int[] A) {
@@ -110,8 +149,7 @@ public class InterviewBitArrayTest {
         int compare = array[0];
         int count = 0;
         for (int i = 1; i < value; i++) {
-            if (array[i] == array[i - 1])
-                countTmp++;
+            if (array[i] == array[i - 1]) countTmp++;
             else {
                 if (countTmp > count) {
                     count = countTmp;
@@ -137,10 +175,8 @@ public class InterviewBitArrayTest {
         int start = 1;
 
         for (int i : A) {
-            if (i < start)
-                continue;
-            else if (i == start)
-                start++;
+            if (i < start) continue;
+            else if (i == start) start++;
             else return start;
         }
 
@@ -149,23 +185,36 @@ public class InterviewBitArrayTest {
 
     @Test
     public void prettyPrint() {
-        assertEquals(new ArrayList<ArrayList<Integer>>() {{
-            add(new ArrayList<>() {{
-                add(2);
-                add(2);
-                add(2);
-            }});
-            add(new ArrayList<>() {{
-                add(2);
-                add(1);
-                add(2);
-            }});
-            add(new ArrayList<>() {{
-                add(2);
-                add(2);
-                add(2);
-            }});
-        }}, prettyPrint(2));
+        assertEquals(
+                new ArrayList<ArrayList<Integer>>() {
+                    {
+                        add(
+                                new ArrayList<>() {
+                                    {
+                                        add(2);
+                                        add(2);
+                                        add(2);
+                                    }
+                                });
+                        add(
+                                new ArrayList<>() {
+                                    {
+                                        add(2);
+                                        add(1);
+                                        add(2);
+                                    }
+                                });
+                        add(
+                                new ArrayList<>() {
+                                    {
+                                        add(2);
+                                        add(2);
+                                        add(2);
+                                    }
+                                });
+                    }
+                },
+                prettyPrint(2));
     }
 
     private ArrayList<ArrayList<Integer>> prettyPrint(int n) {
@@ -400,7 +449,7 @@ public class InterviewBitArrayTest {
         return split[split.length - 1].length();
     }
 
-    public int[] solve(int[] A) {
+    public int[] pascalTriangle(int[] A) {
         // 2 pointers
         // LHS pointer on last negatuve number
         // RHS pointer on fotst positive number
