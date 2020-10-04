@@ -35,6 +35,24 @@ public class InterviewBitArrayTest {
     }
 
     @Test
+    public void wave() {
+        assertArrayEquals(new int[]{2, 1, 4, 3}, wave(new int[]{1, 2, 3, 4}));
+    }
+
+    public int[] wave(int[] A) {
+
+        Arrays.sort(A);
+
+        for (int i = 0; i < A.length - 1; i += 2) {
+            int tmp = A[i];
+            A[i] = A[i + 1];
+            A[i + 1] = tmp;
+        }
+
+        return A;
+    }
+
+    @Test
     public void maxset() {
         assertArrayEquals(new int[]{1, 2, 5}, maxset(new int[]{1, 2, 5, -7, 2, 3}));
         assertArrayEquals(new int[]{2, 3, 9}, maxset(new int[]{1, 2, 5, -7, 2, 3, 9}));
