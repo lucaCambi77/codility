@@ -37,22 +37,22 @@ public class CodeByteChallenge {
   }
 
   private String wordSplit(String[] strArr) {
-    String a1 = strArr[0];
+    String word = strArr[0];
 
     Set<String> words = Arrays.stream(strArr[1].split(",")).collect(Collectors.toSet());
 
     int l = 1;
     StringBuilder sol = new StringBuilder();
 
-    while (l < a1.length()) {
+    while (l < word.length()) {
 
-      String left = a1.substring(0, l);
+      String left = word.substring(0, l);
       if (words.contains(left)) sol.append(left).append(",");
 
-      String right = a1.substring(l);
+      String right = word.substring(l);
       if (words.contains(right)) sol.append(right);
 
-      if (sol.length() < a1.length()) {
+      if (sol.length() < word.length()) {
         sol = new StringBuilder();
         l++;
       } else {
