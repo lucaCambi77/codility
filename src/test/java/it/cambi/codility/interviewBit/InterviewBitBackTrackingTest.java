@@ -2,9 +2,88 @@ package it.cambi.codility.interviewBit;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InterviewBitBackTrackingTest {
+
+  private Map<Character, String> digitToCharMap =
+      new HashMap<>() {
+        {
+          put('0', "0");
+          put('1', "1");
+          put('2', "abc");
+          put('3', "def");
+          put('4', "ghi");
+          put('5', "jkl");
+          put('6', "mno");
+          put('7', "pqrs");
+          put('8', "tuv");
+          put('9', "wxyz");
+        }
+      };
+
+  @Test
+  public void letterCombinations() {
+    String A = "23";
+    List<String> res = new ArrayList<>();
+    findWords(A, digitToCharMap, res, "", A.length());
+    Collections.sort(res);
+
+    assertArrayEquals(
+        new String[] {"ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"},
+        res.stream().toArray(String[]::new));
+  }
+
+  private void findWords(
+      String str, Map<Character, String> map, List<String> res, String subset, int size) {
+    if (subset.length() == size) {
+      res.add(subset);
+      return;
+    }
+
+    int i = 0;
+    char c = str.charAt(0);
+    while (i < map.get(c).length()) {
+      String subsetTmp = subset;
+      subset = subset + map.get(c).charAt(i);
+
+      findWords(str.substring(1), map, res, subset, size);
+
+      subset = subsetTmp;
+
+      i++;
+    }
+  }
+
+  @Test
+  public void Mod() {
+    assertEquals(2, modularExpression(2, 3, 3));
+    assertEquals(19, modularExpression(-1, 1, 20));
+    assertEquals(1, modularExpression(2132, 0, 12));
+    assertEquals(20805472, modularExpression(71045970, 41535484, 64735492));
+  }
+
+  private int modularExpression(int A, int B, int C) {
+
+    if (A == 0) return 0;
+    if (A < 0) {
+      A = (A % C + C) % C;
+    }
+    return (int) power(A, B, C);
+  }
+
+  private long power(int a, int b, int c) {
+
+    if (b == 0) return 1;
+    if (b == 1) return a % c;
+
+    long res = power(a, b / 2, c) % c;
+    if (b % 2 == 0) return (res * res) % c;
+    return ((res * res) % c * (a % c)) % c;
+  }
 
   private String sol = "";
 
