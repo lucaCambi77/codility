@@ -6,7 +6,6 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -99,6 +98,44 @@ public class LeetCodeArrayTest1 {
       lastPosition = next.freq;
       return currentValue;
     }
+  }
+
+  @Test
+  public void reformat() {
+    assertEquals("0c1b2a", reformat("a0b1c2"));
+    assertEquals("", reformat("leetcode"));
+    assertEquals("", reformat("1229857369"));
+    assertEquals("c0v1o2i9d", reformat("covid2019"));
+    assertEquals("1b2a3", reformat("ab123"));
+  }
+
+  private String reformat(String s) {
+
+    char[] chars = s.toCharArray();
+    Arrays.parallelSort(chars);
+    int countAlpha = 0, countDigit = 0;
+
+    for (char c : chars) {
+      if (c >= 48 && c <= 57) countDigit++;
+      else countAlpha++;
+    }
+
+    if (countAlpha - countDigit > 1 || countAlpha - countDigit < -1) return "";
+
+    StringBuilder builder = new StringBuilder();
+
+    for (int i = chars.length - 1; i >= chars.length / 2; i--) {
+
+      if ((chars.length & 1) == 1 && i == chars.length / 2 && countDigit > countAlpha) {
+      } else if ((chars.length & 1) == 1 && i == chars.length / 2 && countDigit < countAlpha) {
+        builder.insert(0, chars[chars.length - 1 - i]);
+        break;
+      } else builder.append(chars[chars.length - 1 - i]);
+
+      builder.append(chars[i]);
+    }
+
+    return builder.toString();
   }
 
   @Test
