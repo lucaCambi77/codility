@@ -9,6 +9,42 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InterviewBitBackTrackingTest {
 
+  @Test
+  public void permute() {
+    int[] input = new int[] {1, 2, 3};
+    List<int[]> list = permute(input, 0, input.length - 1, new ArrayList<>());
+
+    int[][] result = new int[list.size()][];
+    for (int i = 0; i < list.size(); i++) {
+      result[i] = list.get(i);
+    }
+
+    assertArrayEquals(
+        new int[][] {{1, 2, 3}, {1, 3, 2}, {2, 1, 3}, {2, 3, 1}, {3, 2, 1}, {3, 1, 2}}, result);
+  }
+
+  private List<int[]> permute(int[] A, int l, int r, List<int[]> list) {
+
+    if (l == r) {
+      list.add(A);
+    } else {
+      for (int i = l; i <= r; i++) {
+        swapArray(A, l, i);
+        permute(A.clone(), l + 1, r, list);
+        swapArray(A, l, i);
+      }
+    }
+
+    return list;
+  }
+
+  private void swapArray(int[] array, int i, int j) {
+    int temp;
+    temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+
   private Map<Character, String> digitToCharMap =
       new HashMap<>() {
         {
