@@ -14,6 +14,35 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class LeetCodeHashMapTest {
 
   @Test
+  public void numSplits() {
+    assertEquals(2, numSplits("aacaba"));
+    assertEquals(1, numSplits("abcd"));
+    assertEquals(4, numSplits("aaaaa"));
+    assertEquals(2, numSplits("acbadbaada"));
+  }
+
+  public int numSplits(String s) {
+
+    Map<Character, Long> freqLeft = new HashMap<>();
+    Map<Character, Long> freqRight = new HashMap<>();
+
+    for (char c : s.toCharArray()) {
+      freqRight.put(c, freqRight.getOrDefault(c, 0L) + 1);
+    }
+
+    int sol = 0;
+    for (char c : s.toCharArray()) {
+      freqLeft.put(c, freqLeft.getOrDefault(c, 0L) + 1);
+      freqRight.put(c, freqRight.getOrDefault(c, 0L) - 1);
+
+      if (freqLeft.values().stream().filter(v -> v > 0).count()
+          == freqRight.values().stream().filter(v -> v > 0).count()) sol++;
+    }
+
+    return sol;
+  }
+
+  @Test
   public void isIsomorphic() {
 
     assertEquals(true, isIsomorphic("egg", "add"));
