@@ -33,7 +33,6 @@ public class EqualsTest {
 		DataKey dk = new DataKey();
 		dk.setId(1);
 		dk.setName("Pankaj");
-		System.out.println(dk.hashCode());
 
 		Integer value = hm.get(dk);
 
@@ -46,7 +45,6 @@ public class EqualsTest {
 		DataKey dk = new DataKey();
 		dk.setId(1);
 		dk.setName("Pankaj");
-		System.out.println(dk.hashCode());
 
 		hm.put(dk, 10);
 
@@ -97,7 +95,6 @@ public class EqualsTest {
 
 		dk.setId(1);
 		dk.setName("Pankaj");
-		System.out.println(dk.hashCode());
 
 		Integer value = hm.get(dk);
 
@@ -140,7 +137,6 @@ public class EqualsTest {
 
 		dk.setId(1);
 		dk.setName("Pankaj");
-		System.out.println(dk.hashCode());
 
 		hm.put(dk, 10);
 
@@ -160,7 +156,6 @@ public class EqualsTest {
 		DataKeyEquals dk = new DataKeyEquals();
 		dk.setId(1);
 		dk.setName("Pankaj");
-		System.out.println(dk.hashCode());
 
 		Integer value = hm.get(dk);
 
@@ -173,7 +168,6 @@ public class EqualsTest {
 		DataKeyEquals dk = new DataKeyEquals();
 		dk.setId(1);
 		dk.setName("Pankaj");
-		System.out.println(dk.hashCode());
 
 		hm.put(dk, 10);
 

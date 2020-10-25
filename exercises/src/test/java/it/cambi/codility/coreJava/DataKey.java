@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.coreJava;
 
@@ -19,8 +19,6 @@ public class DataKey {
 
 	protected String name;
 	protected int id;
-
-	// getter and setter methods
 
 	@Override
 	public String toString() {

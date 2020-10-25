@@ -1,8 +1,9 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.coreJava;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,9 +13,7 @@ import lombok.Setter;
  *
  */
 
-@Getter
-@Setter
-@EqualsAndHashCode
+@Data
 public class DataKeyEquals
 {
 
@@ -26,5 +25,4 @@ public class DataKeyEquals
     {
         return "DataKey [name=" + name + ", id=" + id + "]";
     }
-
 }
