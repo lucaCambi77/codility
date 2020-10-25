@@ -6,7 +6,8 @@ package it.cambi.codility.leetcode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.cambi.codility.model.Array;
-import javafx.util.Pair;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -2886,6 +2887,13 @@ public class LeetCodeArrayTest {
                 .mapToObj(c -> String.valueOf((char) c))
                 .mapToInt(Integer::valueOf)
                 .toArray();
+    }
+
+    @AllArgsConstructor
+    @Getter
+    class Pair<X,Y> {
+        X key;
+        Y value;
     }
 
     @Test
