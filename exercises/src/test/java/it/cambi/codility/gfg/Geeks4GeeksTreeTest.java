@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.gfg;
 
@@ -14,18 +14,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author luca To get input from standard input
- * 
+ *
  *         Scanner sc = new Scanner(System.in);
- * 
+ *
  *         sc.nextLine();
- * 
+ *
  *         while(sc.hasNext()){ System.out.println(sc.next()); }
- * 
+ *
  *         // Or From solution BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); int t =
  *         Integer.parseInt(br.readLine().trim()); //Inputting the testcases while(t > 0) { }
- * 
+ *
  */
-public class Geeks4GeeksTree
+public class Geeks4GeeksTreeTest
 {
 
     @Test
@@ -373,7 +373,7 @@ public class Geeks4GeeksTree
 
     /**
      * Height is the number of nodes along the longest path from the root node down to the farthest leaf node.
-     * 
+     *
      * @param root
      * @return
      */
@@ -623,7 +623,7 @@ public class Geeks4GeeksTree
 
     /**
      * Assert is two trees are identical
-     * 
+     *
      * In order trasversal is used but could be another one
      */
     @Test
@@ -846,7 +846,7 @@ public class Geeks4GeeksTree
 
     /**
      * This solution is not working on G4G but it could be a valid one
-     * 
+     *
      * @param node
      * @param finder
      * @param data

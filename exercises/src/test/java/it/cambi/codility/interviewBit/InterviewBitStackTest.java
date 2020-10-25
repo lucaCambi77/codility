@@ -71,7 +71,6 @@ public class InterviewBitStackTest {
     assertEquals(9, evalRPN(Arrays.asList("2", "1", "+", "3", "*")));
   }
 
-  @Test
   public int evalRPN(List<String> list) {
     Stack<String> stack = new Stack<>();
     for (String s : list)

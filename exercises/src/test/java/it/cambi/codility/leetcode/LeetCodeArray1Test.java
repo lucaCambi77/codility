@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LeetCodeArrayTest1 {
+public class LeetCodeArray1Test {
 
   class SubrectangleQueries {
     private int[][] matrix;
@@ -175,34 +175,6 @@ public class LeetCodeArrayTest1 {
     assertEquals(8, rleIterator.next(1));
     assertEquals(5, rleIterator.next(1));
     assertEquals(-1, rleIterator.next(2));
-
-    RLEIterator rleIterator2 =
-        new RLEIterator(
-            new int[] {
-              825, 668, 1, 494, 868, 244, 325, 871, 191, 568, 238, 968, 803, 448, 80, 320, 508, 933,
-              109, 551
-            });
-
-    assertEquals(668, rleIterator2.next(210));
-    assertEquals(668, rleIterator2.next(157));
-    assertEquals(668, rleIterator2.next(228));
-    assertEquals(668, rleIterator2.next(145));
-    assertEquals(244, rleIterator2.next(251));
-    assertEquals(244, rleIterator2.next(149));
-    assertEquals(244, rleIterator2.next(142));
-    assertEquals(244, rleIterator2.next(104));
-    assertEquals(244, rleIterator2.next(136));
-    assertEquals(244, rleIterator2.next(86));
-    assertEquals(871, rleIterator2.next(125));
-    assertEquals(871, rleIterator2.next(61));
-    assertEquals(871, rleIterator2.next(40));
-    assertEquals(871, rleIterator2.next(39));
-    assertEquals(871, rleIterator2.next(125));
-    assertEquals(568, rleIterator2.next(130));
-    assertEquals(968, rleIterator2.next(92));
-    assertEquals(968, rleIterator2.next(17));
-    assertEquals(968, rleIterator2.next(141));
-    assertEquals(448, rleIterator2.next(157));
   }
 
   @Test

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /** @author luca */
-public class Array {
+public class ArrayTest {
 
   @Test
   public void sortArrayTest() {

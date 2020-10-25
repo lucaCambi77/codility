@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.gfg;
 
@@ -7,6 +7,6 @@ package it.cambi.codility.gfg;
  * @author luca
  *
  */
-public class Geek4GeeksTrie {
+public class Geek4GeeksTrieTest {
 
 }

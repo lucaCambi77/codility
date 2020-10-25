@@ -5,7 +5,7 @@ package it.cambi.codility.leetcode;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.cambi.codility.model.Array;
+import it.cambi.codility.model.ArrayTest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
@@ -1055,7 +1055,7 @@ public class LeetCodeArrayTest {
         arr = IntStream.of(arr).distinct().sorted().toArray();
 
         for (int i = 0; i < length; i++) {
-            int position = Array.binarySearch(arr, 0, arr.length, copy[i]);
+            int position = ArrayTest.binarySearch(arr, 0, arr.length, copy[i]);
             solution[i] = position + 1;
         }
 
@@ -1712,7 +1712,7 @@ public class LeetCodeArrayTest {
 
             int diff = nums[i] + k;
 
-            if (Array.binarySearch(nums, i + 1, nums.length, diff) >= 0) count++;
+            if (ArrayTest.binarySearch(nums, i + 1, nums.length, diff) >= 0) count++;
 
             while (i + 1 < nums.length && nums[i] == nums[i + 1]) i++;
         }
@@ -3394,7 +3394,7 @@ public class LeetCodeArrayTest {
 
             int fit = target - num;
 
-            int search = Array.binarySearch(nums, i + 1, length, fit);
+            int search = ArrayTest.binarySearch(nums, i + 1, length, fit);
 
             if (search >= 0) return new int[]{i + 1, search + 1};
         }

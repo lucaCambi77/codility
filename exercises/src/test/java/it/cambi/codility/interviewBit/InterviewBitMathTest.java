@@ -27,7 +27,6 @@ public class InterviewBitMathTest {
         assertArrayEquals(new String[]{"1", "2", "Fizz", "4", "Buzz"}, fizzBuzz(5));
     }
 
-    @Test
     private String[] fizzBuzz(int A) {
 
         int i = 1;

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.gfg;
 
@@ -11,9 +11,9 @@ import java.util.Arrays;
  * @author luca
  *
  */
-public class Geek4GeeksDynamic {
+public class Geek4GeeksDynamicTest {
 
-    
+
 	@Test
 	public void reachAGivenNumber() {
 		int n = 20;

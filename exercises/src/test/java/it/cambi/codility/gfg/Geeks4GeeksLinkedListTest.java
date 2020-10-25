@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author luca
  *
  */
-public class Geeks4GeeksLinkedList {
+public class Geeks4GeeksLinkedListTest {
 
     class Node {
 

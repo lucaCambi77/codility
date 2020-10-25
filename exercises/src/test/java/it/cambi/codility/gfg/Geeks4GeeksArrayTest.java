@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /** @author luca */
-public class Geeks4GeeksArray {
+public class Geeks4GeeksArrayTest {
 
   @Test
   public void reverseArrayInGroup() {

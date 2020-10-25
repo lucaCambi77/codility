@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.coreJava;
 
@@ -7,13 +7,14 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author luca
  *
  */
-public class Sorting {
+public class SortingTest {
 
 	@Test
 	public void selectionsort() {
@@ -21,7 +22,7 @@ public class Sorting {
 		selectionSort(arr, 0, 2);
 		int[] arr1 = { 1, 2, 3 };
 
-		assertTrue(Arrays.equals(arr1, arr));
+		assertArrayEquals(arr1, arr);
 	}
 
 	public void selectionSort(int[] list, int lo, int hi) { // sort list[lo] to list[hi] in ascending order
@@ -52,7 +53,7 @@ public class Sorting {
 		insertionSort1(arr, 0, 4);
 		int[] arr1 = { 1, 2, 3, 5, 6 };
 
-		assertTrue(Arrays.equals(arr1, arr));
+		assertArrayEquals(arr1, arr);
 	}
 
 	public static void insertionSort1(int list[], int lo, int hi) { // sort list[lo] to list[hi] in ascending order

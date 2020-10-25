@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CodeByteString {
+public class CodeByteStringTest {
 
   @Test
   public void questionsMarks() {

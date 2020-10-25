@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CoderByteArray {
+public class CoderByteArrayTest {
 
   @Test
   public void findIntersection() {

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.gfg;
 
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
  * @author luca
  *
  */
-public class Geek4GeeksMatrix
+public class Geek4GeeksMatrixTest
 {
 
     @Test

@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(Alphanumeric.class)
 @Slf4j
-public class Codility {
+public class CodilityTest {
 
   @Test
   public void perMissElement() {
@@ -22,7 +22,6 @@ public class Codility {
     assertEquals(5, perMissElement(new int[] {2, 3, 1, 4}));
   }
 
-  @Test
   public int perMissElement(int[] A) {
     if (A.length == 0) return 1;
 
@@ -192,7 +191,6 @@ public class Codility {
     assertArrayEquals(new int[] {3, 4, 1, 2}, rotateArray(new int[] {1, 2, 3, 4}));
   }
 
-  @Test
   private int[] rotateArray(int[] array) {
     int k = 2;
 
@@ -684,7 +682,6 @@ public class Codility {
     assertTrue(brackets("{[()]}"));
   }
 
-  @Test
   public boolean brackets(String s) {
 
     Stack<Character> st = new Stack<Character>();

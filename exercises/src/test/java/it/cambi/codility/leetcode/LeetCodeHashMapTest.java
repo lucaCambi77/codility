@@ -118,7 +118,6 @@ public class LeetCodeHashMapTest {
     assertEquals(2, findLeastNumOfUniqueInts(new int[] {4, 3, 1, 1, 3, 3, 2}, 3));
   }
 
-  @Test
   public int findLeastNumOfUniqueInts(int[] arr, int k) {
 
     Map<Integer, Integer> valueToFreq = new HashMap<>();

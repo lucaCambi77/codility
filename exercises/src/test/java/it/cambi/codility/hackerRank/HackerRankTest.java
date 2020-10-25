@@ -619,30 +619,6 @@ public class HackerRankTest {
                 abbreviation(
                         "QGBOZKPCPMvEHGOFRWOXUOBCZDADERSPXNNJPOjMNUIHFZRACZJZWMZSNHJHJUYNCHSJKFDSLFBGKVYFJdkfxesjrixmzefcgewgrnn",
                         "QGBOZKPCPMEHGOFRWOXUOBCZDADERSPXNNJPOMNUIHFZRACZJZWMZSNHJHJUYNCHSJKFDSLFBGKVYFJ"));
-
-        assertEquals(
-                "YES",
-                abbreviation(
-                        "lHJCJMWDFhSMRRZUKEUJxRZGVWATJtFRJPOOWkFEIEKsYBVILWARcDISwXAVPOYJHWRNHUQNDBUSRGIRIZTMHdXxodmgzkfxbpperyhufxymrphzkyzewldrijewezvobdshebnbtzxkupcvgrscyscrtxuwsmywoyuuxvyzxajccydqdngartsmbeptpabthasbgqccvzqvbmnokjwwqpzqcqqb",
-                        "HJCJMWDFSMRRZUKEUJRZGVWATJFRJPOOWFEIEKYBVILWARDISXAVPOYJHWRNHUQNDBUSRGIRIZTMHX"));
-
-        assertEquals(
-                "YES",
-                abbreviation(
-                        "TIJTQKlOTDVMEMKKMNYZtZIWLZOLJPPGCGTGTQBKILAXYMDXOOQMONZYXDZSgSVGJBmIIXXaTOLdMLbSCODRIUANIBRIQLVSXokicxpigmnirkneh",
-                        "TIJTQKOTDVMEMKKMNYZZIWLZOLJPPGCGTGTQBKILAXYMDXOOQMONZYXDZSSVGJBIIXXTOLMLSCODRIUANIBRIQLVSX"));
-
-        assertEquals(
-                "YES",
-                abbreviation(
-                        "MCLGDNAYZOVXJqJDAYrFHrBYZOUDBGEFfBTBZpNEZLURWEcDEBJQWIITUTNEteBHYYKOEGROMXmLEudSEWlUEFFTvINEHWNFObNOMWTNJMIyBEXTWBWOAKHNZKeEdCFuUSfAPXXZUZTDCVYmDFTSSGECgOHOQHSPEBUUWTspaviedpoeh",
-                        "MCLGDNAYZOVXJJDAYFHBYZOUDBGEFBTBZNEZLURWEDEBJQWIITUTNEBHYYKOEGROMXLESEWUEFFTINEHWNFONOMWTNJMIBEXTWBWOAKHNZKECFUSAPXXZUZTDCVYDFTSSGECOHOQHSPEBUUWT"));
-
-        assertEquals(
-                "YES",
-                abbreviation(
-                        "hHhAhhcahhacaccacccahhchhcHcahaahhchhhchaachcaCchhchcaccccchhhcaahhhhcaacchccCaahhaahachhacaahhaachhhaaaCalhhchaccaAahHcchcazhachhhaaahaahhaacchAahccacahahhcHhccahaachAchahacaahcahacaahcahacaHhccccaahaahacaachcchhahhacchahhhaahcacacachhahchcaAhhcaahchHhhaacHcacahaccccaaahacCHhChchhhahhchcahaaCccccahhcaachhhacaaahcaaaccccaacaaHachaahcchaahhchhhcahahahhcaachhchacahhahahahAahaAcchahaahcaaaaahhChacahcacachacahcchHcaahchhcahaachnachhhhcachchahhhacHhCcaHhhhcaCccccaaahcahacahchahcaachcchaachahhhhhhhhcahhacacCcchahccaaaaaHhhccaAaaaCchahhccaahhacaccchhcahhcahaahhgacahcahhchcaaAccchahhhaahhccaaHcchaccacahHahChachhcaaacAhacacaacacchhchchacchchcacchachacaahachccchhhaccahcacchaccaahaaaccccccaaaaaaaHhcahcchmcHchcchaaahaccchaaachchHahcaccaaccahcacacahAhaacaacaccaccaaacahhhcacAhaCchcaacCcccachhchchcchhchahchchahchchhchcacaachahhccacachaAhaaachchhchchchhaachahaahahachhaaaccacahhcacchhhaaachaaacAahhcachchachhhcacchacaaChCahhhccahChaachhcahacchanaaacchhhccacacchcahccchAcahacaaachhacchachccaaHacaacAhahcCh",
-                        "HAHHCHAACCCAHCHHAHHAHCACCHCCHHCAAHHCACCCAHHHACAAHHHHCHHCAHHAHHAAAHAACAAHAHHCAHAHACHACHCHACACHAAHHAAAHCAHHACACAACHHHCHAHCAHCHHHAHAHACCAAAHCHHCHHCCAACCCCAACHACAACAAHACHCHAHHACCHCAHHHAAACHACAACHCACACAHHCCHAHACCCACCAACHCHHHCCCCCHCCAHHCAAHHAHHHHHHHAACCCCAHCCAAAAAHHHAAAACCAHHCAHACACCHHCHAHAHHCHAACHHHHHCCHCCAHAHCHCAAACCACCCCHACCACHHACHHACACHACCAACCCCAAAAHHAHCHHHCCAHCCHACHHAHCCACACCHAHAAACACCCCAHCCAHACCCCCCHCCHHCHHHHCHCHCAHHHACHAHAACCCAAAACHAACAAAHHAAHAAAHACHHCACHCCHCHAACHACACHHCCCCCAHCACHAAAHCHCAHACAAC"));
     }
 
     private String abbreviation(String a, String b) {

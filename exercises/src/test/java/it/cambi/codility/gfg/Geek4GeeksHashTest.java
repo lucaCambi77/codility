@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.gfg;
 
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author luca
  *
  */
-public class Geek4GeeksHash
+public class Geek4GeeksHashTest
 {
 
     @Test
