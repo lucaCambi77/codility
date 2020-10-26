@@ -1,185 +1,152 @@
-/**
- * 
- */
 package it.cambi.codility.model;
 
-/**
- * @author luca
- *
- */
+/** @author luca */
 // Java program to implement singly linked list
-public class SinglyLinkedList
-{
+public class SinglyLinkedList {
 
-    class Node
-    {
+  class Node {
 
-        // node variables
-        int data;
-        Node next;
+    // node variables
+    int data;
+    Node next;
 
-        public Node(int data)
-        {
-            this.data = data;
-            this.next = null;
-        }
+    public Node(int data) {
+      this.data = data;
+      this.next = null;
+    }
+  }
+
+  // create reference variable of Node
+  Node head;
+
+  // function to insert a node
+  // at the begining of the list
+  public void insertAtStart(int data) {
+    // create a node
+    Node newNode = new Node(data);
+
+    newNode.next = head;
+    head = newNode;
+  }
+
+  // function to insert node
+  // at the end of the list
+  public void insertAtLast(int data) {
+
+    Node newNode = new Node(data);
+    if (head == null) {
+      head = newNode;
+      return;
     }
 
-    // create reference variable of Node
-    Node head;
+    newNode.next = null;
 
-    // function to insert a node
-    // at the begining of the list
-    public void insertAtStart(int data)
-    {
-        // create a node
-        Node new_node = new Node(data);
-
-        new_node.next = head;
-        head = new_node;
+    Node last = head;
+    while (last.next != null) {
+      last = last.next;
     }
 
-    // function to insert node
-    // at the end of the list
-    public void insertAtLast(int data)
-    {
+    last.next = newNode;
+  }
 
-        Node new_node = new Node(data);
-        if (head == null)
-        {
-            head = new_node;
-            return;
-        }
+  // function to delete a node
+  // at the beginning of the list
+  public void deleteAtStart() {
+    if (head == null) {
+      System.out.println("List is empty");
+      return;
+    }
+    head = head.next;
+  }
 
-        new_node.next = null;
+  // function to delete a node at
+  // a given position in the list
+  public void deleteAtPos(int pos) throws Exception {
+    if (pos > count() || pos < 0) throw new Exception("Incorrect position exception");
 
-        Node last = head;
-        while (last.next != null)
-        {
-            last = last.next;
-        }
+    Node temp = head;
 
-        last.next = new_node;
+    if (pos == 0) {
+      head = head.next;
+      return;
     }
 
-    // function to delete a node
-    // at the beginning of the list
-    public void deleteAtStart()
-    {
-        if (head == null)
-        {
-            System.out.println("List is empty");
-            return;
-        }
-        head = head.next;
+    int position = 0;
+
+    while (position != pos - 1) {
+      temp = temp.next;
+      position++;
     }
 
-    // function to delete a node at
-    // a given position in the list
-    public void deleteAtPos(int pos) throws Exception
-    {
-        int position = 0;
-        if (pos > count() || pos < 0)
-        {
-            throw new Exception("Incorrect position exception");
-        }
-        Node temp = head;
+    temp.next = temp.next.next;
+  }
 
-        if (position == 0)
-        {
-            head = head.next;
-            return;
-        }
+  public void insertAtPos(int position, int data) throws Exception {
+    int pos = 0;
 
-        while (position != pos - 1)
-        {
-            temp = temp.next;
-            position++;
-        }
-
-        temp.next = temp.next.next;
+    if (position > count() || position < 0) {
+      throw new Exception("Incorrect position exception");
     }
 
-    public void insertAtPos(int position, int data) throws Exception
-    {
-        int pos = 0;
+    Node nextAtInsert = new Node(data);
+    Node temp = head;
 
-        if (position > count() || position < 0)
-        {
-            throw new Exception("Incorrect position exception");
-        }
-
-        Node nextAtInsert = new Node(data);
-        Node temp = head;
-
-        if (position == 0)
-        {
-            nextAtInsert.next = head;
-            return;
-        }
-
-        while (pos != position - 1)
-        {
-            temp = temp.next;
-            pos++;
-        }
-
-        Node nextAfterInsert = temp.next;
-
-        nextAtInsert.next = nextAfterInsert;
-
-        temp.next = nextAtInsert;
-
+    if (position == 0) {
+      nextAtInsert.next = head;
+      return;
     }
 
-    // function to delete a node
-    // from the end of the list
-    void deleteAtLast()
-    {
-        Node delete = head;
-        while (delete.next != null && delete.next.next != null)
-        {
-            delete = delete.next;
-        }
-        delete.next = null;
+    while (pos != position - 1) {
+      temp = temp.next;
+      pos++;
     }
 
-    // function to display all the nodes of the list
-    void display()
-    {
-        Node disp = head;
-        while (disp != null)
-        {
-            System.out.print(disp.data + "->");
-            disp = disp.next;
-        }
+    Node nextAfterInsert = temp.next;
+
+    nextAtInsert.next = nextAfterInsert;
+
+    temp.next = nextAtInsert;
+  }
+
+  // function to delete a node
+  // from the end of the list
+  void deleteAtLast() {
+    Node delete = head;
+    while (delete.next != null && delete.next.next != null) {
+      delete = delete.next;
+    }
+    delete.next = null;
+  }
+
+  // function to display all the nodes of the list
+  void display() {
+    Node disp = head;
+    while (disp != null) {
+      System.out.print(disp.data + "->");
+      disp = disp.next;
+    }
+  }
+
+  // function to return the total nodes in the list
+  int count() {
+    int elements = 0;
+    Node count = head;
+    while (count != null) {
+      count = count.next;
+      elements++;
+    }
+    return elements;
+  }
+
+  boolean areIdentical(SinglyLinkedList listb) {
+    Node a = this.head, b = listb.head;
+    while (a != null && b != null) {
+      if (a.data != b.data) return false;
+
+      a = a.next;
+      b = b.next;
     }
 
-    // function to return the total nodes in the list
-    int count()
-    {
-        int elements = 0;
-        Node count = head;
-        while (count != null)
-        {
-            count = count.next;
-            elements++;
-        }
-        return elements;
-    }
-
-    boolean areIdentical(SinglyLinkedList listb)
-    {
-        Node a = this.head, b = listb.head;
-        while (a != null && b != null)
-        {
-            if (a.data != b.data)
-                return false;
-
-            a = a.next;
-            b = b.next;
-        }
-
-        return (a == null && b == null);
-    }
+    return (a == null && b == null);
+  }
 }

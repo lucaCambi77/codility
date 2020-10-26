@@ -24,7 +24,7 @@ public class Array {
     int high = toIndex - 1;
 
     while (low <= high) {
-      int mid = (low + high) >>> 1; // (low + high) / 2;
+      int mid = (low + high) >>> 1;
       int midVal = a[mid];
 
       if (midVal < key) low = mid + 1;

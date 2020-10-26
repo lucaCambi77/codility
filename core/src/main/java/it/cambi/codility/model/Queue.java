@@ -1,102 +1,58 @@
-/**
- * 
- */
 package it.cambi.codility.model;
 
-/**
- * @author luca
- *
- */
-// Java program to implement a queue using an array
-public class Queue
-{
-    private static int front, rear, capacity;
-    private static int queue[];
+/** @author luca */
+public class Queue {
+  private int front, rear, capacity;
+  private int[] queue;
 
-    Queue(int c)
-    {
-        front = rear = 0;
-        capacity = c;
-        queue = new int[capacity];
+  Queue(int c) {
+    front = rear = 0;
+    capacity = c;
+    queue = new int[capacity];
+  }
+
+  void queueEnqueue(int data) {
+    if (capacity == rear) {
+      System.out.printf("\nQueue is full\n");
+    } else {
+      queue[rear] = data;
+      rear++;
     }
+  }
 
-    // function to insert an element
-    // at the rear of the queue
-    static void queueEnqueue(int data)
-    {
-        // check queue is full or not
-        if (capacity == rear)
-        {
-            System.out.printf("\nQueue is full\n");
-            return;
-        }
+  void queueDequeue() {
+    // if queue is empty
+    if (front == rear) {
+      System.out.printf("\nQueue is empty\n");
+    } else {
+      for (int i = 0; i < rear - 1; i++) {
+        queue[i] = queue[i + 1];
+      }
 
-        // insert element at the rear
-        else
-        {
-            queue[rear] = data;
-            rear++;
-        }
-        return;
+      // store 0 at rear indicating there's no element
+      if (rear < capacity) queue[rear] = 0;
+
+      // decrement rear
+      rear--;
     }
+  }
 
-    // function to delete an element
-    // from the front of the queue
-    static void queueDequeue()
-    {
-        // if queue is empty
-        if (front == rear)
-        {
-            System.out.printf("\nQueue is empty\n");
-            return;
-        }
-
-        // shift all the elements from index 2 till rear
-        // to the right by one
-        else
-        {
-            for (int i = 0; i < rear - 1; i++)
-            {
-                queue[i] = queue[i + 1];
-            }
-
-            // store 0 at rear indicating there's no element
-            if (rear < capacity)
-                queue[rear] = 0;
-
-            // decrement rear
-            rear--;
-        }
-        return;
+  // print queue elements
+  void queueDisplay() {
+    int i;
+    if (front == rear) {
+      System.out.printf("\nQueue is Empty\n");
+    } else {
+      for (i = front; i < rear; i++) {
+        System.out.printf(" %d <-- ", queue[i]);
+      }
     }
+  }
 
-    // print queue elements
-    static void queueDisplay()
-    {
-        int i;
-        if (front == rear)
-        {
-            System.out.printf("\nQueue is Empty\n");
-            return;
-        }
-
-        // traverse front to rear and print elements
-        for (i = front; i < rear; i++)
-        {
-            System.out.printf(" %d <-- ", queue[i]);
-        }
-        return;
-    }
-
-    // print front of queue
-    static void queueFront()
-    {
-        if (front == rear)
-        {
-            System.out.printf("\nQueue is Empty\n");
-            return;
-        }
-        System.out.printf("\nFront Element is: %d", queue[front]);
-        return;
-    }
+  // print front of queue
+  void queueFront() {
+    if (front == rear) {
+      System.out.printf("\nQueue is Empty\n");
+    } else System.out.printf("\nFront Element is: %d", queue[front]);
+  }
 }

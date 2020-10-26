@@ -1,7 +1,4 @@
-/**
- *
- */
-package it.cambi.codility.model.unionFind;
+package it.cambi.codility.model.unionfind;
 
 import lombok.Getter;
 

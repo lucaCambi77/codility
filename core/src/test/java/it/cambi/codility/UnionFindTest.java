@@ -1,9 +1,9 @@
 /** */
 package it.cambi.codility;
 
-import it.cambi.codility.model.unionFind.QuickFind;
-import it.cambi.codility.model.unionFind.QuickUnion;
-import it.cambi.codility.model.unionFind.WeightedUnion;
+import it.cambi.codility.model.unionfind.QuickFind;
+import it.cambi.codility.model.unionfind.QuickUnion;
+import it.cambi.codility.model.unionfind.WeightedUnion;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

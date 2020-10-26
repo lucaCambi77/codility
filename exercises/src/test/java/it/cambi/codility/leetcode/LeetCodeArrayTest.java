@@ -1747,9 +1747,8 @@ public class LeetCodeArrayTest {
 
     @Test
     public void findDisappearedNumbers() {
-        assertTrue(Arrays.asList(new Integer[]{5, 6})
-                .equals(findDisappearedNumbers(new int[]{4, 3, 2, 7, 8, 2, 3, 1})));
-        assertTrue(Arrays.asList(new Integer[]{2}).equals(findDisappearedNumbers(new int[]{1, 3, 3})));
+        assertEquals(Arrays.asList(5, 6), findDisappearedNumbers(new int[]{4, 3, 2, 7, 8, 2, 3, 1}));
+        assertEquals(Arrays.asList(2), findDisappearedNumbers(new int[]{1, 3, 3}));
     }
 
     private List<Integer> findDisappearedNumbers(int[] nums) {

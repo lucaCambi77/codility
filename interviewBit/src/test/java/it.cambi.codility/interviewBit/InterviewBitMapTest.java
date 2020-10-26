@@ -247,10 +247,10 @@ class InterviewBitMapTest {
 
     public int[] twoOutOfThree(int[] A, int[] B, int[] C) {
         HashMap<Integer, Integer> a, b, c;
-        a = new HashMap();
-        b = new HashMap();
-        c = new HashMap();
-        HashSet set = new HashSet();
+        a = new HashMap<>();
+        b = new HashMap<>();
+        c = new HashMap<>();
+        Set<Integer> set = new HashSet<>();
         for (int i : A) {
             if (a.containsKey(i)) {
                 a.put(i, a.get(i) + 1);
@@ -269,7 +269,7 @@ class InterviewBitMapTest {
         for (int i : a.keySet()) if (b.containsKey(i) || c.containsKey(i)) set.add(i);
         for (int i : b.keySet()) if (a.containsKey(i) || c.containsKey(i)) set.add(i);
         for (int i : c.keySet()) if (b.containsKey(i) || a.containsKey(i)) set.add(i);
-        ArrayList<Integer> ans = new ArrayList<Integer>(set);
+        ArrayList<Integer> ans = new ArrayList<>(set);
         Collections.sort(ans);
         return ans.stream().mapToInt(i -> i).toArray();
     }
