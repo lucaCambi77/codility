@@ -5,4 +5,5 @@
 rootProject.name = 'codility'
 include 'exercises'
 include 'interviewBit'
+include 'codility_'
 
