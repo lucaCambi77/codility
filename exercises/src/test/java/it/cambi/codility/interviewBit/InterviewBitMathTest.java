@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class InterviewBitMathTest {
+public class InterviewBitMathTest {
 
     @Test
     public void titleToNumber() {

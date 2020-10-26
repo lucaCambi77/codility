@@ -7,7 +7,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class InterviewBitTwoPointersTest {
+public class InterviewBitTwoPointersTest {
 
     @Test
     public void removeDuplicates() {

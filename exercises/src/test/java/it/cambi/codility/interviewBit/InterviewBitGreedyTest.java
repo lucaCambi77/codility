@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class InterviewBitGreedyTest {
+public class InterviewBitGreedyTest {
 
   @Test
   public void majorityElement() {

@@ -7,7 +7,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class InterviewBitMapTest {
+public class InterviewBitMapTest {
 
     @Test
     public void longestSubarrayLenght() {

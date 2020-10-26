@@ -7,7 +7,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class InterviewBitBackTrackingTest {
+public class InterviewBitBackTrackingTest {
 
   @Test
   public void permute() {
