@@ -10,7 +10,7 @@ import java.util.Stack;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class InterviewBitStringTest {
+class InterviewBitStringTest {
 
   @Test
   public void intToRoman() {
