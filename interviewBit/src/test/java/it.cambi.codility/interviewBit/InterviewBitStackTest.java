@@ -7,7 +7,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class InterviewBitStackTest {
+class InterviewBitStackTest {
 
   @Test
   public void simplifyPath() {
@@ -24,7 +24,7 @@ public class InterviewBitStackTest {
     Deque<String> stack = new LinkedList<>();
 
     for (String s : arr) {
-      if (s.equals("..")) {
+      if (s.equals("")) {
         if (!stack.isEmpty()) stack.pop();
       } else if (s.matches("[a-zA-Z]+")) {
         stack.push("/" + s);

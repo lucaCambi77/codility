@@ -7,7 +7,7 @@ import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class InterviewBitBinarySearchTest {
+class InterviewBitBinarySearchTest {
 
   @Test
   public void woodCutting() {

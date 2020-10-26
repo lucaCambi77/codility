@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class InterviewBitArrayTest {
+class InterviewBitArrayTest {
 
     public class Interval {
         int start;
