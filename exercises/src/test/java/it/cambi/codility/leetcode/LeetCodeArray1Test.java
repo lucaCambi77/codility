@@ -1542,7 +1542,7 @@ public class LeetCodeArray1Test {
 
   class Node {
     char c;
-    HashMap<Character, Node> children = new HashMap();
+    Map<Character, Node> children = new HashMap<>();
     int end;
 
     public Node(char c) {
@@ -1569,7 +1569,7 @@ public class LeetCodeArray1Test {
 
     public String dfs() {
       String ans = "";
-      Stack<Node> stack = new Stack();
+      Stack<Node> stack = new Stack<>();
       stack.push(root);
       while (!stack.empty()) {
         Node node = stack.pop();

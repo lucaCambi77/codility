@@ -496,7 +496,7 @@ public class LeetCodeArrayTest {
 
     public int findShortestSubArray(int[] nums) {
 
-        Map<Integer, Integer> left = new HashMap(), right = new HashMap(), count = new HashMap();
+        Map<Integer, Integer> left = new HashMap<>(), right = new HashMap<>(), count = new HashMap<>();
 
         for (int i = 0; i < nums.length; i++) {
             int x = nums[i];
@@ -754,7 +754,7 @@ public class LeetCodeArrayTest {
 
     public List<List<Integer>> largeGroupPositions1(String S) {
 
-        List<List<Integer>> ans = new ArrayList();
+        List<List<Integer>> ans = new ArrayList<>();
         int i = 0, N = S.length(); // i is the start of each group
         for (int j = 0; j < N; ++j) {
             if (j == N - 1 || S.charAt(j) != S.charAt(j + 1)) {
