@@ -1,9 +1,7 @@
-/**
- *
- */
+/** */
 package it.cambi.codility.leetcode;
 
-import it.cambi.codility.coreJava.StringTest;
+import it.cambi.codility.coreJava.StringsTest;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -17,1570 +15,1564 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /** @author luca */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class LeetCodeStringTest {
 
-    /** Letter to primitive map */
-    @SuppressWarnings("serial")
-    private static Map<Character, Integer> alphabetMap =
-            new HashMap<Character, Integer>() {
-                {
-                    put('a', 2);
-                    put('b', 3);
-                    put('c', 5);
-                    put('d', 7);
-                    put('e', 11);
-                    put('f', 13);
-                    put('g', 17);
-                    put('h', 19);
-                    put('i', 23);
-                    put('j', 29);
-                    put('k', 31);
-                    put('l', 37);
-                    put('m', 41);
-                    put('n', 43);
-                    put('o', 47);
-                    put('p', 53);
-                    put('q', 59);
-                    put('r', 61);
-                    put('s', 67);
-                    put('t', 71);
-                    put('u', 73);
-                    put('v', 79);
-                    put('w', 83);
-                    put('x', 89);
-                    put('y', 97);
-                    put('z', 101);
-                }
-            };
-
-    @Test
-    public void isLongPressedName() {
-        assertEquals(true, isLongPressedName("alex", "aaleex"));
-        assertEquals(false, isLongPressedName("saeed", "ssaaedd"));
-        assertEquals(true, isLongPressedName("leelee", "lleeelee"));
-        assertEquals(true, isLongPressedName("laiden", "laiden"));
-        assertEquals(false, isLongPressedName("kikcxmvzi", "kiikcxxmmvvzz"));
-        assertEquals(false, isLongPressedName("dfuyalc", "fuuyallc"));
-    }
-
-    private boolean isLongPressedName(String name, String typed) {
-
-        int pointA = 0;
-        int pointB = 0;
-
-        while (pointA < name.length() && pointB < typed.length()) {
-            if (name.charAt(pointA) == typed.charAt(pointB)) {
-                pointA++;
-                pointB++;
-                continue;
-            } else if (name.charAt(pointA - 1 < 0 ? 0 : pointA - 1) == typed.charAt(pointB)) {
-                pointB++;
-            } else return false;
+  /** Letter to primitive map */
+  @SuppressWarnings("serial")
+  private static Map<Character, Integer> alphabetMap =
+      new HashMap<Character, Integer>() {
+        {
+          put('a', 2);
+          put('b', 3);
+          put('c', 5);
+          put('d', 7);
+          put('e', 11);
+          put('f', 13);
+          put('g', 17);
+          put('h', 19);
+          put('i', 23);
+          put('j', 29);
+          put('k', 31);
+          put('l', 37);
+          put('m', 41);
+          put('n', 43);
+          put('o', 47);
+          put('p', 53);
+          put('q', 59);
+          put('r', 61);
+          put('s', 67);
+          put('t', 71);
+          put('u', 73);
+          put('v', 79);
+          put('w', 83);
+          put('x', 89);
+          put('y', 97);
+          put('z', 101);
         }
+      };
 
-        return name.charAt(name.length() - 1) == typed.charAt(typed.length() - 1);
+  @Test
+  public void isLongPressedName() {
+    assertTrue(isLongPressedName("alex", "aaleex"));
+    assertFalse(isLongPressedName("saeed", "ssaaedd"));
+    assertTrue(isLongPressedName("leelee", "lleeelee"));
+    assertTrue(isLongPressedName("laiden", "laiden"));
+    assertFalse(isLongPressedName("kikcxmvzi", "kiikcxxmmvvzz"));
+    assertFalse(isLongPressedName("dfuyalc", "fuuyallc"));
+  }
+
+  private boolean isLongPressedName(String name, String typed) {
+
+    int pointA = 0;
+    int pointB = 0;
+
+    while (pointA < name.length() && pointB < typed.length()) {
+      if (name.charAt(pointA) == typed.charAt(pointB)) {
+        pointA++;
+        pointB++;
+        continue;
+      } else if (name.charAt(pointA - 1 < 0 ? 0 : pointA - 1) == typed.charAt(pointB)) {
+        pointB++;
+      } else return false;
     }
 
-    @Test
-    public void hammingDistance() {
+    return name.charAt(name.length() - 1) == typed.charAt(typed.length() - 1);
+  }
 
-        assertEquals(2, hammingDistance(1, 4));
+  @Test
+  public void hammingDistance() {
+
+    assertEquals(2, hammingDistance(1, 4));
+  }
+
+  private int hammingDistance(int x, int y) {
+
+    String binX = String.format("%32s", Integer.toBinaryString(x)).replace(' ', '0');
+    String binY = String.format("%32s", Integer.toBinaryString(y)).replace(' ', '0');
+
+    int length = Math.min(binX.length(), binY.length());
+    int count = 0;
+
+    for (int i = 0; i < length; i++) {
+      if (binX.charAt(i) != binY.charAt(i)) count++;
     }
 
-    private int hammingDistance(int x, int y) {
+    return count;
+  }
 
+  @Test
+  public void generateTheString() {
+    assertEquals("aaab", generateTheString(4));
+    assertEquals("aaa", generateTheString(3));
+  }
 
-        String binX = String.format("%32s", Integer.toBinaryString(x)).replace(' ', '0');
-        String binY = String.format("%32s", Integer.toBinaryString(y)).replace(' ', '0');
+  private String generateTheString(int n) {
 
-        int length = Math.min(binX.length(), binY.length());
-        int count = 0;
+    int i = 0;
+    StringBuilder builder = new StringBuilder();
 
-        for (int i = 0; i < length; i++) {
-            if (binX.charAt(i) != binY.charAt(i))
-                count++;
-        }
-
-        return count;
+    while (i++ < n) {
+      builder.append('a');
     }
 
-    @Test
-    public void generateTheString() {
-        assertEquals("aaab", generateTheString(4));
-        assertEquals("aaa", generateTheString(3));
+    if ((n & 1) == 0) builder.setCharAt(n - 1, 'b');
+
+    return builder.toString();
+  }
+
+  @Test
+  public void isPrefixOfWord() {
+    assertEquals(4, isPrefixOfWord("i love eating burger", "burg"));
+    assertEquals(2, isPrefixOfWord("this problem is an easy problem", "pro"));
+    assertEquals(-1, isPrefixOfWord("i am tired", "you"));
+    assertEquals(-1, isPrefixOfWord("hellohello hellohellohello", "ell"));
+  }
+
+  private int isPrefixOfWord(String sentence, String searchWord) {
+
+    String[] split = sentence.split(" ");
+
+    int pos = 1;
+    for (String s : split) {
+      int prefix = s.indexOf(searchWord);
+      if (prefix == 0) return pos;
+      pos++;
     }
 
-    private String generateTheString(int n) {
+    return -1;
+  }
 
-        int i = 0;
-        StringBuilder builder = new StringBuilder();
+  @Test
+  public void freqAlphabets() {
 
-        while (i++ < n) {
-            builder.append('a');
-        }
+    assertEquals("jkab", freqAlphabets("10#11#12"));
+    assertEquals("acz", freqAlphabets("1326#"));
+    assertEquals("y", freqAlphabets("25#"));
+  }
 
-        if ((n & 1) == 0) builder.setCharAt(n - 1, 'b');
+  private String freqAlphabets(String s) {
 
-        return builder.toString();
+    char[] alphabet =
+        new char[] {
+          'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+          's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+        };
+    StringBuilder sol = new StringBuilder();
+
+    for (int i = s.length() - 1; i >= 0; i--) {
+      if (s.charAt(i) == '#') {
+        int pos = Integer.parseInt(s.charAt(i - 2) + Character.toString(s.charAt(i - 1)));
+        sol.append(alphabet[pos - 1]);
+        --i;
+        --i;
+        continue;
+      }
+
+      sol.append(alphabet[Integer.parseInt(Character.toString(s.charAt(i))) - 1]);
     }
 
-    @Test
-    public void isPrefixOfWord() {
-        assertEquals(4, isPrefixOfWord("i love eating burger", "burg"));
-        assertEquals(2, isPrefixOfWord("this problem is an easy problem", "pro"));
-        assertEquals(-1, isPrefixOfWord("i am tired", "you"));
-        assertEquals(-1, isPrefixOfWord("hellohello hellohellohello", "ell"));
+    return sol.reverse().toString();
+  }
+
+  @Test
+  public void numJewelsInStones() {
+    assertEquals(3, numJewelsInStones("aA", "aAAbbbb"));
+    assertEquals(0, numJewelsInStones("z", "ZZ"));
+  }
+
+  private int numJewelsInStones(String J, String S) {
+
+    Map<Character, Integer> map = new HashMap<>();
+
+    for (Character aChar : S.toCharArray()) map.put(aChar, map.getOrDefault(aChar, 0) + 1);
+
+    int solution = 0;
+
+    for (Character character : J.toCharArray()) solution += map.getOrDefault(character, 0);
+
+    return solution;
+  }
+
+  @Test
+  public void mostCommonWord() {
+
+    assertEquals(
+        "ball",
+        mostCommonWord(
+            "Bob hit a ball, the hit BALL flew far after it was hit.", new String[] {"hit"}));
+    assertEquals("bob", mostCommonWord("Bob!", new String[] {"hit"}));
+    assertEquals("b", mostCommonWord("a, a, a, a, b,b,b,c, c", new String[] {"a"}));
+  }
+
+  private String mostCommonWord(String paragraph, String[] banned) {
+
+    Set<String> words = Arrays.asList(banned).stream().collect(Collectors.toSet());
+
+    String[] cleanPar = paragraph.replaceAll("[;//.//://'//,//!//?]", " ").split("\\s+");
+
+    Map<String, Integer> wordToFreq = new HashMap<String, Integer>();
+
+    int max = 0;
+    String result = null;
+    int freq = 0;
+
+    for (String s : cleanPar) {
+
+      String lowerCase = s.toLowerCase();
+
+      if (words.contains(lowerCase)) continue;
+
+      freq = wordToFreq.getOrDefault(lowerCase, 0) + 1;
+
+      if (freq > max) {
+        max = freq;
+        result = lowerCase;
+      }
+
+      wordToFreq.put(lowerCase, freq);
+    }
+    return result;
+  }
+
+  @Test
+  public void rotatedDigits() {
+    assertEquals(4, rotatedDigits(10));
+    assertEquals(4, rotatedDigits(11));
+    assertEquals(247, rotatedDigits(857));
+  }
+
+  private int rotatedDigits(int N) {
+
+    Pattern match = Pattern.compile("[347]");
+
+    Pattern match1 = Pattern.compile("[2569]");
+
+    int res = 0;
+
+    for (int i = 2; i <= N; i++) {
+
+      String s = Integer.toString(i);
+
+      if (match.matcher(s).find()) continue;
+
+      if (match1.matcher(s).find()) res++;
     }
 
-    private int isPrefixOfWord(String sentence, String searchWord) {
+    return res;
+  }
 
-        String[] split = sentence.split(" ");
+  @Test
+  public void toLowerCase() {
+    assertEquals("hello", toLowerCase("Hello"));
+  }
 
-        int pos = 1;
-        for (String s : split) {
-            int prefix = s.indexOf(searchWord);
-            if (prefix == 0) return pos;
-            pos++;
-        }
+  private String toLowerCase(String str) {
 
-        return -1;
+    StringBuilder builder = new StringBuilder();
+
+    for (int i = 0; i < str.length(); i++) {
+      int c = str.charAt(i);
+
+      if (c > 64 && c < 91) {
+
+        c = c + 32;
+      }
+      builder.append((char) c);
     }
 
-    @Test
-    public void freqAlphabets() {
+    return builder.toString();
+  }
 
-        assertEquals("jkab", freqAlphabets("10#11#12"));
-        assertEquals("acz", freqAlphabets("1326#"));
-        assertEquals("y", freqAlphabets("25#"));
-    }
+  @Test
+  public void findLUSlength() {
+    assertEquals(3, findLUSlength("aba", "cdc"));
+    assertEquals(17, findLUSlength("aefawfawfawfaw", "aefawfeawfwafwaef"));
+    assertEquals(-1, findLUSlength("aaa", "aaa"));
+  }
 
-    private String freqAlphabets(String s) {
+  private int findLUSlength(String a, String b) {
 
-        char[] alphabet =
-                new char[]{
-                        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-                        's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
-                };
-        StringBuilder sol = new StringBuilder();
+    int aLength = a.length();
+    int bLength = b.length();
 
-        for (int i = s.length() - 1; i >= 0; i--) {
-            if (s.charAt(i) == '#') {
-                int pos = Integer.parseInt(s.charAt(i - 2) + Character.toString(s.charAt(i - 1)));
-                sol.append(alphabet[pos - 1]);
-                --i;
-                --i;
-                continue;
-            }
+    int i = 0;
+    int maxUncommon = 0;
+    int count = 0;
 
-            sol.append(alphabet[Integer.parseInt(Character.toString(s.charAt(i))) - 1]);
-        }
+    while (i < aLength && i < bLength) {
 
-        return sol.reverse().toString();
-    }
-
-    @Test
-    public void numJewelsInStones() {
-        assertEquals(3, numJewelsInStones("aA", "aAAbbbb"));
-        assertEquals(0, numJewelsInStones("z", "ZZ"));
-    }
-
-    private int numJewelsInStones(String J, String S) {
-
-        Map<Character, Integer> map = new HashMap<>();
-
-        for (Character aChar : S.toCharArray()) map.put(aChar, map.getOrDefault(aChar, 0) + 1);
-
-        int solution = 0;
-
-        for (Character character : J.toCharArray()) solution += map.getOrDefault(character, 0);
-
-        return solution;
-    }
-
-    @Test
-    public void mostCommonWord() {
-
-        assertEquals(
-                "ball",
-                mostCommonWord(
-                        "Bob hit a ball, the hit BALL flew far after it was hit.", new String[]{"hit"}));
-        assertEquals("bob", mostCommonWord("Bob!", new String[]{"hit"}));
-        assertEquals("b", mostCommonWord("a, a, a, a, b,b,b,c, c", new String[]{"a"}));
-    }
-
-    private String mostCommonWord(String paragraph, String[] banned) {
-
-        Set<String> words = Arrays.asList(banned).stream().collect(Collectors.toSet());
-
-        String[] cleanPar = paragraph.replaceAll("[;//.//://'//,//!//?]", " ").split("\\s+");
-
-        Map<String, Integer> wordToFreq = new HashMap<String, Integer>();
-
-        int max = 0;
-        String result = null;
-        int freq = 0;
-
-        for (String s : cleanPar) {
-
-            String lowerCase = s.toLowerCase();
-
-            if (words.contains(lowerCase)) continue;
-
-            freq = wordToFreq.getOrDefault(lowerCase, 0) + 1;
-
-            if (freq > max) {
-                max = freq;
-                result = lowerCase;
-            }
-
-            wordToFreq.put(lowerCase, freq);
-        }
-        return result;
-    }
-
-    @Test
-    public void rotatedDigits() {
-        assertEquals(4, rotatedDigits(10));
-        assertEquals(4, rotatedDigits(11));
-        assertEquals(247, rotatedDigits(857));
-    }
-
-    private int rotatedDigits(int N) {
-
-        Pattern match = Pattern.compile("[347]");
-
-        Pattern match1 = Pattern.compile("[2569]");
-
-        int res = 0;
-
-        for (int i = 2; i <= N; i++) {
-
-            String s = Integer.toString(i);
-
-            if (match.matcher(s).find()) continue;
-
-            if (match1.matcher(s).find()) res++;
-        }
-
-        return res;
-    }
-
-    @Test
-    public void toLowerCase() {
-        assertEquals("hello", toLowerCase("Hello"));
-    }
-
-    private String toLowerCase(String str) {
-
-        StringBuilder builder = new StringBuilder();
-
-        for (int i = 0; i < str.length(); i++) {
-            int c = str.charAt(i);
-
-            if (c > 64 && c < 91) {
-
-                c = c + 32;
-            }
-            builder.append((char) c);
-        }
-
-        return builder.toString();
-    }
-
-    @Test
-    public void findLUSlength() {
-        assertEquals(3, findLUSlength("aba", "cdc"));
-        assertEquals(17, findLUSlength("aefawfawfawfaw", "aefawfeawfwafwaef"));
-        assertEquals(-1, findLUSlength("aaa", "aaa"));
-    }
-
-    private int findLUSlength(String a, String b) {
-
-        int aLength = a.length();
-        int bLength = b.length();
-
-        int i = 0;
-        int maxUncommon = 0;
-        int count = 0;
-
-        while (i < aLength && i < bLength) {
-
-            if (a.charAt(i) != b.charAt(i)) count++;
-            else {
-                maxUncommon = Math.max(maxUncommon, count);
-                count = 0;
-            }
-            i++;
-        }
-
+      if (a.charAt(i) != b.charAt(i)) count++;
+      else {
         maxUncommon = Math.max(maxUncommon, count);
-
-        int diff = aLength > bLength ? aLength - bLength : bLength - aLength;
-
-        if (maxUncommon == 0 && diff == 0) return -1;
-
-        int uncommon = Math.max(aLength, bLength);
-
-        int solution = maxUncommon + diff;
-        solution = Math.max(solution, uncommon);
-
-        return solution == 0 ? -1 : solution;
+        count = 0;
+      }
+      i++;
     }
 
-    @Test
-    public void licenseKeyFormatting() {
-        assertEquals("5F3Z-2E9W", licenseKeyFormatting("5F3Z-2e-9-w", 4));
-        assertEquals("2-5G-3J", licenseKeyFormatting("2-5g-3-J", 2));
-        assertEquals("2", licenseKeyFormatting("2", 2));
+    maxUncommon = Math.max(maxUncommon, count);
+
+    int diff = aLength > bLength ? aLength - bLength : bLength - aLength;
+
+    if (maxUncommon == 0 && diff == 0) return -1;
+
+    int uncommon = Math.max(aLength, bLength);
+
+    int solution = maxUncommon + diff;
+    solution = Math.max(solution, uncommon);
+
+    return solution;
+  }
+
+  @Test
+  public void licenseKeyFormatting() {
+    assertEquals("5F3Z-2E9W", licenseKeyFormatting("5F3Z-2e-9-w", 4));
+    assertEquals("2-5G-3J", licenseKeyFormatting("2-5g-3-J", 2));
+    assertEquals("2", licenseKeyFormatting("2", 2));
+  }
+
+  private String licenseKeyFormatting(String S, int K) {
+    String replace = S.replaceAll("-", "").toUpperCase();
+
+    if (replace.length() < K) return replace;
+
+    int reminder = replace.length() % K;
+
+    StringBuilder builder = new StringBuilder();
+
+    int i = 0;
+
+    if (reminder > 0) {
+
+      while (reminder-- > 0) {
+        builder.append(replace.charAt(i++));
+      }
+
+      builder.append("-");
     }
 
-    private String licenseKeyFormatting(String S, int K) {
-        String replace = S.replaceAll("-", "").toUpperCase();
+    int z = 0;
+    for (int j = i; j < replace.length(); j++) {
+      builder.append(replace.charAt(j));
+      if (++z == K && j != replace.length() - 1) {
 
-        if (replace.length() < K) return replace;
-
-        int reminder = replace.length() % K;
-
-        StringBuilder builder = new StringBuilder();
-
-        int i = 0;
-
-        if (reminder > 0) {
-
-            while (reminder-- > 0) {
-                builder.append(replace.charAt(i++));
-            }
-
-            builder.append("-");
-        }
-
-        int z = 0;
-        for (int j = i; j < replace.length(); j++) {
-            builder.append(replace.charAt(j));
-            if (++z == K && j != replace.length() - 1) {
-
-                builder.append("-");
-                z = 0;
-            }
-        }
-
-        return builder.toString();
+        builder.append("-");
+        z = 0;
+      }
     }
 
-    @Test
-    public void removeOuterParentheses() {
-        assertEquals("(()())(())", removeOuterParentheses("()()()"));
-        assertEquals("()()()()(())", removeOuterParentheses("(()())(())(()(()))"));
-        assertEquals("", removeOuterParentheses("()()"));
+    return builder.toString();
+  }
+
+  @Test
+  public void removeOuterParentheses() {
+    assertEquals("(()())(())", removeOuterParentheses("()()()"));
+    assertEquals("()()()()(())", removeOuterParentheses("(()())(())(()(()))"));
+    assertEquals("", removeOuterParentheses("()()"));
+  }
+
+  private String removeOuterParentheses(String S) {
+    Stack<Character> stack = new Stack<Character>();
+    char c = S.charAt(0);
+    boolean isOuterMost = false;
+
+    for (int i = 1; i < S.length(); i++) {
+      if (c == '(' && !isOuterMost) {
+        stack.add(S.charAt(i));
+        isOuterMost = true;
+      } else if (c == '(' && isOuterMost) {
+
+      }
     }
 
-    private String removeOuterParentheses(String S) {
-        Stack<Character> stack = new Stack<Character>();
-        char c = S.charAt(0);
-        boolean isOuterMost = false;
+    return null;
+  }
 
-        for (int i = 1; i < S.length(); i++) {
-            if (c == '(' && !isOuterMost) {
-                stack.add(S.charAt(i));
-                isOuterMost = true;
-            } else if (c == '(' && isOuterMost) {
+  @Test
+  public void compress() {
+    assertEquals(6, compress(new char[] {'a', 'a', 'b', 'b', 'c', 'c', 'c'}));
+    assertEquals(
+        4, compress(new char[] {'a', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b'}));
+    assertEquals(6, compress(new char[] {'a', 'a', 'a', 'b', 'b', 'a', 'a'}));
+    assertEquals(1, compress(new char[] {'a'}));
+    assertEquals(3, compress(new char[] {'a', 'a', 'a', 'a', 'a', 'b'}));
+  }
 
-            }
-        }
+  private int compress(char[] chars) {
+    if (null == chars || (null != chars && chars.length == 0)) return 0;
 
-        return null;
-    }
+    int length = chars.length;
 
-    @Test
-    public void compress() {
-        assertEquals(6, compress(new char[]{'a', 'a', 'b', 'b', 'c', 'c', 'c'}));
-        assertEquals(
-                4, compress(new char[]{'a', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b'}));
-        assertEquals(6, compress(new char[]{'a', 'a', 'a', 'b', 'b', 'a', 'a'}));
-        assertEquals(1, compress(new char[]{'a'}));
-        assertEquals(3, compress(new char[]{'a', 'a', 'a', 'a', 'a', 'b'}));
-    }
+    int i = 1;
+    int position = 1;
+    char c = chars[0];
+    int charCount = 1;
 
-    private int compress(char[] chars) {
-        if (null == chars || (null != chars && chars.length == 0)) return 0;
-
-        int length = chars.length;
-
-        int i = 1;
-        int position = 1;
-        char c = chars[0];
-        int charCount = 1;
-
-        while (i < length) {
-            if (c == chars[i]) charCount++;
-            else {
-                length = swapByCount(chars, position, charCount, i, length);
-                i = position + Integer.toString(charCount).length() - 1;
-                charCount = 1;
-                c = chars[i];
-                position = i + 1;
-            }
-
-            i++;
-        }
-
+    while (i < length) {
+      if (c == chars[i]) charCount++;
+      else {
         length = swapByCount(chars, position, charCount, i, length);
+        i = position + Integer.toString(charCount).length() - 1;
+        charCount = 1;
+        c = chars[i];
+        position = i + 1;
+      }
 
-        return length;
+      i++;
     }
 
-    /**
-     * @param chars
-     * @param position
-     * @param count
-     * @return
-     */
-    private int swapByCount(char[] chars, int position, int count, int i, int length) {
-        if (count > 1) {
-            String s = Integer.toString(count);
+    length = swapByCount(chars, position, charCount, i, length);
 
-            for (int j = 0; j < s.length(); j++) {
+    return length;
+  }
 
-                chars[position++] = s.charAt(j);
-            }
+  /**
+   * @param chars
+   * @param position
+   * @param count
+   * @return
+   */
+  private int swapByCount(char[] chars, int position, int count, int i, int length) {
+    if (count > 1) {
+      String s = Integer.toString(count);
 
-            if (position < i) {
-                length = length - (i - position);
+      for (int j = 0; j < s.length(); j++) {
 
-                for (int j = position; j < length; j++) {
-                    chars[position++] = chars[i++];
-                }
-            }
+        chars[position++] = s.charAt(j);
+      }
+
+      if (position < i) {
+        length = length - (i - position);
+
+        for (int j = position; j < length; j++) {
+          chars[position++] = chars[i++];
         }
-        return length;
+      }
+    }
+    return length;
+  }
+
+  @Test
+  public void judgeCircle() {
+    assertTrue(judgeCircle("UD"));
+    assertFalse(judgeCircle("LL"));
+  }
+
+  private boolean judgeCircle(String moves) {
+
+    int countLeft = 0;
+    int countUp = 0;
+
+    for (int i = 0; i < moves.length(); i++) {
+      if (moves.charAt(i) == 'L') countLeft++;
+      else if (moves.charAt(i) == 'R') countLeft--;
+      else if (moves.charAt(i) == 'U') countUp++;
+      else if (moves.charAt(i) == 'D') countUp--;
     }
 
-    @Test
-    public void judgeCircle() {
-        assertEquals(true, judgeCircle("UD"));
-        assertEquals(false, judgeCircle("LL"));
+    return countLeft == 0 && countUp == 0;
+  }
+
+  @Test
+  public void backspaceCompare() {
+    assertTrue(backspaceCompare("ab##", "c#d#"));
+    assertTrue(backspaceCompare("a##c", "#a#c"));
+    assertFalse(backspaceCompare("a#c", "b"));
+  }
+
+  public boolean backspaceCompare(String S, String T) {
+    Stack<Character> stack1 = getStack(S);
+    Stack<Character> stack2 = getStack(T);
+
+    return stack1.equals(stack2);
+  }
+
+  /** @param S */
+  private Stack<Character> getStack(String S) {
+    Stack<Character> stack = new Stack<>();
+
+    for (int i = 0; i < S.length(); i++) {
+      if (S.charAt(i) == '#') {
+        if (!stack.isEmpty()) stack.pop();
+      } else {
+        stack.add(S.charAt(i));
+      }
     }
 
-    private boolean judgeCircle(String moves) {
+    return stack;
+  }
 
-        int countLeft = 0;
-        int countUp = 0;
+  @Test
+  public void countSegments() {
+    assertEquals(0, countSegments(" "));
+    assertEquals(6, countSegments(", , , ,        a, eaefa"));
+  }
 
-        for (int i = 0; i < moves.length(); i++) {
-            if (moves.charAt(i) == 'L') countLeft++;
-            else if (moves.charAt(i) == 'R') countLeft--;
-            else if (moves.charAt(i) == 'U') countUp++;
-            else if (moves.charAt(i) == 'D') countUp--;
-        }
+  private int countSegments(String s) {
+    String trim = s.trim();
 
-        return countLeft == 0 && countUp == 0;
+    if ("".equals(trim)) return 0;
+
+    return s.trim().split("\\s+").length;
+  }
+
+  @Test
+  public void lengthOfLongestSubstring() {
+    assertEquals(3, lengthOfLongestSubstring("abc", new LinkedList<Character>(), 0));
+    assertEquals(3, lengthOfLongestSubstring("abcabcbb", new LinkedList<Character>(), 0));
+    assertEquals(1, lengthOfLongestSubstring("bbbbb", new LinkedList<Character>(), 0));
+    assertEquals(3, lengthOfLongestSubstring("pwwkew", new LinkedList<Character>(), 0));
+    assertEquals(6, lengthOfLongestSubstring("rphqbgbse".toCharArray()));
+    assertEquals(3, lengthOfLongestSubstring("abcabcbb"));
+  }
+
+  // Too slow
+  private int lengthOfLongestSubstring(String chars, LinkedList<Character> list, int position) {
+
+    int maxLength = list.size();
+
+    for (int i = position; i < chars.length(); i++) {
+
+      char ch = chars.charAt(position);
+
+      if (list.contains(ch)) return maxLength;
+
+      list.add(ch);
+      int length1 = lengthOfLongestSubstring(chars, list, position + 1);
+      list.pop();
+      int length2 = lengthOfLongestSubstring(chars, list, position + 1);
+
+      maxLength = Math.max(maxLength, Math.max(length2, length1));
     }
 
-    @Test
-    public void backspaceCompare() {
-        assertEquals(true, backspaceCompare("ab##", "c#d#"));
-        assertEquals(true, backspaceCompare("a##c", "#a#c"));
-        assertEquals(false, backspaceCompare("a#c", "b"));
+    return maxLength;
+  }
+
+  // Sliding window
+  private int lengthOfLongestSubstring(char[] s) {
+
+    Set<Character> seen = new HashSet<>();
+    int longest = 0;
+    int l = 0;
+
+    for (int r = 0; r < s.length; r++) {
+      while (seen.contains(s[r])) {
+        seen.remove(s[l]);
+        l++;
+      }
+      seen.add(s[r]);
+      longest = Math.max(longest, r - l + 1);
+    }
+    return longest;
+  }
+
+  private int lengthOfLongestSubstring(String s) {
+    int n = s.length(), ans = 0;
+    Map<Character, Integer> map = new HashMap<>(); // current index of character
+    // try to extend the range [i, j]
+    for (int j = 0, i = 0; j < n; j++) {
+      if (map.containsKey(s.charAt(j))) {
+        i = Math.max(map.get(s.charAt(j)), i);
+      }
+      ans = Math.max(ans, j - i + 1);
+      map.put(s.charAt(j), j + 1);
+    }
+    return ans;
+  }
+
+  @Test
+  public void groupAnagrams() {
+    groupAnagrams(new String[] {"eat", "tea", "tan", "ate", "nat", "bat"});
+    groupAnagrams1(new String[] {"eat", "tea", "tan", "ate", "nat", "bat"});
+    groupAnagrams2(new String[] {"eat", "tea", "tan", "ate", "nat", "bat"});
+  }
+
+  private List<List<String>> groupAnagrams2(String[] strs) {
+    if (strs.length == 0) return new ArrayList<List<String>>();
+
+    Map<String, List<String>> ans = new HashMap<String, List<String>>();
+    int[] count = new int[26];
+
+    for (String s : strs) {
+      Arrays.fill(count, 0);
+      for (char c : s.toCharArray()) count[c - 'a']++;
+
+      StringBuilder sb = new StringBuilder();
+      for (int i = 0; i < 26; i++) {
+        sb.append('#');
+        sb.append(count[i]);
+      }
+
+      String key = sb.toString();
+      if (!ans.containsKey(key)) ans.put(key, new ArrayList<String>());
+      ans.get(key).add(s);
     }
 
-    public boolean backspaceCompare(String S, String T) {
-        Stack<Character> stack1 = getStack(S);
-        Stack<Character> stack2 = getStack(T);
+    return new ArrayList<>(ans.values());
+  }
 
-        return stack1.equals(stack2);
+  private List<List<String>> groupAnagrams1(String[] strs) {
+
+    HashMap<OrderedChars, List<String>> map = new HashMap<OrderedChars, List<String>>();
+
+    for (String str : strs) {
+      char[] chars = str.toCharArray();
+
+      Arrays.parallelSort(chars);
+      OrderedChars chars1 = new OrderedChars(chars);
+
+      List<String> anagrams = map.getOrDefault(chars1, new ArrayList<String>());
+      anagrams.add(str);
+
+      map.put(chars1, anagrams);
     }
 
-    /** @param S */
-    private Stack<Character> getStack(String S) {
-        Stack<Character> stack = new Stack<>();
+    return new ArrayList<List<String>>(map.values());
+  }
 
-        for (int i = 0; i < S.length(); i++) {
-            if (S.charAt(i) == '#') {
-                if (!stack.isEmpty()) stack.pop();
-            } else {
-                stack.add(S.charAt(i));
-            }
-        }
+  private List<List<String>> groupAnagrams(String[] strs) {
+    if (strs.length == 0) return new ArrayList<List<String>>();
 
-        return stack;
+    Map<String, List<String>> ans = new HashMap<String, List<String>>();
+    for (String s : strs) {
+      char[] ca = s.toCharArray();
+      Arrays.sort(ca);
+      String key = String.valueOf(ca);
+
+      if (!ans.containsKey(key)) ans.put(key, new ArrayList<>());
+
+      ans.get(key).add(s);
+    }
+    return new ArrayList<List<String>>(ans.values());
+  }
+
+  class OrderedChars {
+    private char[] chars;
+
+    /** @param chars */
+    public OrderedChars(char[] chars) {
+      super();
+      this.chars = chars;
     }
 
-    @Test
-    public void countSegments() {
-        assertEquals(0, countSegments(" "));
-        assertEquals(6, countSegments(", , , ,        a, eaefa"));
+    @Override
+    public int hashCode() {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + Arrays.hashCode(chars);
+      return result;
     }
 
-    private int countSegments(String s) {
-        String trim = s.trim();
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) return true;
+      if (obj == null) return false;
+      if (getClass() != obj.getClass()) return false;
+      OrderedChars other = (OrderedChars) obj;
 
-        if ("".equals(trim)) return 0;
-
-        return s.trim().split("\\s+").length;
+      return Arrays.equals(chars, other.chars);
     }
+  }
+
+  @Test
+  public void isAnagram() {
+    assertTrue(isAnagram("hello", "llohe"));
+    assertTrue(isAnagram("anagram", "nagaram"));
+    assertTrue(isAnagram1("anagram", "nagaram"));
+    assertFalse(isAnagram("rat", "car"));
+  }
+
+  public boolean isAnagram(String s, String t) {
+    AtomicReference<BigInteger> valueHolder = new AtomicReference<>();
+    valueHolder.set(new BigInteger("1"));
+
+    s.chars()
+        .forEach(
+            c -> {
+              valueHolder.getAndAccumulate(
+                  BigInteger.valueOf(alphabetMap.get((char) c)),
+                  (previous, x) -> previous.multiply(x));
+            });
+
+    AtomicReference<BigInteger> valueHolder1 = new AtomicReference<>();
+    valueHolder1.set(new BigInteger("1"));
+
+    t.chars()
+        .forEach(
+            c -> {
+              valueHolder1.getAndAccumulate(
+                  BigInteger.valueOf(alphabetMap.get((char) c)),
+                  (previous, x) -> previous.multiply(x));
+            });
+
+    return valueHolder.get().compareTo(valueHolder1.get()) == 0;
+  }
+
+  public boolean isAnagram1(String s, String t) {
+    char[] c = s.toCharArray();
+    char[] c1 = t.toCharArray();
+
+    Arrays.parallelSort(c);
+    Arrays.parallelSort(c1);
+
+    return Arrays.equals(c, c1);
+  }
+
+  @Test
+  public void findWords() {
+    assertEquals(
+        true,
+        Arrays.equals(
+            new String[] {"Alaska", "Dad"},
+            findWords(new String[] {"Hello", "Alaska", "Dad", "Peace"})));
+  }
+
+  private String[] findWords(String[] words) {
+    String[] patterns = new String[] {"[asdfghjkl]", "[qwertyuiop]", "[zxcvbnm]"};
+    ArrayList<String> out = new ArrayList<String>();
+
+    for (int i = 0; i < words.length; i++) {
+
+      for (int j = 0; j < patterns.length; j++) {
+
+        Pattern pattern = Pattern.compile(patterns[j], Pattern.CASE_INSENSITIVE);
 
-    @Test
-    public void lengthOfLongestSubstring() {
-        assertEquals(3, lengthOfLongestSubstring("abc", new LinkedList<Character>(), 0));
-        assertEquals(3, lengthOfLongestSubstring("abcabcbb", new LinkedList<Character>(), 0));
-        assertEquals(1, lengthOfLongestSubstring("bbbbb", new LinkedList<Character>(), 0));
-        assertEquals(3, lengthOfLongestSubstring("pwwkew", new LinkedList<Character>(), 0));
-        assertEquals(6, lengthOfLongestSubstring("rphqbgbse".toCharArray()));
-        assertEquals(3, lengthOfLongestSubstring("abcabcbb"));
-    }
-
-    // Too slow
-    private int lengthOfLongestSubstring(String chars, LinkedList<Character> list, int position) {
-
-        int maxLength = list.size();
-
-        for (int i = position; i < chars.length(); i++) {
-
-            char ch = chars.charAt(position);
-
-            if (list.contains(ch)) return maxLength;
-
-            list.add(ch);
-            int length1 = lengthOfLongestSubstring(chars, list, position + 1);
-            list.pop();
-            int length2 = lengthOfLongestSubstring(chars, list, position + 1);
-
-            maxLength = Math.max(maxLength, Math.max(length2, length1));
-        }
-
-        return maxLength;
-    }
-
-    // Sliding window
-    private int lengthOfLongestSubstring(char[] s) {
-
-        Set<Character> seen = new HashSet<>();
-        int longest = 0;
-        int l = 0;
-
-        for (int r = 0; r < s.length; r++) {
-            while (seen.contains(s[r])) {
-                seen.remove(s[l]);
-                l++;
-            }
-            seen.add(s[r]);
-            longest = Math.max(longest, r - l + 1);
-        }
-        return longest;
-    }
-
-    private int lengthOfLongestSubstring(String s) {
-        int n = s.length(), ans = 0;
-        Map<Character, Integer> map = new HashMap<>(); // current index of character
-        // try to extend the range [i, j]
-        for (int j = 0, i = 0; j < n; j++) {
-            if (map.containsKey(s.charAt(j))) {
-                i = Math.max(map.get(s.charAt(j)), i);
-            }
-            ans = Math.max(ans, j - i + 1);
-            map.put(s.charAt(j), j + 1);
-        }
-        return ans;
-    }
-
-    @Test
-    public void groupAnagrams() {
-        groupAnagrams(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"});
-        groupAnagrams1(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"});
-        groupAnagrams2(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"});
-    }
-
-    private List<List<String>> groupAnagrams2(String[] strs) {
-        if (strs.length == 0) return new ArrayList<List<String>>();
-
-        Map<String, List<String>> ans = new HashMap<String, List<String>>();
-        int[] count = new int[26];
-
-        for (String s : strs) {
-            Arrays.fill(count, 0);
-            for (char c : s.toCharArray()) count[c - 'a']++;
-
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < 26; i++) {
-                sb.append('#');
-                sb.append(count[i]);
-            }
-
-            String key = sb.toString();
-            if (!ans.containsKey(key)) ans.put(key, new ArrayList<String>());
-            ans.get(key).add(s);
-        }
-
-        return new ArrayList<List<String>>(ans.values());
-    }
-
-    private List<List<String>> groupAnagrams1(String[] strs) {
-
-        HashMap<OrderedChars, List<String>> map = new HashMap<OrderedChars, List<String>>();
-
-        for (String str : strs) {
-            char[] chars = str.toCharArray();
-
-            Arrays.parallelSort(chars);
-            OrderedChars chars1 = new OrderedChars(chars);
-
-            List<String> anagrams = map.getOrDefault(chars1, new ArrayList<String>());
-            anagrams.add(str);
-
-            map.put(chars1, anagrams);
-        }
-
-        return new ArrayList<List<String>>(map.values());
-    }
-
-    private List<List<String>> groupAnagrams(String[] strs) {
-        if (strs.length == 0) return new ArrayList<List<String>>();
-
-        Map<String, List<String>> ans = new HashMap<String, List<String>>();
-        for (String s : strs) {
-            char[] ca = s.toCharArray();
-            Arrays.sort(ca);
-            String key = String.valueOf(ca);
-
-            if (!ans.containsKey(key)) ans.put(key, new ArrayList<>());
-
-            ans.get(key).add(s);
-        }
-        return new ArrayList<List<String>>(ans.values());
-    }
-
-    class OrderedChars {
-        private char[] chars;
-
-        /** @param chars */
-        public OrderedChars(char[] chars) {
-            super();
-            this.chars = chars;
-        }
-
-        @Override
-        public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + Arrays.hashCode(chars);
-            return result;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) return true;
-            if (obj == null) return false;
-            if (getClass() != obj.getClass()) return false;
-            OrderedChars other = (OrderedChars) obj;
-
-            if (!Arrays.equals(chars, other.chars)) return false;
-            return true;
-        }
-    }
-
-    @Test
-    public void isAnagram() {
-        assertEquals(true, isAnagram("hello", "llohe"));
-        assertEquals(true, isAnagram("anagram", "nagaram"));
-        assertEquals(true, isAnagram1("anagram", "nagaram"));
-        assertEquals(false, isAnagram("rat", "car"));
-    }
-
-    public boolean isAnagram(String s, String t) {
-        AtomicReference<BigInteger> valueHolder = new AtomicReference<>();
-        valueHolder.set(new BigInteger("1"));
-
-        s.chars()
-                .forEach(
-                        c -> {
-                            valueHolder.getAndAccumulate(
-                                    BigInteger.valueOf(alphabetMap.get((char) c)),
-                                    (previous, x) -> previous.multiply(x));
-                        });
-
-        AtomicReference<BigInteger> valueHolder1 = new AtomicReference<>();
-        valueHolder1.set(new BigInteger("1"));
-
-        t.chars()
-                .forEach(
-                        c -> {
-                            valueHolder1.getAndAccumulate(
-                                    BigInteger.valueOf(alphabetMap.get((char) c)),
-                                    (previous, x) -> previous.multiply(x));
-                        });
-
-        return valueHolder.get().compareTo(valueHolder1.get()) == 0;
-    }
-
-    public boolean isAnagram1(String s, String t) {
-        char[] c = s.toCharArray();
-        char[] c1 = t.toCharArray();
-
-        Arrays.parallelSort(c);
-        Arrays.parallelSort(c1);
-
-        return Arrays.equals(c, c1);
-    }
-
-    @Test
-    public void findWords() {
-        assertEquals(
-                true,
-                Arrays.equals(
-                        new String[]{"Alaska", "Dad"},
-                        findWords(new String[]{"Hello", "Alaska", "Dad", "Peace"})));
-    }
-
-    private String[] findWords(String[] words) {
-        String[] patterns = new String[]{"[asdfghjkl]", "[qwertyuiop]", "[zxcvbnm]"};
-        ArrayList<String> out = new ArrayList<String>();
-
-        for (int i = 0; i < words.length; i++) {
-
-            for (int j = 0; j < patterns.length; j++) {
-
-                Pattern pattern = Pattern.compile(patterns[j], Pattern.CASE_INSENSITIVE);
-
-                int count = 0;
-
-                Matcher m = pattern.matcher(words[i]);
-
-                while (m.find()) count++;
-
-                if (count == 0) continue;
-                else if (count == words[i].length()) {
-
-                    out.add(words[i]);
-                    break;
-                } else break;
-            }
-        }
-
-        return out.stream().sorted().toArray(String[]::new);
-    }
-
-    @Test
-    public void fizzBuzz() {
-        assertEquals(Arrays.asList(new String[]{"1", "2", "Fizz", "4", "Buzz"}), fizzBuzz(5));
-    }
-
-    public List<String> fizzBuzz(int n) {
-        List<String> ans = new LinkedList<String>();
-
-        @SuppressWarnings("serial")
-        HashMap<Integer, String> fizzBizzDict =
-                new HashMap<Integer, String>() {
-                    {
-                        put(3, "Fizz");
-                        put(5, "Buzz");
-                    }
-                };
-
-        for (int num = 1; num <= n; num++) {
-
-            String numAnsStr = "";
-
-            for (Integer key : fizzBizzDict.keySet()) {
-
-                if (num % key == 0) numAnsStr += fizzBizzDict.get(key);
-            }
-
-            if (numAnsStr.isEmpty()) numAnsStr += Integer.toString(num);
-
-            ans.add(numAnsStr);
-        }
-
-        return ans;
-    }
-
-    @Test
-    public void isSubsequence() {
-        assertEquals(true, isSubsequence("abc", "ahbgdc"));
-        assertEquals(false, isSubsequence("axc", "ahbgdc"));
-        assertEquals(true, isSubsequence("", "ahbgdc"));
-    }
-
-    public boolean isSubsequence(String s, String t) {
-        int sLength = s.length();
-        int tLength = t.length();
-
-        if (sLength == 0) return true;
-
-        int k = 0;
-        char c = s.charAt(k);
-
-        for (int i = 0; i < tLength; i++) {
-            if (t.charAt(i) == c) {
-                if (++k == sLength) return true;
-
-                c = s.charAt(k);
-            }
-        }
-
-        return false;
-    }
-
-    @Test
-    public void checkRecord() {
-        assertEquals(true, checkRecord("PPALLPL"));
-        assertEquals(false, checkRecord("PPALLL"));
-        assertEquals(true, checkRecord("A"));
-        assertEquals(false, checkRecord("LLL"));
-        assertEquals(false, checkRecord("ALLAPPL"));
-    }
-
-    private boolean checkRecord(String str) {
-        Pattern pattern = Pattern.compile("(.*A.*){2,}|(L){3}+");
-        Matcher m = pattern.matcher(str);
-
-        if (m.find()) return false;
-
-        return true;
-    }
-
-    @Test
-    public void findTheDifference() {
-        assertEquals('e', findTheDifference("abcd", "abcde"));
-    }
-
-    private char findTheDifference(String s, String t) {
-
-        int sum = s.chars().sum();
-        int sum1 = t.chars().sum();
-
-        return (char) (sum1 - sum);
-    }
-
-    @Test
-    public void canConstruct() {
-        assertEquals(false, canConstruct("a", "b"));
-        assertEquals(false, canConstruct("aa", "ab"));
-        assertEquals(true, canConstruct("aa", "aab"));
-    }
-
-    private boolean canConstruct(String ransomNote, String magazine) {
-        Map<Character, Integer> map = new HashMap<Character, Integer>();
-
-        for (int i = 0; i < magazine.length(); i++) {
-            map.put(magazine.charAt(i), map.getOrDefault(magazine.charAt(i), 0) + 1);
-        }
-
-        for (int i = 0; i < ransomNote.length(); i++) {
-            int freq = map.getOrDefault(ransomNote.charAt(i), 0);
-
-            if (freq == 0) return false;
-            else map.put(ransomNote.charAt(i), --freq);
-        }
-
-        return true;
-    }
-
-    @Test
-    public void detectCapitalUse() {
-        assertEquals(true, detectCapitalUse("USA"));
-        assertEquals(true, detectCapitalUse("leetcode"));
-        assertEquals(true, detectCapitalUse("Google"));
-        assertEquals(true, detectCapitalUse("Google"));
-        assertEquals(false, detectCapitalUse("FlaG"));
-    }
-
-    private boolean detectCapitalUse(String word) {
-
-        boolean areAllCapitals = true;
-        boolean areAllLowerLetters = true;
-        boolean isFirstCapital = Character.isUpperCase(word.charAt(0));
-
-        for (int i = 1; i < word.length(); i++) {
-            char c = word.charAt(i);
-
-            if (Character.isUpperCase(c)) areAllLowerLetters = false;
-            else areAllCapitals = false;
-
-            if (areAllCapitals || areAllLowerLetters) continue;
-            else break;
-        }
-
-        return (areAllCapitals && isFirstCapital)
-                || (areAllLowerLetters && isFirstCapital)
-                || (areAllLowerLetters && !isFirstCapital);
-    }
-
-    @Test
-    public void uniqueMorseRepresentations() {
-        assertEquals(2, uniqueMorseRepresentations(new String[]{"gin", "zen", "gig", "msg"}));
-
-        assertEquals(
-                1,
-                uniqueMorseRepresentations(new String[]{"rwjje", "aittjje", "auyyn", "lqtktn", "lmjwn"}));
-    }
-
-    private int uniqueMorseRepresentations(String[] words) {
-
-        String[] alphabetMorse =
-                new String[]{
-                        ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..",
-                        "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-",
-                        "-.--", "--.."
-                };
-
-        Set<String> seen = new HashSet<String>();
-
-        for (String word : words) {
-            StringBuilder sb = new StringBuilder();
-
-            for (int i = 0; i < word.length(); i++) sb.append(alphabetMorse[word.charAt(i) - 'a']);
-
-            String morsetransform = sb.toString();
-
-            seen.add(morsetransform);
-        }
-
-        return seen.size();
-    }
-
-    @Test
-    public void reverseWords() {
-        assertEquals("s'teL ekat edoCteeL tsetnoc", reverseWords("Let's take LeetCode contest"));
-    }
-
-    private String reverseWords(String s) {
-
-        StringBuilder solution = new StringBuilder();
-
-        String[] split = s.split("\\s");
-
-        for (String string : split) {
-            char[] array = string.toCharArray();
-
-            int length = string.length() - 1;
-
-            for (int i = length; i > length / 2; i--) {
-                char c1 = array[i];
-                char c2 = array[length - i];
-
-                array[i] = c2;
-                array[length - i] = c1;
-            }
-
-            solution.append(array).append(" ");
-        }
-
-        return solution.toString().trim();
-    }
-
-    @Test
-    public void reverseStr() {
-        assertEquals("bacde", reverseStr("abcde", 2));
-        assertEquals("bacdfeg", reverseStr("abcdefg", 2));
-        assertEquals("bacdfegh", reverseStr("abcdefgh", 2));
-        assertEquals("cbad", reverseStr("abcd", 3));
-        assertEquals("a", reverseStr("a", 2));
-        assertEquals("ba", reverseStr("ab", 2));
-        assertEquals("abcdefg", reverseStr("abcdefg", 1));
-    }
-
-    private String reverseStr(String s, int k) {
-
-        Queue<Character> queue =
-                s.chars()
-                        .boxed()
-                        .map(i -> (char) i.intValue())
-                        .collect(Collectors.toCollection(LinkedList::new));
-        Stack<Character> reverse = new Stack<Character>();
-
-        StringBuilder sb = new StringBuilder();
-        StringBuilder solution = new StringBuilder();
-
-        int step = 2 * k;
-
-        int i = 0;
-        int queueSize = queue.size();
-
-        while (!queue.isEmpty()) {
-
-            if (i < k) {
-                reverse.push(queue.poll());
-                i++;
-            } else if (i < step) {
-                i++;
-                sb.append(queue.poll());
-            } else {
-                i = 0;
-
-                int stackSize = reverse.size();
-
-                for (int ii = 0; ii < stackSize; ii++) solution.append(reverse.pop());
-
-                solution.append(sb.toString());
-
-                sb = new StringBuilder();
-                reverse.clear();
-
-                int remaining = queueSize - queue.size();
-
-                if (remaining < k) {
-
-                    while (!queue.isEmpty()) reverse.push(queue.poll());
-
-                    stackSize = reverse.size();
-
-                    for (int ii = 0; ii < stackSize; ii++) solution.append(reverse.pop());
-
-                    break;
-
-                } else if (remaining < 2 * k && remaining >= k) {
-
-                    int tmp = -1;
-
-                    while (++tmp < k) reverse.push(queue.poll());
-
-                    stackSize = reverse.size();
-
-                    for (int ii = 0; ii < stackSize; ii++) solution.append(reverse.pop());
-
-                    while (!queue.isEmpty()) sb.append(queue.poll());
-
-                    solution.append(sb.toString());
-
-                    sb = new StringBuilder();
-
-                    break;
-                }
-            }
-        }
-
-        if (!reverse.isEmpty()) while (!reverse.isEmpty()) solution.append(reverse.pop());
-
-        if (sb.length() > 0) solution.append(sb.toString());
-
-        return solution.toString();
-    }
-
-    @Test
-    public void removeDuplicates() {
-        assertEquals("ca", removeDuplicates("abbaca"));
-    }
-
-    private String removeDuplicates(String str) {
-
-        Stack<Character> stack = new Stack<Character>();
-        stack.push(str.charAt(0));
-
-        for (int i = 1; i < str.length(); i++) {
-            if (!stack.isEmpty() && str.charAt(i) == stack.peek()) stack.pop();
-            else stack.push(str.charAt(i));
-        }
-
-        return stack.stream().map(i -> Character.toString(i)).collect(Collectors.joining(""));
-    }
-
-    @Test
-    public void firstUniqChar() {
-        assertEquals(0, firstUniqChar("leetcode"));
-        assertEquals(2, firstUniqChar("loveleetcode"));
-        assertEquals(-1, firstUniqChar("lllcc"));
-        assertEquals(
-                -1,
-                firstUniqChar(
-                        "sdnvlbkrmtbollujsdjfjfppksravjkwwsimlmdtcmiilpjibjhcppluisqbqfwrjjlrapsmcwrsrnfrmtjrffpuuqwonqfjfqxellpvmcfmhxccljqlvboioelpfcawrxlwsajfaiehutvogduhobwgpogvatpbvoaognbepqnkhkjsvqmfaghavopppcjbjunuaeotpkbfsmeqikjflakgjexnqqgxnsdjolbjbvhreighxhkihwphexwqufasjakmrdrpwciefaiqsaifmcfdeidhmjekoorvcuxtejlrfscrjekfkcnsdhhsxenhkuanafdpnsjnepdmvvrhbxwuhmrkenrcwbadsiulpvcklhlburudrbbskokwnwqktwjxstsvebvpqcugxjebcivudojorntphtscxhoxlhteuqunhvrsndtabfpdqdcsuqmdbeiiexdkaqtgkncfatlawrudbausifpsicibgrwastcxkjasmrmtrchbwlkxnbsxeaurtfdwmjqkgikcctgccsisgwlkkwflvahasltfusxogtbejrderxbqshacgsrvtqpgdcwmuwuejcmqanirwthsaxihlowgwjeegdltsujtrfuhjnqjjefqjwubiktuglirmgcdqfolvmrilkrvtlrtntujffbrtfiwdtvtfrkfnwklfulecxtkvqpgcrqvgjxbebjlbiopbnhqbdhhxsmgpdojhupxnfkmqsjlmcserhsiwhvelcufuvqrvpwhckexvutuwgfbgnqsmpmfuqkrvwggskovlqtqnqxvpghqoomplnnkmuhkbwpaxuhrkphbgwopxikisuegmxhbjocwhumauhiegojccvibwfdrdnahnwduvnuxjcuncrcgwwrjhxmdemnuxcjspjisgduuoojpxluvehoqpctncxniatxqckhmggtwgjihfnxdhbjwjhuqwuoveibqppqrmxrmaddukgcxpubmvgidcvwenbisercjiwvogdsgaqgsmahrlhgguanubvdptiofskqehtugwjdtgmcfdbpcovmvkntwsmtlcvrpmjclmsasnjtbfolgggthxjxplmkoafjodoevblwxbhctberkobjdqbidfsktudhcnsrexmetkowvxmrxvixbnfgrpeeuwpmskmbjvfdvjnippnedtbupouibddxahrhwdofdlvsnmwxakbsbxfrxlagdqpexnakowwnlkvcmnxmiogtwldgiepsigitkbnklunqqivlrkbwhuofmgfccjkrxffdamqbuglhcovmmnewgfptkabfwlqgrfhnburpbtajjmnfwmamehrdjkaalalxvwwaglidkkthgtuxwjehjegvxcclkrrudbknoqvgqfobarlsetjpgdflhjxfrxdodudljkxadlhghxcfbjigrmfcoxwxsabfgqilathijexhuwjjevobvgpvgfrrvotilgdvskfoeqvlgnaofwgdxdtborgsqxrqkusaphbldgdsntgtumhsbcbjwfgsvfsmmuonpclpxjxwskficxigsdadxpjslhhvqehdddsrxgdfljlowxkilobxqroctficwgedsspktwvpdibnrevillfwrsxjmxvuhqxmvhkjtrgvhxxecpjnkdjisrcqgnwtkmwxscdhihvpjgueboghiuieeqqwbpkohrklmukmbjueqnkfgsdigxrdporegntvppdjqdghwfrmnuhncubwteturdvcuppsawqraabqaffjwtmhmcibhepauhthunhcnwlcdebbgxqqwkbreoqsdvvpxcutnhcqtpcfbnxpavcmcbvulobiorfqkmrphgssmjgblfsnxfslmrsxaukmqhhtgfxtsivihexpituqkrjntigltpvgsgcrcwbopgmlejngagtlriidpishuhavdqqcpfwrnbxtmghhlaqufcffjpwuueectmxntdnmepwxouwkcaddmxicipbrsnaukcalqrpvvsjasesgmwerrxtdewnhpuwebcktovuxxrxvretussdojcmhowaocqmkxepgtbuisubpcwrtdmxbgqnpuwdntclvvavejthrgspvfjeupmjlprekrgofcatvkofuafubevbidetgwkkuenjbkojnitulgghpowubdmxqlrxcbwxcouoejougudoxritmngxqmxaenpqhhblqmxkcvogxxbiaumbeumfpwgomcggxbbfmxmumpgqbxddhodqgekgnjrpkqgrpfpuxvnfjnwsdwdpexdrlexjlnredcxajnmjiaqvscwuhmxufawusutabdemknrffbguxaxmwdhokxjkvikrmeprwklbvlmgsxxvolirwcpxgbpqcprqjnjntcxrmdqdbroldtnfsghitjlavokiigcupuwnifngkgsiwhfjjxijqamavumcsqkvtpknjsugmxnciqiktgqkonsrdjjgorkswdjrojlsxdgkjvoljsjdfanswoiufdqjjjnjideducfxiwhtdtkemkfvxbrmwwwduqmmwonrlvcdntljijselbcavvmgcakxwaidruqmdkvucvcgrftetxenrhbbblgpqsaoietlnuweudmkghuummtjljqoswbkbfefexiqiqfjoornofnmnxxhscbvvkkpkruinugbvisuwerxjbgdhirgpcnoeglhswigcdfxelfmeqfhqkxlrhpvbksqmkdkkvabdnfcmjptbxdhdrikuvkojrbvixkhbfupkrnjfdoxvlfvrebbijtxoqltguiqihurmxawaimrxdrstnsqulqajfwtwjnlhrboupthvahjaprnimuormdlcsevjwrrngbaashntmbpxxtqbanvwdlpqhtaxeestdnnahuillicvebrobwlmihtdkfwhchwasgwfgsqnfgurgsjwhabkujamvjvriivnkslxakealslelwqkdcpjniwthpoxpqgbdlmvukwueuionfgbmlniwmfqbwrxwqsnwxridlmkaulwlhldcfkiefujkagrfwjjrqjptgxkxkdfwmosfhpjjdujkmugfmtupnntgbglcwskveiegaekewworsnnvahwvovltolgqawwixrjnsbuwoqqatxhfexjnlbiduecsiiapnjcimgovekjgflugprswurcnldaxgqbdgipbodjdgwgerjlhrombjuajcgihcwqdtvpxixmivcsihanqkgvvkekqdnjknjopssslkdascasmarrjsbvsxxcbfklrnctivnkduhmldgracfitjgvaqgnmieitubwvchurhtrlsvvchsknpxfqviojmsniqgqwlpdnjppifewefrwimsejhpdbcnnblbamohnotsfewfvowrmtaittermlafnnlspgnfcmgfuxmgkgiunglarhfhkaxbaucqfexslxqqtxxamgvajrnmhmlbvoxtmwxejweoqatldgwdmfmwxnxsmsmxmhjjrmsgdferqonwmldxrmngijxtjksrittuqwlwebxtebibnxvtesaqufhpwtmoiaxubccmuafdtbddobebehflkkngcfkxnqlrlsxhcuwcopvfirqhsemasptavjtuwdjdxfcixucamcahtxcgopnivmaeawbvmxqrmdthcqjvwdtrouaghsqalktudmlshoxmlvceebtrebwskptoofvttqwwodbsohqeeshxnwbtnujugimqshnqowacpmtxjdkboldpuajmceeftarseqgotubcjojxsjnljomwjnvnskqgbwlnlasodtbnckelorrbpvekfxttwntxxstjiqxqncqsdwssadgmvqjmqfnbfgoxovqnthpmdswslemogqumovfdjiroatbinobtdvickctnsmdfqpurxgwjbprbpgfqfniridebecitsnvaxretddoeikmdjpiivduimhcdbcttbwmptmnsakevnscuwemiwxnaeurgitfxpcwslsivgfquqotuxxhqxjdrlpltcehnvgnjillfwdjrkwhkuqdxbrgkxshjwvpwsmhdbnxkivjedkoaevpguqonqevsvxpspegjpsnutchuclqmaadfpvdqxgnepbgqmujtbkucqkmlaafhaqgecbnmehxqlltsiwijqddohvohukvjtwctpsurohmgcgagmrtdmxugouoiphicrjosmkagfwsgtimfhgkiefolaomqjjpbtbkarbcflncapmhxkensiobftdbgbiihjwxwhgimoletnhrundehcjntiutjptvekrdmnbemoajiglkthlxqposxgatcvkmixrxcmcevevpprhkvqfhusnihnxcbifxdixdamrkgxbaqxebscisvjphuxkhwleeftravmhfbiudtiahkkubbmtpgsarquiffljmkfmmmxxxpdfmflcvjucbfwbkrdrjmoxixgwbidjgnjlblsrmfrclauwrpbfikvjneqxlvvspnjbulkjqnkfgrtgwtwgcxpbcbdgstucchuhoortxjatdonjamblhsnxwgwegkbcpdjfiehotassiapxrmknxfgrdkbqxbujwjreivfctdrepotjictccwtbagfknbmipiesajdapcubosjwfvbniodwvcccqsrocjrchpagxnehpcjhrgxdjnxbsohjquutxmqbeavxtebqjpcdsndowsxbhjnwogfpwbtbjmrilwclekecjrnnfpsgunlrqkldixprfdnthnxrqiiuwmgixsqibaktiopolipkanjhhpsjnmwccmwafetiolslutjqicidsrmvlnqdlmnttkeefnbndocbobxkigfedjwtdgehkkwptgbmrvsiiqdomqutreufldqdauuokuahiiubadphgdurqpgdflwpticfafqhllekupokbrxetnnkjhotdvkbjitpucrlfgbqonghovdhrpicwqdscaqmwsudvlhibxasoqnqgilowrlibkgqufkokxvjribjferoljtwrkoledombvogamnbgavpkbqtdglxxaxqxknwbesowbukgfeniduhpfdirnwsjmshaspnhnpxafphwpfqcqljaftgrburjptseifkfoeopsicququtjklebxqrscdhptrdnomtxruuaxveswrcuqpnrqltplrefruvjlubaiqnxthcsxfbtgmcnorgjnjgjoeldubhjpstxnitmkkxulddeikciifotralvqtfbocgxujvhipmqicqaououffucdigvqsljwjhqbbrnaviovujxrbufmhjpufnedhrjogmctbaeldlijopkratcuflclooscrpbhbpvtxifjrfuukqqgsmmghedrdlhmrwrjlwrrftarpgdxhfdhvndjdcknvdkknmqdllnelpmdggfkfxjudxpothxqtffmhcxobfsuxwlanfcenedwmcaexkjjvtorhbgrferstptaeejowgrnpofeftrbeuwbthvnaaawgknkebepatlaemiohrxihivwfoucrapqrpjhmvbamnjhtcxrewdfghsvvvlpbgawdvxxnjbbbscefktvnrvrjrpjjtjepcjduggbfeerpexvjkemrcmdrgcxdspklklfechngfbrxkacxeblajjunwuccjnjnxwuehlmpgkapmnmphmvswetgjfapqlqobkcdgagbgvhskwtcllaakvbsaejjxqqfixmspwsdudnfmswaphujlegtbdxiwgqlfuvhcxjfkmlkclfhficnkqbbfqpeftjwgckmarcixiqamhbrmfkvqdssvedgeidqnbojhfoktwfpcxsneitattkixpdnlffrqrxmrteogpsifsqevxgonbbdvjhsdjphjkvxetvjamoctscmhlkiuewrojodsodmwtjskfjvktcgvvqpluivcokmbjisrcohrgdtsaxjcmfkmudnhkpfgvveahwxjwlbrbkedwavjrqawxlvmuirpsgxsmiiacqbonhepflcqicifghhtddihfvphxvhiwfhqrjuvgbxvkeipbxlkqhcfgtthkomqjtmhpblvqbejxwcgxnsdinirvqectsnpecolvwbpfecnphnjjxdegmqlrdiausuxxrxemjxllkaqcqcapnwpjfmdmvsjtvapsahsusdblkorhaqtbiudqxubenpnquchfrnnvqpjvefcxihcphdhmtxojurnvxrpqrjopedlrceklpavqugvvanifshpbnvxsdltrvwihblbiobuwmkmlhoihwjmlhoxefunmuaggukhrmuhpbrewqlhwiinumnxwhlviarhhbsefcjgmlsvvsdtlklqmvbqasarfkkbkicitiprmsghsoowwjshdjsqsomltccohkltufgbbmdcltfwpqorarbitswkrxjmghunicweruuwjshfveofmevjupwvrjxfogvwpwidvqoedsussasvathbgufgjsniaaopiktxvjlcdufueckisovcwsjuspdmneagffhwbwsbhirvushwsubkxrnputhlstcveqfkjhdsivqecsqxsgsdiiwxoetmsmucwlukegpdgecjnhwditjeihoursohuixxtfeoljforeamhlqkomfuipuooormpokkconfoqnsqojvowwusrwniiqnticleqvvnaibnmagnjwmdaarurvgqblcahmnttbxkqurauemoovkoppcwejphtmdpteamrnhsrsngsmlueafwocnglkihvmrgwevgsjhfbbnbtndpuhgvlrlowqjwarvhgdvdwnwkajbxbrmwgjwrpvnumetvenfidjorlsedhccrmpodjoldbfjbwvmuialrohrbmhrwovwomirmooxlsjbmttvkmqnuwuhlhffembgahdvsukabbsupuxorkpnauapwucjnkolvaqkfmiauhxrajqappncmaeaevrljxntxnhbvnlnoticqjpbvwiurjpulxxmimvadxbarqarngwghmkltvckparsefgfbagamvvqlfjlcqivfedmjukgomkshmnunmjfbplcbdvlfaghsorowujhfglmmxelmqvnrhummtvrnwquffnatvvvwgtasmuqodkkflpaeuqfeepupgwsbojqpdlgdtuvdfrdodeeqhwxapchquetnpcbrnkwffeacpbqrqecjlxhsscvqnqvcssotnaajkelurcrbjwjajefstvhpbqhhmqiplfuxbfvbtegeicrlruciknduspjlqeqdwcdolxwjdahesqsckamdaccrnsupuxmbpodipqoeefmhrjmpugmuvsnumtolqivpwbfdwsnbumfwfupjaqtuaxkgxbihnxewbekqiedsuelqoklhogxacrdogmctdvafdoipewindfmxkkisfostcwhgivfojraosxjhkrmtjprjmuokgktejanunlxritwpxiectehtittikqvwrjrcgpxrwobnhebbbarwpasxniibfxoqnmwwsjundxuhhdrmjphmvdtfdwkpeihwskbifquidnhspawqooqmgpehagpjxlrbjtsigthcxirfqlierllwreldmwjwarfjcqrggdnkwjepknpcbbijxqsbqjppnrswepwjeowbbxpjentqpfpwqvhduejfodxiqdjkrgcppcstxemhlragtduhpbxvuqwovrsretbmbdfvsicpuetxriqpspjsgpojmlbooeuapaawodvpdwjrrwdjexhcwihbvixbojrcielqsnojpqqoeeewoijhjtqohqkrvskevuwjxftdbrrertvfqsppbjtakeditqnufsbcvlooasvujcvqrvbdgrpwhdluxsutbfelthfsvjkhljenrspcamergnagkqniavhtjbcgiaskaqlfsacwfrlcwtufdtcvtdlebcmuawdiqiaarxafaiswaewtlcbabwwuicccfmppcaugbakjpbsauinocnestocebhwjijfrhbxghkrpkvlhjalihuclrunmkdpjrnnewrsswftktdwkhtposidlchbmdfvsirhracliukcbxljcxbjluixchpelnoaldmdxeemrjqndjwwhjcjonvoxhnqkpfawngjilndfgxerwtlrupxwmwqltimctcnbmpbcfhcldqwejccpbpdfstfodaaqwfpfiqdgrrqvxsnjqukdxlvrgmwigweplxgstqhmxeejtvaddqctpbvcrsjbuiawpxdpkqvmrhqiwjhatgmqbmustupqwjuenvmwqgvwusdsbxkciwxcmbiqtkbweoakdklfkeiblwnxeorhjjdaikcdjnvdnrmqrvontsmouswoohnaxgiexwlmomfpcragaohorolnpowihqemjgouwvjlkphscgneqgeaecdwfcfoadhviinjiiwivxnegrbrqepcnwoboxtvjapjumotswicntweobvgbqpnmqlnjmjajossekhkhxjlvdbtbgkukldrikbtwrfwjvknidjfntqbdiqrhrgquuvwsdkmhhqojnnvsonoedfvpjcwsjlvgtmerufnsfdjaovrxdjdvgqxcwhjhwakrqiloecrhtmhoraqcdpvqnrguhpubruonmjcqlrpxsniegilinvduhaemnkvwbbsrghkqbsojjemkteturfxsuvhlpafggwowhttwpvpwadkpkefeigxruaqqgsmsilctwlvruscgiblusauijhnsqjpeqokciqfrlixsjkhaaopiuaxbuchnxqtppfgfvfjpwkdivdvnijouxevpcgvrcggidqrdismgakpmiwgmbuixdupjrdjgpbwasndwixhgaomfceiorousianqmrroilmowgutnmcwwacmutedcquvpjptiapovcqkxbufpsewtpjrfvksmagpxvmlhijbmicgdatchpxaocalfabdghtjqfnqirqmhlrqucqkmerrxtiseothqvlkdslrlelkgvpabgugoclmorkitgwgkcvlpcewjhubhfcxtwpgohnguulccqdhvxslepibrdrbedtnrrjrdvxcilolxtklikldthjxljleuhkjdxjqntawtisburdcdvwtduvdipkharotsibkvibcudgmibftxodkevokphgmxjjveupasgladstvmlcglpujhcsxaahdrhbmllereednawbeoiqmxxqpkdjaujeugthtxoqotkueepqirgifmfoniqfnkugfxvtqptsxqifsgvqrsokqbdxkgjnpcivrtfnttdmtkonsxjibtqfwgilpwwqgfvrgcmendhudcevsnbbwtntgdujthphrjlkffabgafdwpcvkkxlasdkjrxtxkmcjjspvdlnvrxjvbbntorgijmloxrhdvnbfcsjgmdnlglgpqxvvxjcfxwgowkwgcdtogdqkbcuxqtbvvfmpxvgimtsrnkqbbubuufmhbobswoughelkvhmrjjjoekvlabuomqfferdtatfewsdvkwspncjodinnrlsmxvlfdktdgmfetrjrfkbdaftqtvhwuadqecfpnrrcjamavpqnglimcsxnlkmphsbxtjmskwnxqpbqegpkwbrlebfedneieicuvaagkbplebodbfvqlusancmweqpatcaujbrmwsgvewjcdtdwhemkofvdfjuikhjshcwmfrlgqwdvskrfsrpjwsbcwcfhtjneafroqogfacmtgjpeltdwvjouqcannxgklbirwjpdnalmaiuusdibdseajbgurjdfagmvpswxwbkjhhcuppvrrwfhexxcfxdfaefddkkklgxcmghflithwlpiwudxebxjklctthnmnvdgovepfhklkcuebabmdapcolvmosnmtigwfnrbfkklweckutdbekdxmuexueddfvqjjevlmdtcbijlavpnwqcbnoadoewiugqattkobbeodvtxtwgrjlvqqbbblbqepkatstgsudpivfgfxopmwrntffpitvxgoaoboksxolkpohewmnupmmasntbboxvhssdcakwlniweokljredbdkwxxbaufpqhcpgqhrcjescogimhobvdmnrpuqviiuivwxbqlbvxqjagmaoxdgsvgtxvkrgvvixkgcknfjqvdnodlsdcjbcobgkgddlvwsdvlalfurevegvwqgbixmnwwfavwfwvclwxejsaaqgulmvxnurafochlqjimbnarbwhkwiprqbmrqofrflktgtglppxegjemnmotnmcqiuvniarehxicooodcjlolsjkpxmbxiiuqwxivskxdvxjvdfvbomdcqimqbiefsrwiqbaiorjbucbtmtimpjskdbigakcvlhnrkdhxkntkvgbqqbuduttdklicntfrlprbmgnugxluiwbuwxspfbgfphenadfpkucjwcanuplrvibxhebwjmebimkgrbirperkxwkulesquvkrtasbbmunoduupgqwdxncjldicwbquultcntjgaxcqlkrekunxwokkirrcwhtwvntdroegadqqvkuwufirrfdkwowdumidsokaulejgkaebwugekwrpbutujrnqjpqaibhpapjhmifofludtxjjkemttjpafqaktgbbpxugxklmiixbjdpojfutkosxadkgvlwmxleqneonotrnssnhvgudrbxtsinmixvnblpqoaogpeiaqmjlwxuevaemmxcnmrioehvmansstmvblkldeiefimjmvajrxtnxahaevklpdrijksnxqrlxbnqqglchtuniglhrubbnweiavvwwbcdjqehtfruipmixudbdwjmnevhnuefjilkugpiceajlutghepxrksexgntaqvlptmrqcpjidjpbbbwgohbmieqslsndikarvfieuftlifpcwgjejtpdqprpdwntmrewtgwivintnkjndshtvmqxtlhfxxddvughxinnmprbkkfsjvaisanqabsvohhrcsxmqrttjevnnekcphmgbahnipkwinivttqewtbbvgsgaxbvnblcjnmobowrgjhiqwgxkepqpfavknskurmhcfmvfhiohcebsvuwlonihjhjmfvclialnkjxeaoulshkihjjbpsankwtfxcflhxgrljhudrukqhilmmpnjhisqhcfdaskerbwqwchwjnfeonsmwjflvrvtqxubbbkroemagdndnqtwcrnqxpmnclhlcslrttkvvgmnjauixevxmemoxqpxwngifcrthadapavorjgpvksvmfaxwuarlaetqixifpejubitfhshijcrkeitlmwdpmbcvluwerfsecumucbiisntvcmliqsvdqewsuqwgfpkxtjrprksmveewpffthcxxmfqikdbbeabelxlwvnfwjgkwssdvsjjlbmwhwwfovdpvshqbfsrmptptmtdfqemxhjcwaamnbvmabarpksgpgurnubxfkfwkvntxhjmfiqrgqkxjmempxasoddwtaligeaiqtbhqrdmgggaakruubxbeajiabgdrlalkgbeevowcedosmhmnvsfqeemmgxftlhtvnbdktkxacrphtiftdxqshkmxovqoduqbtpusugqshbfbhmqxkjrciopbbitjeisvonompspgtcggprlotvaipnvjjbvtwkbtgctxfxgepemqmrqtffftwjwiuwqvqkfrexkfomuwdqovgmofrqiukrlokstxtqwiacmerrqcgfenmimtwpbdgfctecwjgffqbgpfwhmsrlgcwxmofqbqaouxkqrscqaixqmxhvhetkmtfifofvglqdrbldumgbqcukderljbfdwxruxtpobtxvslxuhvtjguglvkhjsapnmpbkkflklcvcndirkgjxqhfdithqslqjgtocwtibkwbueclmnpxdqlkdovjhrqqonthelhxdqautvhtnrhfgmpmsniwphaqmhgfbjxxqthvvsuwluaehofmapooxmdadvfaiqlbrnfneshewxqmovtsosfihibxmabhsinvovatpfroglimuacvtapnxebgooasnkmbnscapccemwqfabkoxiceqgfvbjscdmpiaojmttkvxsipcpdmkkhwjxllohbpmipiwavolpbspwhrcsfifgnssaealkdqpmmcaqaxpwoserwtbkxsheormqifdrsgdswfngiwqaswxvwoohsrruiswwokdemrdamcvkxengfnqjfsscgvkwexamiwvtriuaaiqudixgpafvlgmrtpccsvtjukqwdlaraaxvvdvbqpibctmnihjicowulvnvrlolvkrtuehpprafqjswheijucrxnitakaxghnphcvvbvhwrwwxvgpwtxaejscshhrsrvbpcndafdaqvencawitaurikrekcixpxbptkgixnoniksmtrpfagtnukloujfrhvbxlrfmkprnooiedxjbuxetjjbppnvaiuganfsokvtjbkvebjdcpjxlfabalujeuuadtaexnotbjxtnvbgrkodpdndabxcmtvhaubnhossugdawxgsnmnkeqjriqxwaeicojptfcaisbqeaaqphvvsfovjxacfbhttfbepjdkvejersxxfwoadpehmocsrxmpioexjuqxqkgjofnlulffpnkqcfnwqbmfcrdiawkpdliwcbjudfnennjjllboeqgdanuxggacmiqcgflkdflnuparxjhrtesdelsejvcrurgpsktveljavehxfogrneqemkcpskqkdfqegxcfogooimwvotwvmqjosdoqrgtgruibjvxsbpsffwgckhhfxrniegnivjcvnhnofdlfenowtdhorlsbvhsucshnasviigxtacmmabrcukprdgwrxrkrwhvqibfvkqpadrmjvkdpwuilqbmovqmxpgosoirwlgmogctcljfgcjbepekgpljgexkbcurbtaptakxrkgoqqqtubokcmtxporspeqwacewiddkubawmqjelwaudfiaanfflujpcpnmwvvtfbhwrjfgjgjphlbucidtubkeplbwdppdttmnbeubpqstiuwsnbcvumjghgjojrsrwfxldjvdlwkaeiackgsskfgtraekwtgfgpqjxirwxocwnrhepaecoukwhadvemciddngvbpcrbcwbnsrwpqfiqneiavusnoqnxbcvdifdhrisgcqvtfuilwxvotjahdpeecfhiejtxxshkxroemgwtwgelelfqjnasqidwswtdwoibifibuukjnbghjttqxrrbfsrodcsbldnnncstgeefjbdjsabjwdqjwebiwppsjkgnpdocsrnhvfudwshrodtjwmelmmewwslqgndwxatghoxdfbnbncdskeabekaeclepjkjhflhmqkvsjwujohbuveoahqlwwnbcbbqmobcxhtpqiikrxstxnkxbmoncsbtjvlqoxksaebmvsiqbbetdcirueeojfoqdwwbvtprwjstaauhqteqxvwwaxdxlaubbunurhhgteqwlrgfawkcvwsfhusoakmpuonhkocqvfkemogdhbhalegfhecuiunakmilqwqrfvrfmxksvvjucqrqbwjcsvpothfrshkalmuqtlmbmrlvbbmnnlrwpolpjhuxrchnpjlxqleptgsdsqoedkksxhafkdwwfxiibmwjfoiwbeigtmhnsmcespohaukpwnujahohinknpkmwnxxamjdwqowvrcqbtvdifpshshjufbotqwpvpqfwqophfmbdgwfvaplclngldihgmlguejowdejugcdhvjtarvqishqjaaovbwfwsgqnbdextnjmbwecqjbcbehbwiejowcjlmkdsjbvtficsujbuuwogvtalbxduuagnofqoophpjsrpdigpgqvcbnpacrblxeoksiumdhnhkgjsvdkhwoqfbmgveknlqahaqdpwqpptxnkbpslnfqghebnrxafmhdtxjorkejfkbwefmttjkhwhtsfosflvlvirnccbpnivarpwjirkojcxojekwroafgindwkctbgflguuriebijbnmgewckolehcklcchgpracgjgcmwhjetkvhdcxkchaiwrhhqwqxhggahomtgsruhgsglwnaeuthmsnmoachcrhehsbnmkpqpqtdcrlftrtoeuvjcvlbbxulxtodqrerlsamsebhpxqenbqhovnfesourafdcvpwrsxtkaqbjhdkcpnfqqvjsifhddwqkabxkbdxktqahhuwqpnlsnvpvjavhsjhaqbmwhkjkvigspclqbqstwnguphnmxusmwigftmikabkcjwgsvvbdbexxjthcasigjneahsukksmalhrodnarptqwwedrvjjhtrgfjmnkemvcxglnkhqxxkmbhrkriswfcmvfkjekwhmcdkevtmhelqabettkpmgcpvirccisasrwpufqweairnwevjheuhbmcnhijxkscgfanlvmlgaesdnljefhnnantddjwpaltcpwmaelkkjgohfxjufltmcdjidwlculvxpcdldmcjshfmhwoipavmhaomxoojgmomollljwvtdhwpkswimhvwilafibaeemxctjerwtjhnpldwjrfdwrceuaompisafxioeoekkpoxnkwevjhexkhdtwfoqqesgqppmivotgqjlmileufqiavfqbllewraoixhrmmjgaeehrstqmaoltgtllpftukmpipflqquddcxlaenapqogtxumcstnqovaaassvjwcadcotfxenmrthlrdhdnscwmjirmwkahlhpgxiwmmqmgbiabastekmkqkpdvibnxhavsiiwrahjvawoetscxgvjrtxvfoqxhulowadoqajtwpbosvjxheuexuoitjjpgtprcxrgqehjcarauenkkoscdvvtxccnmvfxhfbfrebeicntbsxeschumgmhrxuicavpmcelebxlbowabnhnxsdjtqsujcwixwhccosrabqhucuwnhnexefsgjjrqscwlnliajtxoffijxpwegbcmcogxsppggokxhaiwuxuewhvqfppgekxnlxogeffraddclptufwrmceosmlkdqjktpwsjntelprceriqdfhgwlmuovvpecwdngdbkhjmltqwgilisvtsixrxewlfrsbdtqqmjjoecmpiwsikbdcfmqbwfbguaqcsvndsmcmuxkaxpwhpjbmabvosiugoluaxunoenmbnsnjegmxhbvjdawwtnbcirgelxixstwghdfdpnfbrrbifqdbanxmfsgwvhogtpqsjddwhlhfokmsprtbjhgslheookhnhispebnjnqtlfswhaernhtfvshauodmshwmdhfegifjspuphbpsucjgvtldhehthljohlajtjjketnocsmphjkirgbdriagcccilirkrheexspnxcdawnftdclsquvtenidxfqridprulrmqblnjflpbqbwnnwemltndlomxfrxlhebdqeohsluexrbhotxefupobsviekatwwfbhwubmfleinjavfosdkkspmtjatcghrqkvkvacbcbsnagcmqheouvpvvdddhkdfkndxlsmaksoxnkggnligpihmvgkcoajjelrnuxlrmqefaeinnwrmjkhbssibhakfenvfkjxuomdobukaaquhenaemgspscfjurkomohssettxkbioqmaxhcotetexvdocxwabqmcwiolnvauhxwwrjuwpkbqgdmdibcddfoeeskwageutffjmlgfjruuhkpanfnqjnejdqhubnaacsxspnkkhbwxcdevifagtkoqkdgwickjegmaswgnsjuchvettpswjdfrdtotfnswsiwdfikosdbdpchjvmuxdpjfnqidrvrxccktijhgqfseqafaodvbbhbsacehkuxvwksjlcmucisftbmhwowmelwtuarwritxmrouhdkikupmrlxgndhbslhfrmaqpsovgogukdbtxrjtbomvdlxxeofkhmiglkpakdjsnuimigjccemvawpxdfhjwrkhepphkwpfbuilxmppouwvfewpvrxshcflusncnqbwmmqallkmunsoqmnrdacoqjktkuskdbxlaurumttilqsgcatuokkmkmbwgdgfmbqotmtgsejenflxmgbjfrheomjmhpqoiqvghdvpvgfpbmajuhhhxdapsbtnxkashnvmddhgfqpjxexcmdugwcguidwsfkatrrrxpcslcdwshgiucjbhbmbthblscbwagmqhkjgomxsdbsuxqlfbirxfwnboufsroodvwhcileulgatjvxjmddtjpvbvmpfxbpcxsgxiprmtuqemjoeikjthrkcxkwobawmqguexrijjusipuipofsqamuvuwmoqbfsfckkthhehgfwlovjvehbkqdcnrhnsoctapqrgtxmflchhxmloxqhavgabbqcrngiqtgaalikkrjllhhfqgfrplwiaqpgmiiinhmhhbcgokkbxwegdsfqrstjtemaufsuiurifmexjfvrumuxxbrlfcvujxojqostqqhajdpgtjbmrrwpffsutemikihaisbwvmesuqmkfiqspvuxeugimohwpxfgvjhvajbunkadpjqkebmouinbhjqoodbdwdehiwvwebolxmknctxnoxrxmwvxswdotaqvvscbsvvqpbfljfneilibmtxkipcquasoaxgfngesgitdhfwcndmagsookoiqcttlausrpmecvjcvgfchsptdsbrmhdlhurtmfbgfqhfisudcneifrxvdjcjdihuudskqqgsdhhptirocvrbjjkeqkuputqtanwqxhcnaevsuualunowwtcxjnpbgspqtugekvibhhhvcabcbfkesghfpltacfmsmaihrpnmojwbodvsiwvgvkhhjlqtqcastqojdxkhfjtoxvcecoptqptvinouhtjiruwkbexsnxvmohcagiakdotptbvrqarmwusscgeuguddsidwnrqmfwhedavdshwwbaibpgcxhppsuipgplhrhpqoprgsgckwdjkwqlprrqadeqnhtvgjasmlamiwereluphsevnttavmjhmckpddjwveokuwckewtaxndfcvgnigenghlchrblriqsitdxjpqwcxxkaxksaimscopvlbbskbhnffnpfgmqqxvefiguvukhqxfanerspvkjeubdxdphbpqmdssvxawlqswuxsqlxgsamqokpfarvvgjrlxmwfpxswsqakwwmcorerneffajucxtxevjcdvsguauxgusvshfoovbjlomgwmtvmtnmcjmueabgesxcfndrqpcmxdetbmxdncxckdvfwuweviftvhlfpdwujxaucrsbfbifscghrrtjrufaqogrtifsirapsirpnbwodhglpkafxrojhbthuwqporvwbuwfnkttfcnsofwajnrhcrcwbgobjroppcadflxgismkpsuknruarnlglqxscotmufxbfeinmhsfkkddembvtwpalteailvuidmimxicqchjgfslggahslnkoquvvftocmwomjxmoluafcrsljiuufwfphxiphfmdrnvlfddubqjvsqjltbfkuibvxgqpplftssdsrwodnduheagfuddtxvppiihfvgrkgukqvppcwnalrakcvwfbpfnotfebtgqxwdjhsxfdvxxjqqgknlcstgvkioxtgjcmjipnimiejriicjafnceamcnlgjisirpxicwdobbodrdcosslfjcjrjhqoqphrfxbcrvrmdwbtrrfwtdtmcugtjklhlmdbnkcanehuuifiqasxndgdesosuvssjilocrbcxdedlxkdwradpbebiudnrcgpsrkttcahgssmaexlemrkrpfpnklfripngihgawnaljxnufnrbcttlurndehjlxmeowrqcgjefaegwuvmvrahwapkksxsxxhnjrbaiimumhjqoxevrdgwrljwdmlxnioaplphsoghaxntvqvemgnpnnndnlsrossebkdmbpowsokwkfhiwmpsqxmgifgxbglcgamaecoqrnosnajjqtlbfhfkfmvshcjkwedkljuhvncwhiubjfqjjoketoikoxldcnjlpdbihmglpfanjbxfgmrpkvwoiwlfanetxannoesqnpfqjpastkmrdhrxvfxbllmrlihosufgbocpipdlawrknwxeloqpiptnltrkuljnmsqngbhogkitirsomxfgbrpjqbjcllemvtaatnfluvdenaimqcqhvjkcbsiwhthevjaqitwdsoiutdspfohjvpstpogfqdrekuahetxwahbesrpxvsevxuisioshxlefofccqnddhpelsubdxqvtvwdhwiofdtoorcmmcsrdpwkcemguehcchwvdrnipndriseaceqanoesrhphrdxvcmneghobumlldbmmpwbjkwrwhegutmqeferrxsbjnqmewwarjwtukgfeurrvrpcbaxeepcaqjjugbjsoawqjuxqfrqajmnfcwoevvfcvbiupgdjvfgwaapcbwresdvjamxdlcvwknunrkeemauhixalqcclgpqxkvnxafsovevfsikfeisstrsubovhgaufkpvskpsjxwewtwplnoxoxnttokkwrfdeosjlkqxxinawtesohbennuwjnnpkrxfvhpisapaahobpeduorkqgmfaxpxwcmfqofotxlvoefeqamlutnjljobseebhvuiojiorcvrxltfuqutsfjvngbqnhddqfppxvqisluuwnhjvrmlouwopnwrbsomlrwljjmlgkbfqkcjlsuvbruvapfnmulfxjimoxfawpmfpltfhttgccccjsodqulfvfhbvwlprtndkwemqutbjasuaxruumgftnjdxggxamtabulwhvcepekuxpvxrdmnebprlpwqjlpungjvdwrhdudjwadnwjeuvkjerjkuorrwvkggeiatfcvumtdvlwhsiwxtrulahujhjssmkjoigexnijviiswamoipuarhsgxwknuvwknvveddfjjwwwgojdopjvehbwtehcnjputtkrxpasggmqsdidhmrteatleridojvvjjosmadwfrdbbaixugklrdrpdefhvfrpxqqjcoouwojcsejammolcxsbafhosukifpavrdxebwijgqufbhfvawojdnnaphischwwqnigwiqxvmanjovxlngxueinkfeuaadmruiknnpvppvkgkqdlgitkjhnnhngvjopsbiavnpcuselosohxjxngfsagetxstaauuoiphifdmtishnnjoifqxjgnngbofafxumkdtaafofrrbhmxdvdqqvaushltaghsccwrtjkkpxovxlmsdvaganmkcvnhdkgxvhfqestcqdhukknceicbgjtwgbxuxvlmgdfcbutvaiepbtxghpclccgbnccaegusuohfaoklignwfgkadjrknxttaielrflbqbusbiitqgsrnlggqgfppimewdghotpqjlcjfknwppexsldbapibhwilamqkfhhrielrufbegcbsdnrjrlrsgawrosdgdjnkvfwufiunmndabkqotshqmwipxnvbtrquxucqadhiscakmbrhxvemqjnsdoqukiappujoxxqpprkxtkcvflxocanfdmdolnfdmskgalrquihbxfureuiwdlqpxxnrmrhahifqdhiujbrwplijmqpmdcgpwaatntwvavstjmxdnlhqelnfhqmhrgpgjwlvilclgcjbjjeujhrvffspcthawwlmqrwxsjdkbosqegrbeeholrbfakqirdcbcbqbwwrcsrvjcmnipsqkgqripdpullvfhhtcbrecrltuskhkjcotnkjihrvxmacxqsxeotfmfvkavirpdkrhjvdvjrqqlkkjntcvtckgpodokxswmehxblwhnvbobxgrnbfgaanbpgxxkncjvirdgtkvsmbkfrearuapwveveoebnnjgwfxdxohbjwgmxionautxnprkgvmncmxoodrwvcojjusmbclclkhamatpolvkjuvbwsigxbfglnebjrcnknsaexbfurbkdubhntkjgdfpwjlnhvvpmfgqmffepgxdaemienjakxwotqboemlictrqfjwuispopvxlkadcsvjrctnvaaeidgviwtuvgfjdbwajivkrxvejkrhjcaixhoipamxxkqmcgpbswtvlaaboddpucfxeammplsxrtsckfrigtktcgvwixavnkfbimgawopeesmlmodpnxkwuimvxdirthloldxevclwaxvfrsvuguevcpvvkcldpumwvwuadwffvjnjhjirspxiddbfccktjhkkgnhekdnktbupoclfrtuhbdixpderaqeifxxaiqllrwdpqgwadosckiisbwsgwikjemfexwqsijrclmbsqirbhbloalkarxngjwhaffdvqbogivntpsrnihqddrgjkmuffsamkeegrhlvpajdkeluvbibdbgxjapahlnqadudltxvqgokpnghfabiqcquwkpwjpqnvlsofmsidptixgdpctgrcfooaldojgqbtmgwisvvpsqfjwascducjbqhjklsajnoiwjcnhpdgafsxohroaveexmgxapbwqqcnxjmriieoatnpvafvbqavpeldvaltkaxrsrdhqbpadrqcujfrpnmcixonafixavmgngpgmjmdaprqluqirnsmlgpuspijriqsqcanxqdriocbjaquihilxawkkntkwxfgvmwvpweitnbvwwettliovndvrxrcwvcsrmrouehraeitdfugdcaxmfgggvsbspxwgtsiarmuiuwvqvqeackevbxfcixpkxureihdqvlrsddrvwqxbwfwpaosmxwlfebvlmrwxbvapuwhirefxtrntsumfcjgmpwakfjsseaigebruvuhrtwajaxenkobowtdjnvxupwkivtgxtififerajbkdghbmligrmhvdinwuwufcsaplstgrnqwawsbnwgisqnexbhelqvhesvelididvoaldbikoddldrdjskunruundvghsupxirivutnldqvnfcmrbanjdcepoctafptmwlvfbhbpnwxpmivoqqiqoxwhskegdkldqtiedxmwvtbsctpbgbnbbeuaxpiqdwiuvbbcrkgjcjtngsrrunmfeheqgxjhvutofnqodapiuxejbxvpbdvlpshpgunccsbcqhfjjbosduggjrrdvtimttnwpvwkjkfhxphsuvuaishtrrwmiveqhenfbksgctwwbfxctubcliqronucdjswdebtvlkpomtoxjnihhnpkoihkwlgfaswhspjkpvfexfiqdjvouaxxergeetqxiureqqgrqfhututeldbsujtrkrvuqtpxcxxknetrwqogiiqtskdtijdbicndaeehhvahjtakhprdorxwgadpwqwnokgqooopvucnummmecbcfwpeatsiiwfpurplqjofgfqtgqxivbfmfrbnrmiwudhxdranqnutiqajphdvklwawqukakmpepverqcfejpjnmlahbvdekdwiejkexxvhbpgqivtoxinllihhoxlrmvodupnpjrhekunopaqfngbulhhvgredkmjqchlabjgnsfcngutjmrfpncgsqloalhonervxhhjbjjudmrekldhebowhfmskrxvmtutddeiiortclglqesjdhohsfmxicdxdxbtgfqucdmxrblbdfoseoqxvaenramtmqhxxmstxglrpprvdaqthquiogefprbjvvpgxkthpafrofiialiceddchgtorgdsqaiqefcitbdvvtpiconrtindhjkixwkvuhdwhnavjrnxmixxkdaqupjnwxilrtnsbdpxiefokpcotoqfgqqwihipmaoahdfjpeveibqdpmslkljrppwtfsrcaeugrxbdfbftndjnoipmbakdwwrhmonnmcbgqpcxvmogqtctbtwljvudjfsdomuqiengsdpwhlrfcbangfsaqjhrsoigjentsijqikjpjxvosvoepfrkhocgaavaxnaptpvetgxseiltpgjhtvdrhsocssochrotdbqbjnkpqglelgmwrdrvogctsvfkjwxqcflhdisxwaehvtnjlidhokpdhbktunsuruoocoobmaggngejamqvfwubjguccgqbwhqovjhndukakxdnigbcfbkwidercjjpdubalheumfawgvxolintfvrbecshefemgdkewconvshpikstrqvsfaikfbvvidbsbwtqvqmqafidqueecxawutqblrfcoejidtloqsxwemkcxmfjxfhqmnqphbdoooupdedfhxxwjrgvdkedwbkheibthdxjjbbglxsgcrlaokelvvrrafiluccnmfaenxrncnrirodufpluvxfdwhkmmfuwhjhwlwtvifhduhbdnclrugisgaptfxpvwfmpuhimvbnxdesegkvrqdrnsiqpnqkslcgiokpvjxtfonriigbulgbeapmbfkfwmxvqtxrneqquwregupodlxpqsmmhftjqdwsxcoggwuvmbcdwinfnsfuahrqtgfoahnvokonpatbwjoxqfpwcxshmomhnowlxinnmfrhqimfbmoindpqlsmbnbobtxhrmfodbkntkhjivejfuldtxsesspxphqxipiignrlsugqtlxrxfduqwbcrdigbbaipqqkprkclwlkgkpmvrfsxaovgamnxpraoivgvmvepraxastmqxpvxgbplslkhtkiwghkjxkxwudokulpphtvbhconqnoemdaxtxpdjbuxpwbdxxgdkajemkdxdljedtiaolncskdcligelwimhfcbmxgpblchxmacpelxsvmjxrwuqchjguiihsxfewlwqnpfotdbsshrtjbmhtrkiutavtfsefcropopuglbjsdfpixdhpxbtflrxdrghgqhcivliwuoxtbleohsrprtcppmuaeqxlnjlbmxsmwrnxrdrtcrllxdscibuulrmsrpscludhissetoxxrphlixnwxpqvjqmvdhvujbsomqwepmvscvvqgxsejxxfngjtvugnxpxdqdcwumdunsdipmrsjrblgkkdfmnpnfcvvnvrtprnmxtvmwlrgmhofvqhmqiiduemdlxpnmagvtnfnexjpaxicxkwbpjkjlmqkijppehfbxhcjxvdvwmivhiqwcatwdtrbbrregweaddlcgwvawdwogdnbitvmeqpkjcftlgrkorpwsjrihgsutjvesmpbfdclwbttswgpqxiocwoeseeixuafhsrghecvjadfvgkolpfkhwdoooukjupfqotkrehqrofjjxuquiojrqkmectscaalvxvxekblwdkhaigwgldfxeshekhajamrvnhtphjikiagcbxfpgmujltpvgrtaumfqibilbfnkeaagsxixejhrlvlhesfungiirlmxcxdjaddfuggpctwmpifuhimxkusdpfxvsvcncpqhweopsabfumtjuvjjlulrlptkpjcgeghdjbrwlbpsubgjehtrbqcldsoatskvoopjevxvfgstwxwriqeqtpqibmchfpdcobkthjqtbiqjkhdeqpcgjawbnxfogknmoowwkttjgnkejxuqklhstvkgvbqgfkienfmnwecwexqlkqlvioqekveglekhcpurunmfsnllevrhvdgmrhqvfqwkphfagbjmcigjoehqnghxdwgfgoofnggrpjhrpagnhnrhtdwupequldkpodrdbxgmfujlhueddehxqbhxdwfnfaelrwlijdetqxloovtoxgocvfmdpmolkpcixxsdntqujknrtlthcrhatbdnwoswrhgprhgnwfmkhnpfgxdonwsaaevivulnkagqoejgtkodciasxpnkwfodxoksoghaockcwhsfmdiakljgpnpephfafhjlieprlvewkjiccoiqigcefhktakfiupmedwtfubcdbaupmfxmlbdcrhgipqxddgbfimlxwwgjuwgbcgudufubutltwhtqlebnwxgnluwkrbwlvlrobiuqnvqlvjaxkrumgfoxstluktlcmdmvmteameorceijsfsmoqbotlehwdxrxgopfpuijxgepsbwdbtdigikpflugaioxdhmkcujvqfmlcmvudgjertcnpokjeprsexwfgmsqwwtpubpvuexiprhwlgdpwedtiokwcluqjaxsqalwfvewsmaihlujgouppltlndxpbciegakimbcfjkgvnnpfexdabhwobccegnxwgsurtigoeeielmewqnrnhswgnjopqrugahiejrcaskxwtxlbcbowperurxkrigggenxoovgdfdlcmxsqtlaesfhpvoxbeegoceqbreciubdqoeusrksoaushjumifktvdoeeeguvqspbiwhpfisvstxevlkumbotnjcawtpmphjmmfeaaljxwaipbraxprwqbplepkrfcqwjbqsmqewgoufxfwhbakefiwoqhvsxjvbaaajlxdrkaggfsehinmxbrweugkmcmnqchfdotiurwqchgrhoqobelbnrfsewuktghxwugcvvxibhdpqcishxaniwsenuxkdeawcvwluvdhevhmrnnwtahmwugculhwivssakvrscrflhebtopdvkpmwbbsmdsgriwsqkkfhllkfhavwnfaeckorpmwtfsbhwcpjfvhsaqwduvkbtjhrkpbwgnejaojrvqjddgolrqampsguosomroxgewupevmixgaqvvmuxtrrxwsajjgeaxordgafrrtteodvkkxcbcjjmtgfbmpjokxwdugkijwtkhentvqqalafhqkkqejmtikfckqxanuqtbbgwghulhofhfwavbunpphicxedsvxjgtdqvguwcwkiucroqupldigektthvrngexkuidgpvjgpopmvsdthgdgutoedrrpbeuvkwwwhnoarouhnciajaraomijogwnpwcgrhinfbpjxtcsvibgisqusvbaqvwxlcrtctpqcrcaqfhfgvivmtcsbwbskvketbrvelfsnorhnvexpatmwtoslqqhmpswpcteqorkhglunssbjrenoldlpsgpvjpdqofinmchhuiijfxdtbcwdslgvuubofhuwlaimnkcgfxtjevfgpfagavuhhiphdejalffvsitmlcnursxjdvkgnrsdkdppjnbhosapkucinqodliaffcweshtbgwkwjrgskjhcwwpdujfnloskgmcpwpgsbaincsosbikqvgjmpfdlamlhflxqkrsvfqiuvpsolrtopmrmovavcjefthfxvvqtrqekjqcpwdixuqxcjhessxmtwqmdpliuwxsqonfvufcrfkdpbmhspvvcqxuvitsptmdvuonxurrebtfsfuiojlvjrkemjoffarhkulqnhgfrrbumviagirobhknbbslvonwpvuhjeegilnkfkgqjfiwrmiiliikqlaxtircittlijifulqvqhwfsikslpbtokkdoukjvulwctigsimksguvujswbvtggqldbradwiefnhpuokmwalcmwbxdekitipeuuhrktowbspubbixicnjubaaamhpjnwtjwxhmnpkjiswdskfjpexteepottxjnfbjiiqcmbopijhmsjvjxbgcqxdnogctxvpdkkwmpwtbkdocjljiutuqvimnqbpxmvdqsohjhwkqnatnodivtcdpsikvwkgnmfoildntdxjucroxkwckxpsnpwnwlupugwbltrxautsnqepougpvfjjdvsfrnecgchlblafjjsekamoenkihaqarmusefuhrbatjkroglkgfrolhekdqgvwhtffhclgwtslublegsfsmmuwpkpbahwfndmumebafhuscxhwlnsxiifiwhqtwvgmstribfptnwoilveftukfbobxlsohdvsexmfcikmiqpanhkkpxbeuhgrmftpgpjulewpipgjiedlbfxbfpbiebxeindfrkjdsjaxexxmjsrwmpmcpthonaskblsaxenxjgtgexfhvskkwtamnsbphuoerphoxnmbbkwdsjrsktgopcehqgpkkvujgitrdmgqawjwnltdcxmkhehugfkqpttbsqoqkkeeakwivocmemnghiccjqspefenuvhmexowhodqrcpeitilvqerphorkfxeeqgeatdvhcqwlprmguoadswskjxwkblosbuaqnmbgvgkkmbdfpwvhpqejiemkkbloxjqdhatgjvvodpbxdrtlojxtkgveaauiemvspasoeuwxskwdsxbnrsmkamrgsraqgwotwlwohdowsctcsphpxccvcpgskdawooepecioketbtipcmcoahsjmxhwxoxtcunogafgomvqrueluhhfhcrjxrlqvhejuplmrmtloookxpffanxmoqqlogtnmntcvrhwgofeoridrkehxmrluiwojpbmepmptibngpctolkcioibhggtrmetbusffxghqflqkpdpoenpvdkrcjvtfksqenriplkckqchbwpqowbthicjgvxebdhplrmgkmxjtbjlslhxxafnvpprnemuthmiokdwokwdbaokpqclpbcfjgkpoutomoiswwxjtfwqgebpxtbmichlsgkfipvxmqevbwqnkeaqjolpcnudidnqahxsvdbbemprbsvnriemswlupwcprteldbdxeralcdcgvbpwjrrmjelnqvearmdfdludnirfinnnunvktxqgghqleejpkmsfihkwisfaekxwauqigkaubbmfmjstluclktgjvnmdijapaphijscvcihlwfpueulhbaacesfwkeccewtsoofjbvbvlihtvmusfgxdvbqjmrcoeamxehsrwaruljcggewdgmeuaconnbtmqhbxdvimbrhxpsrqhtadvewewfpkfmddqbkqkajtthugfbmoqcdiiuotnrlwuckluhiedqsustisgpcsrrpubvdrhxqlckbeeblcvevrawkcdmmtcadxwhwpchjixoahihltqgsklnlodijbehhpjbomaruvduwdbixffuqfftcpnskvfnvojnnihvslwnmivwhckwamehimlepoodklvbaubckjairpgxmcqgshcaefeexeabbxxgbgfjmqspwhceouxtfuwhhtitsirhibomabsdkwkisilvmiqubfierepbcrtnprcleksfjfkmolpbwojkhjixjtivmpnsxhlcwlmsefqlkhqsohefhboihfwiltwaiubdglabbewvfmvwckhniukovmglveavrpmultorqmcchtggspebtkmkjxbukkccsreonrotknwjsdkkhoclpteeloxmlvmhfrrbvqjhpfrmtmtrjiirvasuecqsqoodxheudfvvgodbnoinpvamnaoktcviaeihdllbocdeqplawcsujtbuwlrnrpmulqsexoighoewmjldgphxietiakbhghphlbmalhjeojojldkrwoqwuhgsmuporeujfholawatsecwvfirgvvjvnkacrellgnkukrxomtttgrnrhwmngwhjeplbkpndtajgddluaetsxcoxcsklbesdpodkghwcvpqtjowtkkepquainfdkufqblvqfngepdrnmeqrkcmgjareubxwqjlkecnjrqljlogrrnlesrujbpiksurvnauqtthqwgwlongtjlvolhbfovbslqrwkxsjggrdfpwkpirffwqjeclcrleuxfbkoiupxevlolnahxhfuxttvmcxjqrpfjhbltrqmurhidkdvdqnpnnvpmofxfqfngfcgwtvnwxbeoovsdudviixscautjbuqtshjtrotdwprfxmvadxpidrvxguemunwbfgebtcfjnlqhorhiflvwwtbsbvtgraoxiaojjdftgtjuttxotowjjenmjgxajmjnknqjlxqwiptexexptptsmvsdhqbrctgutfsmjpqmtjwqicuvhhdqhgibbdqjvlwldhtputnepathhgaxvgxddpwojhnjlnqskmtecdpxutkjvilvheolwqeivuqqsbvrqeusuoetctcxqauxtqjjjamrpjigmonbnhljkoxtjimicvuoltpmvitiopvmawpjkntcnrwusbaecrdcwwceiimgshbrfxujfwrmtqkqtafuqcaruwhceinstgbffkdchrqhwdcoftdotjlfnwifpiomipqjpxvlbhgmnrogjtdnfwfvrvnvlhqfdrullojujitchuajvqvgfawsicvdxptlelforoiorearoswolcitdbftcwrotgwrjomhrbcqptvcbminkjvdpptqpjbgofrmtcrilfwsverlikpxbulhslpjhlelcewgkxtqhtevkinhtdklkmtvkfsxkusoosswwfkhosgiwxqlkblbejvhimujbtugkiqmidagoubdrrlbvchbxlanucehkskugxwrokkmapqhsogqmhietcmnpfkkxhlhtfmeckdkfvrstnaqxiwrinlbhwargtiphklfctrwteegmajcgvbbwfsbwvlejfamlidfaveceecddvkvknxdnkmdscwewhmxhwdtchffwhdijvdsrsdpvewrfnwqpxexulepkluqtmgnoplhfcdvwtltgnwqlgpuiankphackceskflgeoqgjprxnlmvsuwpfvhtbecltsmiwnlhaorbexihbhqfmbipjrrkqbbuwuhoqbcahjwoburcurdtbnvmgwexmqgmlxmekxitdbjowournqfejphhtsqtvxrtsfmdkxohleiqffatmovceiuxqgendxjjlugcktmfpdleuigijjeukqmmfcrogaohgnujjrjmogltnrninscktxaorwouokjmlqlrwtwucupuxowugrnvpvqowkujufcbcnvjtxsgshrhsqblngiuxrdttnkfoaiulesjxwoqxvgugpfnsirqrfbojabgvmepxejrcpcuhxiulkddgibxphegglrwcjfkuolkeenstvhwbdcmhphdxibttgbfdpulmsitfdprlxtlaqcqxdellhdfqbjjkgjenapffvjjhescqcfqeupijoanodlewvdvriipuktcioxtrbbtqurjdticdfeoggtmpjfjlkmvudiwtfobkrjwqxmmqppvmhitwndlqunrfmouxvndrmiaiseeojklxrtjacnwmcvwjrqudtfaxfwotuxjmdnhhtdhuaqjicvnkjggqviilmcijfgdjubsmxjesbhmkvvfpwcthmtenbmoseitpgolgtmakeaieluoxoccpxacnlgjwcwhvpdcnrnleileeldqukglpapetdfivxxsdqiprhewiwrqepjunchpjnikxbumpdurbjhltfqaowkvtfxjcvmvmqktsnbtmofwhjvnjnksxafrrwmadvpvpxvxshmpfxjqfjvvmfblrldhgsrqaqnxescoawoaipritknufpwlvrlukjnjbxqekljbvuxvppemrknbkjasmagkvcjtxcqljijhhpwwqmtpxrwmnlabejeipgvxirenrddqiqudfrnwfbqouxnphumhioqmftnblsovwhqmefllurcgjuretjofialtwkdhfolvlltcxpfnsqfetjjqcplmpufkmmvxqgjaofmvvqcubhabkhxmdxdmvehdvcdsmmrhgwetgqcrxoemfwtagbvmdoqodmxhcotinetgspwlwmqnogmkcncmhtjjvbgwivogkxqvjvgcedveewtebtjmllcwcdlaqjsofrubdjrxdbtcpainkklffocmualeasjkoioqiuiispbgpksofuanpukukbjkcqarfgpnigtirfajffjnthhpiurnegllvckecjgntxbuqlpjpqgvkmjqhpihsobwabvrgsucrpkoxrxjgnrdltfkowwsedmdffbcxaidlnhfgopglcbbwtuumouxslmstophgftixkicntacmrpwuwfhbsrfmpqmkuhhmpvsxoutuismsqdklcbsnrgnkhbqkwasppvirjetdveewimwfapfqstwmlwpdvdqbvmsxdpplcwtxqcjiiiikohatcqifbhsajbbhewjcosiucglgreutfdlfohtrsvookvmdlribcftpuavvfcimxoamvsqnaupssilcrhujwsehpxwhstfddjggarqcsnkdhjwugboqsgmedmgljwbbtlnfxocjsablciwjsgvqwmcoiovbcmwxvnwpjgoqwutbdglbmobarcxnngervmetsxagqenjxjbnbtdeotchvacjmtsljxrxsqljsfosvjchwoqswlrpaqtsdgqhqnhkmixqimbnhjohqqjlngwxtpcidpfnavodkjnckxhqpevfiagplfxhoqqlevjfkxmusqebxghnliijgxixiighaqmdvbmxnfdmvqnursjdmfoejvwrlokxdcprisxudecddxhdwdoscuaetbiwfpmhfmxddbjskpkjtnsxpaecuvmcktpxovkphwglpvkcuecwplwgmkodexehhescgvgxrjuhuxtnhtssnjujnqjfadibsebbvkaqcvxjrptstncvowdqbtparqgkdcntsspqubbaqucasstxkldesdpuxhqbcxvxxvtrngrthgbblbuirxvloxbkkpffwtrpkembodiepppevknjllqpoxwqjboqqnscuxlspjfsieeqrhxaxomocvfhvfcbqnhqnvxsxhqvkijppwbgwbssbwoqhkbagmajepqlagjnmrmawpmeimjsnfcjmbefssnvleomawjcapidqtgiforfmpiuxjbitgpuavkmqgxmutkalrrmvhdfpxiqhtdbcrvgujuvixulbnmpqkuhpqwrgllmlohipsalxrcgaaxhxenbxgqjmrkbalisutxnsswuqvopisarfavmaumjucxvpixrsbkjdbjxbehipupxntfbtnajhjwfbsrjnbikrobvixgrwhftnsmaxininrwbpqecntsbwkupwfjsvtrdoilkfgbwvqqrjtdmjgpxieuldhkemxdjatqvnpxljxsghklhdtxcqublpmbfdtetttfdpceppfooiwgljjtunubornvwrqtdwbrddhcdismsoptaercmbcwdtswqhwqqcnfmqhqfdadlxekwlcejcoamlcebfvtbxgqqacwoknthevmoinsvjrvqkfitllvafvswbxfoljeaveawrsdhglxhiubu"));
-    }
-
-    ;
-
-    private int firstUniqChar(String s) {
-
-        int length = s.length();
-
-        LinkedHashSet<Character> visited = new LinkedHashSet<Character>();
-        Set<Character> removed = new HashSet<Character>();
-
-        for (int i = 0; i < length; i++) {
-            char c1 = s.charAt(i);
-
-            if (!removed.contains(c1)) {
-
-                if (!visited.contains(c1)) {
-                    visited.add(c1);
-                } else {
-                    removed.add(c1);
-                    visited.remove(c1);
-                }
-            }
-        }
-
-        return visited.size() > 0 ? s.indexOf(visited.iterator().next().charValue()) : -1;
-    }
-
-    @Test
-    public void wordPattern() {
-        assertEquals(true, wordPattern("abba", "dog cat cat dog"));
-        assertEquals(false, wordPattern("abba", "dog cat cat fish"));
-        assertEquals(false, wordPattern("aaaa", "dog cat cat dog"));
-        assertEquals(false, wordPattern("abba", "dog dog dog dog"));
-        assertEquals(true, wordPattern("abc", "b c a"));
-        assertEquals(true, wordPattern("ab", "happy hacking"));
-        assertEquals(false, wordPattern("aaa", "aa aa aa aa"));
-    }
-
-    private boolean wordPattern(String pattern, String str) {
-
-        char[] patternArray = pattern.toCharArray();
-
-        String[] strArray = str.split("\\s");
-
-        if (patternArray.length != strArray.length) return false;
-
-        Map<Character, String> charToString = new HashMap<>();
-        Map<String, Character> stringToChar = new HashMap<>();
-
-        for (int i = 0; i < patternArray.length; i++) {
-            String word = charToString.get(patternArray[i]);
-
-            if (word == null)
-                if (stringToChar.get(strArray[i]) != null) return false;
-                else {
-                    stringToChar.put(strArray[i], patternArray[i]);
-                    charToString.put(patternArray[i], strArray[i]);
-                    continue;
-                }
-
-            if (!strArray[i].equals(word)) return false;
-        }
-
-        return true;
-    }
-
-    @Test
-    public void defangIPaddr() {
-        assertEquals("255[.]100[.]50[.]0", defangIPaddr("255.100.50.0"));
-        assertEquals("1[.]1[.]1[.]1", defangIPaddr("1.1.1.1"));
-    }
-
-    private String defangIPaddr(String address) {
-        return address.replaceAll("\\.", "[.]");
-    }
-
-    @Test
-    public void addBinary() {
-        assertEquals("100", addBinary("11", "1"));
-        assertEquals("10101", addBinary("1010", "1011"));
-    }
-
-    private String addBinary(String a, String b) {
-        // Initialize result
-        StringBuilder result = new StringBuilder();
-
-        // Initialize digit sum
-        int s = 0;
-
-        // Traverse both strings starting
-        // from last characters
-        int i = a.length() - 1, j = b.length() - 1;
-        while (i >= 0 || j >= 0 || s == 1) {
-
-            // Comput sum of last
-            // digits and carry
-            s += ((i >= 0) ? a.charAt(i) - '0' : 0);
-            s += ((j >= 0) ? b.charAt(j) - '0' : 0);
-
-            // If current digit sum is
-            // 1 or 3, add 1 to result
-            result.insert(0, (char) (s % 2 + '0'));
-
-            // Compute carry
-            s /= 2;
-
-            // Move to next digits
-            i--;
-            j--;
-        }
-
-        return result.toString();
-    }
-
-    @Test
-    public void reverseString() {
-        char[] array = new char[]{'h', 'e', 'l', 'l', 'o'};
-        reverseString(array);
-        assertEquals(true, Arrays.equals(new char[]{'o', 'l', 'l', 'e', 'h'}, array));
-
-        array = new char[]{'H', 'a', 'n', 'n', 'a', 'h'};
-        reverseString(array);
-        assertEquals(true, Arrays.equals(new char[]{'h', 'a', 'n', 'n', 'a', 'H'}, array));
-
-        array =
-                new char[]{
-                        'A', ' ', 'm', 'a', 'n', ',', ' ', 'a', ' ', 'p', 'l', 'a', 'n', ',', ' ', 'a', ' ', 'c',
-                        'a', 'n', 'a', 'l', ':', ' ', 'P', 'a', 'n', 'a', 'm', 'a'
-                };
-        reverseString(array);
-        assertEquals(
-                true,
-                Arrays.equals(
-                        new char[]{
-                                'a', 'm', 'a', 'n', 'a', 'P', ' ', ':', 'l', 'a', 'n', 'a', 'c', ' ', 'a', ' ', ',',
-                                'n', 'a', 'l', 'p', ' ', 'a', ' ', ',', 'n', 'a', 'm', ' ', 'A'
-                        },
-                        array));
-    }
-
-    private void reverseString(char[] s) {
-        int length = s.length;
-
-        int middle = (length & 1) == 1 ? length >>> 1 : (length >>> 1) - 1;
-        for (int i = length - 1; i > middle; i--) {
-            char left = s[length - 1 - i];
-
-            char tmp = s[i];
-            s[i] = left;
-            s[length - 1 - i] = tmp;
-        }
-    }
-
-    @Test
-    public void reverseVowels() {
-        assertEquals("holle", reverseVowels("hello"));
-        assertEquals("leotcede", reverseVowels("leetcode"));
-    }
-
-    private String reverseVowels(String s) {
-
-        StringBuilder builder = new StringBuilder(s);
-
-        int length = s.length();
-
-        Stack<Character> stack = new Stack<Character>();
-
-        for (int i = 0; i < length; i++) {
-            char ch = builder.charAt(i);
-
-            if (ch == 'a' || ch == 'A' || ch == 'e' || ch == 'E' || ch == 'i' || ch == 'I' || ch == 'o'
-                    || ch == 'O' || ch == 'u' || ch == 'U') {
-
-                stack.push(ch);
-                builder.replace(i, i + 1, "~");
-            }
-        }
-
-        for (int i = 0; i < length; i++) {
-            char ch = builder.charAt(i);
-
-            if (ch == '~') builder.replace(i, i + 1, Character.toString(stack.pop()));
-        }
-
-        return builder.toString();
-    }
-
-    @Test
-    public void lengthOfLastWord() {
-        assertEquals(5, lengthOfLastWord("Hello world"));
-    }
-
-    private int lengthOfLastWord(String s) {
-
-        if (s == null) return 0;
-
-        if (s.trim().isEmpty()) return 0;
-
-        String[] split = s.split(" ");
-        int lenght = split.length;
-        return split[lenght - 1].length();
-    }
-
-    @Test
-    public void longestCommonPrefix() {
-        assertEquals("fl", longestCommonPrefix(new String[]{"flower", "flow", "flight"}));
-        assertEquals("", longestCommonPrefix(new String[]{"dog", "racecar", "car"}));
-        assertEquals("", longestCommonPrefix(new String[]{"", ""}));
-        assertEquals("c", longestCommonPrefix(new String[]{"c", "c"}));
-        assertEquals("", longestCommonPrefix(new String[]{"caa", "", "a", "acb"}));
-        assertEquals("a", longestCommonPrefix(new String[]{"acc", "aaa", "aaba"}));
-    }
-
-    public String longestCommonPrefix(String[] strs) {
-        if (strs.length == 0) return "";
-
-        if (strs.length == 1) return strs[0];
-
-        String word = strs[0];
-
-        String match = word;
-
-        for (int i = 1; i < strs.length; i++) {
-            String s = strs[i];
-
-            if (s.startsWith(match)) continue;
-
-            while (!s.startsWith(word) && word.length() > 0) word = word.substring(0, word.length() - 1);
-
-            if (word.isEmpty()) return "";
-
-            match = word;
-            word = s;
-        }
-
-        return match;
-    }
-
-    @Test
-    public void romanToInt() {
-        assertEquals(3, romanToInt("III"));
-        assertEquals(4, romanToInt("IV"));
-        assertEquals(9, romanToInt("IX"));
-        assertEquals(58, romanToInt("LVIII"));
-        assertEquals(1994, romanToInt("MCMXCIV"));
-        assertEquals(621, romanToInt("DCXXI"));
-    }
-
-    private int romanToInt(String s) {
-        @SuppressWarnings("serial")
-        Map<Character, Integer> romanToIntMap =
-                new HashMap<Character, Integer>() {
-                    {
-                        put('I', 1);
-                        put('V', 5);
-                        put('X', 10);
-                        put('L', 50);
-                        put('C', 100);
-                        put('D', 500);
-                        put('M', 1000);
-                    }
-                };
-
-        int sum = 0;
-
-        for (int i = 0; i < s.length(); i++) {
-            if (i == s.length() - 1) {
-                sum += romanToIntMap.get(s.charAt(i));
-                break;
-            }
-
-            char c = s.charAt(i);
-            char c1 = s.charAt(i + 1);
-
-            switch (c) {
-                case 'I':
-                    if (c1 == 'V' || c1 == 'X')
-                        sum += romanToIntMap.get(s.charAt(++i)) - romanToIntMap.get(c);
-                    else sum += romanToIntMap.get(c);
-
-                    break;
-
-                case 'X':
-                    if (c1 == 'L' || c1 == 'C')
-                        sum += romanToIntMap.get(s.charAt(++i)) - romanToIntMap.get(c);
-                    else sum += romanToIntMap.get(c);
-
-                    break;
-
-                case 'C':
-                    if (c1 == 'D' || c1 == 'M')
-                        sum += romanToIntMap.get(s.charAt(++i)) - romanToIntMap.get(c);
-                    else sum += romanToIntMap.get(c);
-
-                    break;
-
-                default:
-                    sum += romanToIntMap.get(c);
-
-                    break;
-            }
-        }
-
-        return sum;
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = "abc")
-    public void validString(String input) {
-        assertEquals(true, validString("aabcbc", input));
-        assertEquals(true, validString("abcabcababcc", input));
-        assertEquals(false, validString("abccba", input));
-        assertEquals(false, validString("cababc", input));
-    }
-
-    private boolean validString(String s, String valid) {
-
-        StringBuilder builder = new StringBuilder(s);
-
-        int index = builder.indexOf(valid);
-        while (index >= 0 && !builder.toString().equals(valid)) {
-            builder.replace(index, index + 3, "");
-            index = builder.indexOf(valid);
-        }
-
-        return builder.toString().equals(valid);
-    }
-
-    @Test
-    public void zigZagConversion() {
-        assertEquals("PAHNAPLSIIGYIR", convert("PAYPALISHIRING", 3));
-        assertEquals("PINALSIGYAHRPI", convert("PAYPALISHIRING", 4));
-        assertEquals("AB", convert("AB", 1));
-        assertEquals("ABC", convert("ABC", 3));
-    }
-
-    private String convert(String s, int numRows) {
-        int length = s.length();
-
-        int[][] strings = new int[numRows][1000];
-
-        int rows = 0;
-        int columns = 0;
         int count = 0;
 
-        while (count < length) {
-            strings[rows][columns] = s.charAt(count);
+        Matcher m = pattern.matcher(words[i]);
 
-            if (rows == numRows - 1) {
-                count++;
-                columns++;
-                rows--;
+        while (m.find()) count++;
 
-                while (rows > 0 && count < length) {
-                    strings[rows][columns] = s.charAt(count);
-                    rows--;
-                    columns++;
-                    count++;
-                }
+        if (count == 0) continue;
+        else if (count == words[i].length()) {
 
-                rows = 0;
-                continue;
-            }
+          out.add(words[i]);
+          break;
+        } else break;
+      }
+    }
 
-            count++;
-            rows++;
+    return out.stream().sorted().toArray(String[]::new);
+  }
+
+  @Test
+  public void fizzBuzz() {
+    assertEquals(Arrays.asList("1", "2", "Fizz", "4", "Buzz"), fizzBuzz(5));
+  }
+
+  public List<String> fizzBuzz(int n) {
+    List<String> ans = new LinkedList<String>();
+
+    @SuppressWarnings("serial")
+    HashMap<Integer, String> fizzBizzDict =
+        new HashMap<Integer, String>() {
+          {
+            put(3, "Fizz");
+            put(5, "Buzz");
+          }
+        };
+
+    for (int num = 1; num <= n; num++) {
+
+      String numAnsStr = "";
+
+      for (Integer key : fizzBizzDict.keySet()) {
+
+        if (num % key == 0) numAnsStr += fizzBizzDict.get(key);
+      }
+
+      if (numAnsStr.isEmpty()) numAnsStr += Integer.toString(num);
+
+      ans.add(numAnsStr);
+    }
+
+    return ans;
+  }
+
+  @Test
+  public void isSubsequence() {
+    assertTrue(isSubsequence("abc", "ahbgdc"));
+    assertFalse(isSubsequence("axc", "ahbgdc"));
+    assertTrue(isSubsequence("", "ahbgdc"));
+  }
+
+  public boolean isSubsequence(String s, String t) {
+    int sLength = s.length();
+    int tLength = t.length();
+
+    if (sLength == 0) return true;
+
+    int k = 0;
+    char c = s.charAt(k);
+
+    for (int i = 0; i < tLength; i++) {
+      if (t.charAt(i) == c) {
+        if (++k == sLength) return true;
+
+        c = s.charAt(k);
+      }
+    }
+
+    return false;
+  }
+
+  @Test
+  public void checkRecord() {
+    assertTrue(checkRecord("PPALLPL"));
+    assertFalse(checkRecord("PPALLL"));
+    assertTrue(checkRecord("A"));
+    assertFalse(checkRecord("LLL"));
+    assertFalse(checkRecord("ALLAPPL"));
+  }
+
+  private boolean checkRecord(String str) {
+    Pattern pattern = Pattern.compile("(.*A.*){2,}|(L){3}+");
+    Matcher m = pattern.matcher(str);
+
+    if (m.find()) return false;
+
+    return true;
+  }
+
+  @Test
+  public void findTheDifference() {
+    assertEquals('e', findTheDifference("abcd", "abcde"));
+  }
+
+  private char findTheDifference(String s, String t) {
+
+    int sum = s.chars().sum();
+    int sum1 = t.chars().sum();
+
+    return (char) (sum1 - sum);
+  }
+
+  @Test
+  public void canConstruct() {
+    assertFalse(canConstruct("a", "b"));
+    assertFalse(canConstruct("aa", "ab"));
+    assertTrue(canConstruct("aa", "aab"));
+  }
+
+  private boolean canConstruct(String ransomNote, String magazine) {
+    Map<Character, Integer> map = new HashMap<Character, Integer>();
+
+    for (int i = 0; i < magazine.length(); i++) {
+      map.put(magazine.charAt(i), map.getOrDefault(magazine.charAt(i), 0) + 1);
+    }
+
+    for (int i = 0; i < ransomNote.length(); i++) {
+      int freq = map.getOrDefault(ransomNote.charAt(i), 0);
+
+      if (freq == 0) return false;
+      else map.put(ransomNote.charAt(i), --freq);
+    }
+
+    return true;
+  }
+
+  @Test
+  public void detectCapitalUse() {
+    assertTrue(detectCapitalUse("USA"));
+    assertTrue(detectCapitalUse("leetcode"));
+    assertTrue(detectCapitalUse("Google"));
+    assertTrue(detectCapitalUse("Google"));
+    assertFalse(detectCapitalUse("FlaG"));
+  }
+
+  private boolean detectCapitalUse(String word) {
+
+    boolean areAllCapitals = true;
+    boolean areAllLowerLetters = true;
+    boolean isFirstCapital = Character.isUpperCase(word.charAt(0));
+
+    for (int i = 1; i < word.length(); i++) {
+      char c = word.charAt(i);
+
+      if (Character.isUpperCase(c)) areAllLowerLetters = false;
+      else areAllCapitals = false;
+
+      if (areAllCapitals || areAllLowerLetters) continue;
+      else break;
+    }
+
+    return areAllCapitals && isFirstCapital || areAllLowerLetters;
+  }
+
+  @Test
+  public void uniqueMorseRepresentations() {
+    assertEquals(2, uniqueMorseRepresentations(new String[] {"gin", "zen", "gig", "msg"}));
+
+    assertEquals(
+        1,
+        uniqueMorseRepresentations(new String[] {"rwjje", "aittjje", "auyyn", "lqtktn", "lmjwn"}));
+  }
+
+  private int uniqueMorseRepresentations(String[] words) {
+
+    String[] alphabetMorse =
+        new String[] {
+          ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..",
+          "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-",
+          "-.--", "--.."
+        };
+
+    Set<String> seen = new HashSet<String>();
+
+    for (String word : words) {
+      StringBuilder sb = new StringBuilder();
+
+      for (int i = 0; i < word.length(); i++) sb.append(alphabetMorse[word.charAt(i) - 'a']);
+
+      String morsetransform = sb.toString();
+
+      seen.add(morsetransform);
+    }
+
+    return seen.size();
+  }
+
+  @Test
+  public void reverseWords() {
+    assertEquals("s'teL ekat edoCteeL tsetnoc", reverseWords("Let's take LeetCode contest"));
+  }
+
+  private String reverseWords(String s) {
+
+    StringBuilder solution = new StringBuilder();
+
+    String[] split = s.split("\\s");
+
+    for (String string : split) {
+      char[] array = string.toCharArray();
+
+      int length = string.length() - 1;
+
+      for (int i = length; i > length / 2; i--) {
+        char c1 = array[i];
+        char c2 = array[length - i];
+
+        array[i] = c2;
+        array[length - i] = c1;
+      }
+
+      solution.append(array).append(" ");
+    }
+
+    return solution.toString().trim();
+  }
+
+  @Test
+  public void reverseStr() {
+    assertEquals("bacde", reverseStr("abcde", 2));
+    assertEquals("bacdfeg", reverseStr("abcdefg", 2));
+    assertEquals("bacdfegh", reverseStr("abcdefgh", 2));
+    assertEquals("cbad", reverseStr("abcd", 3));
+    assertEquals("a", reverseStr("a", 2));
+    assertEquals("ba", reverseStr("ab", 2));
+    assertEquals("abcdefg", reverseStr("abcdefg", 1));
+  }
+
+  private String reverseStr(String s, int k) {
+
+    Queue<Character> queue =
+        s.chars()
+            .boxed()
+            .map(i -> (char) i.intValue())
+            .collect(Collectors.toCollection(LinkedList::new));
+    Stack<Character> reverse = new Stack<Character>();
+
+    StringBuilder sb = new StringBuilder();
+    StringBuilder solution = new StringBuilder();
+
+    int step = 2 * k;
+
+    int i = 0;
+    int queueSize = queue.size();
+
+    while (!queue.isEmpty()) {
+
+      if (i < k) {
+        reverse.push(queue.poll());
+        i++;
+      } else if (i < step) {
+        i++;
+        sb.append(queue.poll());
+      } else {
+        i = 0;
+
+        int stackSize = reverse.size();
+
+        for (int ii = 0; ii < stackSize; ii++) solution.append(reverse.pop());
+
+        solution.append(sb.toString());
+
+        sb = new StringBuilder();
+        reverse.clear();
+
+        int remaining = queueSize - queue.size();
+
+        if (remaining < k) {
+
+          while (!queue.isEmpty()) reverse.push(queue.poll());
+
+          stackSize = reverse.size();
+
+          for (int ii = 0; ii < stackSize; ii++) solution.append(reverse.pop());
+
+          break;
+
+        } else if (remaining < 2 * k && remaining >= k) {
+
+          int tmp = -1;
+
+          while (++tmp < k) reverse.push(queue.poll());
+
+          stackSize = reverse.size();
+
+          for (int ii = 0; ii < stackSize; ii++) solution.append(reverse.pop());
+
+          while (!queue.isEmpty()) sb.append(queue.poll());
+
+          solution.append(sb.toString());
+
+          sb = new StringBuilder();
+
+          break;
+        }
+      }
+    }
+
+    if (!reverse.isEmpty()) while (!reverse.isEmpty()) solution.append(reverse.pop());
+
+    if (sb.length() > 0) solution.append(sb.toString());
+
+    return solution.toString();
+  }
+
+  @Test
+  public void removeDuplicates() {
+    assertEquals("ca", removeDuplicates("abbaca"));
+  }
+
+  private String removeDuplicates(String str) {
+
+    Stack<Character> stack = new Stack<Character>();
+    stack.push(str.charAt(0));
+
+    for (int i = 1; i < str.length(); i++) {
+      if (!stack.isEmpty() && str.charAt(i) == stack.peek()) stack.pop();
+      else stack.push(str.charAt(i));
+    }
+
+    return stack.stream().map(i -> Character.toString(i)).collect(Collectors.joining(""));
+  }
+
+  @Test
+  public void firstUniqChar() {
+    assertEquals(0, firstUniqChar("leetcode"));
+    assertEquals(2, firstUniqChar("loveleetcode"));
+    assertEquals(-1, firstUniqChar("lllcc"));
+    assertEquals(
+        -1,
+        firstUniqChar(
+            "sdnvlbkrmtbollujsdjfjfppksravjkwwsimlmdtcmiilpjibjhcppluisqbqfwrjjlrapsmcwrsrnfrmtjrffpuuqwonqfjfqxellpvmcfmhxccljqlvboioelpfcawrxlwsajfaiehutvogduhobwgpogvatpbvoaognbepqnkhkjsvqmfaghavopppcjbjunuaeotpkbfsmeqikjflakgjexnqqgxnsdjolbjbvhreighxhkihwphexwqufasjakmrdrpwciefaiqsaifmcfdeidhmjekoorvcuxtejlrfscrjekfkcnsdhhsxenhkuanafdpnsjnepdmvvrhbxwuhmrkenrcwbadsiulpvcklhlburudrbbskokwnwqktwjxstsvebvpqcugxjebcivudojorntphtscxhoxlhteuqunhvrsndtabfpdqdcsuqmdbeiiexdkaqtgkncfatlawrudbausifpsicibgrwastcxkjasmrmtrchbwlkxnbsxeaurtfdwmjqkgikcctgccsisgwlkkwflvahasltfusxogtbejrderxbqshacgsrvtqpgdcwmuwuejcmqanirwthsaxihlowgwjeegdltsujtrfuhjnqjjefqjwubiktuglirmgcdqfolvmrilkrvtlrtntujffbrtfiwdtvtfrkfnwklfulecxtkvqpgcrqvgjxbebjlbiopbnhqbdhhxsmgpdojhupxnfkmqsjlmcserhsiwhvelcufuvqrvpwhckexvutuwgfbgnqsmpmfuqkrvwggskovlqtqnqxvpghqoomplnnkmuhkbwpaxuhrkphbgwopxikisuegmxhbjocwhumauhiegojccvibwfdrdnahnwduvnuxjcuncrcgwwrjhxmdemnuxcjspjisgduuoojpxluvehoqpctncxniatxqckhmggtwgjihfnxdhbjwjhuqwuoveibqppqrmxrmaddukgcxpubmvgidcvwenbisercjiwvogdsgaqgsmahrlhgguanubvdptiofskqehtugwjdtgmcfdbpcovmvkntwsmtlcvrpmjclmsasnjtbfolgggthxjxplmkoafjodoevblwxbhctberkobjdqbidfsktudhcnsrexmetkowvxmrxvixbnfgrpeeuwpmskmbjvfdvjnippnedtbupouibddxahrhwdofdlvsnmwxakbsbxfrxlagdqpexnakowwnlkvcmnxmiogtwldgiepsigitkbnklunqqivlrkbwhuofmgfccjkrxffdamqbuglhcovmmnewgfptkabfwlqgrfhnburpbtajjmnfwmamehrdjkaalalxvwwaglidkkthgtuxwjehjegvxcclkrrudbknoqvgqfobarlsetjpgdflhjxfrxdodudljkxadlhghxcfbjigrmfcoxwxsabfgqilathijexhuwjjevobvgpvgfrrvotilgdvskfoeqvlgnaofwgdxdtborgsqxrqkusaphbldgdsntgtumhsbcbjwfgsvfsmmuonpclpxjxwskficxigsdadxpjslhhvqehdddsrxgdfljlowxkilobxqroctficwgedsspktwvpdibnrevillfwrsxjmxvuhqxmvhkjtrgvhxxecpjnkdjisrcqgnwtkmwxscdhihvpjgueboghiuieeqqwbpkohrklmukmbjueqnkfgsdigxrdporegntvppdjqdghwfrmnuhncubwteturdvcuppsawqraabqaffjwtmhmcibhepauhthunhcnwlcdebbgxqqwkbreoqsdvvpxcutnhcqtpcfbnxpavcmcbvulobiorfqkmrphgssmjgblfsnxfslmrsxaukmqhhtgfxtsivihexpituqkrjntigltpvgsgcrcwbopgmlejngagtlriidpishuhavdqqcpfwrnbxtmghhlaqufcffjpwuueectmxntdnmepwxouwkcaddmxicipbrsnaukcalqrpvvsjasesgmwerrxtdewnhpuwebcktovuxxrxvretussdojcmhowaocqmkxepgtbuisubpcwrtdmxbgqnpuwdntclvvavejthrgspvfjeupmjlprekrgofcatvkofuafubevbidetgwkkuenjbkojnitulgghpowubdmxqlrxcbwxcouoejougudoxritmngxqmxaenpqhhblqmxkcvogxxbiaumbeumfpwgomcggxbbfmxmumpgqbxddhodqgekgnjrpkqgrpfpuxvnfjnwsdwdpexdrlexjlnredcxajnmjiaqvscwuhmxufawusutabdemknrffbguxaxmwdhokxjkvikrmeprwklbvlmgsxxvolirwcpxgbpqcprqjnjntcxrmdqdbroldtnfsghitjlavokiigcupuwnifngkgsiwhfjjxijqamavumcsqkvtpknjsugmxnciqiktgqkonsrdjjgorkswdjrojlsxdgkjvoljsjdfanswoiufdqjjjnjideducfxiwhtdtkemkfvxbrmwwwduqmmwonrlvcdntljijselbcavvmgcakxwaidruqmdkvucvcgrftetxenrhbbblgpqsaoietlnuweudmkghuummtjljqoswbkbfefexiqiqfjoornofnmnxxhscbvvkkpkruinugbvisuwerxjbgdhirgpcnoeglhswigcdfxelfmeqfhqkxlrhpvbksqmkdkkvabdnfcmjptbxdhdrikuvkojrbvixkhbfupkrnjfdoxvlfvrebbijtxoqltguiqihurmxawaimrxdrstnsqulqajfwtwjnlhrboupthvahjaprnimuormdlcsevjwrrngbaashntmbpxxtqbanvwdlpqhtaxeestdnnahuillicvebrobwlmihtdkfwhchwasgwfgsqnfgurgsjwhabkujamvjvriivnkslxakealslelwqkdcpjniwthpoxpqgbdlmvukwueuionfgbmlniwmfqbwrxwqsnwxridlmkaulwlhldcfkiefujkagrfwjjrqjptgxkxkdfwmosfhpjjdujkmugfmtupnntgbglcwskveiegaekewworsnnvahwvovltolgqawwixrjnsbuwoqqatxhfexjnlbiduecsiiapnjcimgovekjgflugprswurcnldaxgqbdgipbodjdgwgerjlhrombjuajcgihcwqdtvpxixmivcsihanqkgvvkekqdnjknjopssslkdascasmarrjsbvsxxcbfklrnctivnkduhmldgracfitjgvaqgnmieitubwvchurhtrlsvvchsknpxfqviojmsniqgqwlpdnjppifewefrwimsejhpdbcnnblbamohnotsfewfvowrmtaittermlafnnlspgnfcmgfuxmgkgiunglarhfhkaxbaucqfexslxqqtxxamgvajrnmhmlbvoxtmwxejweoqatldgwdmfmwxnxsmsmxmhjjrmsgdferqonwmldxrmngijxtjksrittuqwlwebxtebibnxvtesaqufhpwtmoiaxubccmuafdtbddobebehflkkngcfkxnqlrlsxhcuwcopvfirqhsemasptavjtuwdjdxfcixucamcahtxcgopnivmaeawbvmxqrmdthcqjvwdtrouaghsqalktudmlshoxmlvceebtrebwskptoofvttqwwodbsohqeeshxnwbtnujugimqshnqowacpmtxjdkboldpuajmceeftarseqgotubcjojxsjnljomwjnvnskqgbwlnlasodtbnckelorrbpvekfxttwntxxstjiqxqncqsdwssadgmvqjmqfnbfgoxovqnthpmdswslemogqumovfdjiroatbinobtdvickctnsmdfqpurxgwjbprbpgfqfniridebecitsnvaxretddoeikmdjpiivduimhcdbcttbwmptmnsakevnscuwemiwxnaeurgitfxpcwslsivgfquqotuxxhqxjdrlpltcehnvgnjillfwdjrkwhkuqdxbrgkxshjwvpwsmhdbnxkivjedkoaevpguqonqevsvxpspegjpsnutchuclqmaadfpvdqxgnepbgqmujtbkucqkmlaafhaqgecbnmehxqlltsiwijqddohvohukvjtwctpsurohmgcgagmrtdmxugouoiphicrjosmkagfwsgtimfhgkiefolaomqjjpbtbkarbcflncapmhxkensiobftdbgbiihjwxwhgimoletnhrundehcjntiutjptvekrdmnbemoajiglkthlxqposxgatcvkmixrxcmcevevpprhkvqfhusnihnxcbifxdixdamrkgxbaqxebscisvjphuxkhwleeftravmhfbiudtiahkkubbmtpgsarquiffljmkfmmmxxxpdfmflcvjucbfwbkrdrjmoxixgwbidjgnjlblsrmfrclauwrpbfikvjneqxlvvspnjbulkjqnkfgrtgwtwgcxpbcbdgstucchuhoortxjatdonjamblhsnxwgwegkbcpdjfiehotassiapxrmknxfgrdkbqxbujwjreivfctdrepotjictccwtbagfknbmipiesajdapcubosjwfvbniodwvcccqsrocjrchpagxnehpcjhrgxdjnxbsohjquutxmqbeavxtebqjpcdsndowsxbhjnwogfpwbtbjmrilwclekecjrnnfpsgunlrqkldixprfdnthnxrqiiuwmgixsqibaktiopolipkanjhhpsjnmwccmwafetiolslutjqicidsrmvlnqdlmnttkeefnbndocbobxkigfedjwtdgehkkwptgbmrvsiiqdomqutreufldqdauuokuahiiubadphgdurqpgdflwpticfafqhllekupokbrxetnnkjhotdvkbjitpucrlfgbqonghovdhrpicwqdscaqmwsudvlhibxasoqnqgilowrlibkgqufkokxvjribjferoljtwrkoledombvogamnbgavpkbqtdglxxaxqxknwbesowbukgfeniduhpfdirnwsjmshaspnhnpxafphwpfqcqljaftgrburjptseifkfoeopsicququtjklebxqrscdhptrdnomtxruuaxveswrcuqpnrqltplrefruvjlubaiqnxthcsxfbtgmcnorgjnjgjoeldubhjpstxnitmkkxulddeikciifotralvqtfbocgxujvhipmqicqaououffucdigvqsljwjhqbbrnaviovujxrbufmhjpufnedhrjogmctbaeldlijopkratcuflclooscrpbhbpvtxifjrfuukqqgsmmghedrdlhmrwrjlwrrftarpgdxhfdhvndjdcknvdkknmqdllnelpmdggfkfxjudxpothxqtffmhcxobfsuxwlanfcenedwmcaexkjjvtorhbgrferstptaeejowgrnpofeftrbeuwbthvnaaawgknkebepatlaemiohrxihivwfoucrapqrpjhmvbamnjhtcxrewdfghsvvvlpbgawdvxxnjbbbscefktvnrvrjrpjjtjepcjduggbfeerpexvjkemrcmdrgcxdspklklfechngfbrxkacxeblajjunwuccjnjnxwuehlmpgkapmnmphmvswetgjfapqlqobkcdgagbgvhskwtcllaakvbsaejjxqqfixmspwsdudnfmswaphujlegtbdxiwgqlfuvhcxjfkmlkclfhficnkqbbfqpeftjwgckmarcixiqamhbrmfkvqdssvedgeidqnbojhfoktwfpcxsneitattkixpdnlffrqrxmrteogpsifsqevxgonbbdvjhsdjphjkvxetvjamoctscmhlkiuewrojodsodmwtjskfjvktcgvvqpluivcokmbjisrcohrgdtsaxjcmfkmudnhkpfgvveahwxjwlbrbkedwavjrqawxlvmuirpsgxsmiiacqbonhepflcqicifghhtddihfvphxvhiwfhqrjuvgbxvkeipbxlkqhcfgtthkomqjtmhpblvqbejxwcgxnsdinirvqectsnpecolvwbpfecnphnjjxdegmqlrdiausuxxrxemjxllkaqcqcapnwpjfmdmvsjtvapsahsusdblkorhaqtbiudqxubenpnquchfrnnvqpjvefcxihcphdhmtxojurnvxrpqrjopedlrceklpavqugvvanifshpbnvxsdltrvwihblbiobuwmkmlhoihwjmlhoxefunmuaggukhrmuhpbrewqlhwiinumnxwhlviarhhbsefcjgmlsvvsdtlklqmvbqasarfkkbkicitiprmsghsoowwjshdjsqsomltccohkltufgbbmdcltfwpqorarbitswkrxjmghunicweruuwjshfveofmevjupwvrjxfogvwpwidvqoedsussasvathbgufgjsniaaopiktxvjlcdufueckisovcwsjuspdmneagffhwbwsbhirvushwsubkxrnputhlstcveqfkjhdsivqecsqxsgsdiiwxoetmsmucwlukegpdgecjnhwditjeihoursohuixxtfeoljforeamhlqkomfuipuooormpokkconfoqnsqojvowwusrwniiqnticleqvvnaibnmagnjwmdaarurvgqblcahmnttbxkqurauemoovkoppcwejphtmdpteamrnhsrsngsmlueafwocnglkihvmrgwevgsjhfbbnbtndpuhgvlrlowqjwarvhgdvdwnwkajbxbrmwgjwrpvnumetvenfidjorlsedhccrmpodjoldbfjbwvmuialrohrbmhrwovwomirmooxlsjbmttvkmqnuwuhlhffembgahdvsukabbsupuxorkpnauapwucjnkolvaqkfmiauhxrajqappncmaeaevrljxntxnhbvnlnoticqjpbvwiurjpulxxmimvadxbarqarngwghmkltvckparsefgfbagamvvqlfjlcqivfedmjukgomkshmnunmjfbplcbdvlfaghsorowujhfglmmxelmqvnrhummtvrnwquffnatvvvwgtasmuqodkkflpaeuqfeepupgwsbojqpdlgdtuvdfrdodeeqhwxapchquetnpcbrnkwffeacpbqrqecjlxhsscvqnqvcssotnaajkelurcrbjwjajefstvhpbqhhmqiplfuxbfvbtegeicrlruciknduspjlqeqdwcdolxwjdahesqsckamdaccrnsupuxmbpodipqoeefmhrjmpugmuvsnumtolqivpwbfdwsnbumfwfupjaqtuaxkgxbihnxewbekqiedsuelqoklhogxacrdogmctdvafdoipewindfmxkkisfostcwhgivfojraosxjhkrmtjprjmuokgktejanunlxritwpxiectehtittikqvwrjrcgpxrwobnhebbbarwpasxniibfxoqnmwwsjundxuhhdrmjphmvdtfdwkpeihwskbifquidnhspawqooqmgpehagpjxlrbjtsigthcxirfqlierllwreldmwjwarfjcqrggdnkwjepknpcbbijxqsbqjppnrswepwjeowbbxpjentqpfpwqvhduejfodxiqdjkrgcppcstxemhlragtduhpbxvuqwovrsretbmbdfvsicpuetxriqpspjsgpojmlbooeuapaawodvpdwjrrwdjexhcwihbvixbojrcielqsnojpqqoeeewoijhjtqohqkrvskevuwjxftdbrrertvfqsppbjtakeditqnufsbcvlooasvujcvqrvbdgrpwhdluxsutbfelthfsvjkhljenrspcamergnagkqniavhtjbcgiaskaqlfsacwfrlcwtufdtcvtdlebcmuawdiqiaarxafaiswaewtlcbabwwuicccfmppcaugbakjpbsauinocnestocebhwjijfrhbxghkrpkvlhjalihuclrunmkdpjrnnewrsswftktdwkhtposidlchbmdfvsirhracliukcbxljcxbjluixchpelnoaldmdxeemrjqndjwwhjcjonvoxhnqkpfawngjilndfgxerwtlrupxwmwqltimctcnbmpbcfhcldqwejccpbpdfstfodaaqwfpfiqdgrrqvxsnjqukdxlvrgmwigweplxgstqhmxeejtvaddqctpbvcrsjbuiawpxdpkqvmrhqiwjhatgmqbmustupqwjuenvmwqgvwusdsbxkciwxcmbiqtkbweoakdklfkeiblwnxeorhjjdaikcdjnvdnrmqrvontsmouswoohnaxgiexwlmomfpcragaohorolnpowihqemjgouwvjlkphscgneqgeaecdwfcfoadhviinjiiwivxnegrbrqepcnwoboxtvjapjumotswicntweobvgbqpnmqlnjmjajossekhkhxjlvdbtbgkukldrikbtwrfwjvknidjfntqbdiqrhrgquuvwsdkmhhqojnnvsonoedfvpjcwsjlvgtmerufnsfdjaovrxdjdvgqxcwhjhwakrqiloecrhtmhoraqcdpvqnrguhpubruonmjcqlrpxsniegilinvduhaemnkvwbbsrghkqbsojjemkteturfxsuvhlpafggwowhttwpvpwadkpkefeigxruaqqgsmsilctwlvruscgiblusauijhnsqjpeqokciqfrlixsjkhaaopiuaxbuchnxqtppfgfvfjpwkdivdvnijouxevpcgvrcggidqrdismgakpmiwgmbuixdupjrdjgpbwasndwixhgaomfceiorousianqmrroilmowgutnmcwwacmutedcquvpjptiapovcqkxbufpsewtpjrfvksmagpxvmlhijbmicgdatchpxaocalfabdghtjqfnqirqmhlrqucqkmerrxtiseothqvlkdslrlelkgvpabgugoclmorkitgwgkcvlpcewjhubhfcxtwpgohnguulccqdhvxslepibrdrbedtnrrjrdvxcilolxtklikldthjxljleuhkjdxjqntawtisburdcdvwtduvdipkharotsibkvibcudgmibftxodkevokphgmxjjveupasgladstvmlcglpujhcsxaahdrhbmllereednawbeoiqmxxqpkdjaujeugthtxoqotkueepqirgifmfoniqfnkugfxvtqptsxqifsgvqrsokqbdxkgjnpcivrtfnttdmtkonsxjibtqfwgilpwwqgfvrgcmendhudcevsnbbwtntgdujthphrjlkffabgafdwpcvkkxlasdkjrxtxkmcjjspvdlnvrxjvbbntorgijmloxrhdvnbfcsjgmdnlglgpqxvvxjcfxwgowkwgcdtogdqkbcuxqtbvvfmpxvgimtsrnkqbbubuufmhbobswoughelkvhmrjjjoekvlabuomqfferdtatfewsdvkwspncjodinnrlsmxvlfdktdgmfetrjrfkbdaftqtvhwuadqecfpnrrcjamavpqnglimcsxnlkmphsbxtjmskwnxqpbqegpkwbrlebfedneieicuvaagkbplebodbfvqlusancmweqpatcaujbrmwsgvewjcdtdwhemkofvdfjuikhjshcwmfrlgqwdvskrfsrpjwsbcwcfhtjneafroqogfacmtgjpeltdwvjouqcannxgklbirwjpdnalmaiuusdibdseajbgurjdfagmvpswxwbkjhhcuppvrrwfhexxcfxdfaefddkkklgxcmghflithwlpiwudxebxjklctthnmnvdgovepfhklkcuebabmdapcolvmosnmtigwfnrbfkklweckutdbekdxmuexueddfvqjjevlmdtcbijlavpnwqcbnoadoewiugqattkobbeodvtxtwgrjlvqqbbblbqepkatstgsudpivfgfxopmwrntffpitvxgoaoboksxolkpohewmnupmmasntbboxvhssdcakwlniweokljredbdkwxxbaufpqhcpgqhrcjescogimhobvdmnrpuqviiuivwxbqlbvxqjagmaoxdgsvgtxvkrgvvixkgcknfjqvdnodlsdcjbcobgkgddlvwsdvlalfurevegvwqgbixmnwwfavwfwvclwxejsaaqgulmvxnurafochlqjimbnarbwhkwiprqbmrqofrflktgtglppxegjemnmotnmcqiuvniarehxicooodcjlolsjkpxmbxiiuqwxivskxdvxjvdfvbomdcqimqbiefsrwiqbaiorjbucbtmtimpjskdbigakcvlhnrkdhxkntkvgbqqbuduttdklicntfrlprbmgnugxluiwbuwxspfbgfphenadfpkucjwcanuplrvibxhebwjmebimkgrbirperkxwkulesquvkrtasbbmunoduupgqwdxncjldicwbquultcntjgaxcqlkrekunxwokkirrcwhtwvntdroegadqqvkuwufirrfdkwowdumidsokaulejgkaebwugekwrpbutujrnqjpqaibhpapjhmifofludtxjjkemttjpafqaktgbbpxugxklmiixbjdpojfutkosxadkgvlwmxleqneonotrnssnhvgudrbxtsinmixvnblpqoaogpeiaqmjlwxuevaemmxcnmrioehvmansstmvblkldeiefimjmvajrxtnxahaevklpdrijksnxqrlxbnqqglchtuniglhrubbnweiavvwwbcdjqehtfruipmixudbdwjmnevhnuefjilkugpiceajlutghepxrksexgntaqvlptmrqcpjidjpbbbwgohbmieqslsndikarvfieuftlifpcwgjejtpdqprpdwntmrewtgwivintnkjndshtvmqxtlhfxxddvughxinnmprbkkfsjvaisanqabsvohhrcsxmqrttjevnnekcphmgbahnipkwinivttqewtbbvgsgaxbvnblcjnmobowrgjhiqwgxkepqpfavknskurmhcfmvfhiohcebsvuwlonihjhjmfvclialnkjxeaoulshkihjjbpsankwtfxcflhxgrljhudrukqhilmmpnjhisqhcfdaskerbwqwchwjnfeonsmwjflvrvtqxubbbkroemagdndnqtwcrnqxpmnclhlcslrttkvvgmnjauixevxmemoxqpxwngifcrthadapavorjgpvksvmfaxwuarlaetqixifpejubitfhshijcrkeitlmwdpmbcvluwerfsecumucbiisntvcmliqsvdqewsuqwgfpkxtjrprksmveewpffthcxxmfqikdbbeabelxlwvnfwjgkwssdvsjjlbmwhwwfovdpvshqbfsrmptptmtdfqemxhjcwaamnbvmabarpksgpgurnubxfkfwkvntxhjmfiqrgqkxjmempxasoddwtaligeaiqtbhqrdmgggaakruubxbeajiabgdrlalkgbeevowcedosmhmnvsfqeemmgxftlhtvnbdktkxacrphtiftdxqshkmxovqoduqbtpusugqshbfbhmqxkjrciopbbitjeisvonompspgtcggprlotvaipnvjjbvtwkbtgctxfxgepemqmrqtffftwjwiuwqvqkfrexkfomuwdqovgmofrqiukrlokstxtqwiacmerrqcgfenmimtwpbdgfctecwjgffqbgpfwhmsrlgcwxmofqbqaouxkqrscqaixqmxhvhetkmtfifofvglqdrbldumgbqcukderljbfdwxruxtpobtxvslxuhvtjguglvkhjsapnmpbkkflklcvcndirkgjxqhfdithqslqjgtocwtibkwbueclmnpxdqlkdovjhrqqonthelhxdqautvhtnrhfgmpmsniwphaqmhgfbjxxqthvvsuwluaehofmapooxmdadvfaiqlbrnfneshewxqmovtsosfihibxmabhsinvovatpfroglimuacvtapnxebgooasnkmbnscapccemwqfabkoxiceqgfvbjscdmpiaojmttkvxsipcpdmkkhwjxllohbpmipiwavolpbspwhrcsfifgnssaealkdqpmmcaqaxpwoserwtbkxsheormqifdrsgdswfngiwqaswxvwoohsrruiswwokdemrdamcvkxengfnqjfsscgvkwexamiwvtriuaaiqudixgpafvlgmrtpccsvtjukqwdlaraaxvvdvbqpibctmnihjicowulvnvrlolvkrtuehpprafqjswheijucrxnitakaxghnphcvvbvhwrwwxvgpwtxaejscshhrsrvbpcndafdaqvencawitaurikrekcixpxbptkgixnoniksmtrpfagtnukloujfrhvbxlrfmkprnooiedxjbuxetjjbppnvaiuganfsokvtjbkvebjdcpjxlfabalujeuuadtaexnotbjxtnvbgrkodpdndabxcmtvhaubnhossugdawxgsnmnkeqjriqxwaeicojptfcaisbqeaaqphvvsfovjxacfbhttfbepjdkvejersxxfwoadpehmocsrxmpioexjuqxqkgjofnlulffpnkqcfnwqbmfcrdiawkpdliwcbjudfnennjjllboeqgdanuxggacmiqcgflkdflnuparxjhrtesdelsejvcrurgpsktveljavehxfogrneqemkcpskqkdfqegxcfogooimwvotwvmqjosdoqrgtgruibjvxsbpsffwgckhhfxrniegnivjcvnhnofdlfenowtdhorlsbvhsucshnasviigxtacmmabrcukprdgwrxrkrwhvqibfvkqpadrmjvkdpwuilqbmovqmxpgosoirwlgmogctcljfgcjbepekgpljgexkbcurbtaptakxrkgoqqqtubokcmtxporspeqwacewiddkubawmqjelwaudfiaanfflujpcpnmwvvtfbhwrjfgjgjphlbucidtubkeplbwdppdttmnbeubpqstiuwsnbcvumjghgjojrsrwfxldjvdlwkaeiackgsskfgtraekwtgfgpqjxirwxocwnrhepaecoukwhadvemciddngvbpcrbcwbnsrwpqfiqneiavusnoqnxbcvdifdhrisgcqvtfuilwxvotjahdpeecfhiejtxxshkxroemgwtwgelelfqjnasqidwswtdwoibifibuukjnbghjttqxrrbfsrodcsbldnnncstgeefjbdjsabjwdqjwebiwppsjkgnpdocsrnhvfudwshrodtjwmelmmewwslqgndwxatghoxdfbnbncdskeabekaeclepjkjhflhmqkvsjwujohbuveoahqlwwnbcbbqmobcxhtpqiikrxstxnkxbmoncsbtjvlqoxksaebmvsiqbbetdcirueeojfoqdwwbvtprwjstaauhqteqxvwwaxdxlaubbunurhhgteqwlrgfawkcvwsfhusoakmpuonhkocqvfkemogdhbhalegfhecuiunakmilqwqrfvrfmxksvvjucqrqbwjcsvpothfrshkalmuqtlmbmrlvbbmnnlrwpolpjhuxrchnpjlxqleptgsdsqoedkksxhafkdwwfxiibmwjfoiwbeigtmhnsmcespohaukpwnujahohinknpkmwnxxamjdwqowvrcqbtvdifpshshjufbotqwpvpqfwqophfmbdgwfvaplclngldihgmlguejowdejugcdhvjtarvqishqjaaovbwfwsgqnbdextnjmbwecqjbcbehbwiejowcjlmkdsjbvtficsujbuuwogvtalbxduuagnofqoophpjsrpdigpgqvcbnpacrblxeoksiumdhnhkgjsvdkhwoqfbmgveknlqahaqdpwqpptxnkbpslnfqghebnrxafmhdtxjorkejfkbwefmttjkhwhtsfosflvlvirnccbpnivarpwjirkojcxojekwroafgindwkctbgflguuriebijbnmgewckolehcklcchgpracgjgcmwhjetkvhdcxkchaiwrhhqwqxhggahomtgsruhgsglwnaeuthmsnmoachcrhehsbnmkpqpqtdcrlftrtoeuvjcvlbbxulxtodqrerlsamsebhpxqenbqhovnfesourafdcvpwrsxtkaqbjhdkcpnfqqvjsifhddwqkabxkbdxktqahhuwqpnlsnvpvjavhsjhaqbmwhkjkvigspclqbqstwnguphnmxusmwigftmikabkcjwgsvvbdbexxjthcasigjneahsukksmalhrodnarptqwwedrvjjhtrgfjmnkemvcxglnkhqxxkmbhrkriswfcmvfkjekwhmcdkevtmhelqabettkpmgcpvirccisasrwpufqweairnwevjheuhbmcnhijxkscgfanlvmlgaesdnljefhnnantddjwpaltcpwmaelkkjgohfxjufltmcdjidwlculvxpcdldmcjshfmhwoipavmhaomxoojgmomollljwvtdhwpkswimhvwilafibaeemxctjerwtjhnpldwjrfdwrceuaompisafxioeoekkpoxnkwevjhexkhdtwfoqqesgqppmivotgqjlmileufqiavfqbllewraoixhrmmjgaeehrstqmaoltgtllpftukmpipflqquddcxlaenapqogtxumcstnqovaaassvjwcadcotfxenmrthlrdhdnscwmjirmwkahlhpgxiwmmqmgbiabastekmkqkpdvibnxhavsiiwrahjvawoetscxgvjrtxvfoqxhulowadoqajtwpbosvjxheuexuoitjjpgtprcxrgqehjcarauenkkoscdvvtxccnmvfxhfbfrebeicntbsxeschumgmhrxuicavpmcelebxlbowabnhnxsdjtqsujcwixwhccosrabqhucuwnhnexefsgjjrqscwlnliajtxoffijxpwegbcmcogxsppggokxhaiwuxuewhvqfppgekxnlxogeffraddclptufwrmceosmlkdqjktpwsjntelprceriqdfhgwlmuovvpecwdngdbkhjmltqwgilisvtsixrxewlfrsbdtqqmjjoecmpiwsikbdcfmqbwfbguaqcsvndsmcmuxkaxpwhpjbmabvosiugoluaxunoenmbnsnjegmxhbvjdawwtnbcirgelxixstwghdfdpnfbrrbifqdbanxmfsgwvhogtpqsjddwhlhfokmsprtbjhgslheookhnhispebnjnqtlfswhaernhtfvshauodmshwmdhfegifjspuphbpsucjgvtldhehthljohlajtjjketnocsmphjkirgbdriagcccilirkrheexspnxcdawnftdclsquvtenidxfqridprulrmqblnjflpbqbwnnwemltndlomxfrxlhebdqeohsluexrbhotxefupobsviekatwwfbhwubmfleinjavfosdkkspmtjatcghrqkvkvacbcbsnagcmqheouvpvvdddhkdfkndxlsmaksoxnkggnligpihmvgkcoajjelrnuxlrmqefaeinnwrmjkhbssibhakfenvfkjxuomdobukaaquhenaemgspscfjurkomohssettxkbioqmaxhcotetexvdocxwabqmcwiolnvauhxwwrjuwpkbqgdmdibcddfoeeskwageutffjmlgfjruuhkpanfnqjnejdqhubnaacsxspnkkhbwxcdevifagtkoqkdgwickjegmaswgnsjuchvettpswjdfrdtotfnswsiwdfikosdbdpchjvmuxdpjfnqidrvrxccktijhgqfseqafaodvbbhbsacehkuxvwksjlcmucisftbmhwowmelwtuarwritxmrouhdkikupmrlxgndhbslhfrmaqpsovgogukdbtxrjtbomvdlxxeofkhmiglkpakdjsnuimigjccemvawpxdfhjwrkhepphkwpfbuilxmppouwvfewpvrxshcflusncnqbwmmqallkmunsoqmnrdacoqjktkuskdbxlaurumttilqsgcatuokkmkmbwgdgfmbqotmtgsejenflxmgbjfrheomjmhpqoiqvghdvpvgfpbmajuhhhxdapsbtnxkashnvmddhgfqpjxexcmdugwcguidwsfkatrrrxpcslcdwshgiucjbhbmbthblscbwagmqhkjgomxsdbsuxqlfbirxfwnboufsroodvwhcileulgatjvxjmddtjpvbvmpfxbpcxsgxiprmtuqemjoeikjthrkcxkwobawmqguexrijjusipuipofsqamuvuwmoqbfsfckkthhehgfwlovjvehbkqdcnrhnsoctapqrgtxmflchhxmloxqhavgabbqcrngiqtgaalikkrjllhhfqgfrplwiaqpgmiiinhmhhbcgokkbxwegdsfqrstjtemaufsuiurifmexjfvrumuxxbrlfcvujxojqostqqhajdpgtjbmrrwpffsutemikihaisbwvmesuqmkfiqspvuxeugimohwpxfgvjhvajbunkadpjqkebmouinbhjqoodbdwdehiwvwebolxmknctxnoxrxmwvxswdotaqvvscbsvvqpbfljfneilibmtxkipcquasoaxgfngesgitdhfwcndmagsookoiqcttlausrpmecvjcvgfchsptdsbrmhdlhurtmfbgfqhfisudcneifrxvdjcjdihuudskqqgsdhhptirocvrbjjkeqkuputqtanwqxhcnaevsuualunowwtcxjnpbgspqtugekvibhhhvcabcbfkesghfpltacfmsmaihrpnmojwbodvsiwvgvkhhjlqtqcastqojdxkhfjtoxvcecoptqptvinouhtjiruwkbexsnxvmohcagiakdotptbvrqarmwusscgeuguddsidwnrqmfwhedavdshwwbaibpgcxhppsuipgplhrhpqoprgsgckwdjkwqlprrqadeqnhtvgjasmlamiwereluphsevnttavmjhmckpddjwveokuwckewtaxndfcvgnigenghlchrblriqsitdxjpqwcxxkaxksaimscopvlbbskbhnffnpfgmqqxvefiguvukhqxfanerspvkjeubdxdphbpqmdssvxawlqswuxsqlxgsamqokpfarvvgjrlxmwfpxswsqakwwmcorerneffajucxtxevjcdvsguauxgusvshfoovbjlomgwmtvmtnmcjmueabgesxcfndrqpcmxdetbmxdncxckdvfwuweviftvhlfpdwujxaucrsbfbifscghrrtjrufaqogrtifsirapsirpnbwodhglpkafxrojhbthuwqporvwbuwfnkttfcnsofwajnrhcrcwbgobjroppcadflxgismkpsuknruarnlglqxscotmufxbfeinmhsfkkddembvtwpalteailvuidmimxicqchjgfslggahslnkoquvvftocmwomjxmoluafcrsljiuufwfphxiphfmdrnvlfddubqjvsqjltbfkuibvxgqpplftssdsrwodnduheagfuddtxvppiihfvgrkgukqvppcwnalrakcvwfbpfnotfebtgqxwdjhsxfdvxxjqqgknlcstgvkioxtgjcmjipnimiejriicjafnceamcnlgjisirpxicwdobbodrdcosslfjcjrjhqoqphrfxbcrvrmdwbtrrfwtdtmcugtjklhlmdbnkcanehuuifiqasxndgdesosuvssjilocrbcxdedlxkdwradpbebiudnrcgpsrkttcahgssmaexlemrkrpfpnklfripngihgawnaljxnufnrbcttlurndehjlxmeowrqcgjefaegwuvmvrahwapkksxsxxhnjrbaiimumhjqoxevrdgwrljwdmlxnioaplphsoghaxntvqvemgnpnnndnlsrossebkdmbpowsokwkfhiwmpsqxmgifgxbglcgamaecoqrnosnajjqtlbfhfkfmvshcjkwedkljuhvncwhiubjfqjjoketoikoxldcnjlpdbihmglpfanjbxfgmrpkvwoiwlfanetxannoesqnpfqjpastkmrdhrxvfxbllmrlihosufgbocpipdlawrknwxeloqpiptnltrkuljnmsqngbhogkitirsomxfgbrpjqbjcllemvtaatnfluvdenaimqcqhvjkcbsiwhthevjaqitwdsoiutdspfohjvpstpogfqdrekuahetxwahbesrpxvsevxuisioshxlefofccqnddhpelsubdxqvtvwdhwiofdtoorcmmcsrdpwkcemguehcchwvdrnipndriseaceqanoesrhphrdxvcmneghobumlldbmmpwbjkwrwhegutmqeferrxsbjnqmewwarjwtukgfeurrvrpcbaxeepcaqjjugbjsoawqjuxqfrqajmnfcwoevvfcvbiupgdjvfgwaapcbwresdvjamxdlcvwknunrkeemauhixalqcclgpqxkvnxafsovevfsikfeisstrsubovhgaufkpvskpsjxwewtwplnoxoxnttokkwrfdeosjlkqxxinawtesohbennuwjnnpkrxfvhpisapaahobpeduorkqgmfaxpxwcmfqofotxlvoefeqamlutnjljobseebhvuiojiorcvrxltfuqutsfjvngbqnhddqfppxvqisluuwnhjvrmlouwopnwrbsomlrwljjmlgkbfqkcjlsuvbruvapfnmulfxjimoxfawpmfpltfhttgccccjsodqulfvfhbvwlprtndkwemqutbjasuaxruumgftnjdxggxamtabulwhvcepekuxpvxrdmnebprlpwqjlpungjvdwrhdudjwadnwjeuvkjerjkuorrwvkggeiatfcvumtdvlwhsiwxtrulahujhjssmkjoigexnijviiswamoipuarhsgxwknuvwknvveddfjjwwwgojdopjvehbwtehcnjputtkrxpasggmqsdidhmrteatleridojvvjjosmadwfrdbbaixugklrdrpdefhvfrpxqqjcoouwojcsejammolcxsbafhosukifpavrdxebwijgqufbhfvawojdnnaphischwwqnigwiqxvmanjovxlngxueinkfeuaadmruiknnpvppvkgkqdlgitkjhnnhngvjopsbiavnpcuselosohxjxngfsagetxstaauuoiphifdmtishnnjoifqxjgnngbofafxumkdtaafofrrbhmxdvdqqvaushltaghsccwrtjkkpxovxlmsdvaganmkcvnhdkgxvhfqestcqdhukknceicbgjtwgbxuxvlmgdfcbutvaiepbtxghpclccgbnccaegusuohfaoklignwfgkadjrknxttaielrflbqbusbiitqgsrnlggqgfppimewdghotpqjlcjfknwppexsldbapibhwilamqkfhhrielrufbegcbsdnrjrlrsgawrosdgdjnkvfwufiunmndabkqotshqmwipxnvbtrquxucqadhiscakmbrhxvemqjnsdoqukiappujoxxqpprkxtkcvflxocanfdmdolnfdmskgalrquihbxfureuiwdlqpxxnrmrhahifqdhiujbrwplijmqpmdcgpwaatntwvavstjmxdnlhqelnfhqmhrgpgjwlvilclgcjbjjeujhrvffspcthawwlmqrwxsjdkbosqegrbeeholrbfakqirdcbcbqbwwrcsrvjcmnipsqkgqripdpullvfhhtcbrecrltuskhkjcotnkjihrvxmacxqsxeotfmfvkavirpdkrhjvdvjrqqlkkjntcvtckgpodokxswmehxblwhnvbobxgrnbfgaanbpgxxkncjvirdgtkvsmbkfrearuapwveveoebnnjgwfxdxohbjwgmxionautxnprkgvmncmxoodrwvcojjusmbclclkhamatpolvkjuvbwsigxbfglnebjrcnknsaexbfurbkdubhntkjgdfpwjlnhvvpmfgqmffepgxdaemienjakxwotqboemlictrqfjwuispopvxlkadcsvjrctnvaaeidgviwtuvgfjdbwajivkrxvejkrhjcaixhoipamxxkqmcgpbswtvlaaboddpucfxeammplsxrtsckfrigtktcgvwixavnkfbimgawopeesmlmodpnxkwuimvxdirthloldxevclwaxvfrsvuguevcpvvkcldpumwvwuadwffvjnjhjirspxiddbfccktjhkkgnhekdnktbupoclfrtuhbdixpderaqeifxxaiqllrwdpqgwadosckiisbwsgwikjemfexwqsijrclmbsqirbhbloalkarxngjwhaffdvqbogivntpsrnihqddrgjkmuffsamkeegrhlvpajdkeluvbibdbgxjapahlnqadudltxvqgokpnghfabiqcquwkpwjpqnvlsofmsidptixgdpctgrcfooaldojgqbtmgwisvvpsqfjwascducjbqhjklsajnoiwjcnhpdgafsxohroaveexmgxapbwqqcnxjmriieoatnpvafvbqavpeldvaltkaxrsrdhqbpadrqcujfrpnmcixonafixavmgngpgmjmdaprqluqirnsmlgpuspijriqsqcanxqdriocbjaquihilxawkkntkwxfgvmwvpweitnbvwwettliovndvrxrcwvcsrmrouehraeitdfugdcaxmfgggvsbspxwgtsiarmuiuwvqvqeackevbxfcixpkxureihdqvlrsddrvwqxbwfwpaosmxwlfebvlmrwxbvapuwhirefxtrntsumfcjgmpwakfjsseaigebruvuhrtwajaxenkobowtdjnvxupwkivtgxtififerajbkdghbmligrmhvdinwuwufcsaplstgrnqwawsbnwgisqnexbhelqvhesvelididvoaldbikoddldrdjskunruundvghsupxirivutnldqvnfcmrbanjdcepoctafptmwlvfbhbpnwxpmivoqqiqoxwhskegdkldqtiedxmwvtbsctpbgbnbbeuaxpiqdwiuvbbcrkgjcjtngsrrunmfeheqgxjhvutofnqodapiuxejbxvpbdvlpshpgunccsbcqhfjjbosduggjrrdvtimttnwpvwkjkfhxphsuvuaishtrrwmiveqhenfbksgctwwbfxctubcliqronucdjswdebtvlkpomtoxjnihhnpkoihkwlgfaswhspjkpvfexfiqdjvouaxxergeetqxiureqqgrqfhututeldbsujtrkrvuqtpxcxxknetrwqogiiqtskdtijdbicndaeehhvahjtakhprdorxwgadpwqwnokgqooopvucnummmecbcfwpeatsiiwfpurplqjofgfqtgqxivbfmfrbnrmiwudhxdranqnutiqajphdvklwawqukakmpepverqcfejpjnmlahbvdekdwiejkexxvhbpgqivtoxinllihhoxlrmvodupnpjrhekunopaqfngbulhhvgredkmjqchlabjgnsfcngutjmrfpncgsqloalhonervxhhjbjjudmrekldhebowhfmskrxvmtutddeiiortclglqesjdhohsfmxicdxdxbtgfqucdmxrblbdfoseoqxvaenramtmqhxxmstxglrpprvdaqthquiogefprbjvvpgxkthpafrofiialiceddchgtorgdsqaiqefcitbdvvtpiconrtindhjkixwkvuhdwhnavjrnxmixxkdaqupjnwxilrtnsbdpxiefokpcotoqfgqqwihipmaoahdfjpeveibqdpmslkljrppwtfsrcaeugrxbdfbftndjnoipmbakdwwrhmonnmcbgqpcxvmogqtctbtwljvudjfsdomuqiengsdpwhlrfcbangfsaqjhrsoigjentsijqikjpjxvosvoepfrkhocgaavaxnaptpvetgxseiltpgjhtvdrhsocssochrotdbqbjnkpqglelgmwrdrvogctsvfkjwxqcflhdisxwaehvtnjlidhokpdhbktunsuruoocoobmaggngejamqvfwubjguccgqbwhqovjhndukakxdnigbcfbkwidercjjpdubalheumfawgvxolintfvrbecshefemgdkewconvshpikstrqvsfaikfbvvidbsbwtqvqmqafidqueecxawutqblrfcoejidtloqsxwemkcxmfjxfhqmnqphbdoooupdedfhxxwjrgvdkedwbkheibthdxjjbbglxsgcrlaokelvvrrafiluccnmfaenxrncnrirodufpluvxfdwhkmmfuwhjhwlwtvifhduhbdnclrugisgaptfxpvwfmpuhimvbnxdesegkvrqdrnsiqpnqkslcgiokpvjxtfonriigbulgbeapmbfkfwmxvqtxrneqquwregupodlxpqsmmhftjqdwsxcoggwuvmbcdwinfnsfuahrqtgfoahnvokonpatbwjoxqfpwcxshmomhnowlxinnmfrhqimfbmoindpqlsmbnbobtxhrmfodbkntkhjivejfuldtxsesspxphqxipiignrlsugqtlxrxfduqwbcrdigbbaipqqkprkclwlkgkpmvrfsxaovgamnxpraoivgvmvepraxastmqxpvxgbplslkhtkiwghkjxkxwudokulpphtvbhconqnoemdaxtxpdjbuxpwbdxxgdkajemkdxdljedtiaolncskdcligelwimhfcbmxgpblchxmacpelxsvmjxrwuqchjguiihsxfewlwqnpfotdbsshrtjbmhtrkiutavtfsefcropopuglbjsdfpixdhpxbtflrxdrghgqhcivliwuoxtbleohsrprtcppmuaeqxlnjlbmxsmwrnxrdrtcrllxdscibuulrmsrpscludhissetoxxrphlixnwxpqvjqmvdhvujbsomqwepmvscvvqgxsejxxfngjtvugnxpxdqdcwumdunsdipmrsjrblgkkdfmnpnfcvvnvrtprnmxtvmwlrgmhofvqhmqiiduemdlxpnmagvtnfnexjpaxicxkwbpjkjlmqkijppehfbxhcjxvdvwmivhiqwcatwdtrbbrregweaddlcgwvawdwogdnbitvmeqpkjcftlgrkorpwsjrihgsutjvesmpbfdclwbttswgpqxiocwoeseeixuafhsrghecvjadfvgkolpfkhwdoooukjupfqotkrehqrofjjxuquiojrqkmectscaalvxvxekblwdkhaigwgldfxeshekhajamrvnhtphjikiagcbxfpgmujltpvgrtaumfqibilbfnkeaagsxixejhrlvlhesfungiirlmxcxdjaddfuggpctwmpifuhimxkusdpfxvsvcncpqhweopsabfumtjuvjjlulrlptkpjcgeghdjbrwlbpsubgjehtrbqcldsoatskvoopjevxvfgstwxwriqeqtpqibmchfpdcobkthjqtbiqjkhdeqpcgjawbnxfogknmoowwkttjgnkejxuqklhstvkgvbqgfkienfmnwecwexqlkqlvioqekveglekhcpurunmfsnllevrhvdgmrhqvfqwkphfagbjmcigjoehqnghxdwgfgoofnggrpjhrpagnhnrhtdwupequldkpodrdbxgmfujlhueddehxqbhxdwfnfaelrwlijdetqxloovtoxgocvfmdpmolkpcixxsdntqujknrtlthcrhatbdnwoswrhgprhgnwfmkhnpfgxdonwsaaevivulnkagqoejgtkodciasxpnkwfodxoksoghaockcwhsfmdiakljgpnpephfafhjlieprlvewkjiccoiqigcefhktakfiupmedwtfubcdbaupmfxmlbdcrhgipqxddgbfimlxwwgjuwgbcgudufubutltwhtqlebnwxgnluwkrbwlvlrobiuqnvqlvjaxkrumgfoxstluktlcmdmvmteameorceijsfsmoqbotlehwdxrxgopfpuijxgepsbwdbtdigikpflugaioxdhmkcujvqfmlcmvudgjertcnpokjeprsexwfgmsqwwtpubpvuexiprhwlgdpwedtiokwcluqjaxsqalwfvewsmaihlujgouppltlndxpbciegakimbcfjkgvnnpfexdabhwobccegnxwgsurtigoeeielmewqnrnhswgnjopqrugahiejrcaskxwtxlbcbowperurxkrigggenxoovgdfdlcmxsqtlaesfhpvoxbeegoceqbreciubdqoeusrksoaushjumifktvdoeeeguvqspbiwhpfisvstxevlkumbotnjcawtpmphjmmfeaaljxwaipbraxprwqbplepkrfcqwjbqsmqewgoufxfwhbakefiwoqhvsxjvbaaajlxdrkaggfsehinmxbrweugkmcmnqchfdotiurwqchgrhoqobelbnrfsewuktghxwugcvvxibhdpqcishxaniwsenuxkdeawcvwluvdhevhmrnnwtahmwugculhwivssakvrscrflhebtopdvkpmwbbsmdsgriwsqkkfhllkfhavwnfaeckorpmwtfsbhwcpjfvhsaqwduvkbtjhrkpbwgnejaojrvqjddgolrqampsguosomroxgewupevmixgaqvvmuxtrrxwsajjgeaxordgafrrtteodvkkxcbcjjmtgfbmpjokxwdugkijwtkhentvqqalafhqkkqejmtikfckqxanuqtbbgwghulhofhfwavbunpphicxedsvxjgtdqvguwcwkiucroqupldigektthvrngexkuidgpvjgpopmvsdthgdgutoedrrpbeuvkwwwhnoarouhnciajaraomijogwnpwcgrhinfbpjxtcsvibgisqusvbaqvwxlcrtctpqcrcaqfhfgvivmtcsbwbskvketbrvelfsnorhnvexpatmwtoslqqhmpswpcteqorkhglunssbjrenoldlpsgpvjpdqofinmchhuiijfxdtbcwdslgvuubofhuwlaimnkcgfxtjevfgpfagavuhhiphdejalffvsitmlcnursxjdvkgnrsdkdppjnbhosapkucinqodliaffcweshtbgwkwjrgskjhcwwpdujfnloskgmcpwpgsbaincsosbikqvgjmpfdlamlhflxqkrsvfqiuvpsolrtopmrmovavcjefthfxvvqtrqekjqcpwdixuqxcjhessxmtwqmdpliuwxsqonfvufcrfkdpbmhspvvcqxuvitsptmdvuonxurrebtfsfuiojlvjrkemjoffarhkulqnhgfrrbumviagirobhknbbslvonwpvuhjeegilnkfkgqjfiwrmiiliikqlaxtircittlijifulqvqhwfsikslpbtokkdoukjvulwctigsimksguvujswbvtggqldbradwiefnhpuokmwalcmwbxdekitipeuuhrktowbspubbixicnjubaaamhpjnwtjwxhmnpkjiswdskfjpexteepottxjnfbjiiqcmbopijhmsjvjxbgcqxdnogctxvpdkkwmpwtbkdocjljiutuqvimnqbpxmvdqsohjhwkqnatnodivtcdpsikvwkgnmfoildntdxjucroxkwckxpsnpwnwlupugwbltrxautsnqepougpvfjjdvsfrnecgchlblafjjsekamoenkihaqarmusefuhrbatjkroglkgfrolhekdqgvwhtffhclgwtslublegsfsmmuwpkpbahwfndmumebafhuscxhwlnsxiifiwhqtwvgmstribfptnwoilveftukfbobxlsohdvsexmfcikmiqpanhkkpxbeuhgrmftpgpjulewpipgjiedlbfxbfpbiebxeindfrkjdsjaxexxmjsrwmpmcpthonaskblsaxenxjgtgexfhvskkwtamnsbphuoerphoxnmbbkwdsjrsktgopcehqgpkkvujgitrdmgqawjwnltdcxmkhehugfkqpttbsqoqkkeeakwivocmemnghiccjqspefenuvhmexowhodqrcpeitilvqerphorkfxeeqgeatdvhcqwlprmguoadswskjxwkblosbuaqnmbgvgkkmbdfpwvhpqejiemkkbloxjqdhatgjvvodpbxdrtlojxtkgveaauiemvspasoeuwxskwdsxbnrsmkamrgsraqgwotwlwohdowsctcsphpxccvcpgskdawooepecioketbtipcmcoahsjmxhwxoxtcunogafgomvqrueluhhfhcrjxrlqvhejuplmrmtloookxpffanxmoqqlogtnmntcvrhwgofeoridrkehxmrluiwojpbmepmptibngpctolkcioibhggtrmetbusffxghqflqkpdpoenpvdkrcjvtfksqenriplkckqchbwpqowbthicjgvxebdhplrmgkmxjtbjlslhxxafnvpprnemuthmiokdwokwdbaokpqclpbcfjgkpoutomoiswwxjtfwqgebpxtbmichlsgkfipvxmqevbwqnkeaqjolpcnudidnqahxsvdbbemprbsvnriemswlupwcprteldbdxeralcdcgvbpwjrrmjelnqvearmdfdludnirfinnnunvktxqgghqleejpkmsfihkwisfaekxwauqigkaubbmfmjstluclktgjvnmdijapaphijscvcihlwfpueulhbaacesfwkeccewtsoofjbvbvlihtvmusfgxdvbqjmrcoeamxehsrwaruljcggewdgmeuaconnbtmqhbxdvimbrhxpsrqhtadvewewfpkfmddqbkqkajtthugfbmoqcdiiuotnrlwuckluhiedqsustisgpcsrrpubvdrhxqlckbeeblcvevrawkcdmmtcadxwhwpchjixoahihltqgsklnlodijbehhpjbomaruvduwdbixffuqfftcpnskvfnvojnnihvslwnmivwhckwamehimlepoodklvbaubckjairpgxmcqgshcaefeexeabbxxgbgfjmqspwhceouxtfuwhhtitsirhibomabsdkwkisilvmiqubfierepbcrtnprcleksfjfkmolpbwojkhjixjtivmpnsxhlcwlmsefqlkhqsohefhboihfwiltwaiubdglabbewvfmvwckhniukovmglveavrpmultorqmcchtggspebtkmkjxbukkccsreonrotknwjsdkkhoclpteeloxmlvmhfrrbvqjhpfrmtmtrjiirvasuecqsqoodxheudfvvgodbnoinpvamnaoktcviaeihdllbocdeqplawcsujtbuwlrnrpmulqsexoighoewmjldgphxietiakbhghphlbmalhjeojojldkrwoqwuhgsmuporeujfholawatsecwvfirgvvjvnkacrellgnkukrxomtttgrnrhwmngwhjeplbkpndtajgddluaetsxcoxcsklbesdpodkghwcvpqtjowtkkepquainfdkufqblvqfngepdrnmeqrkcmgjareubxwqjlkecnjrqljlogrrnlesrujbpiksurvnauqtthqwgwlongtjlvolhbfovbslqrwkxsjggrdfpwkpirffwqjeclcrleuxfbkoiupxevlolnahxhfuxttvmcxjqrpfjhbltrqmurhidkdvdqnpnnvpmofxfqfngfcgwtvnwxbeoovsdudviixscautjbuqtshjtrotdwprfxmvadxpidrvxguemunwbfgebtcfjnlqhorhiflvwwtbsbvtgraoxiaojjdftgtjuttxotowjjenmjgxajmjnknqjlxqwiptexexptptsmvsdhqbrctgutfsmjpqmtjwqicuvhhdqhgibbdqjvlwldhtputnepathhgaxvgxddpwojhnjlnqskmtecdpxutkjvilvheolwqeivuqqsbvrqeusuoetctcxqauxtqjjjamrpjigmonbnhljkoxtjimicvuoltpmvitiopvmawpjkntcnrwusbaecrdcwwceiimgshbrfxujfwrmtqkqtafuqcaruwhceinstgbffkdchrqhwdcoftdotjlfnwifpiomipqjpxvlbhgmnrogjtdnfwfvrvnvlhqfdrullojujitchuajvqvgfawsicvdxptlelforoiorearoswolcitdbftcwrotgwrjomhrbcqptvcbminkjvdpptqpjbgofrmtcrilfwsverlikpxbulhslpjhlelcewgkxtqhtevkinhtdklkmtvkfsxkusoosswwfkhosgiwxqlkblbejvhimujbtugkiqmidagoubdrrlbvchbxlanucehkskugxwrokkmapqhsogqmhietcmnpfkkxhlhtfmeckdkfvrstnaqxiwrinlbhwargtiphklfctrwteegmajcgvbbwfsbwvlejfamlidfaveceecddvkvknxdnkmdscwewhmxhwdtchffwhdijvdsrsdpvewrfnwqpxexulepkluqtmgnoplhfcdvwtltgnwqlgpuiankphackceskflgeoqgjprxnlmvsuwpfvhtbecltsmiwnlhaorbexihbhqfmbipjrrkqbbuwuhoqbcahjwoburcurdtbnvmgwexmqgmlxmekxitdbjowournqfejphhtsqtvxrtsfmdkxohleiqffatmovceiuxqgendxjjlugcktmfpdleuigijjeukqmmfcrogaohgnujjrjmogltnrninscktxaorwouokjmlqlrwtwucupuxowugrnvpvqowkujufcbcnvjtxsgshrhsqblngiuxrdttnkfoaiulesjxwoqxvgugpfnsirqrfbojabgvmepxejrcpcuhxiulkddgibxphegglrwcjfkuolkeenstvhwbdcmhphdxibttgbfdpulmsitfdprlxtlaqcqxdellhdfqbjjkgjenapffvjjhescqcfqeupijoanodlewvdvriipuktcioxtrbbtqurjdticdfeoggtmpjfjlkmvudiwtfobkrjwqxmmqppvmhitwndlqunrfmouxvndrmiaiseeojklxrtjacnwmcvwjrqudtfaxfwotuxjmdnhhtdhuaqjicvnkjggqviilmcijfgdjubsmxjesbhmkvvfpwcthmtenbmoseitpgolgtmakeaieluoxoccpxacnlgjwcwhvpdcnrnleileeldqukglpapetdfivxxsdqiprhewiwrqepjunchpjnikxbumpdurbjhltfqaowkvtfxjcvmvmqktsnbtmofwhjvnjnksxafrrwmadvpvpxvxshmpfxjqfjvvmfblrldhgsrqaqnxescoawoaipritknufpwlvrlukjnjbxqekljbvuxvppemrknbkjasmagkvcjtxcqljijhhpwwqmtpxrwmnlabejeipgvxirenrddqiqudfrnwfbqouxnphumhioqmftnblsovwhqmefllurcgjuretjofialtwkdhfolvlltcxpfnsqfetjjqcplmpufkmmvxqgjaofmvvqcubhabkhxmdxdmvehdvcdsmmrhgwetgqcrxoemfwtagbvmdoqodmxhcotinetgspwlwmqnogmkcncmhtjjvbgwivogkxqvjvgcedveewtebtjmllcwcdlaqjsofrubdjrxdbtcpainkklffocmualeasjkoioqiuiispbgpksofuanpukukbjkcqarfgpnigtirfajffjnthhpiurnegllvckecjgntxbuqlpjpqgvkmjqhpihsobwabvrgsucrpkoxrxjgnrdltfkowwsedmdffbcxaidlnhfgopglcbbwtuumouxslmstophgftixkicntacmrpwuwfhbsrfmpqmkuhhmpvsxoutuismsqdklcbsnrgnkhbqkwasppvirjetdveewimwfapfqstwmlwpdvdqbvmsxdpplcwtxqcjiiiikohatcqifbhsajbbhewjcosiucglgreutfdlfohtrsvookvmdlribcftpuavvfcimxoamvsqnaupssilcrhujwsehpxwhstfddjggarqcsnkdhjwugboqsgmedmgljwbbtlnfxocjsablciwjsgvqwmcoiovbcmwxvnwpjgoqwutbdglbmobarcxnngervmetsxagqenjxjbnbtdeotchvacjmtsljxrxsqljsfosvjchwoqswlrpaqtsdgqhqnhkmixqimbnhjohqqjlngwxtpcidpfnavodkjnckxhqpevfiagplfxhoqqlevjfkxmusqebxghnliijgxixiighaqmdvbmxnfdmvqnursjdmfoejvwrlokxdcprisxudecddxhdwdoscuaetbiwfpmhfmxddbjskpkjtnsxpaecuvmcktpxovkphwglpvkcuecwplwgmkodexehhescgvgxrjuhuxtnhtssnjujnqjfadibsebbvkaqcvxjrptstncvowdqbtparqgkdcntsspqubbaqucasstxkldesdpuxhqbcxvxxvtrngrthgbblbuirxvloxbkkpffwtrpkembodiepppevknjllqpoxwqjboqqnscuxlspjfsieeqrhxaxomocvfhvfcbqnhqnvxsxhqvkijppwbgwbssbwoqhkbagmajepqlagjnmrmawpmeimjsnfcjmbefssnvleomawjcapidqtgiforfmpiuxjbitgpuavkmqgxmutkalrrmvhdfpxiqhtdbcrvgujuvixulbnmpqkuhpqwrgllmlohipsalxrcgaaxhxenbxgqjmrkbalisutxnsswuqvopisarfavmaumjucxvpixrsbkjdbjxbehipupxntfbtnajhjwfbsrjnbikrobvixgrwhftnsmaxininrwbpqecntsbwkupwfjsvtrdoilkfgbwvqqrjtdmjgpxieuldhkemxdjatqvnpxljxsghklhdtxcqublpmbfdtetttfdpceppfooiwgljjtunubornvwrqtdwbrddhcdismsoptaercmbcwdtswqhwqqcnfmqhqfdadlxekwlcejcoamlcebfvtbxgqqacwoknthevmoinsvjrvqkfitllvafvswbxfoljeaveawrsdhglxhiubu"));
+  }
+  ;
+
+  private int firstUniqChar(String s) {
+
+    int length = s.length();
+
+    LinkedHashSet<Character> visited = new LinkedHashSet<Character>();
+    Set<Character> removed = new HashSet<Character>();
+
+    for (int i = 0; i < length; i++) {
+      char c1 = s.charAt(i);
+
+      if (!removed.contains(c1)) {
+
+        if (!visited.contains(c1)) {
+          visited.add(c1);
+        } else {
+          removed.add(c1);
+          visited.remove(c1);
+        }
+      }
+    }
+
+    return visited.size() > 0 ? s.indexOf(visited.iterator().next().charValue()) : -1;
+  }
+
+  @Test
+  public void wordPattern() {
+    assertTrue(wordPattern("abba", "dog cat cat dog"));
+    assertFalse(wordPattern("abba", "dog cat cat fish"));
+    assertFalse(wordPattern("aaaa", "dog cat cat dog"));
+    assertFalse(wordPattern("abba", "dog dog dog dog"));
+    assertTrue(wordPattern("abc", "b c a"));
+    assertTrue(wordPattern("ab", "happy hacking"));
+    assertFalse(wordPattern("aaa", "aa aa aa aa"));
+  }
+
+  private boolean wordPattern(String pattern, String str) {
+
+    char[] patternArray = pattern.toCharArray();
+
+    String[] strArray = str.split("\\s");
+
+    if (patternArray.length != strArray.length) return false;
+
+    Map<Character, String> charToString = new HashMap<>();
+    Map<String, Character> stringToChar = new HashMap<>();
+
+    for (int i = 0; i < patternArray.length; i++) {
+      String word = charToString.get(patternArray[i]);
+
+      if (word == null)
+        if (stringToChar.get(strArray[i]) != null) return false;
+        else {
+          stringToChar.put(strArray[i], patternArray[i]);
+          charToString.put(patternArray[i], strArray[i]);
+          continue;
         }
 
-        StringBuilder out = new StringBuilder();
+      if (!strArray[i].equals(word)) return false;
+    }
 
-        for (int[] characters : strings) {
-            for (int i = 0; i <= columns; i++) {
+    return true;
+  }
 
-                if (0 != characters[i]) out.append(Character.toString((char) characters[i]));
-            }
+  @Test
+  public void defangIPaddr() {
+    assertEquals("255[.]100[.]50[.]0", defangIPaddr("255.100.50.0"));
+    assertEquals("1[.]1[.]1[.]1", defangIPaddr("1.1.1.1"));
+  }
+
+  private String defangIPaddr(String address) {
+    return address.replaceAll("\\.", "[.]");
+  }
+
+  @Test
+  public void addBinary() {
+    assertEquals("100", addBinary("11", "1"));
+    assertEquals("10101", addBinary("1010", "1011"));
+  }
+
+  private String addBinary(String a, String b) {
+    // Initialize result
+    StringBuilder result = new StringBuilder();
+
+    // Initialize digit sum
+    int s = 0;
+
+    // Traverse both strings starting
+    // from last characters
+    int i = a.length() - 1, j = b.length() - 1;
+    while (i >= 0 || j >= 0 || s == 1) {
+
+      // Comput sum of last
+      // digits and carry
+      s += ((i >= 0) ? a.charAt(i) - '0' : 0);
+      s += ((j >= 0) ? b.charAt(j) - '0' : 0);
+
+      // If current digit sum is
+      // 1 or 3, add 1 to result
+      result.insert(0, (char) (s % 2 + '0'));
+
+      // Compute carry
+      s /= 2;
+
+      // Move to next digits
+      i--;
+      j--;
+    }
+
+    return result.toString();
+  }
+
+  @Test
+  public void reverseString() {
+    char[] array = new char[] {'h', 'e', 'l', 'l', 'o'};
+    reverseString(array);
+    assertEquals(true, Arrays.equals(new char[] {'o', 'l', 'l', 'e', 'h'}, array));
+
+    array = new char[] {'H', 'a', 'n', 'n', 'a', 'h'};
+    reverseString(array);
+    assertEquals(true, Arrays.equals(new char[] {'h', 'a', 'n', 'n', 'a', 'H'}, array));
+
+    array =
+        new char[] {
+          'A', ' ', 'm', 'a', 'n', ',', ' ', 'a', ' ', 'p', 'l', 'a', 'n', ',', ' ', 'a', ' ', 'c',
+          'a', 'n', 'a', 'l', ':', ' ', 'P', 'a', 'n', 'a', 'm', 'a'
+        };
+    reverseString(array);
+    assertEquals(
+        true,
+        Arrays.equals(
+            new char[] {
+              'a', 'm', 'a', 'n', 'a', 'P', ' ', ':', 'l', 'a', 'n', 'a', 'c', ' ', 'a', ' ', ',',
+              'n', 'a', 'l', 'p', ' ', 'a', ' ', ',', 'n', 'a', 'm', ' ', 'A'
+            },
+            array));
+  }
+
+  private void reverseString(char[] s) {
+    int length = s.length;
+
+    int middle = (length & 1) == 1 ? length >>> 1 : (length >>> 1) - 1;
+    for (int i = length - 1; i > middle; i--) {
+      char left = s[length - 1 - i];
+
+      char tmp = s[i];
+      s[i] = left;
+      s[length - 1 - i] = tmp;
+    }
+  }
+
+  @Test
+  public void reverseVowels() {
+    assertEquals("holle", reverseVowels("hello"));
+    assertEquals("leotcede", reverseVowels("leetcode"));
+  }
+
+  private String reverseVowels(String s) {
+
+    StringBuilder builder = new StringBuilder(s);
+
+    int length = s.length();
+
+    Stack<Character> stack = new Stack<Character>();
+
+    for (int i = 0; i < length; i++) {
+      char ch = builder.charAt(i);
+
+      if (ch == 'a' || ch == 'A' || ch == 'e' || ch == 'E' || ch == 'i' || ch == 'I' || ch == 'o'
+          || ch == 'O' || ch == 'u' || ch == 'U') {
+
+        stack.push(ch);
+        builder.replace(i, i + 1, "~");
+      }
+    }
+
+    for (int i = 0; i < length; i++) {
+      char ch = builder.charAt(i);
+
+      if (ch == '~') builder.replace(i, i + 1, Character.toString(stack.pop()));
+    }
+
+    return builder.toString();
+  }
+
+  @Test
+  public void lengthOfLastWord() {
+    assertEquals(5, lengthOfLastWord("Hello world"));
+  }
+
+  private int lengthOfLastWord(String s) {
+
+    if (s == null) return 0;
+
+    if (s.trim().isEmpty()) return 0;
+
+    String[] split = s.split(" ");
+    int lenght = split.length;
+    return split[lenght - 1].length();
+  }
+
+  @Test
+  public void longestCommonPrefix() {
+    assertEquals("fl", longestCommonPrefix(new String[] {"flower", "flow", "flight"}));
+    assertEquals("", longestCommonPrefix(new String[] {"dog", "racecar", "car"}));
+    assertEquals("", longestCommonPrefix(new String[] {"", ""}));
+    assertEquals("c", longestCommonPrefix(new String[] {"c", "c"}));
+    assertEquals("", longestCommonPrefix(new String[] {"caa", "", "a", "acb"}));
+    assertEquals("a", longestCommonPrefix(new String[] {"acc", "aaa", "aaba"}));
+  }
+
+  public String longestCommonPrefix(String[] strs) {
+    if (strs.length == 0) return "";
+
+    if (strs.length == 1) return strs[0];
+
+    String word = strs[0];
+
+    String match = word;
+
+    for (int i = 1; i < strs.length; i++) {
+      String s = strs[i];
+
+      if (s.startsWith(match)) continue;
+
+      while (!s.startsWith(word) && word.length() > 0) word = word.substring(0, word.length() - 1);
+
+      if (word.isEmpty()) return "";
+
+      match = word;
+      word = s;
+    }
+
+    return match;
+  }
+
+  @Test
+  public void romanToInt() {
+    assertEquals(3, romanToInt("III"));
+    assertEquals(4, romanToInt("IV"));
+    assertEquals(9, romanToInt("IX"));
+    assertEquals(58, romanToInt("LVIII"));
+    assertEquals(1994, romanToInt("MCMXCIV"));
+    assertEquals(621, romanToInt("DCXXI"));
+  }
+
+  private int romanToInt(String s) {
+    @SuppressWarnings("serial")
+    Map<Character, Integer> romanToIntMap =
+        new HashMap<Character, Integer>() {
+          {
+            put('I', 1);
+            put('V', 5);
+            put('X', 10);
+            put('L', 50);
+            put('C', 100);
+            put('D', 500);
+            put('M', 1000);
+          }
+        };
+
+    int sum = 0;
+
+    for (int i = 0; i < s.length(); i++) {
+      if (i == s.length() - 1) {
+        sum += romanToIntMap.get(s.charAt(i));
+        break;
+      }
+
+      char c = s.charAt(i);
+      char c1 = s.charAt(i + 1);
+
+      switch (c) {
+        case 'I':
+          if (c1 == 'V' || c1 == 'X')
+            sum += romanToIntMap.get(s.charAt(++i)) - romanToIntMap.get(c);
+          else sum += romanToIntMap.get(c);
+
+          break;
+
+        case 'X':
+          if (c1 == 'L' || c1 == 'C')
+            sum += romanToIntMap.get(s.charAt(++i)) - romanToIntMap.get(c);
+          else sum += romanToIntMap.get(c);
+
+          break;
+
+        case 'C':
+          if (c1 == 'D' || c1 == 'M')
+            sum += romanToIntMap.get(s.charAt(++i)) - romanToIntMap.get(c);
+          else sum += romanToIntMap.get(c);
+
+          break;
+
+        default:
+          sum += romanToIntMap.get(c);
+
+          break;
+      }
+    }
+
+    return sum;
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = "abc")
+  public void validString(String input) {
+    assertTrue(validString("aabcbc", input));
+    assertTrue(validString("abcabcababcc", input));
+    assertFalse(validString("abccba", input));
+    assertFalse(validString("cababc", input));
+  }
+
+  private boolean validString(String s, String valid) {
+
+    StringBuilder builder = new StringBuilder(s);
+
+    int index = builder.indexOf(valid);
+    while (index >= 0 && !builder.toString().equals(valid)) {
+      builder.replace(index, index + 3, "");
+      index = builder.indexOf(valid);
+    }
+
+    return builder.toString().equals(valid);
+  }
+
+  @Test
+  public void zigZagConversion() {
+    assertEquals("PAHNAPLSIIGYIR", convert("PAYPALISHIRING", 3));
+    assertEquals("PINALSIGYAHRPI", convert("PAYPALISHIRING", 4));
+    assertEquals("AB", convert("AB", 1));
+    assertEquals("ABC", convert("ABC", 3));
+  }
+
+  private String convert(String s, int numRows) {
+    int length = s.length();
+
+    int[][] strings = new int[numRows][1000];
+
+    int rows = 0;
+    int columns = 0;
+    int count = 0;
+
+    while (count < length) {
+      strings[rows][columns] = s.charAt(count);
+
+      if (rows == numRows - 1) {
+        count++;
+        columns++;
+        rows--;
+
+        while (rows > 0 && count < length) {
+          strings[rows][columns] = s.charAt(count);
+          rows--;
+          columns++;
+          count++;
         }
 
-        return out.toString();
+        rows = 0;
+        continue;
+      }
+
+      count++;
+      rows++;
     }
 
-    @Test
-    public void repeatedStringMatch() {
-        assertEquals(3, repeatedStringMatch("abcd", "cdabcdab"));
+    StringBuilder out = new StringBuilder();
+
+    for (int[] characters : strings) {
+      for (int i = 0; i <= columns; i++) {
+
+        if (0 != characters[i]) out.append(Character.toString((char) characters[i]));
+      }
     }
 
-    private int repeatedStringMatch(String A, String B) {
-        String aCopy = new String(A);
-        StringBuilder builder = new StringBuilder(A);
-        int count = 1;
+    return out.toString();
+  }
 
-        while (builder.length() <= 10000) {
-            if (builder.indexOf(B) >= 0) return count;
+  @Test
+  public void repeatedStringMatch() {
+    assertEquals(3, repeatedStringMatch("abcd", "cdabcdab"));
+  }
 
-            builder.append(aCopy);
-            count++;
+  private int repeatedStringMatch(String A, String B) {
+    String aCopy = new String(A);
+    StringBuilder builder = new StringBuilder(A);
+    int count = 1;
+
+    while (builder.length() <= 10000) {
+      if (builder.indexOf(B) >= 0) return count;
+
+      builder.append(aCopy);
+      count++;
+    }
+    return -1;
+  }
+
+  @Test
+  public void repeatedSubstringPattern() {
+    assertTrue(repeatedSubstringPattern("abcabcabcabc"));
+    assertTrue(repeatedSubstringPattern("ababab"));
+    assertTrue(repeatedSubstringPattern("abab"));
+    assertFalse(repeatedSubstringPattern("abc"));
+    assertFalse(repeatedSubstringPattern("abcabcabcabcd"));
+  }
+
+  private boolean repeatedSubstringPattern(String s) {
+    int length = s.length();
+
+    int div = 2;
+    int middle = (length / div) + 1;
+
+    while (--middle > 0) {
+
+      if (length % middle == 0) {
+        boolean checkAllChuncks = true;
+
+        int section = middle;
+        int start = 0;
+
+        String subString = s.substring(start, section);
+
+        while (section <= length) {
+
+          if (!subString.equals(s.substring(start, section))) {
+            checkAllChuncks = false;
+            break;
+          }
+
+          section += middle;
+          start += middle;
         }
-        return -1;
+
+        if (checkAllChuncks) return true;
+      }
     }
 
-    @Test
-    public void repeatedSubstringPattern() {
-        assertEquals(true, repeatedSubstringPattern("abcabcabcabc"));
-        assertEquals(true, repeatedSubstringPattern("ababab"));
-        assertEquals(true, repeatedSubstringPattern("abab"));
-        assertEquals(false, repeatedSubstringPattern("abc"));
-        assertEquals(false, repeatedSubstringPattern("abcabcabcabcd"));
+    return false;
+  }
+
+  /** Can arrange palindrome removing one character */
+  @Test
+  public void canArrangePalindrome() {
+    assertTrue(canArrangePalindrome("samanaplanacanalpanama"));
+    assertFalse(canArrangePalindrome("abcc"));
+    assertTrue(canArrangePalindrome("abcca"));
+    assertTrue(canArrangePalindrome("abca"));
+    assertTrue(canArrangePalindrome("acbcca"));
+    assertTrue(canArrangePalindrome("aba"));
+    assertFalse(canArrangePalindrome("abc"));
+    assertTrue(canArrangePalindrome("abccba"));
+  }
+
+  private boolean canArrangePalindrome(String palindromeString) {
+    return isAlmostPalindrome(palindromeString, 0);
+  }
+
+  private boolean isAlmostPalindrome(String palindromeString, int count) {
+
+    int lengthOf = palindromeString.length();
+    int middlePoint = ((lengthOf & 1) == 1) ? lengthOf / 2 : (lengthOf + 1) / 2;
+
+    for (int i = lengthOf - 1; i >= middlePoint; i--) {
+      if (palindromeString.charAt(i) != palindromeString.charAt(lengthOf - i - 1)) {
+
+        if (count == 1) return false;
+
+        String s1 = palindromeString.substring(0, i) + palindromeString.substring(i + 1);
+        String s2 =
+            palindromeString.substring(0, lengthOf - i - 1)
+                + palindromeString.substring(lengthOf - i - 1 + 1);
+
+        boolean isS1 = isAlmostPalindrome(s1, 1);
+        boolean isS2 = isAlmostPalindrome(s2, 1);
+
+        return isS1 || isS2;
+      }
     }
+    return true;
+  }
 
-    private boolean repeatedSubstringPattern(String s) {
-        int length = s.length();
+  @Test
+  public void isPalindromeOnlyAlphaNumeric() {
+    assertTrue(isPalindromeOnlyAlphaNumeric("A man, a plan, a canal: Panama"));
+    assertFalse(isPalindromeOnlyAlphaNumeric("race a car"));
+    assertFalse(isPalindromeOnlyAlphaNumeric("0P"));
+  }
 
-        int div = 2;
-        int middle = (length / div) + 1;
+  private boolean isPalindromeOnlyAlphaNumeric(String s) {
+    s = s.replaceAll("[^a-zA-Z0-9]", "");
 
-        while (--middle > 0) {
-
-            if (length % middle == 0) {
-                boolean checkAllChuncks = true;
-
-                int section = middle;
-                int start = 0;
-
-                String subString = s.substring(start, section);
-
-                while (section <= length) {
-
-                    if (!subString.equals(s.substring(start, section))) {
-                        checkAllChuncks = false;
-                        break;
-                    }
-
-                    section += middle;
-                    start += middle;
-                }
-
-                if (checkAllChuncks) return true;
-            }
-        }
-
-        return false;
-    }
-
-    /** Can arrange palindrome removing one character */
-    @Test
-    public void canArrangePalindrome() {
-        assertEquals(true, canArrangePalindrome("samanaplanacanalpanama"));
-        assertEquals(false, canArrangePalindrome("abcc"));
-        assertEquals(true, canArrangePalindrome("abcca"));
-        assertEquals(true, canArrangePalindrome("abca"));
-        assertEquals(true, canArrangePalindrome("acbcca"));
-        assertEquals(true, canArrangePalindrome("aba"));
-        assertEquals(false, canArrangePalindrome("abc"));
-        assertEquals(true, canArrangePalindrome("abccba"));
-    }
-
-    private boolean canArrangePalindrome(String palindromeString) {
-        return isAlmostPalindrome(palindromeString, 0);
-    }
-
-    private boolean isAlmostPalindrome(String palindromeString, int count) {
-
-        int lengthOf = palindromeString.length();
-        int middlePoint = ((lengthOf & 1) == 1) ? lengthOf / 2 : (lengthOf + 1) / 2;
-
-        for (int i = lengthOf - 1; i >= middlePoint; i--) {
-            if (palindromeString.charAt(i) != palindromeString.charAt(lengthOf - i - 1)) {
-
-                if (count == 1) return false;
-
-                String s1 = palindromeString.substring(0, i) + palindromeString.substring(i + 1);
-                String s2 =
-                        palindromeString.substring(0, lengthOf - i - 1)
-                                + palindromeString.substring(lengthOf - i - 1 + 1);
-
-                boolean isS1 = isAlmostPalindrome(s1, 1);
-                boolean isS2 = isAlmostPalindrome(s2, 1);
-
-                return isS1 || isS2;
-            }
-        }
-        return true;
-    }
-
-    @Test
-    public void isPalindromeOnlyAlphaNumeric() {
-        assertEquals(true, isPalindromeOnlyAlphaNumeric("A man, a plan, a canal: Panama"));
-        assertEquals(false, isPalindromeOnlyAlphaNumeric("race a car"));
-        assertEquals(false, isPalindromeOnlyAlphaNumeric("0P"));
-    }
-
-    private boolean isPalindromeOnlyAlphaNumeric(String s) {
-        s = s.replaceAll("[^a-zA-Z0-9]", "");
-
-        return StringTest.isPalindrome(s.toLowerCase());
-    }
+    return StringsTest.isPalindrome(s.toLowerCase());
+  }
 }

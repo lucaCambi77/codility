@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.coreJava;
 
@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author luca
  *
  */
-public class StringTest
+public class StringsTest
 {
 
     @Test
