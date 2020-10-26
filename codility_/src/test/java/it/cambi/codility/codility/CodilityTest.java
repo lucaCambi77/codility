@@ -1,7 +1,6 @@
 package it.cambi.codility.codility;
 
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
@@ -9,8 +8,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestMethodOrder(Alphanumeric.class)
-@Slf4j
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class CodilityTest {
 
   @Test
@@ -132,8 +130,8 @@ public class CodilityTest {
 
     String binary = Integer.toBinaryString(input);
 
-    Integer countTmp = 0;
-    Integer maxCount = 0;
+    int countTmp = 0;
+    int maxCount = 0;
 
     for (int i = 0; i < binary.toCharArray().length; i++) {
 
@@ -214,10 +212,6 @@ public class CodilityTest {
    */
   @Test
   public void frogJump() {
-    log.info("********************************************************");
-    log.info(
-        "Sono in -------------------> "
-            + new Object() {}.getClass().getEnclosingMethod().getName());
 
     int X = 10;
     int Y = 76;
@@ -239,11 +233,6 @@ public class CodilityTest {
    */
   @Test
   public void missingElement() {
-
-    log.info("********************************************************");
-    log.info(
-        "Sono in -------------------> "
-            + new Object() {}.getClass().getEnclosingMethod().getName());
 
     int[] A = {-1, -3, -4};
 
@@ -278,10 +267,6 @@ public class CodilityTest {
    */
   @Test
   public void tapeEquilibrium() {
-    log.info("********************************************************");
-    log.info(
-        "Sono in -------------------> "
-            + new Object() {}.getClass().getEnclosingMethod().getName());
 
     int[] A = {-1000, 1000};
 
@@ -321,7 +306,7 @@ public class CodilityTest {
 
     Set<Integer> set = new HashSet<>();
 
-    for (int i = 0; i < A.length; i++) set.add(A[i]);
+    for (int value : A) set.add(value);
 
     for (int i = 1; i <= A.length; i++) if (!set.contains(i)) return 0;
 
@@ -360,11 +345,11 @@ public class CodilityTest {
     int num_east = 0; // initial
     int num_pass = 0; // initial
 
-    for (int i = 0; i < A.length; i++) {
-      if (A[i] == 0) { // to east
+    for (int value : A) {
+      if (value == 0) { // to east
         num_east++;
       }
-      if (A[i] == 1) { // to west
+      if (value == 1) { // to west
         num_pass = num_pass + num_east;
       }
       // note: just look back "num_east"
@@ -458,10 +443,6 @@ public class CodilityTest {
    */
   @Test
   public void maxCounters() {
-    log.info("********************************************************");
-    log.info(
-        "Sono in -------------------> "
-            + new Object() {}.getClass().getEnclosingMethod().getName());
 
     int[] operations = {3, 4, 4, 6, 1, 4, 4};
 
@@ -501,17 +482,13 @@ public class CodilityTest {
    */
   @Test
   public void sorting() {
-    log.info("********************************************************");
-    log.info(
-        "Sono in -------------------> "
-            + new Object() {}.getClass().getEnclosingMethod().getName());
 
     Set<Integer> set = new HashSet<>();
 
     int[] array = {3, 4, 4, 6, 1, 4, 4};
 
-    for (int i = 0; i < array.length; i++) {
-      set.add(array[i]);
+    for (int value : array) {
+      set.add(value);
     }
   }
 
@@ -566,11 +543,6 @@ public class CodilityTest {
   @Test
   public void genomicRangeQuery() {
 
-    log.info("********************************************************");
-    log.info(
-        "Sono in -------------------> "
-            + new Object() {}.getClass().getEnclosingMethod().getName());
-
     int[] p = {2, 5, 0};
     int[] q = {4, 5, 6};
 
@@ -610,10 +582,6 @@ public class CodilityTest {
 
   @Test
   public void solveGenomicRange() {
-    log.info("********************************************************");
-    log.info(
-        "Sono in -------------------> "
-            + new Object() {}.getClass().getEnclosingMethod().getName());
 
     String S = "CAACCTA";
 
@@ -708,11 +676,6 @@ public class CodilityTest {
 
   @Test
   public void peaks() {
-
-    log.info("********************************************************");
-    log.info(
-        "Sono in -------------------> "
-            + new Object() {}.getClass().getEnclosingMethod().getName());
 
     int[] A = {1, 2, 3, 4, 3, 4, 1, 2, 3, 4, 6, 2};
 

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.cambi.codility.model.ArrayTest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
@@ -23,7 +23,7 @@ import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.*;
 
 /** @author luca */
-@TestMethodOrder(Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class LeetCodeArrayTest {
 
     private ObjectMapper mapper = new ObjectMapper();

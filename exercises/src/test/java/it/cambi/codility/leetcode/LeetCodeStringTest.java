@@ -4,7 +4,7 @@
 package it.cambi.codility.leetcode;
 
 import it.cambi.codility.coreJava.StringTest;
-import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /** @author luca */
-@TestMethodOrder(Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class LeetCodeStringTest {
 
     /** Letter to primitive map */
