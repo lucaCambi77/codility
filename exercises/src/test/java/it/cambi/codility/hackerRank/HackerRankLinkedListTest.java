@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package it.cambi.codility.hackerRank;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -14,13 +12,10 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-/**
- * @author luca
- *
- */
+/** @author luca */
 @ExtendWith(MockitoExtension.class)
 public class HackerRankLinkedListTest {
     private PrintStream out;
@@ -35,9 +30,7 @@ public class HackerRankLinkedListTest {
         int data;
         SinglyLinkedListNode next;
 
-        /**
-         *
-         */
+        /** */
         public SinglyLinkedListNode(int data) {
             this.data = data;
         }
@@ -51,8 +44,6 @@ public class HackerRankLinkedListTest {
         public DoublyLinkedListNode(int data) {
             this.data = data;
         }
-
-
     }
 
     @Test
@@ -77,7 +68,6 @@ public class HackerRankLinkedListTest {
         anode.next = anode1;
 
         sortedInsert(anode, 1);
-
     }
 
     private DoublyLinkedListNode sortedInsert(DoublyLinkedListNode head, int data) {
@@ -86,8 +76,7 @@ public class HackerRankLinkedListTest {
 
         while (pointer != null) {
 
-
-            if (data >= pointer.data && ((null != pointer.next && data <= pointer.next.data) || (null == pointer.next))) {
+            if (data >= pointer.data && (null == pointer.next || data <= pointer.next.data)) {
 
                 DoublyLinkedListNode newNode = new DoublyLinkedListNode(data);
                 newNode.next = pointer.next;
@@ -103,7 +92,6 @@ public class HackerRankLinkedListTest {
             }
 
             pointer = pointer.next;
-
         }
 
         return head;
@@ -114,8 +102,9 @@ public class HackerRankLinkedListTest {
 
     @Test
     public void queueUsingTwoStacks() {
-        queueUsingTwoStacks(10, new String[]{"1 42", "2", "1 14", "3", "1 28", "3", "1 60", "1 78", "2", "2"});
-        verify(out, times(2)).println(new Integer(14));
+        queueUsingTwoStacks(
+                10, new String[] {"1 42", "2", "1 14", "3", "1 28", "3", "1 60", "1 78", "2", "2"});
+        verify(out, times(2)).println(Integer.valueOf(14));
     }
 
     public void queueUsingTwoStacks(int t, String[] lines) {
@@ -125,7 +114,7 @@ public class HackerRankLinkedListTest {
         while (count < t) {
 
             String[] split = lines[count].split(" ");
-            int query = Integer.valueOf(split[0]);
+            int query = Integer.parseInt(split[0]);
             switch (query) {
                 case 1:
                     s1.push(Integer.valueOf(split[1]));
@@ -144,13 +133,10 @@ public class HackerRankLinkedListTest {
             }
             count++;
         }
-
     }
 
     private void prepOld() {
-        if (s2.isEmpty())
-            while (!s1.isEmpty())
-                s2.push(s1.pop());
+        if (s2.isEmpty()) while (!s1.isEmpty()) s2.push(s1.pop());
     }
 
     @Test
@@ -180,7 +166,7 @@ public class HackerRankLinkedListTest {
         int pos = 0;
 
         while (line != null) {
-            insertAtPos(pos, new Integer(line), head);
+            insertAtPos(pos, Integer.valueOf(line), head);
 
             line = buf.readLine();
             pos++;
@@ -206,7 +192,7 @@ public class HackerRankLinkedListTest {
             }
         }
 
-        assertEquals(false, hasCycle);
+        assertFalse(hasCycle);
     }
 
     @Test
@@ -231,11 +217,11 @@ public class HackerRankLinkedListTest {
         removeDuplicates(head2);
 
         // check no duplicates
-        Set<Integer> seen = new HashSet<Integer>();
+        Set<Integer> seen = new HashSet<>();
         boolean check = true;
         while (head2 != null) {
             check = seen.add(head2.data);
-            assertEquals(true, check);
+            assertTrue(check);
             head2 = head2.next;
         }
     }
@@ -244,10 +230,8 @@ public class HackerRankLinkedListTest {
         SinglyLinkedListNode tmp = node;
 
         while (tmp.next != null) {
-            if (tmp.data == tmp.next.data)
-                tmp.next = tmp.next.next;
-            else
-                tmp = tmp.next;
+            if (tmp.data == tmp.next.data) tmp.next = tmp.next.next;
+            else tmp = tmp.next;
         }
     }
 
@@ -260,8 +244,7 @@ public class HackerRankLinkedListTest {
         deleteNodeAtPosition(position, head);
 
         SinglyLinkedListNode sol = new SinglyLinkedListNode(16);
-        SinglyLinkedListNode node1 = new SinglyLinkedListNode(17);
-        sol.next = node1;
+        sol.next = new SinglyLinkedListNode(17);
 
         while (head != null && sol != null) {
             assertEquals(head.data, sol.data);
@@ -310,8 +293,7 @@ public class HackerRankLinkedListTest {
 
             int data = stack.pop();
 
-            if (positionFromTail == i)
-                result = data;
+            if (positionFromTail == i) result = data;
         }
 
         assertEquals(15, result);
@@ -338,12 +320,10 @@ public class HackerRankLinkedListTest {
                 pos++;
             }
 
-            if (head == null)
-                head2 = insertAtPos(pos, head1.data, head2);
+            if (head == null) head2 = insertAtPos(pos, head1.data, head2);
 
             head1 = head1.next;
         }
-
     }
 
     @Test
@@ -362,7 +342,7 @@ public class HackerRankLinkedListTest {
             head2 = head2.next;
         }
 
-        assertEquals(false, areEquals);
+        assertFalse(areEquals);
     }
 
     @Test
@@ -376,10 +356,10 @@ public class HackerRankLinkedListTest {
         assertEquals(17, out.data);
         assertEquals(13, out.next.data);
         assertEquals(16, out.next.next.data);
-
     }
 
-    private SinglyLinkedListNode reversePrint(AtomicInteger pos, SinglyLinkedListNode head, SinglyLinkedListNode out) {
+    private SinglyLinkedListNode reversePrint(
+            AtomicInteger pos, SinglyLinkedListNode head, SinglyLinkedListNode out) {
 
         if (head != null) {
             out = reversePrint(pos, head.next, out);
@@ -407,9 +387,7 @@ public class HackerRankLinkedListTest {
             pos++;
         }
 
-        SinglyLinkedListNode nextAfterInsert = temp.next;
-
-        nextAtInsert.next = nextAfterInsert;
+        nextAtInsert.next = temp.next;
 
         temp.next = nextAtInsert;
 
@@ -419,17 +397,26 @@ public class HackerRankLinkedListTest {
     @Test
     public void insertNodeAtPosition() {
 
-        int data = 10;
-        int position = 1;
-        SinglyLinkedListNode head = getLinkedListExample1();
+        SinglyLinkedListNode temp = insertNodeAtPosition(10, 1, getLinkedListExample1());
+        assertEquals(10, temp.next.data);
+    }
 
+    @Test
+    public void insertNodeAtHead() {
+
+        SinglyLinkedListNode temp = insertNodeAtPosition(10, 0, getLinkedListExample1());
+        assertEquals(10, temp.data);
+    }
+
+    private SinglyLinkedListNode insertNodeAtPosition(
+            int data, int position, SinglyLinkedListNode head) {
         int pos = 0;
 
         SinglyLinkedListNode nextAtInsert = new SinglyLinkedListNode(data);
 
         if (position == 0) {
             nextAtInsert.next = head;
-            return;
+            return nextAtInsert;
         }
 
         SinglyLinkedListNode temp = head;
@@ -439,45 +426,33 @@ public class HackerRankLinkedListTest {
             pos++;
         }
 
-        SinglyLinkedListNode nextAfterInsert = temp.next;
-
-        nextAtInsert.next = nextAfterInsert;
+        nextAtInsert.next = temp.next;
 
         temp.next = nextAtInsert;
-
-        assertEquals(13, temp.next.next.data);
-
-    }
-
-    @Test
-    public void insertNodeAtHead() {
-
-        SinglyLinkedListNode sll = getLinkedListExample1();
-
-        SinglyLinkedListNode slln = new SinglyLinkedListNode(10);
-
-        slln.next = sll;
-
-        assertEquals(10, slln.data);
+        return temp;
     }
 
     @Test
     public void insertNodeAtTail() {
 
-        SinglyLinkedListNode sll = getLinkedListExample1();
+        SinglyLinkedListNode last = insertNodeAtTail( getLinkedListExample1(), 100);
 
-        SinglyLinkedListNode slln = new SinglyLinkedListNode(10);
+        while (last.next != null) {
+            last = last.next;
+        }
 
+        assertEquals(last.data, 100);
+    }
+
+    private SinglyLinkedListNode insertNodeAtTail(SinglyLinkedListNode sll, int lastNodeValue) {
         SinglyLinkedListNode last = sll;
 
         while (last.next != null) {
             last = last.next;
         }
 
-        last.next = slln;
-
-        assertEquals(slln, last.next);
-
+        last.next = new SinglyLinkedListNode(lastNodeValue);
+        return last;
     }
 
     @Test
@@ -493,13 +468,10 @@ public class HackerRankLinkedListTest {
     private SinglyLinkedListNode getLinkedListExample1() {
         SinglyLinkedListNode sll = new SinglyLinkedListNode(16);
 
-        SinglyLinkedListNode slln = new SinglyLinkedListNode(13);
+        SinglyLinkedListNode sllNext = new SinglyLinkedListNode(13);
+        sllNext.next = new SinglyLinkedListNode(17);
 
-        sll.next = slln;
-
-        SinglyLinkedListNode sllnn = new SinglyLinkedListNode(17);
-
-        slln.next = sllnn;
+        sll.next = sllNext;
 
         return sll;
     }
@@ -508,12 +480,9 @@ public class HackerRankLinkedListTest {
         SinglyLinkedListNode sll = new SinglyLinkedListNode(15);
 
         SinglyLinkedListNode slln = new SinglyLinkedListNode(18);
+        slln.next = new SinglyLinkedListNode(12);
 
         sll.next = slln;
-
-        SinglyLinkedListNode sllnn = new SinglyLinkedListNode(12);
-
-        slln.next = sllnn;
 
         return sll;
     }
@@ -522,12 +491,9 @@ public class HackerRankLinkedListTest {
         SinglyLinkedListNode sll = new SinglyLinkedListNode(1);
 
         SinglyLinkedListNode slln = new SinglyLinkedListNode(2);
+        slln.next = new SinglyLinkedListNode(3);
 
         sll.next = slln;
-
-        SinglyLinkedListNode sllnn = new SinglyLinkedListNode(3);
-
-        slln.next = sllnn;
 
         return sll;
     }
@@ -535,11 +501,8 @@ public class HackerRankLinkedListTest {
     private SinglyLinkedListNode getSortedLinkedListExample2() {
         SinglyLinkedListNode sll = new SinglyLinkedListNode(3);
 
-        SinglyLinkedListNode slln = new SinglyLinkedListNode(4);
-
-        sll.next = slln;
+        sll.next = new SinglyLinkedListNode(4);
 
         return sll;
     }
-
 }
