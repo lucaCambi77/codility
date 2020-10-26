@@ -2876,7 +2876,7 @@ public class LeetCodeArrayTest {
             for (int j = 0; j < cols; j++)
                 if (matrix[i][j] == 0) {
                     dist[i][j] = 0;
-                    q.add(new Pair<Integer, Integer>(i, j)); // Put all 0s in the queue.
+                    q.add(new Pair<>(i, j)); // Put all 0s in the queue.
                 }
 
         int[][] dir = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
@@ -2888,7 +2888,7 @@ public class LeetCodeArrayTest {
                 if (new_r >= 0 && new_c >= 0 && new_r < rows && new_c < cols) {
                     if (dist[new_r][new_c] > dist[curr.getKey()][curr.getValue()] + 1) {
                         dist[new_r][new_c] = dist[curr.getKey()][curr.getValue()] + 1;
-                        q.add(new Pair<Integer, Integer>(new_r, new_c));
+                        q.add(new Pair<>(new_r, new_c));
                     }
                 }
             }

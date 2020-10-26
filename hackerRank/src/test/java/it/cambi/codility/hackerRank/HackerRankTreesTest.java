@@ -62,9 +62,9 @@ public class HackerRankTreesTest {
   public Node binaryTreeInsertion(Node root, int data) {
     if (root == null) return new Node(data);
 
-    if (data < root.getData()) root.getLeft() = binaryTreeInsertion(root.getLeft(), data);
+    if (data < root.getData()) root.setLeft(binaryTreeInsertion(root.getLeft(), data));
 
-    if (data > root.getData()) root.getRight() = binaryTreeInsertion(root.getRight(), data);
+    if (data > root.getData()) root.setRight(binaryTreeInsertion(root.getRight(), data));
 
     return root;
   }
@@ -150,12 +150,13 @@ public class HackerRankTreesTest {
 
       if (!map.containsKey(obj.hd)) map.put(obj.hd, obj.node);
 
-      if (obj.node.left != null) queue.add(new QueueObj(obj.node.left, obj.hd - 1));
+      if (obj.node.getLeft() != null) queue.add(new QueueObj(obj.node.getLeft(), obj.hd - 1));
 
-      if (obj.node.right != null) queue.add(new QueueObj(obj.node.right, obj.hd + 1));
+      if (obj.node.getRight() != null) queue.add(new QueueObj(obj.node.getRight(), obj.hd + 1));
     }
 
-    map.entrySet().stream().forEach(queueObj -> System.out.print(queueObj.getValue().data + " "));
+    map.entrySet().stream()
+        .forEach(queueObj -> System.out.print(queueObj.getValue().getData() + " "));
   }
 
   class QueueObj {
@@ -176,10 +177,10 @@ public class HackerRankTreesTest {
       Node cur;
       if (data <= root.getData()) {
         cur = insert(root.getLeft(), data);
-        root.getLeft() = cur;
+        root.setLeft(cur);
       } else {
         cur = insert(root.getRight(), data);
-        root.getRight() = cur;
+        root.setRight(cur);
       }
       return root;
     }
@@ -193,14 +194,14 @@ public class HackerRankTreesTest {
 
     Node left = new Node(2);
 
-    left.left = new Node(1);
-    left.right = new Node(3);
+    left.setLeft(new Node(1));
+    left.setRight(new Node(3));
 
-    root.getLeft() = left;
+    root.setLeft(left);
 
     Node right = new Node(7);
-    right.left = new Node(6);
-    root.getRight() = right;
+    right.setLeft(new Node(6));
+    root.setRight(right);
 
     Stack<Integer> listV1 = new Stack<>();
 
