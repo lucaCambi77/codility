@@ -1,16 +1,19 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.model.unionFind;
+
+import lombok.Getter;
 
 /**
  * @author luca
  *
  */
+@Getter
 public class QuickFind
 {
 
-    int[] elements;
+    private int[] elements;
 
     public QuickFind(int n)
     {

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.model;
 
@@ -7,17 +7,23 @@ package it.cambi.codility.model;
  * @author luca
  *
  */
+
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author luca
  *
  */
+@Getter
+@Setter
 public class Node
 {
-    public int data;
-    public Node left, right;
+    private int data;
+    private Node left, right;
 
     /**
-     * 
+     *
      */
     public Node(int key)
     {

@@ -12,7 +12,7 @@ public class Trie {
     static final int ALPHABET_SIZE = 26;
 
     // trie node
-    class TrieNode {
+   public class TrieNode {
         TrieNode[] children = new TrieNode[ALPHABET_SIZE];
 
         // isEndOfWord is true if the node represents
@@ -53,7 +53,7 @@ public class Trie {
     }
 
     // Returns true if key presents in trie, else false
-    boolean search(String key) {
+    public boolean search(String key) {
         int level;
         int length = key.length();
         int index;

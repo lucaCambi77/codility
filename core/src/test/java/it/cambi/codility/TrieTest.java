@@ -1,8 +1,8 @@
-/**
- * 
+package it.cambi.codility; /**
+ *
  */
-package it.cambi.codility.model;
 
+import it.cambi.codility.model.Trie;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

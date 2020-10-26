@@ -3,7 +3,9 @@
  */
 
 rootProject.name = 'codility'
-include 'exercises'
-include 'interviewBit'
-include 'codility_'
+include ':exercises'
+include ':interviewBit'
+include ':codility_'
+include ':hackerRank'
+include ':core'
 

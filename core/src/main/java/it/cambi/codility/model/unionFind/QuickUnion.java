@@ -1,25 +1,22 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.model.unionFind;
 
-import java.util.Arrays;
+import lombok.Getter;
 
 /**
  * @author luca
  *
  */
-public class WeightedUnion
+@Getter
+public class QuickUnion
 {
-    int[] elements;
-    int[] size;
+    private int[] elements;
 
-    public WeightedUnion(int n)
+    public QuickUnion(int n)
     {
         elements = new int[n];
-        size = new int[n];
-        Arrays.fill(size, 1);
-
         for (int i = 0; i < elements.length; i++)
             elements[i] = i;
     }
@@ -42,18 +39,6 @@ public class WeightedUnion
         int rootA = root(a);
         int rootB = root(b);
 
-        if (rootA == rootB)
-            return;
-
-        if (size[rootA] < size[rootB])
-        {
-            elements[rootA] = rootB;
-            size[rootB] += size[rootA];
-        }
-        else
-        {
-            elements[rootB] = rootA;
-            size[rootA] += size[rootB];
-        }
+        elements[rootA] = rootB;
     }
 }

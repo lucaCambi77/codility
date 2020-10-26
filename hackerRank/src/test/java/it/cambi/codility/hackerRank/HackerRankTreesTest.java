@@ -53,18 +53,18 @@ public class HackerRankTreesTest {
   private void preOrderTrasvPrint(Node root) {
 
     if (root != null) {
-      System.out.print(root.data + " ");
-      preOrderTrasvPrint(root.left);
-      preOrderTrasvPrint(root.right);
+      System.out.print(root.getData() + " ");
+      preOrderTrasvPrint(root.getLeft());
+      preOrderTrasvPrint(root.getRight());
     }
   }
 
   public Node binaryTreeInsertion(Node root, int data) {
     if (root == null) return new Node(data);
 
-    if (data < root.data) root.left = binaryTreeInsertion(root.left, data);
+    if (data < root.getData()) root.getLeft() = binaryTreeInsertion(root.getLeft(), data);
 
-    if (data > root.data) root.right = binaryTreeInsertion(root.right, data);
+    if (data > root.getData()) root.getRight() = binaryTreeInsertion(root.getRight(), data);
 
     return root;
   }
@@ -92,13 +92,13 @@ public class HackerRankTreesTest {
     while (!queue.isEmpty()) {
       int size = queue.size();
 
-      for (Node root : queue) System.out.print(root.data + " ");
+      for (Node root : queue) System.out.print(root.getData() + " ");
 
       List<Node> list = new ArrayList<Node>();
 
       for (Node root : queue) {
-        if (null != root.left) list.add(root.left);
-        if (null != root.right) list.add(root.right);
+        if (null != root.getLeft()) list.add(root.getLeft());
+        if (null != root.getRight()) list.add(root.getRight());
       }
 
       queue.addAll(list);
@@ -174,12 +174,12 @@ public class HackerRankTreesTest {
       return new Node(data);
     } else {
       Node cur;
-      if (data <= root.data) {
-        cur = insert(root.left, data);
-        root.left = cur;
+      if (data <= root.getData()) {
+        cur = insert(root.getLeft(), data);
+        root.getLeft() = cur;
       } else {
-        cur = insert(root.right, data);
-        root.right = cur;
+        cur = insert(root.getRight(), data);
+        root.getRight() = cur;
       }
       return root;
     }
@@ -196,11 +196,11 @@ public class HackerRankTreesTest {
     left.left = new Node(1);
     left.right = new Node(3);
 
-    root.left = left;
+    root.getLeft() = left;
 
     Node right = new Node(7);
     right.left = new Node(6);
-    root.right = right;
+    root.getRight() = right;
 
     Stack<Integer> listV1 = new Stack<>();
 
@@ -226,12 +226,12 @@ public class HackerRankTreesTest {
 
     if (null == root) return;
 
-    if (v > root.data) {
-      list.add(root.data);
-      lca(root.right, v, list);
-    } else if (v < root.data) {
-      list.add(root.data);
-      lca(root.left, v, list);
+    if (v > root.getData()) {
+      list.add(root.getData());
+      lca(root.getRight(), v, list);
+    } else if (v < root.getData()) {
+      list.add(root.getData());
+      lca(root.getLeft(), v, list);
     } else {
       return;
     }
@@ -250,9 +250,9 @@ public class HackerRankTreesTest {
 
     if (root == null) return count;
 
-    int left = getMaxHeight(root.left, count + 1);
+    int left = getMaxHeight(root.getLeft(), count + 1);
 
-    int right = getMaxHeight(root.right, count + 1);
+    int right = getMaxHeight(root.getRight(), count + 1);
     return Math.max(left, right);
   }
 }

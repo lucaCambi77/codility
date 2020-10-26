@@ -59,11 +59,11 @@ public class Geeks4GeeksTreeTest
         if (null == root)
             return true;
 
-        if (!nodeList.add(root.data))
+        if (!nodeList.add(root.getData()))
             return false;
 
         if (checkDataLeft(root, previousLeft) && checkDataRight(root, previousright)
-                && isBST(root.left, nodeList, root, null) && isBST(root.right, nodeList, null, root))
+                && isBST(root.getLeft(), nodeList, root, null) && isBST(root.getRight(), nodeList, null, root))
             return true;
 
         return false;
@@ -77,19 +77,19 @@ public class Geeks4GeeksTreeTest
         boolean checkLeft = false;
         boolean checkRight = false;
 
-        if (null == root.left)
+        if (null == root.getLeft())
             checkLeft = true;
-        else if (root.left.data < root.data)
+        else if (root.getLeft().getData() < root.getData())
             checkLeft = true;
 
-        if (null == root.right)
+        if (null == root.getRight())
             checkRight = true;
         else
         {
-            if (root.right.data > root.data)
+            if (root.getRight().getData() > root.getData())
                 checkRight = true;
 
-            if (null != previous && !(root.right.data < previous.data))
+            if (null != previous && !(root.getRight().getData() < previous.getData()))
                 checkRight = false;
         }
 
@@ -104,21 +104,21 @@ public class Geeks4GeeksTreeTest
         boolean checkLeft = false;
         boolean checkRight = false;
 
-        if (null == root.left)
+        if (null == root.getLeft())
             checkLeft = true;
         else
         {
-            if (root.left.data < root.data)
+            if (root.getLeft().getData() < root.getData())
                 checkLeft = true;
 
-            if (null != previous && !(root.left.data > previous.data))
+            if (null != previous && !(root.getLeft().getData() > previous.getData()))
                 checkLeft = false;
 
         }
 
-        if (null == root.right)
+        if (null == root.getRight())
             checkRight = true;
-        else if (root.right.data > root.data)
+        else if (root.getRight().getData() > root.getData())
             checkRight = true;
 
         return checkRight && checkLeft;
@@ -140,7 +140,7 @@ public class Geeks4GeeksTreeTest
         int key = 65;
         predecessorSuccessor(BinaryTree.getBSTExample(), p, s, key);
 
-        assertEquals("60 70", p.pre.data + " " + s.succ.data);
+        assertEquals("60 70", p.pre.getData() + " " + s.succ.getData());
 
         Node root = new Node(78);
 
@@ -157,7 +157,7 @@ public class Geeks4GeeksTreeTest
 
         key = 34;
         predecessorSuccessor(root, p, s, key);
-        assertEquals("12 45", p.pre.data + " " + s.succ.data);
+        assertEquals("12 45", p.pre.getData() + " " + s.succ.getData());
 
         Node root1 = new Node(78);
 
@@ -177,7 +177,7 @@ public class Geeks4GeeksTreeTest
         key = 40;
 
         predecessorSuccessor(root1, p, s, key);
-        assertEquals("24 55", p.pre.data + " " + s.succ.data);
+        assertEquals("24 55", p.pre.getData() + " " + s.succ.getData());
 
         Node root2 = new Node(50);
 
@@ -198,7 +198,7 @@ public class Geeks4GeeksTreeTest
         key = 80;
 
         predecessorSuccessor(root2, p, s, key);
-        assertEquals("70 -1", p.pre.data + " " + (s.succ == null ? "-1" : s.succ.data));
+        assertEquals("70 -1", p.pre.getData() + " " + (s.succ == null ? "-1" : s.succ.getData()));
 
         p = new Res();
         s = new Res();
@@ -206,7 +206,7 @@ public class Geeks4GeeksTreeTest
         key = 70;
 
         predecessorSuccessor(root2, p, s, key);
-        assertEquals("60 80", p.pre.data + " " + (s.succ == null ? "-1" : s.succ.data));
+        assertEquals("60 80", p.pre.getData() + " " + (s.succ == null ? "-1" : s.succ.getData()));
 
         p = new Res();
         s = new Res();
@@ -214,7 +214,7 @@ public class Geeks4GeeksTreeTest
         key = 100;
 
         predecessorSuccessor(root2, p, s, key);
-        assertEquals("80 -1", p.pre.data + " " + (s.succ == null ? "-1" : s.succ.data));
+        assertEquals("80 -1", p.pre.getData() + " " + (s.succ == null ? "-1" : s.succ.getData()));
 
         Node root3 = new Node(75);
 
@@ -245,7 +245,7 @@ public class Geeks4GeeksTreeTest
 
         predecessorSuccessor(root3, p, s, key);
 
-        assertEquals("45 75", p.pre.data + " " + (s.succ == null ? "-1" : s.succ.data));
+        assertEquals("45 75", p.pre.getData() + " " + (s.succ == null ? "-1" : s.succ.getData()));
 
         p = new Res();
         s = new Res();
@@ -254,7 +254,7 @@ public class Geeks4GeeksTreeTest
 
         predecessorSuccessor(root3, p, s, key);
 
-        assertEquals("-1 13", (p.pre == null ? "-1" : p.pre.data) + " " + (s.succ == null ? "-1" : s.succ.data));
+        assertEquals("-1 13", (p.pre == null ? "-1" : p.pre.getData()) + " " + (s.succ == null ? "-1" : s.succ.getData()));
 
         Node root4 = new Node(75);
 
@@ -285,7 +285,7 @@ public class Geeks4GeeksTreeTest
 
         predecessorSuccessor(root4, p, s, key);
 
-        assertEquals("18 45", (p.pre == null ? "-1" : p.pre.data) + " " + (s.succ == null ? "-1" : s.succ.data));
+        assertEquals("18 45", (p.pre == null ? "-1" : p.pre.getData()) + " " + (s.succ == null ? "-1" : s.succ.getData()));
     }
 
     private void predecessorSuccessor(Node root, Res p, Res s, int key)
@@ -294,24 +294,24 @@ public class Geeks4GeeksTreeTest
         if (root == null)
             return;
 
-        if (root.data < key)
+        if (root.getData() < key)
         {
             if (p.pre == null)
                 p.pre = root;
 
-            p.pre = p.pre.data > root.data ? p.pre : root;
+            p.pre = p.pre.getData() > root.getData() ? p.pre : root;
         }
 
-        if (root.data > key)
+        if (root.getData() > key)
         {
             if (s.succ == null)
                 s.succ = root;
 
-            s.succ = s.succ.data > root.data ? root : s.succ;
+            s.succ = s.succ.getData() > root.getData() ? root : s.succ;
         }
 
-        predecessorSuccessor(root.left, p, s, key);
-        predecessorSuccessor(root.right, p, s, key);
+        predecessorSuccessor(root.getLeft(), p, s, key);
+        predecessorSuccessor(root.getRight(), p, s, key);
 
     }
 
@@ -324,10 +324,10 @@ public class Geeks4GeeksTreeTest
 
     private int minValue(Node node)
     {
-        while (node.left != null)
-            node = node.left;
+        while (node.getLeft() != null)
+            node = node.getLeft();
 
-        return node.data;
+        return node.getData();
     }
 
     @Test
@@ -361,10 +361,10 @@ public class Geeks4GeeksTreeTest
         if (root == null)
             return true;
 
-        int ls = sumSubTrees(root.left);
-        int rs = sumSubTrees(root.right);
+        int ls = sumSubTrees(root.getLeft());
+        int rs = sumSubTrees(root.getRight());
 
-        if (rs - ls <= 1 && isBalanced(root.left) && isBalanced(root.right))
+        if (rs - ls <= 1 && isBalanced(root.getLeft()) && isBalanced(root.getRight()))
             return true;
 
         return false;
@@ -380,7 +380,7 @@ public class Geeks4GeeksTreeTest
     private int sumSubTrees(Node root)
     {
 
-        int ret = root == null ? 0 : 1 + Math.max(sumSubTrees(root.left), sumSubTrees(root.right));
+        int ret = root == null ? 0 : 1 + Math.max(sumSubTrees(root.getLeft()), sumSubTrees(root.getRight()));
 
         return ret;
     }
@@ -405,10 +405,10 @@ public class Geeks4GeeksTreeTest
 
         for (Node root : queue)
         {
-            if (null != root.right)
-                list.add(root.right);
-            if (null != root.left)
-                list.add(root.left);
+            if (null != root.getRight())
+                list.add(root.getRight());
+            if (null != root.getLeft())
+                list.add(root.getLeft());
         }
 
         queue.addAll(list);
@@ -436,7 +436,7 @@ public class Geeks4GeeksTreeTest
 
         for (int i = 0; i < size; i++)
         {
-            System.out.print(stack.pop().data + " ");
+            System.out.print(stack.pop().getData() + " ");
         }
     }
 
@@ -451,10 +451,10 @@ public class Geeks4GeeksTreeTest
 
         for (Node root : queue)
         {
-            if (null != root.right)
-                list.add(root.right);
-            if (null != root.left)
-                list.add(root.left);
+            if (null != root.getRight())
+                list.add(root.getRight());
+            if (null != root.getLeft())
+                list.add(root.getLeft());
         }
         queue.addAll(list);
         for (int i = 0; i < size; i++)
@@ -501,17 +501,17 @@ public class Geeks4GeeksTreeTest
 
             for (Node root : queue)
             {
-                System.out.print(root.data + " ");
+                System.out.print(root.getData() + " ");
             }
             System.out.print(message);
             List<Node> list = new ArrayList<Node>();
 
             for (Node root : queue)
             {
-                if (null != root.left)
-                    list.add(root.left);
-                if (null != root.right)
-                    list.add(root.right);
+                if (null != root.getLeft())
+                    list.add(root.getLeft());
+                if (null != root.getRight())
+                    list.add(root.getRight());
             }
             queue.addAll(list);
             for (int i = 0; i < size; i++)
@@ -535,9 +535,9 @@ public class Geeks4GeeksTreeTest
 
         if (root != null)
         {
-            postOrderTrasvPrint(root.left);
-            postOrderTrasvPrint(root.right);
-            System.out.print(root.data + " ");
+            postOrderTrasvPrint(root.getLeft());
+            postOrderTrasvPrint(root.getRight());
+            System.out.print(root.getData() + " ");
         }
     }
 
@@ -553,9 +553,9 @@ public class Geeks4GeeksTreeTest
 
         if (root != null)
         {
-            System.out.print(root.data + " ");
-            preOrderTrasvPrint(root.left);
-            preOrderTrasvPrint(root.right);
+            System.out.print(root.getData() + " ");
+            preOrderTrasvPrint(root.getLeft());
+            preOrderTrasvPrint(root.getRight());
         }
     }
 
@@ -571,9 +571,9 @@ public class Geeks4GeeksTreeTest
 
         if (root != null)
         {
-            inOrderTrasvPrint(root.left);
-            System.out.print(root.data + " ");
-            inOrderTrasvPrint(root.right);
+            inOrderTrasvPrint(root.getLeft());
+            System.out.print(root.getData() + " ");
+            inOrderTrasvPrint(root.getRight());
         }
     }
 
@@ -601,9 +601,9 @@ public class Geeks4GeeksTreeTest
         if (null != root)
         {
             count.incrementAndGet();
-            setSizeofTree(root.left, count);
+            setSizeofTree(root.getLeft(), count);
 
-            setSizeofTree(root.right, count);
+            setSizeofTree(root.getRight(), count);
 
         }
 
@@ -615,9 +615,9 @@ public class Geeks4GeeksTreeTest
 
         if (root != null)
         {
-            setSizeofTree1(root.left, list);
+            setSizeofTree1(root.getLeft(), list);
             list.add(root);
-            setSizeofTree1(root.right, list);
+            setSizeofTree1(root.getRight(), list);
         }
     }
 
@@ -658,9 +658,9 @@ public class Geeks4GeeksTreeTest
             return count;
 
         int tmp = count + 1;
-        int left = getMaxHeight(root.left, tmp);
+        int left = getMaxHeight(root.getLeft(), tmp);
         int tmp1 = count + 1;
-        int right = getMaxHeight(root.right, tmp1);
+        int right = getMaxHeight(root.getRight(), tmp1);
         return Math.max(left, right);
 
     }
@@ -673,7 +673,7 @@ public class Geeks4GeeksTreeTest
     {
         Node root = Node.getExampleNode();
 
-        String rootKey = Integer.toString(root.data);
+        String rootKey = Integer.toString(root.getData());
 
         printLeafPaths(root, rootKey);
 
@@ -688,9 +688,9 @@ public class Geeks4GeeksTreeTest
     {
         if (root != null)
         {
-            if (root.left != null)
+            if (root.getLeft() != null)
             {
-                printLeafPaths(root.left, map + " " + Integer.toString(root.left.data));
+                printLeafPaths(root.getLeft(), map + " " + Integer.toString(root.getLeft().getData()));
             }
             else
             {
@@ -699,9 +699,9 @@ public class Geeks4GeeksTreeTest
                 return;
             }
 
-            if (root.right != null)
+            if (root.getRight() != null)
             {
-                printLeafPaths(root.right, map + " " + Integer.toString(root.right.data));
+                printLeafPaths(root.getRight(), map + " " + Integer.toString(root.getRight().getData()));
             }
         }
 
@@ -736,9 +736,9 @@ public class Geeks4GeeksTreeTest
 
         int tmp = count + 1;
 
-        findMaxWidth(node.left, tmp, map);
+        findMaxWidth(node.getLeft(), tmp, map);
 
-        findMaxWidth(node.right, tmp, map);
+        findMaxWidth(node.getRight(), tmp, map);
 
         if (map.get(tmp) == null)
         {
@@ -770,13 +770,13 @@ public class Geeks4GeeksTreeTest
             return;
 
         if (data == count)
-            System.out.print(node.data + " ");
+            System.out.print(node.getData() + " ");
 
         int tmp = count + 1;
 
-        printKDistance(node.left, data, tmp);
+        printKDistance(node.getLeft(), data, tmp);
 
-        printKDistance(node.right, data, tmp);
+        printKDistance(node.getRight(), data, tmp);
     }
 
     /**
@@ -801,7 +801,7 @@ public class Geeks4GeeksTreeTest
 
         int tmp = count + 1;
 
-        return getLevelFunct(node.left, data, tmp) + getLevelFunct(node.right, data, tmp);
+        return getLevelFunct(node.getLeft(), data, tmp) + getLevelFunct(node.getRight(), data, tmp);
     }
 
     /**
@@ -822,15 +822,15 @@ public class Geeks4GeeksTreeTest
         if (node == null)
             return false;
 
-        if (node.data == target)
+        if (node.getData() == target)
             return true;
 
         /*
          * If target is present in either left or right subtree of this node, then print this node
          */
-        if (printAncestors(node.left, target) || printAncestors(node.right, target))
+        if (printAncestors(node.getLeft(), target) || printAncestors(node.getRight(), target))
         {
-            System.out.print(node.data + " ");
+            System.out.print(node.getData() + " ");
             return true;
         }
 
@@ -841,7 +841,7 @@ public class Geeks4GeeksTreeTest
     private boolean isData(Node node, int data)
     {
 
-        return node.data == data ? true : false;
+        return node.getData() == data ? true : false;
     }
 
     /**
@@ -861,9 +861,9 @@ public class Geeks4GeeksTreeTest
         if (isData(node, data))
             return finder;
 
-        String retLeft = printAncestors(node.left, node.data + " ", data);
+        String retLeft = printAncestors(node.getLeft(), node.getData() + " ", data);
         // rigth find
-        String retRight = printAncestors(node.right, node.data + " ", data);
+        String retRight = printAncestors(node.getRight(), node.getData() + " ", data);
 
         return retLeft + retRight;
     }
@@ -887,7 +887,7 @@ public class Geeks4GeeksTreeTest
 
     private int sum(Node node)
     {
-        return node == null ? 0 : sum(node.left) + node.data + sum(node.right);
+        return node == null ? 0 : sum(node.getLeft()) + node.getData() + sum(node.getRight());
     }
 
     private int isSumTree(Node node)
@@ -897,17 +897,17 @@ public class Geeks4GeeksTreeTest
         /*
          * If node is NULL or it's a leaf node then return true
          */
-        if ((node == null) || (node.left == null && node.right == null))
+        if ((node == null) || (node.getLeft() == null && node.getRight() == null))
             return 1;
 
         /* Get sum of nodes in left and right subtrees */
-        ls = sum(node.left);
-        rs = sum(node.right);
+        ls = sum(node.getLeft());
+        rs = sum(node.getRight());
 
         /*
          * if the node and both of its children satisfy the property return 1 else 0
          */
-        if ((node.data == ls + rs) && (isSumTree(node.left) != 0) && (isSumTree(node.right)) != 0)
+        if ((node.getData() == ls + rs) && (isSumTree(node.getLeft()) != 0) && (isSumTree(node.getRight())) != 0)
             return 1;
 
         return 0;
@@ -940,9 +940,9 @@ public class Geeks4GeeksTreeTest
 
         if (root != null)
         {
-            inOrderTrasv(root.left, list);
-            list.add(root.data);
-            inOrderTrasv(root.right, list);
+            inOrderTrasv(root.getLeft(), list);
+            list.add(root.getData());
+            inOrderTrasv(root.getRight(), list);
         }
     }
 }
