@@ -4,10 +4,10 @@
 
 rootProject.name = 'codility'
 include ':core'
-include ':exercises'
 include ':interviewBit'
 include ':codility_'
 include ':hackerRank'
 include ':geek4geeks'
 include ':leetcode'
+include ':codebyte'
 
