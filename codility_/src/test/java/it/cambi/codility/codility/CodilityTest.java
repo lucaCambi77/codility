@@ -234,48 +234,52 @@ public class CodilityTest {
   @Test
   public void missingElement() {
 
-    int[] A = {-1, -3, -4};
-
-    // Using the concept of "Sum = (ceiling + floor) * height /2"
-    // So---> Sum = (1 + N+1) * N /2
-    // the missing element can be found by minus other elements
-
-    // note: need to use "long" to avoid potential bugs (large numbers)
-    long ceiling = A.length + 1;
-    long floor = 1;
-    long height = A.length + 1; // note: need to plus extra "1"
-    // because there is one element "missing"!
-    // be careful about this (important)
-    long sum = (ceiling + floor) * height / 2; // main idea
-    /*
-     * int high = A.length +1; int low = 1; int height = A.length + 1; int sum = (high +low) * height /2; // main idea
-     */
-    long missing_number = sum; // initial setting (sum)
-
-    for (int i = 0; i < A.length; i++) {
-      missing_number = missing_number - A[i]; // minus other elements
-    }
+    assertEquals(3, missingElement(new int[] {1, 2, 0}));
+    assertEquals(2, missingElement(new int[] {3, 4, -1, 1}));
+    assertEquals(1, missingElement(new int[] {-8, -7, -6}));
   }
 
+  private int missingElement(int[] A) {
+
+    Arrays.parallelSort(A);
+
+    int start = 1;
+
+    int i = 0;
+
+    while (i < A.length && A[i] < start) i++;
+
+    for (; i < A.length; i++) {
+      if (A[i] == start) start++;
+      else return start;
+    }
+
+    return A[A.length - 1] < 0 ? 1 : start;
+  }
   /**
    * Write a function:
    *
    * <p>int solution(int A[], int N);
    *
-   * <p>that, given a non-empty array A of N integers, returns the minimal difference that can be
+   * <p>that, given a non-empty array A of N integers, returns the minimal difference (absolute
+   * difference between the sum of the first part and the sum of the second part) that can be
    * achieved.
    */
   @Test
   public void tapeEquilibrium() {
+    assertEquals(2000, tapeEquilibrium(new int[] {-1000, 1000}));
+    assertEquals(1, tapeEquilibrium(new int[] {3, 1, 2, 4, 3}));
+  }
 
-    int[] A = {-1000, 1000};
+  @Test
+  private int tapeEquilibrium(int[] A) {
 
     int sum = 0;
 
     long leftSum = 0;
-    long rightSum = 0;
-    for (int i = 0; i < A.length; i++) {
-      sum += A[i];
+    long rightSum;
+    for (int value : A) {
+      sum += value;
     }
 
     long minDifference = Integer.MAX_VALUE;
@@ -287,9 +291,8 @@ public class CodilityTest {
       minDifference = Math.min(minDifference, difference);
     }
 
-    System.out.println((int) minDifference);
+    return (int) minDifference;
   }
-
   /**
    * A non-empty array A consisting of N integers is given.
    *
