@@ -3,11 +3,51 @@ package it.cambi.codility.interviewBit;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class InterviewBitStackTest {
+
+  @Test
+  public void braces() {
+    assertEquals(0, braces("(a + (a + b))"));
+    assertEquals(1, braces("((a + b))"));
+  }
+
+  public int braces(String A) {
+    Stack<Character> stack = new Stack<>();
+    Set<Character> ops = new HashSet<>(Arrays.asList('+', '*', '/', '-'));
+
+    for (char i : A.toCharArray()) {
+      if (i == '(') stack.push(i);
+      if (ops.contains(i) && !stack.isEmpty()) stack.pop();
+    }
+
+    return stack.isEmpty() ? 0 : 1;
+  }
+
+  @Test
+  public void reverseString() {
+    assertEquals("cba", reverseString("abc"));
+  }
+
+  private String reverseString(String A) {
+    Stack<Character> stack = new Stack<>();
+
+    for (Character c : A.toCharArray()) {
+      stack.push(c);
+    }
+
+    StringBuilder sol = new StringBuilder();
+
+    while (!stack.isEmpty()) {
+      sol.append(stack.pop());
+    }
+
+    return sol.toString();
+  }
 
   @Test
   public void simplifyPath() {
