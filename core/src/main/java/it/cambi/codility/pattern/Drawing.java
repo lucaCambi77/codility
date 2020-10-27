@@ -31,7 +31,7 @@ public class Drawing {
         if (shapes.isEmpty()) {
             System.out.println("Nothing to draw!");
         } else {
-            shapes.stream().forEach(shape -> shape.draw());
+            shapes.forEach(Shape::draw);
         }
     }
 
@@ -40,7 +40,7 @@ public class Drawing {
         if (shapes.isEmpty()) {
             System.out.println("Nothing to resize!");
         } else {
-            shapes.stream().forEach(shape -> shape.resize());
+            shapes.forEach(Shape::resize);
 
         }
 

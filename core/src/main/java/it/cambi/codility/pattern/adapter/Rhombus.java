@@ -1,61 +1,44 @@
-/**
- * 
- */
+/** */
 package it.cambi.codility.pattern.adapter;
 
-/**
- * @author luca
- *
- */
+/** @author luca */
 // Part of Extra-Geometric-Shape API
-public class Rhombus extends AbstractGeometricShape implements GeometricShape
-{
+public class Rhombus implements AbstractGeometricShape, GeometricShape {
 
-    // sides
-    private final double a;
+  // sides
+  private final double a;
 
-    private final double b;
+  private final double b;
 
-    public Rhombus()
-    {
+  public Rhombus() {
 
-        this(1.0d, 1.0d);
+    this(1.0d, 1.0d);
+  }
 
-    }
+  public Rhombus(double a, double b) {
 
-    public Rhombus(double a, double b)
-    {
+    this.a = a;
 
-        this.a = a;
+    this.b = b;
+  }
 
-        this.b = b;
+  @Override
+  public double area() {
 
-    }
+    double s = a * b;
 
-    @Override
-    public double area()
-    {
+    return s;
+  }
 
-        double s = a * b;
+  @Override
+  public double perimeter() {
 
-        return s;
+    return 2 * (a + b);
+  }
 
-    }
+  @Override
+  public void drawShape() {
 
-    @Override
-    public double perimeter()
-    {
-
-        return 2 * (a + b);
-
-    }
-
-    @Override
-    public void drawShape()
-    {
-
-        System.out.println("Drawing Rhombus with area: " + area() + " and perimeter: " + perimeter());
-
-    }
-
+    System.out.println("Drawing Rhombus with area: " + area() + " and perimeter: " + perimeter());
+  }
 }

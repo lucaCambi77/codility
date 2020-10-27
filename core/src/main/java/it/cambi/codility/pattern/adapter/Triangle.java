@@ -1,73 +1,56 @@
-/**
- * 
- */
+/** */
 package it.cambi.codility.pattern.adapter;
 
-/**
- * @author luca
- *
- */
+/** @author luca */
 // Part of Extra-Geometric-Shape API
-public class Triangle extends AbstractGeometricShape implements GeometricShape
-{
+public class Triangle implements AbstractGeometricShape, GeometricShape {
 
-    // sides
-    private final double a;
+  // sides
+  private final double a;
 
-    private final double b;
+  private final double b;
 
-    private final double c;
+  private final double c;
 
-    public Triangle()
-    {
+  public Triangle() {
 
-        this(1.0d, 1.0d, 1.0d);
+    this(1.0d, 1.0d, 1.0d);
+  }
 
-    }
+  public Triangle(double a, double b, double c) {
 
-    public Triangle(double a, double b, double c)
-    {
+    this.a = a;
 
-        this.a = a;
+    this.b = b;
 
-        this.b = b;
+    this.c = c;
+  }
 
-        this.c = c;
+  @Override
+  public double area() {
 
-    }
+    // Heron's formula:
 
-    @Override
-    public double area()
-    {
+    // Area = SquareRoot(s * (s - a) * (s - b) * (s - c))
 
-        // Heron's formula:
+    // where s = (a + b + c) / 2, or 1/2 of the perimeter of the triangle
 
-        // Area = SquareRoot(s * (s - a) * (s - b) * (s - c))
+    double s = (a + b + c) / 2;
 
-        // where s = (a + b + c) / 2, or 1/2 of the perimeter of the triangle
+    return Math.sqrt(s * (s - a) * (s - b) * (s - c));
+  }
 
-        double s = (a + b + c) / 2;
+  @Override
+  public double perimeter() {
 
-        return Math.sqrt(s * (s - a) * (s - b) * (s - c));
+    // P = a + b + c
 
-    }
+    return a + b + c;
+  }
 
-    @Override
-    public double perimeter()
-    {
+  @Override
+  public void drawShape() {
 
-        // P = a + b + c
-
-        return a + b + c;
-
-    }
-
-    @Override
-    public void drawShape()
-    {
-
-        System.out.println("Drawing Triangle with area: " + area() + " and perimeter: " + perimeter());
-
-    }
-
+    System.out.println("Drawing Triangle with area: " + area() + " and perimeter: " + perimeter());
+  }
 }

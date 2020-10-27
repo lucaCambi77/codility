@@ -49,7 +49,7 @@ public class Knn {
 		double k = Math.sqrt(items);
 
 		int[] countRows = new int[nosRows];
-		Set<Integer> rowsWithZero = new HashSet<Integer>();
+		Set<Integer> rowsWithZero = new HashSet<>();
 
 		for (int i = 0; i < data.length; i++) {
 			int n = 0;
@@ -71,7 +71,7 @@ public class Knn {
 		}
 
 		for (Integer withZero : rowsWithZero) {
-			Map<Integer, Integer> distanceMap = new HashMap<Integer, Integer>();
+			Map<Integer, Integer> distanceMap = new HashMap<>();
 
 			int[] x = data[withZero];
 
@@ -95,7 +95,7 @@ public class Knn {
 			}
 
 			Map<Integer, Integer> sortedMap = sortByValue(distanceMap);
-			LinkedHashSet<Integer> neighbors = new LinkedHashSet<Integer>();
+			LinkedHashSet<Integer> neighbors = new LinkedHashSet<>();
 
 			double ktmp = k;
 			/**
@@ -132,10 +132,10 @@ public class Knn {
 
 	public static Map<Integer, Integer> sortByValue(Map<Integer, Integer> hm) {
 		// Create a list from elements of HashMap
-		List<Map.Entry<Integer, Integer>> list = new LinkedList<Map.Entry<Integer, Integer>>(hm.entrySet());
+		List<Map.Entry<Integer, Integer>> list = new LinkedList<>(hm.entrySet());
 
 		// Sort the list
-		Collections.sort(list, new Comparator<Map.Entry<Integer, Integer>>() {
+		Collections.sort(list, new Comparator<>() {
 			public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
 				return (o1.getValue()).compareTo(o2.getValue());
 			}

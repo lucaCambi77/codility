@@ -1,14 +1,8 @@
-/**
- * 
- */
+/** */
 package it.cambi.codility.pattern.adapter;
 
-/**
- * @author luca
- *
- */
-public abstract class AbstractGeometricShape
-{
+/** @author luca */
+public interface AbstractGeometricShape {
 
-    public abstract void drawShape();
+  public abstract void drawShape();
 }
