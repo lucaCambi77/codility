@@ -1,49 +1,39 @@
-/**
- *
- */
 package it.cambi.codility.pattern.adapter;
 
 import it.cambi.codility.pattern.Shape;
 
-/**
- * @author luca
- *
- */
+/** @author luca */
 public class TriangleAdapter extends Triangle implements Shape {
 
-    public TriangleAdapter() {
-        super();
-    }
+  public TriangleAdapter() {
+    super();
+  }
 
-    public TriangleAdapter(double a, double b, double c) {
+  public TriangleAdapter(double a, double b, double c) {
 
-        super(a, b, c);
-    }
+    super(a, b, c);
+  }
 
-    @Override
-    public void draw() {
+  @Override
+  public void draw() {
 
-        super.drawShape();
+    super.drawShape();
+  }
 
-    }
+  @Override
+  public void resize() {
+    System.out.println("Triangle can't be resized. Please create new one with required values.");
+  }
 
-    @Override
-    public void resize() {
-        System.out.println("Triangle can't be resized. Please create new one with required values.");
-    }
+  @Override
+  public String getDescription() {
 
-    @Override
-    public String getDescription() {
+    return "Triangle object";
+  }
 
-        return "Triangle object";
+  @Override
+  public boolean isHide() {
 
-    }
-
-    @Override
-    public boolean isHide() {
-
-        return false;
-
-    }
-
+    return false;
+  }
 }

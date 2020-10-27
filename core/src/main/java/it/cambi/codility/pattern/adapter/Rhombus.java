@@ -25,9 +25,7 @@ public class Rhombus implements AbstractGeometricShape, GeometricShape {
   @Override
   public double area() {
 
-    double s = a * b;
-
-    return s;
+    return a * b;
   }
 
   @Override

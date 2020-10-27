@@ -2,49 +2,40 @@ package it.cambi.codility.util;
 
 public class AbstractTest {
 
-	private static String unixCarriage = "\n";
-	private static String windowsCarriage = "\r\n";
-	private static String carriageReturn;
+  private static final String CARRIAGE_RETURN;
 
-	public enum OSType {
-		Windows, MacOS, Linux, Other
-	};
+  public enum OSType {
+    WINDOWS,
+    MAC_OS,
+    LINUX,
+    OTHER
+  }
 
-	static {
+  static {
+    String unixCarriage = "\n";
+    String windowsCarriage = "\r\n";
+    if (getOperatingSystemType() == OSType.WINDOWS) {
+      CARRIAGE_RETURN = windowsCarriage;
+    } else {
+      CARRIAGE_RETURN = unixCarriage;
+    }
+  }
 
-		switch (getOperatingSystemType()) {
-		case Windows:
+  public static String getCarriageReturn() {
+    return CARRIAGE_RETURN;
+  }
 
-			carriageReturn = windowsCarriage;
-			break;
+  public static OSType getOperatingSystemType() {
 
-		default:
-
-			carriageReturn = unixCarriage;
-			break;
-		}
-
-	}
-
-	protected static OSType detectedOS;
-
-	public static String getCarriageReturn() {
-		return carriageReturn;
-	}
-
-	public static OSType getOperatingSystemType() {
-		
-		String OS = System.getProperty("os.name", "generic").toLowerCase();
-		if ((OS.indexOf("mac") >= 0) || (OS.indexOf("darwin") >= 0)) {
-			detectedOS = OSType.MacOS;
-		} else if (OS.indexOf("win") >= 0) {
-			detectedOS = OSType.Windows;
-		} else if (OS.indexOf("nux") >= 0) {
-			detectedOS = OSType.Linux;
-		} else {
-			detectedOS = OSType.Other;
-		}
-
-		return detectedOS;
-	}
+    String os = System.getProperty("os.name", "generic").toLowerCase();
+    if ((os.contains("mac")) || (os.contains("darwin"))) {
+      return OSType.MAC_OS;
+    } else if (os.contains("win")) {
+      return OSType.WINDOWS;
+    } else if (os.contains("nux")) {
+      return OSType.LINUX;
+    } else {
+      return OSType.OTHER;
+    }
+  }
 }
