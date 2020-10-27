@@ -55,7 +55,7 @@ class StringsTest {
       chars[index] -= 1;
     }
 
-    for (int i = 0; i < chars.length; i++) if (chars[i] != 0) return false;
+    for (int aChar : chars) if (aChar != 0) return false;
 
     return true;
   }

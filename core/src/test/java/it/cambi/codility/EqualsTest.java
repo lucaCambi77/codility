@@ -4,7 +4,6 @@ package it.cambi.codility;
 import it.cambi.codility.model.DataKey;
 import it.cambi.codility.model.DataKeyEquals;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
@@ -23,8 +22,7 @@ class EqualsTest {
    * different integers are returned for 2 objects
    */
   @Test
-  @Order(1)
-  protected void notEquals() {
+  public void notEquals() {
     Map<DataKey, Integer> hm = getAllData();
 
     DataKey dk = new DataKey();
@@ -54,8 +52,7 @@ class EqualsTest {
    * so equals will fail objects have different classes
    */
   @Test
-  @Order(2)
-  protected void notEquals1() {
+  public void notEquals1() {
     Map<DataKey, Integer> hm = getAllData1();
 
     DataKey dk =
@@ -133,8 +130,7 @@ class EqualsTest {
    * java.lang.Object#hashCode()}} should be the same integers for 2 objects
    */
   @Test
-  @Order(3)
-  protected void equals() {
+  public void equals() {
     Map<DataKeyEquals, Integer> hm = getAllData2();
 
     DataKeyEquals dk = new DataKeyEquals();
