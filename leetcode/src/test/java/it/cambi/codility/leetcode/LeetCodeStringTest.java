@@ -1,7 +1,7 @@
 /** */
 package it.cambi.codility.leetcode;
 
-import it.cambi.codility.coreJava.StringsTest;
+import it.cambi.codility.model.Strings;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -1573,6 +1573,6 @@ public class LeetCodeStringTest {
   private boolean isPalindromeOnlyAlphaNumeric(String s) {
     s = s.replaceAll("[^a-zA-Z0-9]", "");
 
-    return StringsTest.isPalindrome(s.toLowerCase());
+    return Strings.isPalindrome(s.toLowerCase());
   }
 }
