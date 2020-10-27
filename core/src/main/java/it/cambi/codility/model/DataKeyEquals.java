@@ -1,7 +1,7 @@
 /**
  *
  */
-package it.cambi.codility.coreJava;
+package it.cambi.codility.model;
 
 import lombok.Data;
 

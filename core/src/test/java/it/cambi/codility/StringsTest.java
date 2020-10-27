@@ -1,5 +1,5 @@
 /** */
-package it.cambi.codility.coreJava;
+package it.cambi.codility;
 
 import it.cambi.codility.model.Strings;
 import org.junit.jupiter.api.Test;

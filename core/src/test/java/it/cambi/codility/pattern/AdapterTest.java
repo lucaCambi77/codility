@@ -1,7 +1,7 @@
 /**
  *
  */
-package it.cambi.codility.pattern.test;
+package it.cambi.codility.pattern;
 
 import it.cambi.codility.pattern.Drawing;
 import it.cambi.codility.pattern.Rectangle;

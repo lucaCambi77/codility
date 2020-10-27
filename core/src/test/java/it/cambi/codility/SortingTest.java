@@ -1,7 +1,7 @@
 /**
  *
  */
-package it.cambi.codility.coreJava;
+package it.cambi.codility;
 
 import org.junit.jupiter.api.Test;
 

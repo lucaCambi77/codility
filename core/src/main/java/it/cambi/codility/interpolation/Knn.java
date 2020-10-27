@@ -1,9 +1,7 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.interpolation;
-
-import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
@@ -11,9 +9,9 @@ import java.util.*;
  * @author luca
  *
  */
-public class KnnTest {
+public class Knn {
 
-	@Test
+	//@Test
 	public void testKnn() {
 		int[][] data = new int[4][4];
 		data[0][0] = 1;
