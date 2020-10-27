@@ -8,7 +8,7 @@ import java.math.BigInteger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /** @author luca */
-public class RecursionTest {
+class RecursionTest {
 
   @Test
   public void factorial() {

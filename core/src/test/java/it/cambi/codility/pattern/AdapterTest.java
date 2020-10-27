@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
  * @author luca
  *
  */
-public class AdapterTest {
+class AdapterTest {
 
     @Test
     public void shapeAdapterTest() {

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CodeByteMathTest {
+class CodeByteMathTest {
 
   @Test
   public void firstFactorial() {

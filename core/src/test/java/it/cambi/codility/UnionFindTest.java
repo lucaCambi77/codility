@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /** @author luca */
 @TestMethodOrder(OrderAnnotation.class)
-public class UnionFindTest {
+class UnionFindTest {
 
   @Test
   @Order(1)

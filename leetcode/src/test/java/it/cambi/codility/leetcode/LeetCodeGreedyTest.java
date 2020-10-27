@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.leetcode;
 
@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author luca
  *
  */
-public class LeetCodeGreedyTest
+class LeetCodeGreedyTest
 {
 
     @Test

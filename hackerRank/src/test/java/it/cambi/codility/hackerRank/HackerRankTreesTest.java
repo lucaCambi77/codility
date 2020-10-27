@@ -16,7 +16,7 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 
 /** @author luca */
-public class HackerRankTreesTest {
+class HackerRankTreesTest {
   private PrintStream out;
 
   @BeforeEach

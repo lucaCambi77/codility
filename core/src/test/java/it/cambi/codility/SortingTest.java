@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
  * @author luca
  *
  */
-public class SortingTest {
+class SortingTest {
 
 	@Test
 	public void selectionsort() {

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /** @author luca */
-public class LeetCodeMathTest {
+class LeetCodeMathTest {
   long k;
 
   @Test

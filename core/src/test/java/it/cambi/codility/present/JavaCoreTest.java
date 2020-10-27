@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.present;
 
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
 //@ExtendWith(SystemOutRule.class)
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(OrderAnnotation.class)
-public class JavaCoreTest {
+class JavaCoreTest {
 
 	private PrintStream out;
 

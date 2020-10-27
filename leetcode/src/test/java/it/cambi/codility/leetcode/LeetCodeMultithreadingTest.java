@@ -21,7 +21,7 @@ import static org.mockito.Mockito.times;
  * @author luca
  *
  */
-public class LeetCodeMultithreadingTest
+class LeetCodeMultithreadingTest
 {
     private CountDownLatch countDownLatch = new CountDownLatch(2);
     private CountDownLatch countDownLatch1 = new CountDownLatch(1);

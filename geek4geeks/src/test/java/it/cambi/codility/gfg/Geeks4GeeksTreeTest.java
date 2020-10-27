@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *         Integer.parseInt(br.readLine().trim()); //Inputting the testcases while(t > 0) { }
  *
  */
-public class Geeks4GeeksTreeTest
+class Geeks4GeeksTreeTest
 {
 
     @Test

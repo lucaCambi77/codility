@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class InterviewBitArrayTest {
 
-  public class Interval {
+  class Interval {
     int start;
     int end;
 

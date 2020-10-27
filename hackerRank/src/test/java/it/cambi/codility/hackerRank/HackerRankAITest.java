@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.cambi.codility.hackerRank;
 
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author luca
  *
  */
-public class HackerRankAITest extends AbstractTest
+class HackerRankAITest extends AbstractTest
 {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();

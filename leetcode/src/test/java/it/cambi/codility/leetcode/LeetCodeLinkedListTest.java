@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author luca
  *
  */
-public class LeetCodeLinkedListTest {
+class LeetCodeLinkedListTest {
 
     class ListNode {
 

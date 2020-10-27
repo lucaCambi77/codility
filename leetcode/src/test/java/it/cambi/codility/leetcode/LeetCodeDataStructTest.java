@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class LeetCodeDataStructTest {
+class LeetCodeDataStructTest {
 
     @Test
     public void recentCalls() {

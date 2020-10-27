@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /** @author luca */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class HackerRankArraysTest extends AbstractTest {
+class HackerRankArraysTest extends AbstractTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;

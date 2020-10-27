@@ -11,7 +11,7 @@ import java.util.Arrays;
  * @author luca
  *
  */
-public class Geek4GeeksDynamicTest {
+class Geek4GeeksDynamicTest {
 
 
 	@Test

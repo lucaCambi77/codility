@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LeetCodeArray1Test {
+class LeetCodeArray1Test {
 
   class SubrectangleQueries {
     private int[][] matrix;

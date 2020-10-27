@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class LeetCodeHashMapTest {
+class LeetCodeHashMapTest {
 
   @Test
   public void numSplits() {

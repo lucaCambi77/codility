@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
 
 /** @author luca */
 @ExtendWith(MockitoExtension.class)
-public class HackerRankLinkedListTest {
+class HackerRankLinkedListTest {
   private PrintStream out;
 
   @BeforeEach

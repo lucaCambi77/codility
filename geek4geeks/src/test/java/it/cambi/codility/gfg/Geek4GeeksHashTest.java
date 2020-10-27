@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author luca
  *
  */
-public class Geek4GeeksHashTest
+class Geek4GeeksHashTest
 {
 
     @Test

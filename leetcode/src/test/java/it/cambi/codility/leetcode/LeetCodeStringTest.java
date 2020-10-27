@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /** @author luca */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class LeetCodeStringTest {
+class LeetCodeStringTest {
 
   /** Letter to primitive map */
   @SuppressWarnings("serial")

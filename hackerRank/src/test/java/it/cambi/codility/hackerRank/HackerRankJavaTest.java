@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author luca
  *
  */
-public class HackerRankJavaTest extends AbstractTest
+class HackerRankJavaTest extends AbstractTest
 {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();

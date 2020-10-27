@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
  * @author luca
  *
  */
-public class Geeks4GeeksGraphTest
+class Geeks4GeeksGraphTest
 {
 
     @Test

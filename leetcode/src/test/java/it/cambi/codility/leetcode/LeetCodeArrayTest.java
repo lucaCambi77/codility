@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /** @author luca */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class LeetCodeArrayTest {
+class LeetCodeArrayTest {
 
     private ObjectMapper mapper = new ObjectMapper();
 

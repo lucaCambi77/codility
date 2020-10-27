@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /** @author luca */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class LeetCodeTreeTest {
+class LeetCodeTreeTest {
 
   class NodeNAry {
     public int val;

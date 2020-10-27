@@ -9,7 +9,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class CodilityTest {
+class CodilityTest {
 
   @Test
   public void perMissElement() {
@@ -271,7 +271,6 @@ public class CodilityTest {
     assertEquals(1, tapeEquilibrium(new int[] {3, 1, 2, 4, 3}));
   }
 
-  @Test
   private int tapeEquilibrium(int[] A) {
 
     int sum = 0;
