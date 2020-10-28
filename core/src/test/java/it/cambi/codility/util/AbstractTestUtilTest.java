@@ -29,7 +29,7 @@ public class AbstractTestUtilTest {
     ReflectionTestUtils.setField(abstractTestUtil, "os", "mac");
     assertEquals("\n", abstractTestUtil.getCarriageReturn());
   }
-
+ 
   @Test
   void should_match_carriage_by_os_windows() {
     ReflectionTestUtils.setField(abstractTestUtil, "os", "windows");
