@@ -18,10 +18,9 @@ public class Knn {
     int y;
   }
 
-  // find a spiral around zero points
-  public void impute(int[][] data) {
-    int nosRows = data[0].length;
-    int nosCols = data.length;
+  public void impute(int[][] data, int k) {
+    int nosRows = data.length;
+    int nosCols = data[0].length;
 
     Set<Point> rowsWithZero = new HashSet<>();
 
@@ -38,44 +37,21 @@ public class Knn {
 
       int x = point.getX();
       int y = point.getY();
+      int xStart = Math.max(x - k, 0);
+      int vStart = Math.max(y - k, 0);
+      int rows = x - k + (2 * k) + 1;
+      int columns = y - k + (2 * k) + 1;
+
       int sum = 0;
-
-      int k = 1;
       int count = 0;
-      if (y + k < nosCols) {
-        sum += data[x][y + k];
-        count++;
-      }
-      if (y - k >= 0) {
-        sum += data[x][y - k];
-        count++;
-      }
-      if (x + k < nosRows) {
-        sum += data[x + k][y];
-        count++;
-      }
-      if (x - k >= 0) {
-        sum += data[x - k][y];
-        count++;
-      }
-      if (y - k >= 0 && x - k >= 0) {
-        sum += data[x - k][y - k];
-        count++;
-      }
-      if (x - k >= 0 && y + k < nosCols) {
-        sum += data[x - k][y + k];
-        count++;
-      }
-      if (y + k < nosCols && x + k < nosRows) {
-        sum += data[x + k][y + k];
-        count++;
-      }
-      if (x + k < nosRows && y - k >= 0) {
-        sum += data[x + k][y - k];
-        count++;
+      for (int i = xStart; i < (Math.min(rows, nosRows)); i++) {
+        for (int j = vStart; j < (Math.min(columns, nosCols)); j++) {
+          sum += data[i][j];
+          count++;
+        }
       }
 
-      data[x][y] = sum / count;
+      if (count > 1) data[x][y] = sum / (count - 1);
     }
   }
 }
