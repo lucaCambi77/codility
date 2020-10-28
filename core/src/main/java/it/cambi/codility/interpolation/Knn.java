@@ -18,7 +18,7 @@ public class Knn {
     int y;
   }
 
-  public void impute(int[][] data, int k) {
+  public void replaceZeroWithKnnData(int[][] data, int k) {
     int nosRows = data.length;
     int nosCols = data[0].length;
 
