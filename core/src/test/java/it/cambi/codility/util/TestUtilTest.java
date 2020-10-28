@@ -10,9 +10,9 @@ import org.springframework.test.util.ReflectionTestUtils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-public class AbstractTestUtilTest {
+public class TestUtilTest {
 
-  @InjectMocks private TestUtil abstractTestUtil;
+  @InjectMocks private TestUtil testUtil;
 
   @BeforeAll
   static void setUp() {
@@ -21,18 +21,18 @@ public class AbstractTestUtilTest {
 
   @Test
   void should_match_carriage_return_by_system_property() {
-    assertEquals("\r\n", abstractTestUtil.getCarriageReturn());
+    assertEquals("\r\n", testUtil.getCarriageReturn());
   }
 
   @Test
   void should_match_carriage_by_os_not_windows() {
-    ReflectionTestUtils.setField(abstractTestUtil, "os", "mac");
-    assertEquals("\n", abstractTestUtil.getCarriageReturn());
+    ReflectionTestUtils.setField(testUtil, "os", "mac");
+    assertEquals("\n", testUtil.getCarriageReturn());
   }
- 
+
   @Test
   void should_match_carriage_by_os_windows() {
-    ReflectionTestUtils.setField(abstractTestUtil, "os", "windows");
-    assertEquals("\r\n", abstractTestUtil.getCarriageReturn());
+    ReflectionTestUtils.setField(testUtil, "os", "windows");
+    assertEquals("\r\n", testUtil.getCarriageReturn());
   }
 }
