@@ -39,3 +39,5 @@ src/test/java/it/cambi/codility/company/
 .gradle
 **/build/
 bin/
+
+**/.DS_Store
