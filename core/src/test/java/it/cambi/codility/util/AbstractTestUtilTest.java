@@ -21,12 +21,17 @@ public class AbstractTestUtilTest {
 
   @Test
   void should_match_carriage_return_by_system_property() {
+    assertEquals("\r\n", abstractTestUtil.getCarriageReturn());
+  }
+
+  @Test
+  void should_match_carriage_by_os_not_windows() {
     ReflectionTestUtils.setField(abstractTestUtil, "os", "mac");
     assertEquals("\n", abstractTestUtil.getCarriageReturn());
   }
 
   @Test
-  void should_match_carriage_by_os() {
+  void should_match_carriage_by_os_windows() {
     ReflectionTestUtils.setField(abstractTestUtil, "os", "windows");
     assertEquals("\r\n", abstractTestUtil.getCarriageReturn());
   }
