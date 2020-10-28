@@ -1,6 +1,6 @@
 package it.cambi.codility.hackerRank;
 
-import it.cambi.codility.util.AbstractTest;
+import it.cambi.codility.util.TestUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class HackerRank10DaysStatTest extends AbstractTest {
+class HackerRank10DaysStatTest extends TestUtil {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();

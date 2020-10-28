@@ -3,7 +3,7 @@
  */
 package it.cambi.codility.hackerRank;
 
-import it.cambi.codility.util.AbstractTest;
+import it.cambi.codility.util.TestUtil;
 import org.junit.jupiter.api.*;
 
 import java.io.*;
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /** @author luca */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-class HackerRankArraysTest extends AbstractTest {
+class HackerRankArraysTest extends TestUtil {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
