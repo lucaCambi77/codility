@@ -49,6 +49,7 @@ configure(subprojects) {
 
         testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.10.0'
         testImplementation 'javax.xml.bind:jaxb-api:2.3.0'
+        testImplementation 'org.springframework:spring-test:5.1.2.RELEASE'
     }
 
     test {
