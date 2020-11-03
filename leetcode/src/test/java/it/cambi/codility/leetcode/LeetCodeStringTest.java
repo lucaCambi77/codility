@@ -23,8 +23,8 @@ class LeetCodeStringTest {
 
   /** Letter to primitive map */
   @SuppressWarnings("serial")
-  private static Map<Character, Integer> alphabetMap =
-      new HashMap<Character, Integer>() {
+  private static final Map<Character, Integer> alphabetMap =
+      new HashMap<>() {
         {
           put('a', 2);
           put('b', 3);
@@ -56,6 +56,32 @@ class LeetCodeStringTest {
       };
 
   @Test
+  public void frequencySort() {
+
+    assertEquals("eert", frequencySort("tree"));
+    assertEquals("aaaccc", frequencySort("cccaaa"));
+    assertEquals("bbAa", frequencySort("Aabb"));
+  }
+
+  public String frequencySort(String s) {
+
+    Map<Character, Integer> map = new HashMap<>();
+
+    for (char c : s.toCharArray()) map.put(c, map.getOrDefault(c, 0) + 1);
+
+    StringBuilder sb = new StringBuilder();
+    map.entrySet().stream()
+        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+        .forEach(
+            w ->
+                sb.append(
+                    String.join(
+                        "", Collections.nCopies(w.getValue(), Character.toString(w.getKey())))));
+
+    return sb.toString();
+  }
+
+  @Test
   public void isLongPressedName() {
     assertTrue(isLongPressedName("alex", "aaleex"));
     assertFalse(isLongPressedName("saeed", "ssaaedd"));
@@ -74,8 +100,7 @@ class LeetCodeStringTest {
       if (name.charAt(pointA) == typed.charAt(pointB)) {
         pointA++;
         pointB++;
-        continue;
-      } else if (name.charAt(pointA - 1 < 0 ? 0 : pointA - 1) == typed.charAt(pointB)) {
+      } else if (name.charAt(Math.max(pointA - 1, 0)) == typed.charAt(pointB)) {
         pointB++;
       } else return false;
     }
@@ -210,7 +235,7 @@ class LeetCodeStringTest {
 
   private String mostCommonWord(String paragraph, String[] banned) {
 
-    Set<String> words = Arrays.asList(banned).stream().collect(Collectors.toSet());
+    Set<String> words = new HashSet<>(Arrays.asList(banned));
 
     String[] cleanPar = paragraph.replaceAll("[;//.//://'//,//!//?]", " ").split("\\s+");
 
@@ -383,7 +408,7 @@ class LeetCodeStringTest {
       if (c == '(' && !isOuterMost) {
         stack.add(S.charAt(i));
         isOuterMost = true;
-      } else if (c == '(' && isOuterMost) {
+      } else if (c == '(') {
 
       }
     }
@@ -402,7 +427,7 @@ class LeetCodeStringTest {
   }
 
   private int compress(char[] chars) {
-    if (null == chars || (null != chars && chars.length == 0)) return 0;
+    if (null == chars || chars.length == 0) return 0;
 
     int length = chars.length;
 
@@ -429,12 +454,6 @@ class LeetCodeStringTest {
     return length;
   }
 
-  /**
-   * @param chars
-   * @param position
-   * @param count
-   * @return
-   */
   private int swapByCount(char[] chars, int position, int count, int i, int length) {
     if (count > 1) {
       String s = Integer.toString(count);
@@ -591,9 +610,9 @@ class LeetCodeStringTest {
   }
 
   private List<List<String>> groupAnagrams2(String[] strs) {
-    if (strs.length == 0) return new ArrayList<List<String>>();
+    if (strs.length == 0) return new ArrayList<>();
 
-    Map<String, List<String>> ans = new HashMap<String, List<String>>();
+    Map<String, List<String>> ans = new HashMap<>();
     int[] count = new int[26];
 
     for (String s : strs) {
@@ -616,7 +635,7 @@ class LeetCodeStringTest {
 
   private List<List<String>> groupAnagrams1(String[] strs) {
 
-    HashMap<OrderedChars, List<String>> map = new HashMap<OrderedChars, List<String>>();
+    HashMap<OrderedChars, List<String>> map = new HashMap<>();
 
     for (String str : strs) {
       char[] chars = str.toCharArray();
@@ -630,13 +649,13 @@ class LeetCodeStringTest {
       map.put(chars1, anagrams);
     }
 
-    return new ArrayList<List<String>>(map.values());
+    return new ArrayList<>(map.values());
   }
 
   private List<List<String>> groupAnagrams(String[] strs) {
-    if (strs.length == 0) return new ArrayList<List<String>>();
+    if (strs.length == 0) return new ArrayList<>();
 
-    Map<String, List<String>> ans = new HashMap<String, List<String>>();
+    Map<String, List<String>> ans = new HashMap<>();
     for (String s : strs) {
       char[] ca = s.toCharArray();
       Arrays.sort(ca);
@@ -646,7 +665,7 @@ class LeetCodeStringTest {
 
       ans.get(key).add(s);
     }
-    return new ArrayList<List<String>>(ans.values());
+    return new ArrayList<>(ans.values());
   }
 
   class OrderedChars {
@@ -693,8 +712,7 @@ class LeetCodeStringTest {
         .forEach(
             c -> {
               valueHolder.getAndAccumulate(
-                  BigInteger.valueOf(alphabetMap.get((char) c)),
-                  (previous, x) -> previous.multiply(x));
+                  BigInteger.valueOf(alphabetMap.get((char) c)), BigInteger::multiply);
             });
 
     AtomicReference<BigInteger> valueHolder1 = new AtomicReference<>();
@@ -704,8 +722,7 @@ class LeetCodeStringTest {
         .forEach(
             c -> {
               valueHolder1.getAndAccumulate(
-                  BigInteger.valueOf(alphabetMap.get((char) c)),
-                  (previous, x) -> previous.multiply(x));
+                  BigInteger.valueOf(alphabetMap.get((char) c)), BigInteger::multiply);
             });
 
     return valueHolder.get().compareTo(valueHolder1.get()) == 0;
@@ -723,8 +740,7 @@ class LeetCodeStringTest {
 
   @Test
   public void findWords() {
-    assertEquals(
-        true,
+    assertTrue(
         Arrays.equals(
             new String[] {"Alaska", "Dad"},
             findWords(new String[] {"Hello", "Alaska", "Dad", "Peace"})));
@@ -734,24 +750,22 @@ class LeetCodeStringTest {
     String[] patterns = new String[] {"[asdfghjkl]", "[qwertyuiop]", "[zxcvbnm]"};
     ArrayList<String> out = new ArrayList<String>();
 
-    for (int i = 0; i < words.length; i++) {
+    for (String word : words) {
 
-      for (int j = 0; j < patterns.length; j++) {
+      for (String s : patterns) {
 
-        Pattern pattern = Pattern.compile(patterns[j], Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile(s, Pattern.CASE_INSENSITIVE);
 
         int count = 0;
 
-        Matcher m = pattern.matcher(words[i]);
+        Matcher m = pattern.matcher(word);
 
         while (m.find()) count++;
 
-        if (count == 0) continue;
-        else if (count == words[i].length()) {
-
-          out.add(words[i]);
+        if (count != 0) {
+          if (count == word.length()) out.add(word);
           break;
-        } else break;
+        }
       }
     }
 
@@ -764,11 +778,11 @@ class LeetCodeStringTest {
   }
 
   public List<String> fizzBuzz(int n) {
-    List<String> ans = new LinkedList<String>();
+    List<String> ans = new LinkedList<>();
 
     @SuppressWarnings("serial")
     HashMap<Integer, String> fizzBizzDict =
-        new HashMap<Integer, String>() {
+        new HashMap<>() {
           {
             put(3, "Fizz");
             put(5, "Buzz");
@@ -777,16 +791,16 @@ class LeetCodeStringTest {
 
     for (int num = 1; num <= n; num++) {
 
-      String numAnsStr = "";
+      StringBuilder numAnsStr = new StringBuilder();
 
       for (Integer key : fizzBizzDict.keySet()) {
 
-        if (num % key == 0) numAnsStr += fizzBizzDict.get(key);
+        if (num % key == 0) numAnsStr.append(fizzBizzDict.get(key));
       }
 
-      if (numAnsStr.isEmpty()) numAnsStr += Integer.toString(num);
+      if (numAnsStr.length() == 0) numAnsStr.append(Integer.toString(num));
 
-      ans.add(numAnsStr);
+      ans.add(numAnsStr.toString());
     }
 
     return ans;
@@ -858,7 +872,7 @@ class LeetCodeStringTest {
   }
 
   private boolean canConstruct(String ransomNote, String magazine) {
-    Map<Character, Integer> map = new HashMap<Character, Integer>();
+    Map<Character, Integer> map = new HashMap<>();
 
     for (int i = 0; i < magazine.length(); i++) {
       map.put(magazine.charAt(i), map.getOrDefault(magazine.charAt(i), 0) + 1);
@@ -920,7 +934,7 @@ class LeetCodeStringTest {
           "-.--", "--.."
         };
 
-    Set<String> seen = new HashSet<String>();
+    Set<String> seen = new HashSet<>();
 
     for (String word : words) {
       StringBuilder sb = new StringBuilder();
@@ -1104,7 +1118,7 @@ class LeetCodeStringTest {
       }
     }
 
-    return visited.size() > 0 ? s.indexOf(visited.iterator().next().charValue()) : -1;
+    return visited.size() > 0 ? s.indexOf(visited.iterator().next()) : -1;
   }
 
   @Test
@@ -1198,11 +1212,11 @@ class LeetCodeStringTest {
   public void reverseString() {
     char[] array = new char[] {'h', 'e', 'l', 'l', 'o'};
     reverseString(array);
-    assertEquals(true, Arrays.equals(new char[] {'o', 'l', 'l', 'e', 'h'}, array));
+    assertTrue(Arrays.equals(new char[] {'o', 'l', 'l', 'e', 'h'}, array));
 
     array = new char[] {'H', 'a', 'n', 'n', 'a', 'h'};
     reverseString(array);
-    assertEquals(true, Arrays.equals(new char[] {'h', 'a', 'n', 'n', 'a', 'H'}, array));
+    assertTrue(Arrays.equals(new char[] {'h', 'a', 'n', 'n', 'a', 'H'}, array));
 
     array =
         new char[] {
@@ -1210,8 +1224,7 @@ class LeetCodeStringTest {
           'a', 'n', 'a', 'l', ':', ' ', 'P', 'a', 'n', 'a', 'm', 'a'
         };
     reverseString(array);
-    assertEquals(
-        true,
+    assertTrue(
         Arrays.equals(
             new char[] {
               'a', 'm', 'a', 'n', 'a', 'P', ' ', ':', 'l', 'a', 'n', 'a', 'c', ' ', 'a', ' ', ',',
@@ -1245,7 +1258,7 @@ class LeetCodeStringTest {
 
     int length = s.length();
 
-    Stack<Character> stack = new Stack<Character>();
+    Stack<Character> stack = new Stack<>();
 
     for (int i = 0; i < length; i++) {
       char ch = builder.charAt(i);
@@ -1307,7 +1320,7 @@ class LeetCodeStringTest {
 
       if (s.startsWith(match)) continue;
 
-      while (!s.startsWith(word) && word.length() > 0) word = word.substring(0, word.length() - 1);
+      while (!s.startsWith(word)) word = word.substring(0, word.length() - 1);
 
       if (word.isEmpty()) return "";
 
@@ -1453,7 +1466,7 @@ class LeetCodeStringTest {
     for (int[] characters : strings) {
       for (int i = 0; i <= columns; i++) {
 
-        if (0 != characters[i]) out.append(Character.toString((char) characters[i]));
+        if (0 != characters[i]) out.append((char) characters[i]);
       }
     }
 
@@ -1466,7 +1479,7 @@ class LeetCodeStringTest {
   }
 
   private int repeatedStringMatch(String A, String B) {
-    String aCopy = new String(A);
+    String aCopy = A;
     StringBuilder builder = new StringBuilder(A);
     int count = 1;
 
