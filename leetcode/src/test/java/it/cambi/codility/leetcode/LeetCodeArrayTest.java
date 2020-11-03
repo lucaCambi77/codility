@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class LeetCodeArrayTest {
 
     private ObjectMapper mapper = new ObjectMapper();
-
+    private Array array = new Array();
     long k;
 
     private int[] nums;
@@ -1040,7 +1040,7 @@ class LeetCodeArrayTest {
         arr = IntStream.of(arr).distinct().sorted().toArray();
 
         for (int i = 0; i < length; i++) {
-            int position = Array.binarySearch(arr, 0, arr.length, copy[i]);
+            int position = array.binarySearch(arr, 0, arr.length, copy[i]);
             solution[i] = position + 1;
         }
 
@@ -1688,7 +1688,7 @@ class LeetCodeArrayTest {
 
             int diff = nums[i] + k;
 
-            if (Array.binarySearch(nums, i + 1, nums.length, diff) >= 0) count++;
+            if (array.binarySearch(nums, i + 1, nums.length, diff) >= 0) count++;
 
             while (i + 1 < nums.length && nums[i] == nums[i + 1]) i++;
         }
@@ -3332,7 +3332,7 @@ class LeetCodeArrayTest {
 
             int fit = target - num;
 
-            int search = Array.binarySearch(nums, i + 1, length, fit);
+            int search = array.binarySearch(nums, i + 1, length, fit);
 
             if (search >= 0) return new int[]{i + 1, search + 1};
         }

@@ -24,7 +24,6 @@ import static org.mockito.Mockito.*;
  * @author luca
  *
  */
-//@ExtendWith(SystemOutRule.class)
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(OrderAnnotation.class)
 class JavaCoreTest {
@@ -32,7 +31,7 @@ class JavaCoreTest {
 	private PrintStream out;
 
 	@Spy
-	Square quadrato = new Square();
+	Square square = new Square();
 
 	@BeforeEach
 	public void setUpStreams() {
@@ -57,11 +56,11 @@ class JavaCoreTest {
 	@Order(2)
 	public void testForma() {
 
-		quadrato.disegna(0, 0);
+		square.disegna(0, 0);
 		verify(out).print("Disegna un quadrato");
 
-		verify(quadrato, times(0)).print();
-		verify(quadrato, times(1)).print(0, 0);
+		verify(square, times(0)).print();
+		verify(square).print(0, 0);
 
 	}
 
@@ -102,15 +101,14 @@ class JavaCoreTest {
 	@Test
 	@Order(3)
 	public void testStringEquals() {
-		String a = new String("Test");
-		String b = new String("test");
+		String a = "Test";
+		String b = "test";
 		if (a == b)
 			System.out.print("Uguale");
 		else
 			System.out.print("Diverso");
 
 		verify(out).print("Diverso");
-
 	}
 
 	public class A {

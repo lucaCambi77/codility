@@ -15,7 +15,7 @@ public class Array {
       else return mid; // key found
     }
 
-    return -(low + 1); // key not found.
+    return -1; // key not found.
   }
 
   public int binarySearchWithRecursion(int[] sortedArray, int key, int low, int high) {
@@ -57,7 +57,7 @@ public class Array {
    * @param begin
    * @param end
    */
-  public void quickSort(int arr[], int begin, int end) {
+  public void quickSort(int[] arr, int begin, int end) {
     if (begin < end) {
       int partitionIndex = partition(arr, begin, end);
 
@@ -66,7 +66,7 @@ public class Array {
     }
   }
 
-  private int partition(int arr[], int begin, int end) {
+  private int partition(int[] arr, int begin, int end) {
     int pivot = arr[end];
     int i = (begin - 1);
 

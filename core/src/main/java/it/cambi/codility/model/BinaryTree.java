@@ -1,4 +1,3 @@
-/** */
 package it.cambi.codility.model;
 
 /** @author luca */
@@ -10,38 +9,29 @@ public class BinaryTree {
     root = new Node(key);
   }
 
-  /*
-   * Given a binary tree. Print its nodes in level order using array for implementing queue
-   */
   int size() {
     return size(root);
   }
 
-  /* computes number of nodes in tree */
   int size(Node node) {
     if (node == null) return 0;
     else return (size(node.getLeft()) + 1 + size(node.getRight()));
   }
 
-  // This method mainly calls insertRec()
   void insert(int key) {
     root = insertRec(root, key);
   }
 
-  /* A recursive function to insert a new key in BST */
   Node insertRec(Node root, int key) {
 
-    /* If the tree is empty, return a new node */
     if (root == null) {
       root = new Node(key);
       return root;
     }
 
-    /* Otherwise, recur down the tree */
     if (key < root.getData()) root.setLeft(insertRec(root.getLeft(), key));
     else if (key > root.getData()) root.setRight(insertRec(root.getRight(), key));
 
-    /* return the (unchanged) node pointer */
     return root;
   }
 
