@@ -15,16 +15,12 @@ public class Eidosmedia {
 
   private Integer arrayPacking(List<Integer> integers) {
 
-    Stack<String> stack = new Stack<>();
+    Deque<String> arrayDeque = new ArrayDeque<>();
 
     for (Integer integer : integers)
-      stack.add(String.format("%8s", Integer.toBinaryString(integer)).replace(' ', '0'));
+      arrayDeque.addFirst(String.format("%8s", Integer.toBinaryString(integer)).replace(' ', '0'));
 
-    StringBuilder sb = new StringBuilder();
-
-    while (!stack.isEmpty()) sb.append(stack.pop());
-
-    return Integer.parseInt(sb.toString(), 2);
+    return Integer.parseInt(String.join("", arrayDeque), 2);
   }
 
   @Test
