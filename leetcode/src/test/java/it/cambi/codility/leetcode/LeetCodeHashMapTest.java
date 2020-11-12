@@ -14,6 +14,53 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class LeetCodeHashMapTest {
 
   @Test
+  public void findDuplicate() {
+
+    assertEquals(
+        Collections.emptyList(),
+        findDuplicate(
+            new String[] {
+              "root/a 1.txt(abcd) 2.txt(efsfgh)", "root/c 3.txt(abdfcd)", "root/c/d 4.txt(efggdfh)"
+            }));
+    assertEquals(
+        Arrays.asList(
+            Arrays.asList("root/a/1.txt", "root/c/3.txt"),
+            Arrays.asList("root/a/2.txt", "root/c/d/4.txt", "root/4.txt")),
+        findDuplicate(
+            new String[] {
+              "root/a 1.txt(abcd) 2.txt(efgh)",
+              "root/c 3.txt(abcd)",
+              "root/c/d 4.txt(efgh)",
+              "root 4.txt(efgh)"
+            }));
+  }
+
+  public List<List<String>> findDuplicate(String[] paths) {
+
+    Map<String, List<String>> contentToFile = new HashMap<>();
+
+    Arrays.stream(paths)
+        .forEach(
+            p -> {
+              String[] content = p.split("\\s", 2);
+
+              String[] files = content[1].split("\\s");
+
+              Arrays.stream(files)
+                  .forEach(
+                      f -> {
+                        String[] fileToContent = f.split("\\(");
+                        List<String> list =
+                            contentToFile.getOrDefault(fileToContent[1], new ArrayList<>());
+                        list.add(content[0] + "/" + fileToContent[0]);
+                        contentToFile.put(fileToContent[1], list);
+                      });
+            });
+
+    return contentToFile.values().stream().filter(v -> v.size() > 1).collect(Collectors.toList());
+  }
+
+  @Test
   public void numSplits() {
     assertEquals(2, numSplits("aacaba"));
     assertEquals(1, numSplits("abcd"));
