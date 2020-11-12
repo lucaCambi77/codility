@@ -119,11 +119,11 @@ public class Eidosmedia {
 
     String expression = signals.replaceAll("\\?", "[.-]").replaceAll("\\.", "\\\\.");
 
-    ArrayList<String> arrayList = new ArrayList<>();
+    ArrayList<String> solution = new ArrayList<>();
 
     for (Map.Entry<String, String> s : morse.entrySet())
-      if (s.getKey().matches(expression)) arrayList.add(s.getValue());
+      if (s.getKey().matches(expression)) solution.add(s.getValue());
 
-    return arrayList;
+    return solution;
   }
 }
