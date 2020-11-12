@@ -3,6 +3,7 @@ package it.cambi.codility.qualified;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -15,12 +16,13 @@ public class Eidosmedia {
 
   private Integer arrayPacking(List<Integer> integers) {
 
-    StringBuilder sb = new StringBuilder();
-    for (int i = integers.size() - 1; i >= 0; i--) {
-      sb.append(String.format("%8s", Integer.toBinaryString(integers.get(i))).replace(' ', '0'));
-    }
+    Collections.reverse(integers);
 
-    return Integer.parseInt(sb.toString(), 2);
+    return Integer.parseInt(
+        integers.stream()
+            .map(i -> String.format("%8s", Integer.toBinaryString(i)).replace(' ', '0'))
+            .collect(Collectors.joining()),
+        2);
   }
 
   @Test
@@ -111,7 +113,7 @@ public class Eidosmedia {
     morse.put("-.--", "Y");
     morse.put("--..", "X");
 
-    if (!signals.contains("?")) return Arrays.asList(morse.get(signals));
+    if (!signals.contains("?")) return Collections.singletonList(morse.get(signals));
 
     if (signals.contains("?") && signals.length() == 1) return Arrays.asList("E", "T");
 
