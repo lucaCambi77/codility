@@ -21,7 +21,7 @@ class Geeks4GeeksArrayTest {
   public void reverseArrayInGroup(String array, int k, int n) {
     int[] arr = new int[n];
 
-    String[] inputLine = array.split(" ");
+    String[] inputLine = array.split("\\s");
     for (int i = 0; i < n; i++) {
       arr[i] = Integer.parseInt(inputLine[i]);
     }
@@ -35,7 +35,7 @@ class Geeks4GeeksArrayTest {
     System.out.println(sb);
   }
 
-  static void reverse(int arr[], int n, int k) {
+  static void reverse(int[] arr, int n, int k) {
     for (int i = 0; i < n; i += k) {
       int left = i;
 
@@ -65,13 +65,13 @@ class Geeks4GeeksArrayTest {
 
   private String leaderInArray(String array, int n) {
     int[] arr = new int[n];
-    String[] inputLine = array.split(" ");
+    String[] inputLine = array.split("\\s");
     for (int i = 0; i < n; i++) {
       arr[i] = Integer.parseInt(inputLine[i]);
     }
     int maxEle = arr[n - 1];
-    StringBuffer str = new StringBuffer(); // or StringBuilder
-    ArrayList<Integer> res = new ArrayList<Integer>();
+    StringBuilder str = new StringBuilder();
+    ArrayList<Integer> res = new ArrayList<>();
     for (int i = n - 1; i >= 0; i--) {
       if (arr[i] >= maxEle) {
         maxEle = arr[i];
@@ -81,7 +81,6 @@ class Geeks4GeeksArrayTest {
     for (int i = res.size() - 1; i >= 0; i--) {
       str.append(res.get(i)).append(" ");
     }
-    System.out.println(str);
 
     return str.toString();
   }
@@ -89,15 +88,7 @@ class Geeks4GeeksArrayTest {
   @SuppressWarnings("serial")
   @Test
   public void find3Numbers() {
-    assertEquals(
-        new ArrayList<Integer>() {
-          {
-            add(0, 1);
-            add(1, 2);
-            add(2, 3);
-          }
-        },
-        find3Numbers(new int[] {1, 2, 1, 1, 3}, 5));
+    assertEquals(Arrays.asList(1, 2, 3), find3Numbers(new int[] {1, 2, 1, 1, 3}, 5));
     assertEquals(new ArrayList<Integer>(), find3Numbers(new int[] {1, 1, 3}, 3));
     assertEquals(new ArrayList<Integer>(), find3Numbers(new int[] {5, 6, 1}, 3));
   }
@@ -201,10 +192,8 @@ class Geeks4GeeksArrayTest {
 
   @Test
   public void checkTwoArraysEquals() {
-    assertEquals(
-        true, checkTwoArraysEquals(Arrays.asList(1, 2, 4, 5, 0), Arrays.asList(0, 5, 4, 2, 1)));
-    assertEquals(
-        false, checkTwoArraysEquals(Arrays.asList(1, 4, 5, 0), Arrays.asList(0, 5, 4, 2, 1)));
+    assertTrue(checkTwoArraysEquals(Arrays.asList(1, 2, 4, 5, 0), Arrays.asList(0, 5, 4, 2, 1)));
+    assertFalse(checkTwoArraysEquals(Arrays.asList(1, 4, 5, 0), Arrays.asList(0, 5, 4, 2, 1)));
   }
 
   private boolean checkTwoArraysEquals(List<Integer> list, List<Integer> list1) {
