@@ -4,14 +4,11 @@ package it.cambi.codility.gfg;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 /** @author luca */
 class Geeks4GeeksArrayTest {
@@ -24,7 +21,7 @@ class Geeks4GeeksArrayTest {
   public void reverseArrayInGroup(String array, int k, int n) {
     int[] arr = new int[n];
 
-    String inputLine[] = array.split(" ");
+    String[] inputLine = array.split(" ");
     for (int i = 0; i < n; i++) {
       arr[i] = Integer.parseInt(inputLine[i]);
     }
@@ -33,7 +30,7 @@ class Geeks4GeeksArrayTest {
 
     StringBuffer sb = new StringBuffer();
     for (int i = 0; i < n; i++) {
-      sb.append(arr[i] + " ");
+      sb.append(arr[i]).append(" ");
     }
     System.out.println(sb);
   }
@@ -67,8 +64,8 @@ class Geeks4GeeksArrayTest {
   }
 
   private String leaderInArray(String array, int n) {
-    int arr[] = new int[n];
-    String inputLine[] = array.split(" ");
+    int[] arr = new int[n];
+    String[] inputLine = array.split(" ");
     for (int i = 0; i < n; i++) {
       arr[i] = Integer.parseInt(inputLine[i]);
     }
@@ -82,7 +79,7 @@ class Geeks4GeeksArrayTest {
       }
     }
     for (int i = res.size() - 1; i >= 0; i--) {
-      str.append(res.get(i) + " ");
+      str.append(res.get(i)).append(" ");
     }
     System.out.println(str);
 
@@ -106,7 +103,7 @@ class Geeks4GeeksArrayTest {
   }
 
   private ArrayList<Integer> find3Numbers(int[] a, int n) {
-    ArrayList<Integer> list = new ArrayList<Integer>();
+    ArrayList<Integer> list = new ArrayList<>();
 
     int index = 0, first = 0, count = 0;
     int search = a[0];
@@ -121,7 +118,7 @@ class Geeks4GeeksArrayTest {
         search = a[indexOpt];
         list.add(++count, search);
       } else {
-        list = new ArrayList<Integer>();
+        list = new ArrayList<>();
         index = ++first;
         first = index;
         search = a[index];
@@ -131,7 +128,7 @@ class Geeks4GeeksArrayTest {
     }
 
     if (count == 2) return list;
-    else return new ArrayList<Integer>();
+    else return new ArrayList<>();
   }
 
   private Integer getIndex(int[] a, int index, int search) {
@@ -150,19 +147,19 @@ class Geeks4GeeksArrayTest {
   }
 
   private String segregateEvenOdd(int n, String[] input) {
-    List<Integer> setOdd = new ArrayList<Integer>();
-    List<Integer> setEven = new ArrayList<Integer>();
+    List<Integer> setOdd = new ArrayList<>();
+    List<Integer> setEven = new ArrayList<>();
 
     while (--n > -1) {
-      int value = Integer.valueOf(input[n]);
+      int value = Integer.parseInt(input[n]);
 
       if ((value & 1) == 0) setEven.add(value);
       else setOdd.add(value);
     }
 
-    return setEven.stream().sorted().map(e -> String.valueOf(e)).collect(Collectors.joining(" "))
+    return setEven.stream().sorted().map(String::valueOf).collect(Collectors.joining(" "))
         + " "
-        + setOdd.stream().sorted().map(e -> String.valueOf(e)).collect(Collectors.joining(" "));
+        + setOdd.stream().sorted().map(String::valueOf).collect(Collectors.joining(" "));
   }
 
   @Test
@@ -205,15 +202,9 @@ class Geeks4GeeksArrayTest {
   @Test
   public void checkTwoArraysEquals() {
     assertEquals(
-        true,
-        checkTwoArraysEquals(
-            Arrays.asList(new Integer[] {1, 2, 4, 5, 0}),
-            Arrays.asList(new Integer[] {0, 5, 4, 2, 1})));
+        true, checkTwoArraysEquals(Arrays.asList(1, 2, 4, 5, 0), Arrays.asList(0, 5, 4, 2, 1)));
     assertEquals(
-        false,
-        checkTwoArraysEquals(
-            Arrays.asList(new Integer[] {1, 4, 5, 0}),
-            Arrays.asList(new Integer[] {0, 5, 4, 2, 1})));
+        false, checkTwoArraysEquals(Arrays.asList(1, 4, 5, 0), Arrays.asList(0, 5, 4, 2, 1)));
   }
 
   private boolean checkTwoArraysEquals(List<Integer> list, List<Integer> list1) {
@@ -231,20 +222,16 @@ class Geeks4GeeksArrayTest {
     assertEquals("-1", repeatChar("card"));
   }
 
-  private String repeatChar(String s) {
-    Supplier<IntStream> stringChar = () -> s.chars();
-    char[] chars = s.toCharArray();
-    int length = chars.length;
+  private String repeatChar(String str) {
+    char[] count = new char[256];
 
-    AtomicInteger count = new AtomicInteger(0);
+    int i;
 
-    for (int i = 0; i < length; i++) {
-      char c = chars[count.getAndIncrement()];
-      Long charCount = stringChar.get().filter(ch -> ch == c).count();
-      if (charCount > 1) return Character.toString(c);
-    }
+    for (i = 0; i < str.length(); i++) count[Character.toLowerCase(str.charAt(i))]++;
 
-    return "-1";
+    for (i = 0; i < str.length(); i++) if (count[Character.toLowerCase(str.charAt(i))] > 1) break;
+
+    return i == str.length() ? "-1" : String.valueOf(str.charAt(i));
   }
 
   @Test
@@ -253,20 +240,21 @@ class Geeks4GeeksArrayTest {
     assertEquals("eeeefggkkorss", sort("geeksforgeeks"));
   }
 
-  private String sort(String s) {
-    Supplier<IntStream> stringChar = () -> s.chars();
-    char[] alphaBet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
-    int length = alphaBet.length;
+  private String sort(String str) {
 
-    AtomicInteger count = new AtomicInteger(0);
+    char[] count = new char[256];
+
+    int i;
+
+    for (i = 0; i < str.length(); i++) count[Character.toLowerCase(str.charAt(i))]++;
 
     StringBuilder builder = new StringBuilder();
 
-    for (int i = 0; i < length; i++) {
-      char c = alphaBet[count.getAndIncrement()];
-      Long charCount = stringChar.get().filter(ch -> ch == c).count();
-      builder.append(
-          String.join("", Collections.nCopies(charCount.intValue(), Character.toString(c))));
+    for (i = 0; i < count.length; i++) {
+      int freq = count[i];
+
+      if (freq > 0)
+        builder.append(String.join("", Collections.nCopies(freq, Character.toString(i))));
     }
 
     return builder.toString();
@@ -278,7 +266,7 @@ class Geeks4GeeksArrayTest {
     assertEquals(
         21,
         multiplyLeftRightSum(
-            Arrays.stream("1 2 3 4".split(" ")).mapToInt(i -> Integer.valueOf(i)).toArray()));
+            Arrays.stream("1 2 3 4".split(" ")).mapToInt(Integer::valueOf).toArray()));
     assertEquals(44, multiplyLeftRightSum(new int[] {4, 5, 6}));
   }
 
@@ -307,7 +295,7 @@ class Geeks4GeeksArrayTest {
   }
 
   private long num(int a[], int n, int k) {
-    Long count = 0L;
+    long count = 0L;
     char match = Integer.toString(k).charAt(0);
 
     for (int j = 0; j < n; j++) {
@@ -317,7 +305,7 @@ class Geeks4GeeksArrayTest {
       count = count + s.chars().filter(ch -> ch == match).count();
     }
 
-    return count.intValue();
+    return (int) count;
   }
 
   @Test
@@ -333,35 +321,31 @@ class Geeks4GeeksArrayTest {
 
     Arrays.sort(
         split,
-        new Comparator<String>() {
-          @Override
-          public int compare(final String lhs, String rhs) {
+        (lhs, rhs) -> {
+          String[] splitLeft = lhs.split(" ");
+          String[] splitRight = rhs.split(" ");
 
-            String[] splitLeft = lhs.split(" ");
-            String[] splitRight = rhs.split(" ");
+          int a = splitLeft[1].compareTo(splitRight[1]);
+          int b = splitLeft[0].compareTo(splitRight[0]);
 
-            int a = splitLeft[1].compareTo(splitRight[1]);
-            int b = splitLeft[0].compareTo(splitRight[0]);
+          if (a == 0) return b < 0 ? -1 : 1;
 
-            if (a == 0) return b < 0 ? -1 : 1;
+          if (a > 0) return -1;
 
-            if (a > 0) return -1;
-
-            return 1;
-          }
+          return 1;
         });
 
-    return Arrays.stream(split).collect(Collectors.joining(" "));
+    return String.join(" ", split);
   }
 
   @Test
   public void checkIfFreqCanBeEqual() {
 
-    assertEquals(false, checkIfFreqCanBeEqual("xxxxyyzz"));
-    assertEquals(true, checkIfFreqCanBeEqual("xyyz"));
-    assertEquals(true, checkIfFreqCanBeEqual("ehuuroaidj"));
-    assertEquals(true, checkIfFreqCanBeEqual("cceea"));
-    assertEquals(false, checkIfFreqCanBeEqual("evjxpnqgmvfjl"));
+    assertFalse(checkIfFreqCanBeEqual("xxxxyyzz"));
+    assertTrue(checkIfFreqCanBeEqual("xyyz"));
+    assertTrue(checkIfFreqCanBeEqual("ehuuroaidj"));
+    assertTrue(checkIfFreqCanBeEqual("cceea"));
+    assertFalse(checkIfFreqCanBeEqual("evjxpnqgmvfjl"));
   }
 
   private boolean checkIfFreqCanBeEqual(String s1) {
@@ -402,11 +386,10 @@ class Geeks4GeeksArrayTest {
     TreeSet<String> set = permuteString(s, 0, s.length() - 1, new TreeSet<String>());
     StringBuilder sb = new StringBuilder();
 
-    set.stream()
-        .forEach(
-            x -> {
-              sb.append(x).append(" ");
-            });
+    set.forEach(
+        x -> {
+          sb.append(x).append(" ");
+        });
 
     assertEquals("ABC ACB BAC BCA CAB CBA", sb.toString().substring(0, sb.toString().length() - 1));
   }
@@ -438,79 +421,77 @@ class Geeks4GeeksArrayTest {
   @Test
   public void reverseWordsInAGivenString() {
 
-    String s = "i.like.this.program.very.much";
+    assertEquals(
+        "much.very.program.this.like.i",
+        reverseWordsInAGivenString("i.like.this.program.very.much"));
+  }
+
+  public String reverseWordsInAGivenString(String s) {
 
     String[] split = s.split("\\.");
 
-    StringBuilder sb = new StringBuilder();
-
-    for (int i = split.length - 1; i >= 0; i--) {
-      sb.append(split[i]).append(".");
-    }
-
-    System.out.println(sb.toString().substring(0, sb.toString().length() - 1));
+    return IntStream.range(0, split.length)
+        .mapToObj(i -> split[split.length - 1 - i])
+        .collect(Collectors.joining("."));
   }
 
   @Test
-  public void reverseaStringUsingStack() {
+  public void reverseStringUsingStack() {
+    assertEquals("ziuQskeeG", reverseStringUsingStack("GeeksQuiz"));
+  }
 
-    String str = new String("GeeksQuiz");
-    Stack<Character> stack = new Stack<Character>();
+  public String reverseStringUsingStack(String str) {
 
-    for (char c : str.toCharArray()) {
-      stack.push(c);
-    }
+    Stack<Character> stack = new Stack<>();
+
+    str.chars().forEach(c -> stack.push((char) c));
 
     StringBuilder strBuild = new StringBuilder();
 
-    int stackSize = stack.size();
+    while (!stack.isEmpty()) strBuild.append(stack.pop());
 
-    for (int i = 0; i < stackSize; i++) {
-      strBuild.append(stack.pop());
-    }
-
-    assertEquals("ziuQskeeG", strBuild.toString());
+    return strBuild.toString();
   }
 
   @Test
-  public void reverseFirstKelementsofQueue() {
+  public void reverseFirstKElementsOfQueue() {
 
-    int k = 3;
+    assertEquals(
+        Arrays.asList(2, 1, 3, 4, 5), reverseFirstKElementsOfQueue(new int[] {3, 1, 2, 4, 5}, 3));
+  }
 
-    Deque<Integer> q = new LinkedList<Integer>();
+  public Deque<Integer> reverseFirstKElementsOfQueue(int[] array, int k) {
 
-    q.add(3);
-    q.add(1);
-    q.add(2);
-    q.add(4);
-    q.add(5);
+    Deque<Integer> q = new LinkedList<>();
+    for (int i : array) q.add(i);
 
     int size = q.size();
     int[] toReverseArray = new int[size];
 
-    Deque<Integer> queueOut = new LinkedList<Integer>();
+    Deque<Integer> queueOut = new LinkedList<>();
 
-    for (int i = 0; i < size; i++) {
+    int i = 0;
+    while (!q.isEmpty()) {
 
       if (i > k - 1) {
         toReverseArray[i] = q.poll();
-        continue;
+      } else {
+        toReverseArray[k - i - 1] = q.poll();
       }
-
-      toReverseArray[k - i - 1] = q.poll();
+      i++;
     }
 
-    for (int i = 0; i < size; i++) {
+    for (i = 0; i < size; i++) {
       queueOut.add(toReverseArray[i]);
     }
 
-    System.out.println("Size of queue " + q.size());
+    return queueOut;
   }
 
   @Test
   public void stackOperations() {
 
-    Stack<Integer> stack = new Stack<Integer>();
+    Stack<Integer> stack = new Stack<>();
 
     stack.push(2);
     stack.push(4);
@@ -523,7 +504,7 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void operationsonPriorityQueue() {
+  public void operationsOnPriorityQueue() {
 
     PriorityQueue<Integer> queue = new PriorityQueue<Integer>();
 
@@ -536,7 +517,7 @@ class Geeks4GeeksArrayTest {
     queue.add(3);
     queue.add(1);
 
-    queue.contains(5);
+    assertTrue(queue.contains(5));
 
     assertEquals(1, queue.poll());
   }
@@ -544,7 +525,7 @@ class Geeks4GeeksArrayTest {
   @Test
   public void queueOperations() {
 
-    Queue<Integer> queue = new LinkedList<Integer>();
+    Queue<Integer> queue = new LinkedList<>();
 
     queue.add(1);
     queue.add(2);
@@ -561,25 +542,25 @@ class Geeks4GeeksArrayTest {
   @Test
   public void arrayListOperation() {
 
-    List<Character> clist = new ArrayList<Character>();
+    List<Character> cList = new ArrayList<>();
 
-    clist.add('g');
-    clist.add('e');
-    clist.add('e');
-    clist.add('k');
-    clist.add('s');
-    clist.add('c');
-    clist.add('p');
-    clist.add('p');
+    cList.add('g');
+    cList.add('e');
+    cList.add('e');
+    cList.add('k');
+    cList.add('s');
+    cList.add('c');
+    cList.add('p');
+    cList.add('p');
 
-    if (clist.contains('f')) System.out.println(Collections.frequency(clist, 'f'));
-    else System.out.println("Not Present");
+    assertEquals(2, Collections.frequency(cList, 'p'));
+    assertEquals(0, Collections.frequency(cList, 'f'));
   }
 
   @Test
   public void operationsOnArrayList() {
 
-    List<Integer> list = new LinkedList<Integer>();
+    List<Integer> list = new LinkedList<>();
 
     list.add(1);
     list.add(2);
@@ -622,12 +603,14 @@ class Geeks4GeeksArrayTest {
 
   @Test
   public void kthMissingElement() {
-    int arr[] = new int[] {2, 4, 10, 7};
-    int k = 5;
+    assertEquals(9, kthMissingElement(new int[] {2, 4, 10, 7}, 5));
+  }
+
+  private int kthMissingElement(int[] arr, int k) {
 
     Arrays.sort(arr);
 
-    Set<Integer> set = new LinkedHashSet<Integer>();
+    Set<Integer> set = new LinkedHashSet<>();
 
     for (int i : arr) {
       set.add(i);
@@ -659,6 +642,6 @@ class Geeks4GeeksArrayTest {
       start = next;
     }
 
-    System.out.println(thElement);
+    return thElement;
   }
 }
