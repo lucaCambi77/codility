@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,11 +17,13 @@ public class Eidosmedia {
 
   private Integer arrayPacking(List<Integer> integers) {
 
-    Collections.reverse(integers);
-
     return Integer.parseInt(
-        integers.stream()
-            .map(i -> String.format("%8s", Integer.toBinaryString(i)).replace(' ', '0'))
+        IntStream.range(0, integers.size())
+            .mapToObj(
+                i ->
+                    String.format(
+                            "%8s", Integer.toBinaryString(integers.get(integers.size() - 1 - i)))
+                        .replace(' ', '0'))
             .collect(Collectors.joining()),
         2);
   }
