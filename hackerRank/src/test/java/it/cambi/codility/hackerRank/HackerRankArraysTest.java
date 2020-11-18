@@ -44,8 +44,7 @@ class HackerRankArraysTest extends TestUtil {
 
     private String fairRotation(int[] B) {
         int sum = 0;
-        for (int B_i = 0; B_i < B.length; B_i++)
-            sum += B[B_i];
+        for (int value : B) sum += value;
 
         int count = 0;
         if (sum % 2 == 0) {
@@ -116,11 +115,11 @@ class HackerRankArraysTest extends TestUtil {
         int sum = arr.stream().reduce(0, (a, b) -> a + b);
         int partialSum = 0;
 
-        for (int i = 0; i < arr.size(); i++) {
-            if (partialSum == (sum - partialSum - arr.get(i)))
+        for (Integer integer : arr) {
+            if (partialSum == (sum - partialSum - integer))
                 return "YES";
 
-            partialSum += arr.get(i);
+            partialSum += integer;
         }
 
         return "NO";
@@ -284,7 +283,7 @@ class HackerRankArraysTest extends TestUtil {
             list.add(new LinkedList<>());
         }
 
-        List<Integer> result = new ArrayList<Integer>();
+        List<Integer> result = new ArrayList<>();
 
         int lastAnswer = 0;
 
@@ -339,19 +338,6 @@ class HackerRankArraysTest extends TestUtil {
         }
     }
 
-    @Test
-    public void cookies() {
-
-        int[] arr = new int[1000000];
-        Arrays.fill(arr, 10000);
-        assertEquals(998047, cookies(105823341, arr));
-
-        assertEquals(2, cookies(7, new int[]{1, 2, 3, 9, 10, 12}));
-        assertEquals(-1, cookies(10, new int[]{1, 1, 1}));
-        assertEquals(-1, cookies(2, new int[]{1}));
-        assertEquals(0, cookies(1, new int[]{1}));
-    }
-
     class NodeCookie {
 
         private int value;
@@ -378,35 +364,27 @@ class HackerRankArraysTest extends TestUtil {
         }
     }
 
-    private int cookies(int k, int[] A) {
+    @Test
+    public void cookies() {
 
-        PriorityQueue<NodeCookie> queue = new PriorityQueue<NodeCookie>();
+        int[] arr = new int[1000000];
+        Arrays.fill(arr, 10000);
+        assertEquals(998047, cookies(105823341, arr));
 
-        int step = 0;
-
-        int[] arr = new int[1000001];
-
-        for (int i = 0; i < A.length; i++) {
-            arr[A[i]] = ++arr[A[i]];
-        }
-
-        for (int i : arr) {
-            if (arr[i] > 0)
-                queue.add(new NodeCookie(i, arr[i]));
-        }
-
-        return step;
+        assertEquals(2, cookies(7, new int[]{1, 2, 3, 9, 10, 12}));
+        assertEquals(-1, cookies(10, new int[]{1, 1, 1}));
+        assertEquals(-1, cookies(2, new int[]{1}));
+        assertEquals(0, cookies(1, new int[]{1}));
     }
 
-    /*
-     * Not working case 20 - 22
-     */
-    private int cookies1(int k, int[] A) {
-        PriorityQueue<Integer> queue = new PriorityQueue<Integer>();
+    private int cookies(int k, int[] A) {
+        if(null == A || A.length == 0)
+            return 0;
 
-        for (int i : A) {
+        PriorityQueue<Integer> queue = new PriorityQueue<>();
+
+        for (int i : A)
             queue.add(i);
-        }
 
         int max = queue.peek();
         int steps = 0;
