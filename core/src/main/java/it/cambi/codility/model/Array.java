@@ -1,5 +1,7 @@
 package it.cambi.codility.model;
 
+import java.util.Arrays;
+
 public class Array {
 
   public int binarySearch(int[] a, int fromIndex, int toIndex, int key) {
@@ -162,5 +164,51 @@ public class Array {
     // elements
     System.arraycopy(first, iFirst, result, iMerged, first.length - iFirst);
     System.arraycopy(second, iSecond, result, iMerged, second.length - iSecond);
+  }
+
+  public void selectionSort(
+      int[] list, int lo, int hi) { // sort list[lo] to list[hi] in ascending order
+    for (int h = lo; h < hi; h++) {
+      int s = getSmallest(list, h, hi);
+      swapSelection(list, h, s);
+    }
+  }
+
+  public int getSmallest(
+      int list[], int lo, int hi) { // return location of smallest from list[lo..hi]
+    int small = lo;
+    for (int h = lo + 1; h <= hi; h++) if (list[h] < list[small]) small = h;
+    return small;
+  }
+
+  public void swapSelection(int list[], int i, int j) { // swap elements list[i] and list[j]
+    int hold = list[i];
+    list[i] = list[j];
+    list[j] = hold;
+  }
+
+  public void insertionSortLow(int list[], int lo, int hi) {
+    for (int h = lo + 1; h <= hi; h++) {
+      int k = swapElements(list, lo, h);
+      h = k + 1;
+    }
+  }
+
+  private int swapElements(int[] list, int lo, int h) {
+    int key = list[h];
+    int k = h - 1;
+    while (k >= lo && key < list[k]) {
+      list[k + 1] = list[k];
+      --k;
+    }
+    list[k + 1] = key;
+    return k;
+  }
+
+  public void insertionSortTop(int list[], int lo, int hi) {
+    for (int h = hi; h >= 0; h--) {
+      int k = swapElements(list, lo, h);
+      h = k;
+    }
   }
 }

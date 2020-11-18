@@ -17,6 +17,26 @@ class ArrayTest {
   @InjectMocks private Array array;
 
   @Test
+  public void insertionSort() {
+    int[] arr = new int[] {3, 2, 6, 1, 5};
+    array.insertionSortLow(arr, 0, 4);
+    assertArrayEquals(new int[] {1, 2, 3, 5, 6}, arr);
+
+    int[] arr1 = new int[] {2, 4, 6, 8, 3};
+    array.insertionSortTop(arr1, 0, 4);
+    assertArrayEquals(new int[] {2, 3, 4, 6, 8}, arr1);
+  }
+
+  @Test
+  public void selectionSort() {
+    int[] arr = {3, 2, 1};
+    array.selectionSort(arr, 0, 2);
+    int[] arr1 = {1, 2, 3};
+
+    assertArrayEquals(arr1, arr);
+  }
+
+  @Test
   public void sortArrayTest() {
 
     int[] array = new int[] {1, 10, 5, 6, 2, 8, 4};
