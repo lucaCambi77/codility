@@ -1,7 +1,5 @@
 package it.cambi.codility.model;
 
-import java.util.Arrays;
-
 public class Array {
 
   public int binarySearch(int[] a, int fromIndex, int toIndex, int key) {
@@ -189,26 +187,25 @@ public class Array {
 
   public void insertionSortLow(int list[], int lo, int hi) {
     for (int h = lo + 1; h <= hi; h++) {
-      int k = swapElements(list, lo, h);
-      h = k + 1;
+      swapElements(list, lo, h);
     }
   }
 
-  private int swapElements(int[] list, int lo, int h) {
+  private void swapElements(int[] list, int lo, int h) {
     int key = list[h];
     int k = h - 1;
+
     while (k >= lo && key < list[k]) {
       list[k + 1] = list[k];
       --k;
     }
+
     list[k + 1] = key;
-    return k;
   }
 
   public void insertionSortTop(int list[], int lo, int hi) {
     for (int h = hi; h >= 0; h--) {
-      int k = swapElements(list, lo, h);
-      h = k;
+      swapElements(list, lo, h);
     }
   }
 }

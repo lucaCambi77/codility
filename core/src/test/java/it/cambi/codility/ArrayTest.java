@@ -18,6 +18,7 @@ class ArrayTest {
 
   @Test
   public void insertionSort() {
+
     int[] arr = new int[] {3, 2, 6, 1, 5};
     array.insertionSortLow(arr, 0, 4);
     assertArrayEquals(new int[] {1, 2, 3, 5, 6}, arr);
@@ -25,6 +26,10 @@ class ArrayTest {
     int[] arr1 = new int[] {2, 4, 6, 8, 3};
     array.insertionSortTop(arr1, 0, 4);
     assertArrayEquals(new int[] {2, 3, 4, 6, 8}, arr1);
+
+    int[] arr2 = new int[] {1, 4, 3, 5, 6, 2};
+    array.insertionSortLow(arr2, 0, 5);
+    assertArrayEquals(new int[] {1, 2, 3, 4, 5, 6}, arr2);
   }
 
   @Test
