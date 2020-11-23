@@ -6,16 +6,18 @@ buildscript {
     }
     dependencies {
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.0"
+        classpath "pl.allegro.tech.build:axion-release-plugin:1.12.1"
     }
     gradle.startParameter.continueOnFailure = true
 }
 
 apply plugin: "org.sonarqube"
+apply plugin: 'pl.allegro.tech.build.axion-release'
 
 allprojects {
 
     group = 'it.cambi'
-    version = '0.0.1-SNAPSHOT'
+    version = scmVersion.version
 
     repositories {
         mavenLocal()
