@@ -164,16 +164,14 @@ public class Array {
     System.arraycopy(second, iSecond, result, iMerged, second.length - iSecond);
   }
 
-  public void selectionSort(
-      int[] list, int lo, int hi) { // sort list[lo] to list[hi] in ascending order
+  public void selectionSort(int[] list, int lo, int hi) {
     for (int h = lo; h < hi; h++) {
       int s = getSmallest(list, h, hi);
       swapSelection(list, h, s);
     }
   }
 
-  public int getSmallest(
-      int list[], int lo, int hi) { // return location of smallest from list[lo..hi]
+  public int getSmallest(int list[], int lo, int hi) {
     int small = lo;
     for (int h = lo + 1; h <= hi; h++) if (list[h] < list[small]) small = h;
     return small;
