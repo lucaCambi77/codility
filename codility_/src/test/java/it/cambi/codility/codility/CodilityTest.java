@@ -484,14 +484,16 @@ class CodilityTest {
    */
   @Test
   public void sorting() {
+    assertEquals(4, sorting(new int[] {3, 4, 4, 6, 1, 4, 4}));
+  }
+
+  public int sorting(int[] array) {
 
     Set<Integer> set = new HashSet<>();
 
-    int[] array = {3, 4, 4, 6, 1, 4, 4};
+    for (int value : array) set.add(value);
 
-    for (int value : array) {
-      set.add(value);
-    }
+    return set.size();
   }
 
   /**
@@ -654,19 +656,15 @@ class CodilityTest {
 
   public boolean brackets(String s) {
 
-    Stack<Character> st = new Stack<Character>();
+    Stack<Character> st = new Stack<>();
 
     for (int i = 0; i < s.length(); i++) {
       char c = s.charAt(i);
 
-      if (c == '{' || c == '[' || c == '(' || st.isEmpty()) {
-        st.push(c);
-        continue;
-      }
-
-      if (((char) st.peek() == '(' && c == ')'
-          || (char) st.peek() == '[' && c == ']'
-          || (char) st.peek() == '{' && c == '}')) {
+      if (c == '{' || c == '[' || c == '(' || st.isEmpty()) st.push(c);
+      else if ((st.peek() == '(' && c == ')'
+          || st.peek() == '[' && c == ']'
+          || st.peek() == '{' && c == '}')) {
         st.pop();
       } else {
         break;

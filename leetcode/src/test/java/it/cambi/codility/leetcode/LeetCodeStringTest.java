@@ -56,6 +56,33 @@ class LeetCodeStringTest {
       };
 
   @Test
+  public void minAddToMakeValid() {
+
+    assertEquals(1, minAddToMakeValid("())"));
+    assertEquals(3, minAddToMakeValid("((("));
+    assertEquals(4, minAddToMakeValid("()))(("));
+    assertEquals(0, minAddToMakeValid("()"));
+  }
+
+  public int minAddToMakeValid(String s) {
+
+    Stack<Character> st = new Stack<>();
+
+    for (int i = 0; i < s.length(); i++) {
+      char c = s.charAt(i);
+
+      if (c == '(' || st.isEmpty()) st.push(c);
+      else if (st.peek() == '(' && c == ')') {
+        st.pop();
+      } else {
+        st.push(c);
+      }
+    }
+
+    return st.size();
+  }
+
+  @Test
   public void frequencySort() {
 
     assertEquals("eert", frequencySort("tree"));
@@ -400,7 +427,7 @@ class LeetCodeStringTest {
   }
 
   private String removeOuterParentheses(String S) {
-    Stack<Character> stack = new Stack<Character>();
+    Stack<Character> stack = new Stack<>();
     char c = S.charAt(0);
     boolean isOuterMost = false;
 
