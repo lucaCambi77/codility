@@ -525,18 +525,6 @@ class HackerRankTest {
     @Test
     public void abbreviation() {
 
-        assertEquals("YES", abbreviation("cacahaccccaaahacCHh", "CCH"));
-
-        assertEquals("YES", abbreviation("bBccC", "BBC"));
-        assertEquals("YES", abbreviation("daBcd", "ABC"));
-        assertEquals("YES", abbreviation("daBcdCdE", "ABCE"));
-        assertEquals("NO", abbreviation("daeBCd", "ABCE"));
-
-        assertEquals("NO", abbreviation("AfPZN", "APZNC"));
-        assertEquals("NO", abbreviation("KXzQ", "K"));
-        assertEquals("YES", abbreviation("beFgH", "EFH"));
-        assertEquals("NO", abbreviation("beFgH", "EFG"));
-
         assertEquals(
                 "NO",
                 abbreviation(
@@ -619,112 +607,22 @@ class HackerRankTest {
                 abbreviation(
                         "QGBOZKPCPMvEHGOFRWOXUOBCZDADERSPXNNJPOjMNUIHFZRACZJZWMZSNHJHJUYNCHSJKFDSLFBGKVYFJdkfxesjrixmzefcgewgrnn",
                         "QGBOZKPCPMEHGOFRWOXUOBCZDADERSPXNNJPOMNUIHFZRACZJZWMZSNHJHJUYNCHSJKFDSLFBGKVYFJ"));
+
+        assertEquals("YES", abbreviation("cacahaccccaaahacCHh", "CCH"));
+
+        assertEquals("YES", abbreviation("bBccC", "BBC"));
+        assertEquals("YES", abbreviation("daBcd", "ABC"));
+        assertEquals("YES", abbreviation("daBcdCdE", "ABCE"));
+        assertEquals("NO", abbreviation("daeBCd", "ABCE"));
+
+        assertEquals("NO", abbreviation("AfPZN", "APZNC"));
+        assertEquals("NO", abbreviation("KXzQ", "K"));
+        assertEquals("YES", abbreviation("beFgH", "EFH"));
+        assertEquals("NO", abbreviation("beFgH", "EFG"));
+
     }
 
     private String abbreviation(String a, String b) {
-
-        int length = a.length();
-        int length1 = b.length();
-
-        StringBuilder builder = new StringBuilder();
-        StringBuilder builderTmp = new StringBuilder();
-        StringBuilder s = new StringBuilder();
-
-        for (int i = 0; i < length; i++) {
-            char c = a.charAt(i);
-
-            if (Character.isLowerCase(c)) {
-                builderTmp.append(c);
-            } else {
-
-                builder.append(builderTmp.toString()).append("-");
-
-                builderTmp = new StringBuilder();
-
-                s.append(c);
-            }
-        }
-
-        if (builderTmp.length() > 0) builder.append(builderTmp.toString());
-
-        builder.append("-");
-        int start = 0;
-        int index = 0;
-        int index1;
-
-        StringBuilder chunckTmp = new StringBuilder();
-
-        for (int i = 0; i < length1; i++) {
-
-            char bChar = b.charAt(i);
-
-            System.out.print(bChar);
-            if (s.length() <= length1) {
-
-                index = builder.indexOf("-", start);
-
-                if (index >= 0 && i < s.length()) {
-                    char aChar = s.charAt(i);
-                    if (aChar == bChar) {
-
-                        chunckTmp = new StringBuilder(builder.substring(start, index));
-                        start = index + 1;
-                        continue;
-
-                    } else {
-
-                        StringBuilder s1 = new StringBuilder(builder.substring(start, index));
-
-                        index1 = s1.toString().indexOf(Character.toLowerCase(bChar));
-
-                        if (index1 >= 0) {
-
-                            s.insert(i, bChar);
-                            s1.deleteCharAt(index1);
-                            start = index + 1;
-
-                        } else {
-
-                            index1 = chunckTmp.toString().indexOf(Character.toLowerCase(bChar));
-
-                            if (index1 >= 0) {
-
-                                s.insert(i, bChar);
-                                chunckTmp.deleteCharAt(index1);
-                            } else {
-                                return "NO";
-                            }
-                        }
-                    }
-                } else {
-                    System.out.print(bChar);
-
-                    while (i < length1) {
-                        index1 = chunckTmp.toString().indexOf(Character.toLowerCase(b.charAt(i)));
-
-                        if (index1 >= 0) {
-
-                            s.insert(i, bChar);
-                            chunckTmp.deleteCharAt(index1);
-                        } else {
-                            return "NO";
-                        }
-
-                        i++;
-
-                        if (chunckTmp.length() == 0) break;
-                    }
-                }
-
-            } else {
-                return s.toString().equals(b) ? "YES" : "NO";
-            }
-        }
-
-        return s.toString().equals(b) ? "YES" : "NO";
-    }
-
-    private String abbreviation1(String a, String b) {
 
         boolean[][] dp = new boolean[b.length() + 1][a.length() + 1];
         dp[0][0] = true;
@@ -821,13 +719,13 @@ class HackerRankTest {
                     case "2":
                         currentWord =
                                 new StringBuilder(
-                                        currentWord.substring(0, currentWord.length() - Integer.valueOf(split[1])));
+                                        currentWord.substring(0, currentWord.length() - Integer.parseInt(split[1])));
                         stack.push(currentWord.toString());
 
                         break;
 
                     default:
-                        int position = Integer.valueOf(split[1]) - 1;
+                        int position = Integer.parseInt(split[1]) - 1;
                         System.out.println(currentWord.charAt(position));
 
                         break;
