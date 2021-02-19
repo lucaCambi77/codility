@@ -68,7 +68,7 @@ class LeetCodeStringTest {
         String replace = command.replace("(al)", "al");
         return replace.replace("()", "o");
     }
-
+ 
     @Test
     public void minAddToMakeValid() {
 
