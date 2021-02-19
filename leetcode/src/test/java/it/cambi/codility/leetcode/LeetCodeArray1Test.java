@@ -6,6 +6,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -98,6 +99,66 @@ class LeetCodeArray1Test {
       lastPosition = next.freq;
       return currentValue;
     }
+  }
+
+  @Test
+  public void highFive() {
+    assertArrayEquals(
+        new int[][] {{1, 100}, {7, 100}},
+        highFive(
+            new int[][] {
+              {1, 100}, {7, 100}, {1, 100}, {7, 100}, {1, 100}, {7, 100}, {1, 100}, {7, 100},
+              {1, 100}, {7, 100}
+            }));
+  }
+
+  private int[][] highFive(int[][] items) {
+    Map<Integer, List<Integer>> map = new HashMap<>();
+
+    for (int[] stud : items) {
+      List<Integer> list = map.getOrDefault(stud[0], new ArrayList<>());
+      list.add(stud[1]);
+      map.put(stud[0], list);
+    }
+
+    int[][] result = new int[map.size()][];
+
+    int i = 0;
+    int sum = 0;
+    int pos = 0;
+    for (Map.Entry<Integer, List<Integer>> integerListEntry : map.entrySet()) {
+
+      List<Integer> scores =
+          integerListEntry.getValue().stream()
+              .sorted(Comparator.reverseOrder())
+              .collect(Collectors.toList());
+
+      while (i < 5) {
+        sum += scores.get(i++);
+      }
+
+      result[pos++] = new int[] {integerListEntry.getKey(), sum / 5};
+      sum = 0;
+      i = 0;
+    }
+
+    return result;
+  }
+
+  @Test
+  public void maximumWealth() {
+    assertEquals(6, maximumWealth(new int[][] {{1, 2, 3}, {3, 2, 1}}));
+    assertEquals(10, maximumWealth(new int[][] {{1, 5}, {7, 3}, {3, 5}}));
+    assertEquals(17, maximumWealth(new int[][] {{2, 8, 7}, {7, 1, 3}, {1, 9, 5}}));
+  }
+
+  private int maximumWealth(int[][] accounts) {
+    int value = 0;
+    for (int[] account : accounts) {
+      value = Math.max(value, IntStream.of(account).sum());
+    }
+
+    return value;
   }
 
   @Test
