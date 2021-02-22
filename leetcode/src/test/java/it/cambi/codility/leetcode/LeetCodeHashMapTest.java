@@ -15,6 +15,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class LeetCodeHashMapTest {
 
   @Test
+  public void sumOfUnique() {
+    assertEquals(4, sumOfUnique(new int[] {1, 2, 3, 2}));
+    assertEquals(0, sumOfUnique(new int[] {1, 1, 1}));
+    assertEquals(15, sumOfUnique(new int[] {1, 2, 3, 4, 5}));
+  }
+
+  public int sumOfUnique(int[] nums) {
+    Map<Integer, Integer> map = new HashMap<>();
+
+    for (Integer integer : nums) {
+      map.put(integer, map.getOrDefault(integer, 0) + 1);
+    }
+
+    return map.entrySet().stream()
+        .filter(e -> e.getValue() == 1)
+        .map((Map.Entry::getKey))
+        .reduce(0, Integer::sum);
+  }
+
+  @Test
   public void anagramMappings() {
     assertArrayEquals(
         new int[] {1, 4, 3, 2, 0},
