@@ -6,12 +6,34 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 class LeetCodeHashMapTest {
+
+  @Test
+  public void anagramMappings() {
+    assertArrayEquals(
+        new int[] {1, 4, 3, 2, 0},
+        anagramMappings(new int[] {12, 28, 46, 32, 50}, new int[] {50, 12, 32, 46, 28}));
+
+    assertArrayEquals(new int[] {1, 1}, anagramMappings(new int[] {40, 40}, new int[] {40, 40}));
+  }
+
+  private int[] anagramMappings(int[] A, int[] B) {
+    Map<Integer, Integer> map = new HashMap<>();
+
+    List<Integer> result = new ArrayList<>();
+
+    for (int i = 0; i < B.length; i++) map.put(B[i], i);
+
+    IntStream.of(A).forEach(v -> result.add(map.get(v)));
+
+    return result.stream().mapToInt(i -> i).toArray();
+  }
 
   @Test
   public void findDuplicate() {
