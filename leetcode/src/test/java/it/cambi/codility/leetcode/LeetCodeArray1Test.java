@@ -102,6 +102,41 @@ class LeetCodeArray1Test {
   }
 
   @Test
+  public void arraysIntersection() {
+    assertEquals(
+        Arrays.asList(1, 5),
+        arraysIntersection(
+            new int[] {1, 2, 3, 4, 5}, new int[] {1, 2, 5, 7, 9}, new int[] {1, 3, 4, 5, 8}));
+
+    assertEquals(
+        Collections.emptyList(),
+        arraysIntersection(
+            new int[] {197, 418, 523, 876, 1356},
+            new int[] {501, 880, 1593, 1710, 1870},
+            new int[] {521, 682, 1337, 1395, 1764}));
+  }
+
+  private List<Integer> arraysIntersection(int[] arr1, int[] arr2, int[] arr3) {
+
+    int length = Math.min(arr3.length, Math.min(arr1.length, arr2.length));
+
+    int i = 0;
+    int[] arr = new int[2001];
+
+    while (i < length) {
+      arr[arr1[i]] = ++arr[arr1[i]];
+      arr[arr2[i]] = ++arr[arr2[i]];
+      arr[arr3[i]] = ++arr[arr3[i]];
+      i++;
+    }
+
+    return IntStream.range(0, arr.length)
+        .filter(p -> arr[p] >= 3)
+        .boxed()
+        .collect(Collectors.toList());
+  }
+
+  @Test
   public void highFive() {
     assertArrayEquals(
         new int[][] {{1, 100}, {7, 100}},
