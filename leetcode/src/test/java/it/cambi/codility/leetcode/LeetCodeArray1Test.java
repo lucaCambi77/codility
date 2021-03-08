@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LeetCodeArray1Test {
 
-  class SubrectangleQueries {
+  static class SubrectangleQueries {
     private int[][] matrix;
 
     public SubrectangleQueries(int[][] rectangle) {
@@ -38,7 +38,7 @@ class LeetCodeArray1Test {
     }
   }
 
-  class IntObj implements Comparable<IntObj> {
+  static class IntObj implements Comparable<IntObj> {
     private int value;
     private int freq;
 
@@ -51,14 +51,11 @@ class LeetCodeArray1Test {
     public int compareTo(IntObj o) {
       int freq = o.freq;
 
-      if (freq - this.freq > 0) return 1;
-      if (freq - this.freq < 0) return -1;
-
-      return 0;
+      return Integer.compare(freq - this.freq, 0);
     }
   }
 
-  class RLEIteratorObj {
+  static class RLEIteratorObj {
     private int value;
     private long freq;
 
@@ -68,7 +65,7 @@ class LeetCodeArray1Test {
     }
   }
 
-  class RLEIterator {
+  static class RLEIterator {
 
     private Queue<RLEIteratorObj> list = new LinkedList<>();
     private long pointer, lastPosition;
@@ -99,6 +96,75 @@ class LeetCodeArray1Test {
       lastPosition = next.freq;
       return currentValue;
     }
+  }
+
+  @Test
+  public void sortString() {
+    assertEquals("abccbaabccba", sortString("aaaabbbbcccc"));
+  }
+
+  public String sortString(String s) {
+    String alphaBet = "abcdefghijklmnopqrstuvwxyz";
+
+    int totFreq = 0;
+    int[] freq = new int[256];
+
+    for (int i = 0; i < s.length(); i++) {
+      freq[s.charAt(i)] = ++freq[s.charAt(i)];
+      totFreq++;
+    }
+
+    StringBuilder sb = new StringBuilder();
+
+    while (totFreq > 0) {
+
+      for (int i = 0; i < alphaBet.length(); i++) {
+        if (freq[alphaBet.charAt(i)] > 0) {
+          freq[alphaBet.charAt(i)] = --freq[alphaBet.charAt(i)];
+          sb.append(alphaBet.charAt(i));
+          totFreq--;
+        }
+      }
+
+      for (int i = alphaBet.length() - 1; i >= 0; i--) {
+        if (freq[alphaBet.charAt(i)] > 0) {
+          freq[alphaBet.charAt(i)] = --freq[alphaBet.charAt(i)];
+          sb.append(alphaBet.charAt(i));
+          totFreq--;
+        }
+      }
+    }
+
+    return sb.toString();
+  }
+
+  @Test
+  public void sumOddLengthSubarrays() {
+    assertEquals(58, sumOddLengthSubarrays(new int[] {1, 4, 2, 5, 3}));
+    assertEquals(3, sumOddLengthSubarrays(new int[] {1, 2}));
+    assertEquals(66, sumOddLengthSubarrays(new int[] {10, 11, 12}));
+  }
+
+  private int sumOddLengthSubarrays(int[] arr) {
+
+    int sum = 0;
+
+    int iter;
+    int partSum = 0;
+    for (int i = 0; i < arr.length; i++) {
+      iter = 1;
+      sum += arr[i];
+      partSum += arr[i];
+      for (int j = i + 1; j < arr.length; j++) {
+        iter++;
+        partSum += arr[j];
+
+        if ((iter & 1) == 1) sum += partSum;
+      }
+      partSum = 0;
+    }
+
+    return sum;
   }
 
   @Test
@@ -340,11 +406,11 @@ class LeetCodeArray1Test {
   public void RLEIteratorTest() {
 
     RLEIterator rleIterator1 =
-        new RLEIterator(
-            new int[] {
-              923381016, 843, 898173122, 924, 540599925, 391, 705283400, 275, 811628709, 850,
-              895038968, 590, 949764874, 580, 450563107, 660, 996257840, 917, 793325084, 82
-            });
+            new RLEIterator(
+                    new int[]{
+                            923381016, 843, 898173122, 924, 540599925, 391, 705283400, 275, 811628709, 850,
+                            895038968, 590, 949764874, 580, 450563107, 660, 996257840, 917, 793325084, 82
+                    });
 
     assertEquals(843, rleIterator1.next(612783106));
     assertEquals(924, rleIterator1.next(486444202));
@@ -367,7 +433,7 @@ class LeetCodeArray1Test {
     assertEquals(82, rleIterator1.next(16279485));
     assertEquals(82, rleIterator1.next(203970));
 
-    RLEIterator rleIterator = new RLEIterator(new int[] {3, 8, 0, 9, 2, 5});
+    RLEIterator rleIterator = new RLEIterator(new int[]{3, 8, 0, 9, 2, 5});
 
     assertEquals(8, rleIterator.next(2));
     assertEquals(8, rleIterator.next(1));
@@ -618,12 +684,12 @@ class LeetCodeArray1Test {
     int cityB = 0;
     int N = costs.length / 2;
 
-    for (int i = 0; i < costs.length; i++) {
-      if (costs[i][0] < costs[i][1] && cityA < N || (cityB == N)) {
-        min += costs[i][0];
+    for (int[] cost : costs) {
+      if (cost[0] < cost[1] && cityA < N || (cityB == N)) {
+        min += cost[0];
         cityA++;
       } else {
-        min += costs[i][1];
+        min += cost[1];
         cityB++;
       }
     }
@@ -908,7 +974,7 @@ class LeetCodeArray1Test {
   @Test
   public void subRectangleQueries() {
     SubrectangleQueries subrectangleQueries =
-        new SubrectangleQueries(new int[][] {{1, 2, 1}, {4, 3, 4}, {3, 2, 1}, {1, 1, 1}});
+            new SubrectangleQueries(new int[][]{{1, 2, 1}, {4, 3, 4}, {3, 2, 1}, {1, 1, 1}});
 
     assertEquals(1, subrectangleQueries.getValue(0, 2));
     subrectangleQueries.updateSubrectangle(0, 0, 3, 2, 5);
