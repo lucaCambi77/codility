@@ -6,12 +6,118 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 class LeetCodeHashMapTest {
+
+  static class Logger {
+
+    private final Map<String, Integer> map;
+
+    /** Initialize your data structure here. */
+    public Logger() {
+      map = new HashMap<>();
+    }
+
+    /**
+     * Returns true if the message should be printed in the given timestamp, otherwise returns
+     * false. If this method returns false, the message will not be printed. The timestamp is in
+     * seconds granularity.
+     */
+    public boolean shouldPrintMessage(int timestamp, String message) {
+      int expiration = map.getOrDefault(message, 0);
+
+      if (expiration == 0 || timestamp >= expiration) {
+        map.put(message, timestamp + 10);
+        return true;
+      }
+
+      return false;
+    }
+  }
+
+  @Test
+  public void isStrobogrammatic() {
+    assertTrue(isStrobogrammatic("69"));
+    assertTrue(isStrobogrammatic("88"));
+    assertTrue(isStrobogrammatic("1"));
+    assertFalse(isStrobogrammatic("3"));
+    assertFalse(isStrobogrammatic("962"));
+  }
+
+  public boolean isStrobogrammatic(String num) {
+
+    HashMap<Character, Character> map = new HashMap<>();
+    map.put('6', '9');
+    map.put('9', '6');
+    map.put('8', '8');
+    map.put('0', '0');
+    map.put('1', '1');
+
+    StringBuilder stringBuilder = new StringBuilder();
+
+    for (int i = num.length() - 1; i >= 0; i--) {
+      if (map.get(num.charAt(i)) != null) stringBuilder.append(map.get(num.charAt(i)));
+      else return false;
+    }
+
+    return stringBuilder.toString().equals(num);
+  }
+
+  @Test
+  public void loggerTest() {
+    Logger logger = new Logger();
+    assertTrue(logger.shouldPrintMessage(1, "foo"));
+    assertTrue(logger.shouldPrintMessage(2, "bar"));
+    assertFalse(logger.shouldPrintMessage(3, "foo"));
+    assertFalse(logger.shouldPrintMessage(8, "bar"));
+    assertFalse(logger.shouldPrintMessage(10, "foo"));
+    assertTrue(logger.shouldPrintMessage(11, "foo"));
+  }
+
+  @Test
+  public void sumOfUnique() {
+    assertEquals(4, sumOfUnique(new int[] {1, 2, 3, 2}));
+    assertEquals(0, sumOfUnique(new int[] {1, 1, 1}));
+    assertEquals(15, sumOfUnique(new int[] {1, 2, 3, 4, 5}));
+  }
+
+  public int sumOfUnique(int[] nums) {
+    Map<Integer, Integer> map = new HashMap<>();
+
+    for (Integer integer : nums) {
+      map.put(integer, map.getOrDefault(integer, 0) + 1);
+    }
+
+    return map.entrySet().stream()
+        .filter(e -> e.getValue() == 1)
+        .map((Map.Entry::getKey))
+        .reduce(0, Integer::sum);
+  }
+
+  @Test
+  public void anagramMappings() {
+    assertArrayEquals(
+        new int[] {1, 4, 3, 2, 0},
+        anagramMappings(new int[] {12, 28, 46, 32, 50}, new int[] {50, 12, 32, 46, 28}));
+
+    assertArrayEquals(new int[] {1, 1}, anagramMappings(new int[] {40, 40}, new int[] {40, 40}));
+  }
+
+  private int[] anagramMappings(int[] A, int[] B) {
+    Map<Integer, Integer> map = new HashMap<>();
+
+    List<Integer> result = new ArrayList<>();
+
+    for (int i = 0; i < B.length; i++) map.put(B[i], i);
+
+    IntStream.of(A).forEach(v -> result.add(map.get(v)));
+
+    return result.stream().mapToInt(i -> i).toArray();
+  }
 
   @Test
   public void findDuplicate() {
@@ -92,12 +198,12 @@ class LeetCodeHashMapTest {
   @Test
   public void isIsomorphic() {
 
-    assertEquals(true, isIsomorphic("egg", "add"));
-    assertEquals(false, isIsomorphic("foo", "bar"));
-    assertEquals(true, isIsomorphic("paper", "title"));
-    assertEquals(false, isIsomorphic("ab", "aa"));
-    assertEquals(true, isIsomorphic("a", "a"));
-    assertEquals(true, isIsomorphic("ab", "ab"));
+    assertTrue(isIsomorphic("egg", "add"));
+    assertFalse(isIsomorphic("foo", "bar"));
+    assertTrue(isIsomorphic("paper", "title"));
+    assertFalse(isIsomorphic("ab", "aa"));
+    assertTrue(isIsomorphic("a", "a"));
+    assertTrue(isIsomorphic("ab", "ab"));
   }
 
   private boolean isIsomorphic(String s, String t) {
@@ -119,7 +225,7 @@ class LeetCodeHashMapTest {
   @Test
   public void groupThePeople() {
     assertEquals(
-        Arrays.asList(Arrays.asList(5), Arrays.asList(0, 1, 2), Arrays.asList(3, 4, 6)),
+        Arrays.asList(Collections.singletonList(5), Arrays.asList(0, 1, 2), Arrays.asList(3, 4, 6)),
         groupThePeople(new int[] {3, 3, 3, 3, 3, 1, 3}));
   }
 
