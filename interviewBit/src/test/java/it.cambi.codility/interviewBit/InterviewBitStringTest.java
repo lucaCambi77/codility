@@ -23,7 +23,7 @@ class InterviewBitStringTest {
   }
 
   private String intToRoman(int n) {
-    String s = "";
+    StringBuilder s = new StringBuilder();
 
     LinkedList<Integer> list = new LinkedList<>();
 
@@ -42,78 +42,79 @@ class InterviewBitStringTest {
       int y = list.get(i);
       if (y >= 1000) {
         if (y == 1000) {
-          s += "M";
+          s.append("M");
         } else if (y == 2000) {
-          s += "MM";
+          s.append("MM");
         } else if (y == 3000) {
-          s += "MMM";
+          s.append("MMM");
         }
 
       } else if (y >= 100 && y < 1000) {
         if (y == 900) {
-          s += "CM";
+          s.append("CM");
         } else if (y == 800) {
-          s += "DCCC";
+          s.append("DCCC");
         } else if (y == 700) {
-          s += "DCC";
+          s.append("DCC");
         } else if (y == 600) {
-          s += "DC";
+          s.append("DC");
         } else if (y == 500) {
-          s += "D";
+          s.append("D");
         } else if (y == 400) {
-          s += "CD";
+          s.append("CD");
         } else if (y == 300) {
-          s += "CCC";
+          s.append("CCC");
         } else if (y == 200) {
-          s += "CC";
+          s.append("CC");
         } else if (y == 100) {
-          s += "C";
+          s.append("C");
         }
       } else if (y >= 10 && y < 100) {
         if (y == 90) {
-          s += "XC";
+          s.append("XC");
         } else if (y == 80) {
-          s += "LXXX";
+          s.append("LXXX");
         } else if (y == 70) {
-          s += "LXX";
+          s.append("LXX");
         } else if (y == 60) {
-          s += "LX";
+          s.append("LX");
         } else if (y == 50) {
-          s += "L";
+          s.append("L");
         } else if (y == 40) {
-          s += "XL";
+          s.append("XL");
         } else if (y == 30) {
-          s += "XXX";
+          s.append("XXX");
         } else if (y == 20) {
-          s += "XX";
+          s.append("XX");
         } else if (y == 10) {
-          s += "X";
+          s.append("X");
         }
       } else if (y >= 1 && y < 10) {
         if (y == 9) {
-          s += "IX";
+          s.append("IX");
         } else if (y == 8) {
-          s += "VIII";
+          s.append("VIII");
         } else if (y == 7) {
-          s += "VII";
+          s.append("VII");
         } else if (y == 6) {
-          s += "VI";
+          s.append("VI");
         } else if (y == 5) {
-          s += "V";
+          s.append("V");
         } else if (y == 4) {
-          s += "IV";
+          s.append("IV");
         } else if (y == 3) {
-          s += "III";
+          s.append("III");
         } else if (y == 2) {
-          s += "II";
+          s.append("II");
         } else if (y == 1) {
-          s += "I";
+          s.append("I");
         }
       }
     }
-    return s;
+    return s.toString();
   }
 
+  @Test
   public void removeConsecutiveChars() {
     assertEquals("bcd", removeConsecutiveChars("aabcd", 2));
     assertEquals("d", removeConsecutiveChars("aabbccd", 2));
@@ -165,10 +166,10 @@ class InterviewBitStringTest {
 
       if (new BigInteger(i < version1.length ? version1[i] : "0")
               .compareTo(new BigInteger(j < version2.length ? version2[j] : "0"))
-          == -1) return -1;
+          < 0) return -1;
       else if (new BigInteger(i < version1.length ? version1[i] : "0")
               .compareTo(new BigInteger(j < version2.length ? version2[j] : "0"))
-          == 1) return 1;
+          > 0) return 1;
 
       if (i < version1.length) i++;
 
@@ -274,7 +275,7 @@ class InterviewBitStringTest {
   }
 
   public String[] fullJustify(String[] A, int B) {
-    ArrayList<String> list = new ArrayList<String>();
+    ArrayList<String> list = new ArrayList<>();
     for (int i = 0, w; i < A.length; i = w) {
       int l = -1;
       for (w = i; w < A.length && A[w].length() + 1 + l <= B; w++) l += A[w].length() + 1;
@@ -285,7 +286,7 @@ class InterviewBitStringTest {
         extra = (B - l) % (w - i - 1);
       }
       for (int j = i + 1; j < w; j++) {
-        for (int s = 0; s < spaces; s++) sb.append(' ');
+        sb.append(" ".repeat(Math.max(0, spaces)));
         if (extra-- > 0) sb.append(' ');
         sb.append(A[j]);
       }
@@ -293,6 +294,6 @@ class InterviewBitStringTest {
       while (remaining-- > 0) sb.append(' ');
       list.add(sb.toString());
     }
-    return list.stream().toArray(String[]::new);
+    return list.toArray(String[]::new);
   }
 }
