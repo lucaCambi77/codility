@@ -55,6 +55,60 @@ class LeetCodeStringTest {
       };
 
   @Test
+  public void arrayStringsAreEqual() {
+
+    assertTrue(arrayStringsAreEqual(new String[] {"ab", "c"}, new String[] {"a", "bc"}));
+    assertTrue(arrayStringsAreEqual(new String[] {"abc", "d", "defg"}, new String[] {"abcddefg"}));
+    assertFalse(arrayStringsAreEqual(new String[] {"a", "cb"}, new String[] {"ab", "c"}));
+  }
+
+  public boolean arrayStringsAreEqual(String[] word1, String[] word2) {
+
+    StringBuilder stringBuilder = new StringBuilder();
+
+    Arrays.stream(word1).forEach(stringBuilder::append);
+
+    StringBuilder stringBuilder1 = new StringBuilder();
+
+    Arrays.stream(word2).forEach(stringBuilder1::append);
+
+    return stringBuilder.toString().equals(stringBuilder1.toString());
+  }
+
+  @Test
+  public void calculateTime() {
+    assertEquals(4, calculateTime("abcdefghijklmnopqrstuvwxyz", "cba"));
+    assertEquals(73, calculateTime("pqrstuvwxyzabcdefghijklmno", "leetcode"));
+  }
+
+  public int calculateTime(String keyboard, String word) {
+
+    int pos = 0;
+    int sol = 0;
+    for (int i = 0; i < word.length(); i++) {
+
+      int i1 = keyboard.indexOf(word.charAt(i));
+      sol += Math.abs(i1 - pos);
+      pos = i1;
+    }
+    return sol;
+  }
+
+  @Test
+  public void longestNiceSubstring() {
+    assertEquals("aAa", longestNiceSubstring("YazaAay"));
+    assertEquals("Bb", longestNiceSubstring("Bb"));
+    assertEquals("", longestNiceSubstring("c"));
+    assertEquals("dD", longestNiceSubstring("dDzeE"));
+    assertEquals("cChH", longestNiceSubstring("cChH"));
+  }
+
+  public String longestNiceSubstring(String s) {
+
+    return null;
+  }
+
+  @Test
   public void removeVowels() {
     assertEquals("ltcdscmmntyfrcdrs", removeVowels("leetcodeisacommunityforcoders"));
     assertEquals("", removeVowels("aeiou"));
