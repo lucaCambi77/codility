@@ -99,6 +99,63 @@ class LeetCodeArray1Test {
   }
 
   @Test
+  public void fixedPoint() {
+    assertEquals(3, fixedPoint(new int[] {-10, -5, 0, 3, 7}, 0, 5));
+    assertEquals(0, fixedPoint(new int[] {0, 2, 5, 8, 17}, 0, 5));
+    assertEquals(-1, fixedPoint(new int[] {-10, -5, 3, 4, 7, 9}, 0, 6));
+    assertEquals(4, fixedPoint(new int[] {-10, -5, -2, 0, 4, 5, 6, 7, 8, 9, 10}, 0, 11));
+  }
+
+  public int fixedPoint(int[] a, int fromIndex, int toIndex) {
+    int low = fromIndex;
+    int high = toIndex - 1;
+
+    while (low <= high) {
+      int mid = (low + high) >>> 1;
+      int midVal = a[mid];
+
+      if (midVal < mid) low = mid + 1;
+      else if (midVal > mid || mid > 0 && a[mid - 1] == mid - 1) high = mid - 1;
+      else return mid;
+    }
+
+    return -1;
+  }
+
+  @Test
+  public void countMatches() {
+    assertEquals(
+        1,
+        countMatches(
+            Arrays.asList(
+                Arrays.asList("phone", "blue", "pixel"),
+                Arrays.asList("computer", "silver", "lenovo"),
+                Arrays.asList("phone", "gold", "iphone")),
+            "color",
+            "silver"));
+
+    assertEquals(
+        2,
+        countMatches(
+            Arrays.asList(
+                Arrays.asList("phone", "blue", "pixel"),
+                Arrays.asList("computer", "silver", "lenovo"),
+                Arrays.asList("phone", "gold", "iphone")),
+            "type",
+            "phone"));
+  }
+
+  public int countMatches(List<List<String>> items, String ruleKey, String ruleValue) {
+
+    HashMap<String, Integer> map = new HashMap<>();
+    map.put("type", 0);
+    map.put("color", 1);
+    map.put("name", 2);
+
+    return (int) items.stream().filter(i -> i.get(map.get(ruleKey)).equals(ruleValue)).count();
+  }
+
+  @Test
   public void sortString() {
     assertEquals("abccbaabccba", sortString("aaaabbbbcccc"));
   }
@@ -406,11 +463,11 @@ class LeetCodeArray1Test {
   public void RLEIteratorTest() {
 
     RLEIterator rleIterator1 =
-            new RLEIterator(
-                    new int[]{
-                            923381016, 843, 898173122, 924, 540599925, 391, 705283400, 275, 811628709, 850,
-                            895038968, 590, 949764874, 580, 450563107, 660, 996257840, 917, 793325084, 82
-                    });
+        new RLEIterator(
+            new int[] {
+              923381016, 843, 898173122, 924, 540599925, 391, 705283400, 275, 811628709, 850,
+              895038968, 590, 949764874, 580, 450563107, 660, 996257840, 917, 793325084, 82
+            });
 
     assertEquals(843, rleIterator1.next(612783106));
     assertEquals(924, rleIterator1.next(486444202));
@@ -433,7 +490,7 @@ class LeetCodeArray1Test {
     assertEquals(82, rleIterator1.next(16279485));
     assertEquals(82, rleIterator1.next(203970));
 
-    RLEIterator rleIterator = new RLEIterator(new int[]{3, 8, 0, 9, 2, 5});
+    RLEIterator rleIterator = new RLEIterator(new int[] {3, 8, 0, 9, 2, 5});
 
     assertEquals(8, rleIterator.next(2));
     assertEquals(8, rleIterator.next(1));
@@ -974,7 +1031,7 @@ class LeetCodeArray1Test {
   @Test
   public void subRectangleQueries() {
     SubrectangleQueries subrectangleQueries =
-            new SubrectangleQueries(new int[][]{{1, 2, 1}, {4, 3, 4}, {3, 2, 1}, {1, 1, 1}});
+        new SubrectangleQueries(new int[][] {{1, 2, 1}, {4, 3, 4}, {3, 2, 1}, {1, 1, 1}});
 
     assertEquals(1, subrectangleQueries.getValue(0, 2));
     subrectangleQueries.updateSubrectangle(0, 0, 3, 2, 5);
