@@ -23,6 +23,11 @@ public class HackerRank6NomadsTest {
 
   private static String api = "https://jsonmock.hackerrank.com/api/article_users";
 
+  /**
+   * Connect to api url and collect users with a submission_count greater than input threshold
+   *
+   * @throws IOException
+   */
   @Test
   public void getUsersName() throws IOException {
     assertEquals(
