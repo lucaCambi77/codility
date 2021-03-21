@@ -892,7 +892,6 @@ class LeetCodeStringTest {
   public List<String> fizzBuzz(int n) {
     List<String> ans = new LinkedList<>();
 
-    @SuppressWarnings("serial")
     HashMap<Integer, String> fizzBizzDict =
         new HashMap<>() {
           {
@@ -910,7 +909,7 @@ class LeetCodeStringTest {
         if (num % key == 0) numAnsStr.append(fizzBizzDict.get(key));
       }
 
-      if (numAnsStr.length() == 0) numAnsStr.append(Integer.toString(num));
+      if (numAnsStr.length() == 0) numAnsStr.append(num);
 
       ans.add(numAnsStr.toString());
     }
@@ -958,9 +957,7 @@ class LeetCodeStringTest {
     Pattern pattern = Pattern.compile("(.*A.*){2,}|(L){3}+");
     Matcher m = pattern.matcher(str);
 
-    if (m.find()) return false;
-
-    return true;
+    return !m.find();
   }
 
   @Test
@@ -1021,8 +1018,7 @@ class LeetCodeStringTest {
       if (Character.isUpperCase(c)) areAllLowerLetters = false;
       else areAllCapitals = false;
 
-      if (areAllCapitals || areAllLowerLetters) continue;
-      else break;
+      if (!areAllCapitals && !areAllLowerLetters) break;
     }
 
     return areAllCapitals && isFirstCapital || areAllLowerLetters;
@@ -1395,17 +1391,16 @@ class LeetCodeStringTest {
   @Test
   public void lengthOfLastWord() {
     assertEquals(5, lengthOfLastWord("Hello world"));
+    assertEquals(3, lengthOfLastWord("Hello you"));
   }
 
   private int lengthOfLastWord(String s) {
 
-    if (s == null) return 0;
-
-    if (s.trim().isEmpty()) return 0;
-
-    String[] split = s.split(" ");
-    int lenght = split.length;
-    return split[lenght - 1].length();
+    return Optional.ofNullable(s)
+        .filter(s1 -> !s1.isEmpty())
+        .map(s2 -> s2.split(" "))
+        .map(arr -> arr[arr.length - 1].length())
+        .orElse(0);
   }
 
   @Test

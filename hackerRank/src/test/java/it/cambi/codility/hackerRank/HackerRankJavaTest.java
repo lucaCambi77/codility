@@ -108,7 +108,7 @@ class HackerRankJavaTest extends TestUtil {
 
     @SuppressWarnings("serial")
     List<String> events =
-        new ArrayList<>() {
+        new ArrayList<String>() {
           {
             add("ENTER John 3.75 50");
             add("ENTER Mark 3.8 24");
@@ -160,7 +160,7 @@ class HackerRankJavaTest extends TestUtil {
 
       @SuppressWarnings("serial")
       List<Student> solution =
-          new ArrayList<>() {
+          new ArrayList<Student>() {
             {
               while (!queue.isEmpty()) add(queue.poll());
             }
@@ -666,7 +666,7 @@ class HackerRankJavaTest extends TestUtil {
   @Test
   public void javaArrayList() {
     javaArrayList(
-        new ArrayList<>() {
+        new ArrayList<List<Integer>>() {
           {
             add(Arrays.asList(5, 41, 77, 74, 22, 44));
             add(Arrays.asList(1, 12));
@@ -675,7 +675,7 @@ class HackerRankJavaTest extends TestUtil {
             add(Arrays.asList(3, 20, 22, 33));
           }
         },
-        new ArrayList<>() {
+        new ArrayList<String>() {
           {
             add("1 3");
             add("3 4");

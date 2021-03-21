@@ -3,11 +3,36 @@ package it.cambi.codility.leetcode;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /** @author luca */
 class LeetCodeMathTest {
   long k;
+
+  @Test
+  public void numberOfMatches() {
+    assertEquals(6, numberOfMatches(7));
+    assertEquals(13, numberOfMatches(14));
+  }
+
+  public int numberOfMatches(int num) {
+
+    int matches = 0;
+
+    while (num > 1) {
+
+      if ((num & 1) == 0) {
+        num -= num / 2;
+        matches += num;
+
+      } else {
+        matches += (num - 1) / 2;
+        num -= (num - 1) / 2;
+      }
+    }
+
+    return matches;
+  }
 
   @Test
   public void numberOfSteps() {
@@ -80,9 +105,9 @@ class LeetCodeMathTest {
 
   @Test
   public void isPowerOfTwo() {
-    assertEquals(true, isPowerOfTwo(1));
-    assertEquals(true, isPowerOfTwo(16));
-    assertEquals(false, isPowerOfTwo(218));
+    assertTrue(isPowerOfTwo(1));
+    assertTrue(isPowerOfTwo(16));
+    assertFalse(isPowerOfTwo(218));
   }
 
   public boolean isPowerOfTwo(int n) {
@@ -127,7 +152,7 @@ class LeetCodeMathTest {
       total += Math.min(s[i], g[i]);
     }
 
-    return String.valueOf(bulls) + "A" + String.valueOf(total - bulls) + "B";
+    return bulls + "A" + (total - bulls) + "B";
   }
 
   @Test
@@ -161,7 +186,7 @@ class LeetCodeMathTest {
     int count = 0;
     int index = numberToString.length() - 1;
     int end = numberToString.length();
-    while (numberToString.substring(index, end).indexOf("0") >= 0) {
+    while (numberToString.substring(index, end).contains("0")) {
       index--;
       end--;
       count++;
@@ -177,7 +202,7 @@ class LeetCodeMathTest {
    * @return
    */
   private int factorial1(int n) {
-    int res[] = new int[1000];
+    int[] res = new int[1000];
 
     // Initialize result
     res[0] = 1;
@@ -194,7 +219,7 @@ class LeetCodeMathTest {
     return countZeros(builder.toString());
   }
 
-  static int multiply(int x, int res[], int res_size) {
+  static int multiply(int x, int[] res, int res_size) {
     int carry = 0; // Initialize carry
 
     // One by one multiply n with individual
@@ -227,11 +252,11 @@ class LeetCodeMathTest {
   }
 
   private int climbStairs(int n) {
-    int memo[] = new int[n + 1];
+    int[] memo = new int[n + 1];
     return climbStairsRec(0, n, memo);
   }
 
-  public int climbStairsRec(int i, int n, int memo[]) {
+  public int climbStairsRec(int i, int n, int[] memo) {
     if (i > n) {
       return 0;
     }
@@ -248,14 +273,14 @@ class LeetCodeMathTest {
 
   @Test
   public void isPerfectSquare() {
-    assertEquals(true, isPerfectSquare(1));
-    assertEquals(false, isPerfectSquare(2));
-    assertEquals(true, isPerfectSquare(16));
-    assertEquals(false, isPerfectSquare(14));
-    assertEquals(false, isPerfectSquare(1000));
-    assertEquals(true, isPerfectSquare(100));
-    assertEquals(false, isPerfectSquare(10000000));
-    assertEquals(false, isPerfectSquare(2147483647));
+    assertTrue(isPerfectSquare(1));
+    assertFalse(isPerfectSquare(2));
+    assertTrue(isPerfectSquare(16));
+    assertFalse(isPerfectSquare(14));
+    assertFalse(isPerfectSquare(1000));
+    assertTrue(isPerfectSquare(100));
+    assertFalse(isPerfectSquare(10000000));
+    assertFalse(isPerfectSquare(2147483647));
   }
 
   private boolean isPerfectSquare(int num) {
@@ -293,9 +318,9 @@ class LeetCodeMathTest {
     long right = n;
 
     while (left <= right) {
-      Long middle = (left + right) / 2;
+      long middle = (left + right) / 2;
 
-      int guess = guess(middle.intValue());
+      int guess = guess((int) middle);
 
       switch (guess) {
         case 1:
@@ -307,7 +332,7 @@ class LeetCodeMathTest {
           break;
 
         default:
-          return middle.intValue();
+          return (int) middle;
       }
     }
 
@@ -355,7 +380,7 @@ class LeetCodeMathTest {
       }
     }
 
-    Double value;
+    double value;
     try {
 
       value = Double.parseDouble(str);
@@ -367,7 +392,7 @@ class LeetCodeMathTest {
 
     if (value < Integer.MIN_VALUE) return Integer.MIN_VALUE;
 
-    return value.intValue();
+    return (int) value;
   }
 
   @Test
@@ -383,7 +408,7 @@ class LeetCodeMathTest {
 
     String s = Integer.toString(x);
 
-    boolean isNegative = s.charAt(0) == '-' ? true : false;
+    boolean isNegative = s.charAt(0) == '-';
 
     StringBuilder builder = new StringBuilder();
     if (isNegative) builder.append("-");
@@ -392,7 +417,7 @@ class LeetCodeMathTest {
 
     int result = 0;
     try {
-      result = Integer.valueOf(builder.toString());
+      result = Integer.parseInt(builder.toString());
     } catch (NumberFormatException e) {
       // TODO: handle exception
     }

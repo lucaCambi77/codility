@@ -1303,7 +1303,7 @@ class HackerRankArraysTest extends TestUtil {
     assertEquals(
         Arrays.asList(0, 1, 1),
         freqQuery(
-            new ArrayList<>() {
+            new ArrayList<int[]>() {
               {
                 add(new int[] {1, 3});
                 add(new int[] {2, 3});
@@ -1321,7 +1321,7 @@ class HackerRankArraysTest extends TestUtil {
     assertEquals(
         Arrays.asList(0, 1),
         freqQuery(
-            new ArrayList<>() {
+            new ArrayList<int[]>() {
               {
                 add(new int[] {3, 4});
                 add(new int[] {2, 1003});
@@ -1349,7 +1349,7 @@ class HackerRankArraysTest extends TestUtil {
           }
         },
         freqQuery(
-            new ArrayList<>() {
+            new ArrayList<int[]>() {
               {
                 InputStream is =
                     new FileInputStream("src/test/resources/frequencies/frequencies.txt");
@@ -1601,10 +1601,10 @@ class HackerRankArraysTest extends TestUtil {
   @Test
   public void diagonalDifference() {
     List<List<Integer>> arr =
-        new ArrayList<>() {
+        new ArrayList<List<Integer>>() {
           {
             add(
-                new ArrayList<>() {
+                new ArrayList<Integer>() {
                   {
                     add(11);
                     add(2);
@@ -1613,7 +1613,7 @@ class HackerRankArraysTest extends TestUtil {
                 });
 
             add(
-                new ArrayList<>() {
+                new ArrayList<Integer>() {
                   {
                     add(4);
                     add(5);
@@ -1622,7 +1622,7 @@ class HackerRankArraysTest extends TestUtil {
                 });
 
             add(
-                new ArrayList<>() {
+                new ArrayList<Integer>() {
                   {
                     add(10);
                     add(8);
@@ -1667,14 +1667,14 @@ class HackerRankArraysTest extends TestUtil {
 
     List<Integer> list =
         compareTriplets(
-            new ArrayList<>() {
+            new ArrayList<Integer>() {
               {
                 add(17);
                 add(28);
                 add(30);
               }
             },
-            new ArrayList<>() {
+            new ArrayList<Integer>() {
               {
                 add(99);
                 add(16);
@@ -1686,14 +1686,14 @@ class HackerRankArraysTest extends TestUtil {
 
     List<Integer> list1 =
         compareTriplets(
-            new ArrayList<>() {
+            new ArrayList<Integer>() {
               {
                 add(5);
                 add(6);
                 add(7);
               }
             },
-            new ArrayList<>() {
+            new ArrayList<Integer>() {
               {
                 add(3);
                 add(6);

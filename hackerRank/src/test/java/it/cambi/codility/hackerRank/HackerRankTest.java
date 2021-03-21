@@ -1012,7 +1012,7 @@ class HackerRankTest {
     public void gradingStudent() {
 
         assertEquals(
-                new LinkedList<>() {
+                new LinkedList<Integer>() {
                     {
                         add(75);
                         add(67);
@@ -1021,7 +1021,7 @@ class HackerRankTest {
                     }
                 },
                 gradingStudents(
-                        new ArrayList<>() {
+                        new ArrayList<Integer>() {
                             {
                                 add(73);
                                 add(67);
