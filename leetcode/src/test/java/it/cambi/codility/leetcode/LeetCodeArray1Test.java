@@ -99,6 +99,31 @@ class LeetCodeArray1Test {
   }
 
   @Test
+  public void largestAltitude() {
+    assertEquals(1, largestAltitude(new int[] {-5, 1, 5, 0, -7}));
+    assertEquals(0, largestAltitude(new int[] {-4, -3, -2, -1, 4, 3, 2}));
+  }
+
+  private int largestAltitude(int[] gain) {
+
+    int[] sum = new int[gain.length + 1];
+    sum[0] = 0;
+    int sol = 0;
+
+    for (int i = 1; i < gain.length + 1; i++) {
+      sum[i] = gain[i - 1] + sum[i - 1];
+    }
+
+    for (int i = 1; i < sum.length; i++) {
+      if (i == sum.length - 1) return Math.max(sum[i], sol);
+
+      if (sum[i] > sum[i - 1] && sum[i] >= sum[i + 1]) sol = Math.max(sum[i], sol);
+    }
+
+    return sol;
+  }
+
+  @Test
   public void fixedPoint() {
     assertEquals(3, fixedPoint(new int[] {-10, -5, 0, 3, 7}, 0, 5));
     assertEquals(0, fixedPoint(new int[] {0, 2, 5, 8, 17}, 0, 5));
