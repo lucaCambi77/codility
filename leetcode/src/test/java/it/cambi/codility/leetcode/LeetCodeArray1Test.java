@@ -122,7 +122,7 @@ class LeetCodeArray1Test {
 
     return sol;
   }
-
+ 
   @Test
   public void fixedPoint() {
     assertEquals(3, fixedPoint(new int[] {-10, -5, 0, 3, 7}, 0, 5));
