@@ -55,6 +55,46 @@ class LeetCodeStringTest {
       };
 
   @Test
+  public void validWordAbbreviation() {
+    assertTrue(validWordAbbreviation("internationalization", "i12iz4n"));
+    assertTrue(validWordAbbreviation("internationalization", "i5a11o1"));
+    assertFalse(validWordAbbreviation("apple", "a2e"));
+    assertTrue(validWordAbbreviation("test", "t2t"));
+    assertFalse(validWordAbbreviation("test", "t4t"));
+    assertFalse(validWordAbbreviation("a", "01"));
+    assertFalse(validWordAbbreviation("hi", "hi1"));
+    assertFalse(validWordAbbreviation("hi", "2i"));
+    assertFalse(validWordAbbreviation("word", "w02d"));
+  }
+
+  private boolean validWordAbbreviation(String word, String abbr) {
+
+    if (abbr.length() > word.length()) return false;
+
+    int j = 0, i;
+    for (i = 0; i < word.length(); i++) {
+      if (word.charAt(i) != abbr.charAt(j)) {
+
+        if (Integer.parseInt(String.valueOf(abbr.charAt(j))) < 1) return false;
+
+        StringBuilder stringBuilder = new StringBuilder().append(abbr.charAt(j));
+
+        while (j < abbr.length() - 1 && Character.isDigit(abbr.charAt(++j)))
+          stringBuilder.append(abbr.charAt(j));
+
+        if (i + Integer.parseInt(stringBuilder.toString()) == word.length()) break;
+
+        i = i + Integer.parseInt(stringBuilder.toString());
+
+        if (i >= word.length() || word.charAt(i) != abbr.charAt(j)) return false;
+      }
+      j++;
+    }
+
+    return j <= i;
+  }
+
+  @Test
   public void arrayStringsAreEqual() {
 
     assertTrue(arrayStringsAreEqual(new String[] {"ab", "c"}, new String[] {"a", "bc"}));
@@ -62,7 +102,7 @@ class LeetCodeStringTest {
     assertFalse(arrayStringsAreEqual(new String[] {"a", "cb"}, new String[] {"ab", "c"}));
   }
 
-  public boolean arrayStringsAreEqual(String[] word1, String[] word2) {
+  private boolean arrayStringsAreEqual(String[] word1, String[] word2) {
 
     StringBuilder stringBuilder = new StringBuilder();
 
@@ -81,7 +121,7 @@ class LeetCodeStringTest {
     assertEquals(73, calculateTime("pqrstuvwxyzabcdefghijklmno", "leetcode"));
   }
 
-  public int calculateTime(String keyboard, String word) {
+  private int calculateTime(String keyboard, String word) {
 
     int pos = 0;
     int sol = 0;
@@ -103,7 +143,7 @@ class LeetCodeStringTest {
     assertEquals("cChH", longestNiceSubstring("cChH"));
   }
 
-  public String longestNiceSubstring(String s) {
+  private String longestNiceSubstring(String s) {
 
     return null;
   }
@@ -114,7 +154,7 @@ class LeetCodeStringTest {
     assertEquals("", removeVowels("aeiou"));
   }
 
-  public String removeVowels(String s) {
+  private String removeVowels(String s) {
 
     StringBuilder builder = new StringBuilder();
 
@@ -150,7 +190,7 @@ class LeetCodeStringTest {
     assertEquals(0, minAddToMakeValid("()"));
   }
 
-  public int minAddToMakeValid(String s) {
+  private int minAddToMakeValid(String s) {
 
     Stack<Character> st = new Stack<>();
 
@@ -175,7 +215,7 @@ class LeetCodeStringTest {
     assertEquals("bbAa", frequencySort("Aabb"));
   }
 
-  public String frequencySort(String s) {
+  private String frequencySort(String s) {
 
     Map<Character, Integer> map = new HashMap<>();
 
@@ -614,7 +654,7 @@ class LeetCodeStringTest {
     assertFalse(backspaceCompare("a#c", "b"));
   }
 
-  public boolean backspaceCompare(String S, String T) {
+  private boolean backspaceCompare(String S, String T) {
     Stack<Character> stack1 = getStack(S);
     Stack<Character> stack2 = getStack(T);
 
