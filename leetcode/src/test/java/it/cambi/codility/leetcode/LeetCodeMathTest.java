@@ -3,6 +3,11 @@ package it.cambi.codility.leetcode;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /** @author luca */
@@ -10,12 +15,36 @@ class LeetCodeMathTest {
   long k;
 
   @Test
+  public void countBalls() {
+    assertEquals(2, countBalls(1, 10));
+    assertEquals(2, countBalls(5, 15));
+    assertEquals(2, countBalls(19, 28));
+  }
+
+  private int countBalls(int lowLimit, int highLimit) {
+    Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+
+    while (lowLimit <= highLimit) {
+      int num = lowLimit;
+      int sum = 0;
+      while (num > 0) {
+        sum = sum + num % 10;
+        num = num / 10;
+      }
+      map.put(sum, map.getOrDefault(sum, 0) + 1);
+      lowLimit++;
+    }
+
+    return map.values().stream().max(Comparator.naturalOrder()).orElse(0);
+  }
+
+  @Test
   public void numberOfMatches() {
     assertEquals(6, numberOfMatches(7));
     assertEquals(13, numberOfMatches(14));
   }
 
-  public int numberOfMatches(int num) {
+  private int numberOfMatches(int num) {
 
     int matches = 0;
 
@@ -41,7 +70,7 @@ class LeetCodeMathTest {
     assertEquals(12, numberOfSteps(123));
   }
 
-  public int numberOfSteps(int num) {
+  private int numberOfSteps(int num) {
 
     int step = 0;
 
@@ -65,12 +94,12 @@ class LeetCodeMathTest {
     assertEquals(60070, arrangeCoins(1804289383));
   }
 
-  public int arrangeCoins(int n) {
+  private int arrangeCoins(int n) {
 
     return (int) binarySearch(n, 0);
   }
 
-  public long binarySearch(int n, int fromIndex) {
+  private long binarySearch(int n, int fromIndex) {
     long low = fromIndex;
     long high = n;
 
@@ -110,7 +139,7 @@ class LeetCodeMathTest {
     assertFalse(isPowerOfTwo(218));
   }
 
-  public boolean isPowerOfTwo(int n) {
+  private boolean isPowerOfTwo(int n) {
 
     double[] power = new double[65];
     power[0] = 1.0;
@@ -136,7 +165,7 @@ class LeetCodeMathTest {
     assertEquals("3A0B", getHint("1122", "1222"));
   }
 
-  public String getHint(String secret, String guess) {
+  private String getHint(String secret, String guess) {
 
     int len = secret.length();
     int[] s = new int[10];
