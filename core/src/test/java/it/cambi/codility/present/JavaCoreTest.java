@@ -1,6 +1,4 @@
-/**
- *
- */
+/** */
 package it.cambi.codility.present;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,255 +18,233 @@ import java.io.PrintStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-/**
- * @author luca
- *
- */
+/** @author luca */
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(OrderAnnotation.class)
 class JavaCoreTest {
 
-	private PrintStream out;
+  private PrintStream out;
 
-	@Spy
-	Square square = new Square();
+  @Spy Square square = new Square();
 
-	@BeforeEach
-	public void setUpStreams() {
-		out = mock(PrintStream.class);
-		System.setOut(out);
-	}
+  @BeforeEach
+  public void setUpStreams() {
+    out = mock(PrintStream.class);
+    System.setOut(out);
+  }
 
-	@Test
-	@Order(1)
-	public void testButton() {
-		Button p, q;
-		p = new Button("OK");
-		q = p;
-		q.setLabel("Cancel");
+  @Test
+  @Order(1)
+  public void testButton() {
+    Button p, q;
+    p = new Button("OK");
+    q = p;
+    q.setLabel("Cancel");
 
-		assertEquals("Cancel", q.getLabel());
-		assertEquals("Cancel", p.getLabel());
+    assertEquals("Cancel", q.getLabel());
+    assertEquals("Cancel", p.getLabel());
+  }
 
-	}
+  @Test
+  @Order(2)
+  public void testForma() {
 
-	@Test
-	@Order(2)
-	public void testForma() {
+    square.disegna(0, 0);
+    verify(out).print("Disegna un quadrato");
 
-		square.disegna(0, 0);
-		verify(out).print("Disegna un quadrato");
+    verify(square, times(0)).print();
+    verify(square).print(0, 0);
+  }
 
-		verify(square, times(0)).print();
-		verify(square).print(0, 0);
+  public abstract class Shape {
+    public void disegna(int anX, int anY) {
+      System.out.print("Super classe forma");
+    }
+  }
 
-	}
+  public class Square extends Shape {
+    int unX = 1;
+    int unY = 1;
 
-	public abstract class Shape {
-		public void disegna(int anX, int anY) {
-			System.out.print("Super classe forma");
-		}
-	}
+    public Square() {}
 
-	public class Square extends Shape {
-		int unX = 1;
-		int unY = 1;
+    public void disegna(int unX, int unY) {
+      print(unX, unY);
+    }
 
-		public Square() {
-		}
+    public void print(int unX, int unY) {
+      System.out.print("Disegna un quadrato");
+    }
 
-		public void disegna(int unX, int unY) {
-			print(unX, unY);
-		}
+    public void print() {
+      System.out.print("Disegna un quadrato di lato 1");
+    }
+  }
 
-		public void print(int unX, int unY) {
-			System.out.print("Disegna un quadrato");
+  public class Circle extends Shape {
+    public void disegna(int unX, int unY) {
+      System.out.print("Disegna un cerchio");
+    }
+  }
 
-		}
+  @Test
+  @Order(3)
+  public void testStringEquals() {
+    String a = "Test";
+    String b = "test";
+    if (a == b) System.out.print("Uguale");
+    else System.out.print("Diverso");
 
-		public void print() {
-			System.out.print("Disegna un quadrato di lato 1");
+    verify(out).print("Diverso");
+  }
 
-		}
-	}
+  public class A {
+    public void disegna() {
+      System.out.print("Super classe A");
+    }
+  }
 
-	public class Circle extends Shape {
-		public void disegna(int unX, int unY) {
-			System.out.print("Disegna un cerchio");
-		}
-	}
+  public class B extends Shape {
+    public void disegna() {
+      System.out.print("Classe B");
+    }
+  }
 
-	@Test
-	@Order(3)
-	public void testStringEquals() {
-		String a = "Test";
-		String b = "test";
-		if (a == b)
-			System.out.print("Uguale");
-		else
-			System.out.print("Diverso");
+  public class C extends B {
+    public void disegna() {
+      System.out.print("Classe C");
+    }
+  }
 
-		verify(out).print("Diverso");
-	}
+  @Test
+  @Order(4)
+  public void testAssignObject() {
+    A a = new A();
+    B b = new B();
+    C c = new C();
 
-	public class A {
-		public void disegna() {
-			System.out.print("Super classe A");
-		}
-	}
+    Object xa = a;
+    Object xb = b;
+    Object xc = c;
+  }
 
-	public class B extends Shape {
-		public void disegna() {
-			System.out.print("Classe B");
+  @Test
+  @Order(5)
+  public void testParseString() {
 
-		}
-	}
+    int a = -1;
+    String b = "prova";
+    try {
+      a = Integer.parseInt(b);
+    } catch (NumberFormatException e) {
+      System.out.print("Exception");
+    }
 
-	public class C extends B {
-		public void disegna() {
-			System.out.print("Classe C");
-		}
-	}
+    verify(out).print("Exception");
+    assertEquals(-1, a);
+  }
 
-	@Test
-	@Order(4)
-	public void testAssignObject() {
-		A a = new A();
-		B b = new B();
-		C c = new C();
+  /** @author luca */
+  public interface B1 {
+    public void method1();
 
-		Object xa = a;
-		Object xb = b;
-		Object xc = c;
+    public void method2();
+  }
 
-	}
+  public abstract class A1 implements B1 {
+    public void method1() {
+      System.out.print("A1 method1");
+    }
 
-	@Test
-	@Order(5)
-	public void testParseString() {
+    public abstract void method2();
+  }
 
-		int a = -1;
-		String b = "prova";
-		try {
-			a = Integer.parseInt(b);
-		} catch (NumberFormatException e) {
-			System.out.print("Exception");
-		}
+  public class C1 extends A1 {
 
-		verify(out).print("Exception");
-		assertEquals(-1, a);
-	}
+    public void method1() {
+      super.method1();
+    }
 
-	/**
-	 * @author luca
-	 *
-	 */
-	public interface B1 {
-		public void method1();
+    @Override
+    public void method2() {
+      System.out.print("C1 method2");
+    }
+  }
 
-		public void method2();
-	}
+  @Test
+  @Order(6)
+  public void testInheritance() {
+    A1 a = new C1();
+    // a.method1(); this is correct
+    a.method2();
+    verify(out).print("C1 method2");
+  }
 
-	public abstract class A1 implements B1 {
-		public void method1() {
-			System.out.print("A1 method1");
-		}
+  @Test
+  @Order(7)
+  public void testInheritance1() {
 
-		public abstract void method2();
-	}
+    B1 b = new C1();
+    // b.method1(); this is correct
+    b.method2();
 
-	public class C1 extends A1 {
+    verify(out).print("C1 method2");
+  }
 
-		public void method1() {
-			super.method1();
-		}
+  @Test
+  @Order(8)
+  public void threads() throws InterruptedException {
+    // start() not working, we need to mock it
+    Thread1 t1 = Mockito.spy(new Thread1());
+    Thread2 t2 = Mockito.spy(new Thread2());
+    t1.start();
+    t2.start();
 
-		@Override
-		public void method2() {
-			System.out.print("C1 method2");
-		}
-	}
+    t1.join();
+    t2.join();
 
-	@Test
-	@Order(6)
-	public void testInheritance() {
-		A1 a = new C1();
-		// a.method1(); this is correct
-		a.method2();
-		verify(out).print("C1 method2");
+    Mockito.verify(t1).run();
+    Mockito.verify(t2).run();
 
-	}
+    InOrder orderVerifier = Mockito.inOrder(out);
+    orderVerifier.verify(out, times(1)).print("Thread2");
+    orderVerifier.verify(out, times(1)).print("Thread1");
+  }
 
-	@Test
-	@Order(7)
-	public void testInheritance1() {
+  @Test
+  @Order(9)
+  public void modifyStringInMethod() {
+    String s = "Test";
+    modifyStringInMethod(s);
+    assertEquals("Test", s);
+  }
 
-		B1 b = new C1();
-		// b.method1(); this is correct
-		b.method2();
+  public void modifyStringInMethod(String s) {
 
-		verify(out).print("C1 method2");
-
-	}
-
-	@Test
-	@Order(8)
-	public void threads() throws InterruptedException {
-		// start() not working, we need to mock it
-		Thread1 t1 = Mockito.spy(new Thread1());
-		Thread2 t2 = Mockito.spy(new Thread2());
-		t1.start();
-		t2.start();
-
-		t1.join();
-		t2.join();
-
-		Mockito.verify(t1).run();
-		Mockito.verify(t2).run();
-
-		InOrder orderVerifier = Mockito.inOrder(out);
-		orderVerifier.verify(out, times(1)).print("Thread2");
-		orderVerifier.verify(out, times(1)).print("Thread1");
-
-	}
-
-	@Test
-	@Order(9)
-	public void modifyStringInMethod() {
-		String s = "Test";
-		modifyStringInMethod(s);
-		assertEquals("Test", s);
-
-	}
-
-	public void modifyStringInMethod(String s) {
-
-		assertEquals("Test 1", s.concat(" 1"));
-
-	}
-
+    assertEquals("Test 1", s.concat(" 1"));
+  }
 }
 
 class Thread1 extends Thread {
-	@Override
-	public void run() {
-		try {
-			Thread.sleep(2000);
-			System.out.print("Thread1");
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
+  @Override
+  public void run() {
+    try {
+      Thread.sleep(2000);
+      System.out.print("Thread1");
+    } catch (Exception e) {
+      // TODO: handle exception
+    }
+  }
 }
 
 class Thread2 extends Thread {
-	@Override
-	public void run() {
-		try {
-			Thread.sleep(500);
-			System.out.print("Thread2");
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
+  @Override
+  public void run() {
+    try {
+      Thread.sleep(500);
+      System.out.print("Thread2");
+    } catch (Exception e) {
+      // TODO: handle exception
+    }
+  }
 }

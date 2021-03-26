@@ -199,8 +199,7 @@ class CodeByteStringTest {
         }
       }
 
-      if (matchLength == 0 && builder.length() < sol.length())
-        sol = builder.toString();
+      if (matchLength == 0 && builder.length() < sol.length()) sol = builder.toString();
 
       builder = new StringBuilder();
 

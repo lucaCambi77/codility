@@ -82,13 +82,14 @@ class InterviewBitBackTrackingTest {
 
     int i = 0;
     char c = str.charAt(0);
+    StringBuilder subsetBuilder = new StringBuilder(subset);
     while (i < map.get(c).length()) {
-      String subsetTmp = subset;
-      subset = subset + map.get(c).charAt(i);
+      String subsetTmp = subsetBuilder.toString();
+      subsetBuilder.append(map.get(c).charAt(i));
 
-      findWords(str.substring(1), map, res, subset, size);
+      findWords(str.substring(1), map, res, subsetBuilder.toString(), size);
 
-      subset = subsetTmp;
+      subsetBuilder = new StringBuilder(subsetTmp);
 
       i++;
     }
@@ -161,7 +162,7 @@ class InterviewBitBackTrackingTest {
   }
 
   private String swap(String A, int i, int j) {
-    char ch[] = A.toCharArray();
+    char[] ch = A.toCharArray();
     char temp = ch[i];
     ch[i] = ch[j];
     ch[j] = temp;

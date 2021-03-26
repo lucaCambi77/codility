@@ -1,31 +1,22 @@
-package it.cambi.codility; /**
- *
- */
-
+package it.cambi.codility;
+/** */
 import it.cambi.codility.model.Trie;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * @author luca
- *
- */
-class TrieTest
-{
+/** @author luca */
+class TrieTest {
 
-    @Test
-    public void treeTest()
-    {
-        Trie trie = new Trie();
-        String keys[] = { "the", "a", "there", "answer", "any", "by", "bye", "their" };
+  @Test
+  public void treeTest() {
+    Trie trie = new Trie();
+    String keys[] = {"the", "a", "there", "answer", "any", "by", "bye", "their"};
 
-        int i;
-        for (i = 0; i < keys.length; i++)
-            trie.insert(keys[i]);
+    int i;
+    for (i = 0; i < keys.length; i++) trie.insert(keys[i]);
 
-        assertEquals(true, trie.search("their"));
-        assertEquals(false, trie.search("theirs"));
-
-    }
+    assertEquals(true, trie.search("their"));
+    assertEquals(false, trie.search("theirs"));
+  }
 }

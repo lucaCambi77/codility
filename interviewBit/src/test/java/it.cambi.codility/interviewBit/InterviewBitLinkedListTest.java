@@ -9,285 +9,279 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class InterviewBitLinkedListTest {
 
+  class ListNode {
+    public int val;
+    public ListNode next;
 
-    class ListNode {
-        public int val;
-        public ListNode next;
+    ListNode(int x) {
+      val = x;
+      next = null;
+    }
+  }
 
-        ListNode(int x) {
-            val = x;
-            next = null;
-        }
+  private ListNode listNode;
+
+  @Test
+  public void kReverseLinkedList() {
+
+    ListNode head = new ListNode(1);
+    head.next = new ListNode(2);
+    head.next.next = new ListNode(3);
+    head.next.next.next = new ListNode(4);
+    head.next.next.next.next = new ListNode(5);
+    head.next.next.next.next.next = new ListNode(6);
+
+    ListNode reversedList = kReverseLinkedList(head, 2, null);
+
+    ListNode sol = new ListNode(2);
+    sol.next = new ListNode(1);
+    sol.next.next = new ListNode(4);
+    sol.next.next.next = new ListNode(3);
+    sol.next.next.next.next = new ListNode(6);
+    sol.next.next.next.next.next = new ListNode(5);
+
+    assertEquals(true, areIdentical(sol, reversedList));
+  }
+
+  public ListNode kReverseLinkedList(ListNode listNode, int k, ListNode sol) {
+
+    if (listNode == null) return sol;
+
+    int segm = k;
+
+    Stack<Integer> stack = new Stack<>();
+
+    while (listNode != null && segm-- > 0) {
+      stack.add(listNode.val);
+      listNode = listNode.next;
     }
 
-    private ListNode listNode;
+    if (sol == null) sol = new ListNode(stack.pop());
 
-    @Test
-    public void kReverseLinkedList() {
+    ListNode tmp1 = sol;
 
-        ListNode head = new ListNode(1);
-        head.next = new ListNode(2);
-        head.next.next = new ListNode(3);
-        head.next.next.next = new ListNode(4);
-        head.next.next.next.next = new ListNode(5);
-        head.next.next.next.next.next = new ListNode(6);
-
-        ListNode reversedList = kReverseLinkedList(head, 2, null);
-
-        ListNode sol = new ListNode(2);
-        sol.next = new ListNode(1);
-        sol.next.next = new ListNode(4);
-        sol.next.next.next = new ListNode(3);
-        sol.next.next.next.next = new ListNode(6);
-        sol.next.next.next.next.next = new ListNode(5);
-
-        assertEquals(true, areIdentical(sol, reversedList));
-
+    while (tmp1.next != null) {
+      tmp1 = tmp1.next;
     }
 
-    public ListNode kReverseLinkedList(ListNode listNode, int k, ListNode sol) {
-
-        if (listNode == null)
-            return sol;
-
-        int segm = k;
-
-        Stack<Integer> stack = new Stack<>();
-
-        while (listNode != null && segm-- > 0) {
-            stack.add(listNode.val);
-            listNode = listNode.next;
-        }
-
-        if (sol == null)
-            sol = new ListNode(stack.pop());
-
-        ListNode tmp1 = sol;
-
-        while (tmp1.next != null) {
-            tmp1 = tmp1.next;
-        }
-
-        while (!stack.isEmpty()) {
-            tmp1.next = new ListNode(stack.pop());
-            tmp1 = tmp1.next;
-        }
-
-        return kReverseLinkedList(listNode, k, sol);
+    while (!stack.isEmpty()) {
+      tmp1.next = new ListNode(stack.pop());
+      tmp1 = tmp1.next;
     }
 
-    @Test
-    public void removeDuplicatesFromSortedList() {
-        ListNode head = new ListNode(1);
-        head.next = new ListNode(2);
-        head.next.next = new ListNode(2);
-        head.next.next.next = new ListNode(2);
-        head.next.next.next.next = new ListNode(3);
-        head.next.next.next.next.next = new ListNode(4);
-        head.next.next.next.next.next.next = new ListNode(4);
+    return kReverseLinkedList(listNode, k, sol);
+  }
 
-        removeDuplicatesFromSortedList(head);
+  @Test
+  public void removeDuplicatesFromSortedList() {
+    ListNode head = new ListNode(1);
+    head.next = new ListNode(2);
+    head.next.next = new ListNode(2);
+    head.next.next.next = new ListNode(2);
+    head.next.next.next.next = new ListNode(3);
+    head.next.next.next.next.next = new ListNode(4);
+    head.next.next.next.next.next.next = new ListNode(4);
 
-        ListNode sol = new ListNode(1);
-        sol.next = new ListNode(2);
-        sol.next.next = new ListNode(3);
-        sol.next.next.next = new ListNode(4);
+    removeDuplicatesFromSortedList(head);
 
-        assertEquals(true, areIdentical(sol, head));
+    ListNode sol = new ListNode(1);
+    sol.next = new ListNode(2);
+    sol.next.next = new ListNode(3);
+    sol.next.next.next = new ListNode(4);
+
+    assertEquals(true, areIdentical(sol, head));
+  }
+
+  public void removeDuplicatesFromSortedList(ListNode node) {
+
+    ListNode tmp = node;
+
+    while (tmp.next != null) {
+      if (tmp.val == tmp.next.val) tmp.next = tmp.next.next;
+      else tmp = tmp.next;
+    }
+  }
+
+  @Test
+  public void reverseList() {
+
+    ListNode headSol1 = new ListNode(1);
+    headSol1.next = new ListNode(2);
+    headSol1.next.next = new ListNode(3);
+    headSol1.next.next.next = new ListNode(4);
+    headSol1.next.next.next.next = new ListNode(5);
+
+    reverseList(headSol1);
+
+    ListNode sol = new ListNode(5);
+    sol.next = new ListNode(4);
+    sol.next.next = new ListNode(3);
+    sol.next.next.next = new ListNode(2);
+    sol.next.next.next.next = new ListNode(1);
+
+    assertEquals(true, areIdentical(listNode, sol));
+  }
+
+  public void reverseList(ListNode A) {
+
+    if (A.next == null) {
+      listNode = A;
+      return;
     }
 
-    public void removeDuplicatesFromSortedList(ListNode node) {
+    reverseList(A.next);
 
-        ListNode tmp = node;
+    ListNode tmp = listNode;
+    while (tmp.next != null) {
+      tmp = tmp.next;
+    }
+    tmp.next = new ListNode(A.val);
+  }
 
-        while (tmp.next != null) {
-            if (tmp.val == tmp.next.val)
-                tmp.next = tmp.next.next;
-            else
-                tmp = tmp.next;
-        }
+  @Test
+  public void kthNodeFromMiddle() {
+    ListNode headSol1 = new ListNode(3);
+    headSol1.next = new ListNode(4);
+    headSol1.next.next = new ListNode(7);
+    headSol1.next.next.next = new ListNode(5);
+    headSol1.next.next.next.next = new ListNode(16);
+    headSol1.next.next.next.next.next = new ListNode(15);
+    headSol1.next.next.next.next.next.next = new ListNode(61);
+    headSol1.next.next.next.next.next.next.next = new ListNode(16);
+
+    assertEquals(4, kthNodeFromMiddle(headSol1, 3));
+
+    ListNode headSol = new ListNode(1);
+    headSol.next = new ListNode(14);
+    headSol.next.next = new ListNode(6);
+    headSol.next.next.next = new ListNode(16);
+    headSol.next.next.next.next = new ListNode(4);
+    headSol.next.next.next.next.next = new ListNode(10);
+
+    assertEquals(14, kthNodeFromMiddle(headSol, 2));
+
+    ListNode headSol2 = new ListNode(1);
+    headSol2.next = new ListNode(14);
+    headSol2.next.next = new ListNode(6);
+    headSol2.next.next.next = new ListNode(16);
+    headSol2.next.next.next.next = new ListNode(4);
+    headSol2.next.next.next.next.next = new ListNode(10);
+
+    assertEquals(-1, kthNodeFromMiddle(headSol2, 10));
+
+    ListNode headSol3 = new ListNode(1);
+    headSol3.next = new ListNode(14);
+    headSol3.next.next = new ListNode(6);
+    headSol3.next.next.next = new ListNode(16);
+    headSol3.next.next.next.next = new ListNode(4);
+    headSol3.next.next.next.next.next = new ListNode(10);
+
+    assertEquals(1, kthNodeFromMiddle(headSol3, 3));
+  }
+
+  public int kthNodeFromMiddle(ListNode A, int B) {
+    int count = 0;
+
+    ListNode temp = A;
+
+    while (temp != null) {
+      count++;
+      temp = temp.next;
     }
 
-    @Test
-    public void reverseList() {
+    int middle = (count / 2) + 1;
+    int fromStart = middle - 1 - B;
 
-        ListNode headSol1 = new ListNode(1);
-        headSol1.next = new ListNode(2);
-        headSol1.next.next = new ListNode(3);
-        headSol1.next.next.next = new ListNode(4);
-        headSol1.next.next.next.next = new ListNode(5);
+    if (fromStart < 0) return -1;
 
-        reverseList(headSol1);
+    ListNode temp1 = A;
 
-        ListNode sol = new ListNode(5);
-        sol.next = new ListNode(4);
-        sol.next.next = new ListNode(3);
-        sol.next.next.next = new ListNode(2);
-        sol.next.next.next.next = new ListNode(1);
-
-        assertEquals(true, areIdentical(listNode, sol));
+    while (fromStart-- > 0) {
+      temp1 = temp1.next;
     }
 
-    public void reverseList(ListNode A) {
+    return temp1.val;
+  }
 
-        if (A.next == null) {
-            listNode = A;
-            return;
-        }
+  @Test
+  public void sortBinaryLinkedList() {
+    ListNode head = new ListNode(1);
+    head.next = new ListNode(0);
+    head.next.next = new ListNode(1);
 
-        reverseList(A.next);
+    ListNode sol = sortBinaryLinkedList(head);
 
-        ListNode tmp = listNode;
-        while (tmp.next != null) {
-            tmp = tmp.next;
-        }
-        tmp.next = new ListNode(A.val);
+    ListNode headSol = new ListNode(0);
+    headSol.next = new ListNode(1);
+    headSol.next.next = new ListNode(1);
+
+    assertTrue(areIdentical(headSol, sol));
+
+    ListNode head1 = new ListNode(0);
+    head1.next = new ListNode(1);
+    head1.next.next = new ListNode(0);
+    head1.next.next.next = new ListNode(1);
+    head1.next.next.next.next = new ListNode(0);
+
+    ListNode sol1 = sortBinaryLinkedList(head1);
+
+    ListNode headSol1 = new ListNode(0);
+    headSol1.next = new ListNode(0);
+    headSol1.next.next = new ListNode(0);
+    headSol1.next.next.next = new ListNode(1);
+    headSol1.next.next.next.next = new ListNode(1);
+
+    assertTrue(areIdentical(headSol1, sol1));
+  }
+
+  public ListNode sortBinaryLinkedList(ListNode A) {
+
+    ListNode temp = A;
+
+    int countZero = 0;
+    int countOne = 0;
+
+    while (temp != null) {
+
+      if (temp.val == 0) countZero++;
+      else countOne++;
+
+      temp = temp.next;
     }
 
-    @Test
-    public void kthNodeFromMiddle() {
-        ListNode headSol1 = new ListNode(3);
-        headSol1.next = new ListNode(4);
-        headSol1.next.next = new ListNode(7);
-        headSol1.next.next.next = new ListNode(5);
-        headSol1.next.next.next.next = new ListNode(16);
-        headSol1.next.next.next.next.next = new ListNode(15);
-        headSol1.next.next.next.next.next.next = new ListNode(61);
-        headSol1.next.next.next.next.next.next.next = new ListNode(16);
+    ListNode temp1 = A;
 
-        assertEquals(4, kthNodeFromMiddle(headSol1, 3));
+    int i = 0;
 
-        ListNode headSol = new ListNode(1);
-        headSol.next = new ListNode(14);
-        headSol.next.next = new ListNode(6);
-        headSol.next.next.next = new ListNode(16);
-        headSol.next.next.next.next = new ListNode(4);
-        headSol.next.next.next.next.next = new ListNode(10);
+    while (temp1 != null) {
 
-        assertEquals(14, kthNodeFromMiddle(headSol, 2));
+      while (temp1 != null && i < countZero) {
+        temp1.val = 0;
+        temp1 = temp1.next;
+        i++;
+      }
 
-        ListNode headSol2 = new ListNode(1);
-        headSol2.next = new ListNode(14);
-        headSol2.next.next = new ListNode(6);
-        headSol2.next.next.next = new ListNode(16);
-        headSol2.next.next.next.next = new ListNode(4);
-        headSol2.next.next.next.next.next = new ListNode(10);
+      i = 0;
 
-        assertEquals(-1, kthNodeFromMiddle(headSol2, 10));
-
-        ListNode headSol3 = new ListNode(1);
-        headSol3.next = new ListNode(14);
-        headSol3.next.next = new ListNode(6);
-        headSol3.next.next.next = new ListNode(16);
-        headSol3.next.next.next.next = new ListNode(4);
-        headSol3.next.next.next.next.next = new ListNode(10);
-
-        assertEquals(1, kthNodeFromMiddle(headSol3, 3));
+      while (temp1 != null && i <= countOne) {
+        temp1.val = 1;
+        temp1 = temp1.next;
+        i++;
+      }
     }
 
-    public int kthNodeFromMiddle(ListNode A, int B) {
-        int count = 0;
+    return A;
+  }
 
-        ListNode temp = A;
+  boolean areIdentical(ListNode listA, ListNode listB) {
+    ListNode a = listA, b = listB;
+    while (a != null && b != null) {
+      if (a.val != b.val) return false;
 
-        while (temp != null) {
-            count++;
-            temp = temp.next;
-        }
-
-        int middle = (count / 2) + 1;
-        int fromStart = middle - 1 - B;
-
-        if (fromStart < 0) return -1;
-
-        ListNode temp1 = A;
-
-        while (fromStart-- > 0) {
-            temp1 = temp1.next;
-        }
-
-        return temp1.val;
+      a = a.next;
+      b = b.next;
     }
 
-    @Test
-    public void sortBinaryLinkedList() {
-        ListNode head = new ListNode(1);
-        head.next = new ListNode(0);
-        head.next.next = new ListNode(1);
-
-        ListNode sol = sortBinaryLinkedList(head);
-
-        ListNode headSol = new ListNode(0);
-        headSol.next = new ListNode(1);
-        headSol.next.next = new ListNode(1);
-
-        assertTrue(areIdentical(headSol, sol));
-
-        ListNode head1 = new ListNode(0);
-        head1.next = new ListNode(1);
-        head1.next.next = new ListNode(0);
-        head1.next.next.next = new ListNode(1);
-        head1.next.next.next.next = new ListNode(0);
-
-        ListNode sol1 = sortBinaryLinkedList(head1);
-
-        ListNode headSol1 = new ListNode(0);
-        headSol1.next = new ListNode(0);
-        headSol1.next.next = new ListNode(0);
-        headSol1.next.next.next = new ListNode(1);
-        headSol1.next.next.next.next = new ListNode(1);
-
-        assertTrue(areIdentical(headSol1, sol1));
-    }
-
-    public ListNode sortBinaryLinkedList(ListNode A) {
-
-        ListNode temp = A;
-
-        int countZero = 0;
-        int countOne = 0;
-
-        while (temp != null) {
-
-            if (temp.val == 0) countZero++;
-            else countOne++;
-
-            temp = temp.next;
-        }
-
-        ListNode temp1 = A;
-
-        int i = 0;
-
-        while (temp1 != null) {
-
-            while (temp1 != null && i < countZero) {
-                temp1.val = 0;
-                temp1 = temp1.next;
-                i++;
-            }
-
-            i = 0;
-
-            while (temp1 != null && i <= countOne) {
-                temp1.val = 1;
-                temp1 = temp1.next;
-                i++;
-            }
-        }
-
-        return A;
-    }
-
-    boolean areIdentical(ListNode listA, ListNode listB) {
-        ListNode a = listA, b = listB;
-        while (a != null && b != null) {
-            if (a.val != b.val) return false;
-
-            a = a.next;
-            b = b.next;
-        }
-
-        return (a == null && b == null);
-    }
+    return (a == null && b == null);
+  }
 }

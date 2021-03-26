@@ -1,20 +1,13 @@
-/**
- * 
- */
+/** */
 package it.cambi.codility.pattern.adapter;
 
-/**
- * @author luca
- *
- */
+/** @author luca */
 // Part of Extra-Geometric-Shape API
-public interface GeometricShape
-{
+public interface GeometricShape {
 
-    double area();
+  double area();
 
-    double perimeter();
+  double perimeter();
 
-    void drawShape();
-
+  void drawShape();
 }

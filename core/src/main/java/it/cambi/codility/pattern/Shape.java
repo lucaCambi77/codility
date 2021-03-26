@@ -1,21 +1,14 @@
-/**
- * 
- */
+/** */
 package it.cambi.codility.pattern;
 
-/**
- * @author luca
- *
- */
-public interface Shape
-{
+/** @author luca */
+public interface Shape {
 
-    void draw();
+  void draw();
 
-    void resize();
+  void resize();
 
-    String getDescription();
+  String getDescription();
 
-    boolean isHide();
-
+  boolean isHide();
 }

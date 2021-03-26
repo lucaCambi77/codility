@@ -77,9 +77,7 @@ class HackerRankArraysTest extends TestUtil {
             Arrays.asList("1", "b"),
             Arrays.asList("1", "c")));
 
-    assertEquals(
-            "- - f e b c - a - -", outContent.toString());
-
+    assertEquals("- - f e b c - a - -", outContent.toString());
   }
 
   class Bean {

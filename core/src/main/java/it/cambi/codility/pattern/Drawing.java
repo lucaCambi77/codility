@@ -1,49 +1,39 @@
-/**
- *
- */
+/** */
 package it.cambi.codility.pattern;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author luca
- *
- */
+/** @author luca */
 public class Drawing {
 
-    List<Shape> shapes = new ArrayList<>();
+  List<Shape> shapes = new ArrayList<>();
 
-    public Drawing() {
+  public Drawing() {
 
-        super();
+    super();
+  }
 
+  public void addShape(Shape shape) {
+
+    shapes.add(shape);
+  }
+
+  public void draw() {
+
+    if (shapes.isEmpty()) {
+      System.out.println("Nothing to draw!");
+    } else {
+      shapes.forEach(Shape::draw);
     }
+  }
 
-    public void addShape(Shape shape) {
+  public void resize() {
 
-        shapes.add(shape);
-
+    if (shapes.isEmpty()) {
+      System.out.println("Nothing to resize!");
+    } else {
+      shapes.forEach(Shape::resize);
     }
-
-    public void draw() {
-
-        if (shapes.isEmpty()) {
-            System.out.println("Nothing to draw!");
-        } else {
-            shapes.forEach(Shape::draw);
-        }
-    }
-
-    public void resize() {
-
-        if (shapes.isEmpty()) {
-            System.out.println("Nothing to resize!");
-        } else {
-            shapes.forEach(Shape::resize);
-
-        }
-
-    }
-
+  }
 }

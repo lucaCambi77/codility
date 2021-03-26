@@ -1,45 +1,30 @@
-/**
- * 
- */
+/** */
 package it.cambi.codility.pattern;
 
-/**
- * @author luca
- *
- */
-public class Rectangle implements Shape
-{
+/** @author luca */
+public class Rectangle implements Shape {
 
-    @Override
-    public void draw()
-    {
+  @Override
+  public void draw() {
 
-        System.out.println("Drawing Rectangle");
+    System.out.println("Drawing Rectangle");
+  }
 
-    }
+  @Override
+  public void resize() {
 
-    @Override
-    public void resize()
-    {
+    System.out.println("Resizing Rectangle");
+  }
 
-        System.out.println("Resizing Rectangle");
+  @Override
+  public String getDescription() {
 
-    }
+    return "Rectangle object";
+  }
 
-    @Override
-    public String getDescription()
-    {
+  @Override
+  public boolean isHide() {
 
-        return "Rectangle object";
-
-    }
-
-    @Override
-    public boolean isHide()
-    {
-
-        return false;
-
-    }
-
+    return false;
+  }
 }

@@ -1,14 +1,14 @@
-/**
- * 
- */
+/** */
 package it.cambi.codility.pattern.decorator;
 
-/**
- * @author luca
- *
- */
+/** @author luca */
 public enum Color {
-
-	RED, GREEN, BLUE, YELLOW, WHITE, BLACK, ORANGE, MAROON
-
+  RED,
+  GREEN,
+  BLUE,
+  YELLOW,
+  WHITE,
+  BLACK,
+  ORANGE,
+  MAROON
 }

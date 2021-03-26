@@ -3,7 +3,6 @@ package it.cambi.codility.leetcode;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
