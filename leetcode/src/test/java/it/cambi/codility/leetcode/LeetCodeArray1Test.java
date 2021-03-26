@@ -99,6 +99,63 @@ class LeetCodeArray1Test {
   }
 
   @Test
+  public void check() {
+    assertTrue(check(new int[] {3, 4, 5, 1, 2}));
+    assertFalse(check(new int[] {2, 1, 3, 4}));
+    assertTrue(check(new int[] {1, 2, 3}));
+    assertTrue(check(new int[] {1, 1, 1}));
+    assertTrue(check(new int[] {2, 1}));
+    assertTrue(check(new int[] {5, 5, 6, 6, 6, 9, 1, 2}));
+  }
+
+  private boolean check(int[] nums) {
+    int[] clone = nums.clone();
+    int i = 0;
+
+    while (i < clone.length - 1 && clone[i] <= clone[i + 1]) i++;
+
+    int x = i + 1;
+
+    Arrays.sort(nums);
+    i = 0;
+
+    while (i < nums.length) {
+      if (nums[i] == clone[(i + x) % nums.length]) i++;
+      else break;
+    }
+
+    return i == nums.length;
+  }
+
+  @Test
+  public void containsPattern() {
+
+    assertTrue(containsPattern(new int[] {1, 2, 4, 4, 4, 4}, 1, 3));
+
+    assertTrue(containsPattern(new int[] {1, 2, 1, 2, 1, 1, 1, 3}, 2, 2));
+
+    assertFalse(containsPattern(new int[] {1, 2, 1, 2, 1, 3}, 2, 3));
+
+    assertFalse(containsPattern(new int[] {1, 2, 3, 1, 2}, 2, 2));
+
+    assertFalse(containsPattern(new int[] {2, 2, 2, 2}, 2, 3));
+  }
+
+  private boolean containsPattern(int[] arr, int m, int k) {
+
+    if (m * k > arr.length) return false;
+    int count = 0;
+    for (int i = 0; i < arr.length - m; i++) {
+      if (arr[i] != arr[i + m]) count = 0;
+      else {
+        count++;
+        if (count == (k - 1) * m) return true;
+      }
+    }
+    return false;
+  }
+
+  @Test
   public void largestAltitude() {
     assertEquals(1, largestAltitude(new int[] {-5, 1, 5, 0, -7}));
     assertEquals(0, largestAltitude(new int[] {-4, -3, -2, -1, 4, 3, 2}));
