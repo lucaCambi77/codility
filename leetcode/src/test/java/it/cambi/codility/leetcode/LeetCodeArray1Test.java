@@ -99,6 +99,30 @@ class LeetCodeArray1Test {
   }
 
   @Test
+  public void longestSubstring() {
+    assertEquals(3, longestSubstring("aaabb", 3));
+    assertEquals(5, longestSubstring("ababbc", 2));
+    assertEquals(3, longestSubstring("bbaaacbd", 3));
+  }
+  // cbbaaabcc
+  private int longestSubstring(String s, int k) {
+    Map<Character, Integer> map = new HashMap<>();
+
+    int i = 1;
+    long sol = 0;
+    int seq = 0;
+    while (i < s.length()) {
+
+      while(s.charAt(i) == s.charAt(i -1))
+        i++;
+
+      i++;
+    }
+
+    return (int) sol;
+  }
+
+  @Test
   public void check() {
     assertTrue(check(new int[] {3, 4, 5, 1, 2}));
     assertFalse(check(new int[] {2, 1, 3, 4}));
