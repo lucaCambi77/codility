@@ -55,6 +55,56 @@ class LeetCodeStringTest {
       };
 
   @Test
+  public void makeGood() {
+    assertEquals("leetcode", makeGood("leEeetcode"));
+    assertEquals("", makeGood("abBAcC"));
+    assertEquals("s", makeGood("s"));
+  }
+
+  public String makeGood(String s) {
+    StringBuilder stringBuilder = new StringBuilder(s);
+
+    int i = 0;
+    while (i + 1 < stringBuilder.length()) {
+      if (stringBuilder.charAt(i) + 32 == stringBuilder.charAt(i + 1)
+          || stringBuilder.charAt(i) - 32 == stringBuilder.charAt(i + 1)) {
+        stringBuilder.deleteCharAt(i);
+        stringBuilder.deleteCharAt(i);
+
+        i = Math.max(i - 2, 0);
+      } else i++;
+    }
+
+    return stringBuilder.toString();
+  }
+
+  @Test
+  public void maxPower() {
+    assertEquals(2, maxPower("leetcode"));
+    assertEquals(5, maxPower("abbcccddddeeeeedcba"));
+    assertEquals(1, maxPower("j"));
+    assertEquals(2, maxPower("cc"));
+  }
+
+  private int maxPower(String s) {
+
+    char c = s.charAt(0);
+    int max = 0;
+    int countTmp = 1;
+    for (int i = 1; i < s.length(); i++) {
+      if (s.charAt(i) == c) {
+        countTmp++;
+      } else {
+        max = Math.max(countTmp, max);
+        countTmp = 1;
+        c = s.charAt(i);
+      }
+    }
+
+    return Math.max(countTmp, max);
+  }
+
+  @Test
   public void validWordAbbreviation() {
     assertTrue(validWordAbbreviation("internationalization", "i12iz4n"));
     assertTrue(validWordAbbreviation("internationalization", "i5a11o1"));
@@ -862,20 +912,18 @@ class LeetCodeStringTest {
 
     s.chars()
         .forEach(
-            c -> {
-              valueHolder.getAndAccumulate(
-                  BigInteger.valueOf(alphabetMap.get((char) c)), BigInteger::multiply);
-            });
+            c ->
+                valueHolder.getAndAccumulate(
+                    BigInteger.valueOf(alphabetMap.get((char) c)), BigInteger::multiply));
 
     AtomicReference<BigInteger> valueHolder1 = new AtomicReference<>();
     valueHolder1.set(new BigInteger("1"));
 
     t.chars()
         .forEach(
-            c -> {
-              valueHolder1.getAndAccumulate(
-                  BigInteger.valueOf(alphabetMap.get((char) c)), BigInteger::multiply);
-            });
+            c ->
+                valueHolder1.getAndAccumulate(
+                    BigInteger.valueOf(alphabetMap.get((char) c)), BigInteger::multiply));
 
     return valueHolder.get().compareTo(valueHolder1.get()) == 0;
   }
