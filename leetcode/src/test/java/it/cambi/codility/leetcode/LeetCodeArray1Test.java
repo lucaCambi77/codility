@@ -99,6 +99,35 @@ class LeetCodeArray1Test {
   }
 
   @Test
+  public void largestUniqueNumber() {
+    assertEquals(8, largestUniqueNumber(new int[] {5, 7, 3, 9, 4, 9, 8, 3, 1}));
+    assertEquals(-1, largestUniqueNumber(new int[] {9, 9, 8, 8}));
+    assertEquals(1, largestUniqueNumber(new int[] {1, 2, 2}));
+    assertEquals(1, largestUniqueNumber(new int[] {1}));
+    assertEquals(2, largestUniqueNumber(new int[] {1, 2}));
+  }
+
+  private int largestUniqueNumber(int[] A) {
+    Arrays.sort(A);
+
+    int i;
+    boolean isLargestUniqueCandidate = true;
+
+    for (i = A.length - 1; i > 0; i--) {
+      if (A[i] == A[i - 1]) {
+        isLargestUniqueCandidate = false;
+        continue;
+      }
+
+      if (isLargestUniqueCandidate) break;
+
+      isLargestUniqueCandidate = true;
+    }
+
+    return i > 0 || isLargestUniqueCandidate ? A[i] : -1;
+  }
+
+  @Test
   public void robotSim() {
     assertEquals(25, robotSim(new int[] {4, -1, 3}, new int[][] {}));
     assertEquals(65, robotSim(new int[] {4, -1, 4, -2, 4}, new int[][] {{2, 4}}));
