@@ -40,6 +40,32 @@ class LeetCodeHashMapTest {
   }
 
   @Test
+  public void findingUsersActiveMinutes() {
+    assertArrayEquals(
+        new int[] {0, 2, 0, 0, 0},
+        findingUsersActiveMinutes(new int[][] {{0, 5}, {1, 2}, {0, 2}, {0, 5}, {1, 3}}, 5));
+    assertArrayEquals(
+        new int[] {1, 1, 0, 0}, findingUsersActiveMinutes(new int[][] {{1, 1}, {2, 2}, {2, 3}}, 4));
+  }
+
+  private int[] findingUsersActiveMinutes(int[][] logs, int k) {
+    Map<Integer, Set<Integer>> map = new HashMap<>();
+    int[] sol = new int[k];
+
+    for (int[] log : logs) {
+      Set<Integer> set = map.getOrDefault(log[0], new HashSet<>());
+      set.add(log[1]);
+      map.put(log[0], set);
+    }
+
+    for (Set<Integer> value : map.values()) {
+      sol[value.size() - 1] += 1;
+    }
+
+    return sol;
+  }
+
+  @Test
   public void isStrobogrammatic() {
     assertTrue(isStrobogrammatic("69"));
     assertTrue(isStrobogrammatic("88"));
