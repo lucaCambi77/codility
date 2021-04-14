@@ -4,9 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -41,5 +43,38 @@ public class LeetCodeQueueTest {
     assertEquals(5.5, movingAverage.next(10));
     assertEquals(4.66667, movingAverage.next(3));
     assertEquals(6.0, movingAverage.next(5));
+  }
+
+  @Test
+  public void countStudents() {
+    assertEquals(0, countStudents(new int[] {1, 1, 0, 0}, new int[] {0, 1, 0, 1}));
+    assertEquals(3, countStudents(new int[] {1, 1, 1, 0, 0, 1}, new int[] {1, 0, 0, 0, 1, 1}));
+  }
+
+  private int countStudents(int[] students, int[] sandwiches) {
+
+    Deque<Integer> dequeStud =
+        Arrays.stream(students).boxed().collect(Collectors.toCollection(LinkedList::new));
+
+    int sz = students.length;
+    int ans = sz;
+    int i = 0;
+    int cycle = 0;
+
+    while (i < sz && cycle < sz) {
+
+      int stud = dequeStud.pop();
+
+      if (stud != sandwiches[i]) {
+        dequeStud.addLast(stud);
+        cycle++;
+      } else {
+        cycle = 0;
+        i++;
+        ans--;
+      }
+    }
+
+    return ans;
   }
 }
