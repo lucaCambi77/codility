@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /** @author luca */
 class LeetCodeLinkedListTest {
 
-  class ListNode {
+  static class ListNode {
 
     int val;
     ListNode next;
@@ -21,6 +21,117 @@ class LeetCodeLinkedListTest {
       this.val = val;
       this.next = null;
     }
+  }
+
+  @Test
+  public void deleteNodes() {
+
+    ListNode head = new ListNode(1);
+    head.next = new ListNode(2);
+    head.next.next = new ListNode(3);
+    head.next.next.next = new ListNode(4);
+    head.next.next.next.next = new ListNode(5);
+    head.next.next.next.next.next = new ListNode(6);
+    head.next.next.next.next.next.next = new ListNode(7);
+    head.next.next.next.next.next.next.next = new ListNode(8);
+    head.next.next.next.next.next.next.next.next = new ListNode(9);
+    head.next.next.next.next.next.next.next.next.next = new ListNode(10);
+    head.next.next.next.next.next.next.next.next.next.next = new ListNode(11);
+    head.next.next.next.next.next.next.next.next.next.next.next = new ListNode(12);
+    head.next.next.next.next.next.next.next.next.next.next.next.next = new ListNode(13);
+
+    ListNode sol = new ListNode(1);
+    sol.next = new ListNode(2);
+    sol.next.next = new ListNode(6);
+    sol.next.next.next = new ListNode(7);
+    sol.next.next.next.next = new ListNode(11);
+    sol.next.next.next.next.next = new ListNode(12);
+
+    assertTrue(areIdentical(sol, deleteNodes(head, 2, 3)));
+
+    ListNode head1 = new ListNode(1);
+    head1.next = new ListNode(2);
+    head1.next.next = new ListNode(3);
+    head1.next.next.next = new ListNode(4);
+    head1.next.next.next.next = new ListNode(5);
+    head1.next.next.next.next.next = new ListNode(6);
+    head1.next.next.next.next.next.next = new ListNode(7);
+    head1.next.next.next.next.next.next.next = new ListNode(8);
+    head1.next.next.next.next.next.next.next.next = new ListNode(9);
+    head1.next.next.next.next.next.next.next.next.next = new ListNode(10);
+    head1.next.next.next.next.next.next.next.next.next.next = new ListNode(11);
+
+    ListNode sol1 = new ListNode(1);
+    sol1.next = new ListNode(5);
+    sol1.next.next = new ListNode(9);
+
+    assertTrue(areIdentical(sol1, deleteNodes(head1, 1, 3)));
+
+    ListNode head2 = new ListNode(1);
+    head2.next = new ListNode(2);
+    head2.next.next = new ListNode(3);
+    head2.next.next.next = new ListNode(4);
+    head2.next.next.next.next = new ListNode(5);
+    head2.next.next.next.next.next = new ListNode(6);
+    head2.next.next.next.next.next.next = new ListNode(7);
+    head2.next.next.next.next.next.next.next = new ListNode(8);
+    head2.next.next.next.next.next.next.next.next = new ListNode(9);
+    head2.next.next.next.next.next.next.next.next.next = new ListNode(10);
+    head2.next.next.next.next.next.next.next.next.next.next = new ListNode(11);
+
+    ListNode sol2 = new ListNode(1);
+    sol2.next = new ListNode(2);
+    sol2.next.next = new ListNode(3);
+    sol2.next.next.next = new ListNode(5);
+    sol2.next.next.next.next = new ListNode(6);
+    sol2.next.next.next.next.next = new ListNode(7);
+    sol2.next.next.next.next.next.next = new ListNode(9);
+    sol2.next.next.next.next.next.next.next = new ListNode(10);
+    sol2.next.next.next.next.next.next.next.next = new ListNode(11);
+
+    assertTrue(areIdentical(sol2, deleteNodes(head2, 3, 1)));
+
+    ListNode head3 = new ListNode(9);
+    head3.next = new ListNode(3);
+    head3.next.next = new ListNode(7);
+    head3.next.next.next = new ListNode(7);
+    head3.next.next.next.next = new ListNode(9);
+    head3.next.next.next.next.next = new ListNode(10);
+    head3.next.next.next.next.next.next = new ListNode(8);
+    head3.next.next.next.next.next.next.next = new ListNode(2);
+
+    ListNode sol3 = new ListNode(9);
+    sol3.next = new ListNode(7);
+    sol3.next.next = new ListNode(8);
+
+    assertTrue(areIdentical(sol3, deleteNodes(head3, 1, 2)));
+  }
+
+  private ListNode deleteNodes(ListNode head, int m, int n) {
+    int i = 0;
+    int k = 0;
+
+    ListNode list = head;
+
+    while (list != null) {
+
+      while (i++ < m - 1 && list != null) list = list.next;
+
+      if (list == null) break;
+
+      ListNode list1 = list;
+
+      while (k++ < n && list1.next != null) list1 = list1.next;
+
+      list.next = list1.next;
+
+      list = list.next;
+
+      i = 0;
+      k = 0;
+    }
+
+    return head;
   }
 
   @Test
