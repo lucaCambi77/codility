@@ -40,6 +40,44 @@ class LeetCodeHashMapTest {
   }
 
   @Test
+  public void smallestCommonElement() {
+    assertEquals(
+        5,
+        smallestCommonElement(
+            new int[][] {{1, 2, 3, 4, 5}, {2, 4, 5, 8, 10}, {3, 5, 7, 9, 11}, {1, 3, 5, 7, 9}}));
+
+    assertEquals(
+        2,
+        smallestCommonElement(
+            new int[][] {{1, 2, 3, 4, 5}, {2, 4, 5, 8, 10}, {2, 5, 7, 9, 11}, {2, 3, 5, 7, 9}}));
+
+    assertEquals(
+        1,
+        smallestCommonElement(
+            new int[][] {{1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}}));
+
+    assertEquals(-1, smallestCommonElement(new int[][] {{1}, {2}, {3}}));
+    assertEquals(-1, smallestCommonElement(new int[][] {}));
+    assertEquals(2, smallestCommonElement(new int[][] {{1, 2, 3}, {2, 3, 4}, {2, 3, 5}}));
+  }
+
+  private int smallestCommonElement(int[][] mat) {
+    Map<Long, Long> map = new HashMap<>();
+
+    for (int[] commonElement : mat) {
+      for (int i : commonElement) {
+        map.put((long) i, map.getOrDefault((long) i, 0L) + 1L);
+      }
+    }
+
+    for (Map.Entry<Long, Long> entrySet : map.entrySet()) {
+      if (entrySet.getValue() == mat.length) return entrySet.getKey().intValue();
+    }
+
+    return -1;
+  }
+
+  @Test
   public void findingUsersActiveMinutes() {
     assertArrayEquals(
         new int[] {0, 2, 0, 0, 0},
