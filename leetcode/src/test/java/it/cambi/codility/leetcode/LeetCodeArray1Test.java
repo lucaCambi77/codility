@@ -99,6 +99,57 @@ class LeetCodeArray1Test {
   }
 
   @Test
+  public void minOperations() {
+    assertEquals(3, minOperations(new int[] {1, 1, 1}));
+    assertEquals(14, minOperations(new int[] {1, 5, 2, 4, 1}));
+    assertEquals(0, minOperations(new int[] {8}));
+    assertEquals(6, minOperations(new int[] {2, 1, 0}));
+    assertEquals(5, minOperations(new int[] {2, 1, 1}));
+  }
+
+  private int minOperations(int[] nums) {
+
+    int prevNum = nums[0];
+    int count = 0;
+    for (int i = 1; i < nums.length; i++) {
+      if (prevNum > nums[i]) {
+        count = count + (prevNum - nums[i]) + 1;
+        prevNum++;
+      } else if (prevNum == nums[i]) {
+        prevNum++;
+        count++;
+      } else {
+        prevNum = nums[i];
+      }
+    }
+
+    return count;
+  }
+
+  @Test
+  public void canFormArray() {
+    assertTrue(canFormArray(new int[] {15, 88}, new int[][] {{88}, {15}}));
+    assertFalse(canFormArray(new int[] {49, 18, 16}, new int[][] {{16, 18, 49}}));
+    assertTrue(canFormArray(new int[] {91, 4, 64, 78}, new int[][] {{78}, {4, 64}, {91}}));
+    assertFalse(canFormArray(new int[] {1, 3, 5, 7}, new int[][] {{2, 4, 6, 8}}));
+    assertFalse(canFormArray(new int[] {12}, new int[][] {{1}}));
+    assertFalse(canFormArray(new int[] {12}, new int[][] {{1}, {2}}));
+  }
+
+  public boolean canFormArray(int[] arr, int[][] pieces) {
+    String array =
+        Arrays.stream(arr).mapToObj(Integer::toString).collect(Collectors.joining(",")) + ",";
+
+    for (int[] piece : pieces) {
+      if (!array.contains(
+          Arrays.stream(piece).mapToObj(Integer::toString).collect(Collectors.joining(",")) + ","))
+        return false;
+    }
+
+    return true;
+  }
+
+  @Test
   public void largestUniqueNumber() {
     assertEquals(8, largestUniqueNumber(new int[] {5, 7, 3, 9, 4, 9, 8, 3, 1}));
     assertEquals(-1, largestUniqueNumber(new int[] {9, 9, 8, 8}));
