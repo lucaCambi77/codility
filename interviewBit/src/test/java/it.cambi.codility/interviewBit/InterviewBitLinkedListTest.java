@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class InterviewBitLinkedListTest {
 
-  class ListNode {
+  static class ListNode {
     public int val;
     public ListNode next;
 
@@ -40,7 +40,7 @@ class InterviewBitLinkedListTest {
     sol.next.next.next.next = new ListNode(6);
     sol.next.next.next.next.next = new ListNode(5);
 
-    assertEquals(true, areIdentical(sol, reversedList));
+    assertTrue(areIdentical(sol, reversedList));
   }
 
   public ListNode kReverseLinkedList(ListNode listNode, int k, ListNode sol) {
@@ -89,7 +89,7 @@ class InterviewBitLinkedListTest {
     sol.next.next = new ListNode(3);
     sol.next.next.next = new ListNode(4);
 
-    assertEquals(true, areIdentical(sol, head));
+    assertTrue(areIdentical(sol, head));
   }
 
   public void removeDuplicatesFromSortedList(ListNode node) {
@@ -119,7 +119,7 @@ class InterviewBitLinkedListTest {
     sol.next.next.next = new ListNode(2);
     sol.next.next.next.next = new ListNode(1);
 
-    assertEquals(true, areIdentical(listNode, sol));
+    assertTrue(areIdentical(listNode, sol));
   }
 
   public void reverseList(ListNode A) {
