@@ -492,22 +492,41 @@ class LeetCodeArray1Test {
     assertEquals(3, longestSubstring("aaabb", 3));
     assertEquals(5, longestSubstring("ababbc", 2));
     assertEquals(3, longestSubstring("bbaaacbd", 3));
+    assertEquals(9, longestSubstring("cbbaaabcc", 3));
   }
-  // cbbaaabcc
+
   private int longestSubstring(String s, int k) {
-    Map<Character, Integer> map = new HashMap<>();
-
-    int i = 1;
-    long sol = 0;
-    int seq = 0;
-    while (i < s.length()) {
-
-      while (s.charAt(i) == s.charAt(i - 1)) i++;
-
-      i++;
+    char[] str = s.toCharArray();
+    int[] countMap = new int[26];
+    int maxUnique = (int) s.chars().distinct().count();
+    int result = 0;
+    for (int currUnique = 1; currUnique <= maxUnique; currUnique++) {
+      // reset countMap
+      Arrays.fill(countMap, 0);
+      int windowStart = 0, windowEnd = 0, idx, unique = 0, countAtLeastK = 0;
+      while (windowEnd < str.length) {
+        // expand the sliding window
+        if (unique <= currUnique) {
+          idx = str[windowEnd] - 'a';
+          if (countMap[idx] == 0) unique++;
+          countMap[idx]++;
+          if (countMap[idx] == k) countAtLeastK++;
+          windowEnd++;
+        }
+        // shrink the sliding window
+        else {
+          idx = str[windowStart] - 'a';
+          if (countMap[idx] == k) countAtLeastK--;
+          countMap[idx]--;
+          if (countMap[idx] == 0) unique--;
+          windowStart++;
+        }
+        if (unique == currUnique && unique == countAtLeastK)
+          result = Math.max(windowEnd - windowStart, result);
+      }
     }
 
-    return (int) sol;
+    return result;
   }
 
   @Test
