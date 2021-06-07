@@ -40,6 +40,62 @@ class LeetCodeHashMapTest {
   }
 
   @Test
+  public void areSentencesSimilar() {
+    assertTrue(
+        areSentencesSimilar(
+            new String[] {"great", "acting", "skills"},
+            new String[] {"fine", "drama", "talent"},
+            Arrays.asList(
+                Arrays.asList("great", "fine"),
+                Arrays.asList("drama", "acting"),
+                Arrays.asList("skills", "talent"))));
+
+    assertTrue(
+        areSentencesSimilar(
+            new String[] {"great"}, new String[] {"great"}, Collections.emptyList()));
+
+    assertFalse(
+        areSentencesSimilar(
+            new String[] {"great"},
+            new String[] {"doubleplus", "good"},
+            Collections.singletonList(Arrays.asList("great", "doubleplus"))));
+
+    assertFalse(
+        areSentencesSimilar(
+            new String[] {"great", "acting", "skills"},
+            new String[] {"fine", "painting", "talent"},
+            Arrays.asList(
+                Arrays.asList("great", "fine"),
+                Arrays.asList("drama", "acting"),
+                Arrays.asList("skills", "talent"))));
+  }
+
+  private boolean areSentencesSimilar(
+      String[] sentence1, String[] sentence2, List<List<String>> similarPairs) {
+
+    if (sentence1.length != sentence2.length) return false;
+
+    Map<String, List<String>> mapSentence1 = new HashMap<>();
+
+    for (List<String> list : similarPairs) {
+      List<String> syn = mapSentence1.getOrDefault(list.get(0), new ArrayList<>());
+      syn.add(list.get(1));
+      mapSentence1.put(list.get(0), syn);
+    }
+
+    for (int i = 0; i < sentence1.length; i++) {
+      if (sentence1[i].equals(sentence2[i])
+          || (null != mapSentence1.get(sentence1[i])
+              && mapSentence1.get(sentence1[i]).contains(sentence2[i]))
+          || (null != mapSentence1.get(sentence2[i])
+              && mapSentence1.get(sentence2[i]).contains(sentence1[i]))) continue;
+      else return false;
+    }
+
+    return true;
+  }
+
+  @Test
   public void smallestCommonElement() {
     assertEquals(
         5,
