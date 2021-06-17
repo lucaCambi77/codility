@@ -70,7 +70,7 @@ class InterviewBitBackTrackingTest {
 
     assertArrayEquals(
         new String[] {"ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"},
-        res.stream().toArray(String[]::new));
+            res.toArray(String[]::new));
   }
 
   private void findWords(

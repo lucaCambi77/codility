@@ -26,7 +26,7 @@ class InterviewBitTwoPointersTest {
 
     for (int i = 1; i < a.size(); i++) {
 
-      while (i < a.size() && a.get(i) == a.get(pointer - 1)) i++;
+      while (i < a.size() && a.get(i).equals(a.get(pointer - 1))) i++;
 
       if (i == a.size()) {
         a.set(pointer, a.get(pointer));

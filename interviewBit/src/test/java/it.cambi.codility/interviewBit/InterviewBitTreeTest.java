@@ -53,11 +53,10 @@ class InterviewBitTreeTest {
   private boolean isSameTreeNode(TreeNode p, TreeNode q) {
     if (p == null && q == null) return true;
 
-    if (null != p
-        && null != q
-        && p.val == q.val
-        && isSameTreeNode(p.left, q.left)
-        && isSameTreeNode(p.right, q.right)) return true;
-    return false;
+    return null != p
+            && null != q
+            && p.val == q.val
+            && isSameTreeNode(p.left, q.left)
+            && isSameTreeNode(p.right, q.right);
   }
 }
