@@ -10,7 +10,37 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class InterviewBitMapTest {
 
   @Test
-  public void longestSubarrayLenght() {
+  public void checkPalindrome() {
+    assertEquals(0, checkPalindrome("abcde"));
+    assertEquals(0, checkPalindrome("aaabbbcde"));
+    assertEquals(0, checkPalindrome("rl"));
+    assertEquals(1, checkPalindrome("r"));
+    assertEquals(1, checkPalindrome("abbaee"));
+    assertEquals(1, checkPalindrome("abbbaee"));
+  }
+
+  private int checkPalindrome(String A) {
+    int[] chars = new int[26];
+
+    for (int i = 0; i < A.length(); i++) {
+      int pos = A.charAt(i) - 'a';
+      chars[pos] = ++chars[pos];
+    }
+
+    int countOdd = 0;
+
+    for (int aChar : chars) {
+      if ((aChar & 1) == 1) {
+        if (countOdd >= 1) return 0;
+        else countOdd++;
+      }
+    }
+
+    return countOdd <= 1 ? 1 : 0;
+  }
+
+  @Test
+  public void longestSubarrayLength() {
     assertEquals(5, longestSubarrayLength(new int[] {0, 1, 1, 0, 0, 1}));
     assertEquals(1, longestSubarrayLength(new int[] {1, 0, 0, 1, 0}));
     assertEquals(11, longestSubarrayLength(new int[] {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1}));
