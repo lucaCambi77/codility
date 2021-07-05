@@ -31,9 +31,9 @@ class LeetCodeGraphTest {
 
     if (trust.length == 0) return n;
 
-    int dp[][] = new int[n][2];
+    int[][] dp = new int[n][2];
 
-    for (int row[] : trust) {
+    for (int[] row : trust) {
       int per = row[0] - 1, trt = row[1] - 1;
       dp[per][0]++;
       dp[trt][1]++;

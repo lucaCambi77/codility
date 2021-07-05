@@ -5,9 +5,52 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LeetCodeArray2Test {
+
+  @Test
+  public void checkIfPangram() {
+    assertTrue(checkIfPangram("thequickbrownfoxjumpsoverthelazydog"));
+    assertFalse(checkIfPangram("leetcode"));
+  }
+
+  private boolean checkIfPangram(String sentence) {
+
+    boolean[] bool = new boolean[26];
+
+    for (int i = 0; i < sentence.length(); i++) {
+      bool[sentence.charAt(i) - 'a'] = true;
+    }
+
+    for (boolean b : bool) {
+      if (!b) return false;
+    }
+
+    return true;
+  }
+
+  @Test
+  public void removeDuplicates() {
+    assertEquals("ca", removeDuplicates("abbaca"));
+    assertEquals("ay", removeDuplicates("azxxzy"));
+    assertEquals("ay", removeDuplicates("azxxxxzy"));
+    assertEquals("azxzy", removeDuplicates("azxxxzy"));
+    assertEquals("", removeDuplicates("aaaaaaaa"));
+  }
+
+  private String removeDuplicates(String s) {
+    StringBuilder sb = new StringBuilder();
+    int sbLength = 0;
+    for (char character : s.toCharArray()) {
+      if (sbLength != 0 && character == sb.charAt(sbLength - 1)) sb.deleteCharAt(sbLength-- - 1);
+      else {
+        sb.append(character);
+        sbLength++;
+      }
+    }
+    return sb.toString();
+  }
 
   @Test
   public void minStartValue() {

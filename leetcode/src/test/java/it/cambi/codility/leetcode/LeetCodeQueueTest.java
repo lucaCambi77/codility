@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LeetCodeQueueTest {
 
-  class MovingAverage {
+  static class MovingAverage {
     Deque<Integer> deque;
     int maxSize;
     int sum;

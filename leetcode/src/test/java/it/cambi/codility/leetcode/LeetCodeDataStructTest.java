@@ -14,6 +14,96 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 class LeetCodeDataStructTest {
 
+  class MaxStack {
+
+    private final Stack<Integer> stack;
+    private Integer max = Integer.MIN_VALUE;
+    /** initialize your data structure here. */
+    public MaxStack() {
+      stack = new Stack<>();
+    }
+
+    public void push(int x) {
+      max = Math.max(x, max);
+      stack.push(x);
+    }
+
+    public int pop() {
+      int toRet = stack.pop();
+      max =
+          stack.stream().max(Comparator.naturalOrder()).stream()
+              .findFirst()
+              .orElse(Integer.MIN_VALUE);
+
+      return toRet;
+    }
+
+    public int top() {
+      return stack.peek();
+    }
+
+    public int peekMax() {
+      return max;
+    }
+
+    public int popMax() {
+      int toRet = 0;
+      for (int i = stack.size() - 1; i >= 0; i--) {
+        if (stack.get(i) - max == 0) {
+          toRet = stack.remove(i);
+          max =
+              stack.stream().max(Comparator.naturalOrder()).stream()
+                  .findFirst()
+                  .orElse(Integer.MIN_VALUE);
+          break;
+        }
+      }
+
+      return toRet;
+    }
+  }
+
+  @Test
+  public void maxStack() {
+    firstTest();
+    secondTest();
+    thirdTest();
+  }
+
+  private void thirdTest() {
+    MaxStack stk = new MaxStack();
+
+    stk.push(-2);
+    assertEquals(-2, stk.popMax());
+    stk.push(-45);
+    stk.push(-82);
+    stk.push(29);
+    assertEquals(29, stk.pop());
+    assertEquals(-45, stk.peekMax());
+  }
+
+  private void secondTest() {
+    MaxStack stk = new MaxStack();
+
+    stk.push(5);
+    assertEquals(5, stk.peekMax());
+    assertEquals(5, stk.popMax());
+  }
+
+  private void firstTest() {
+    MaxStack stk = new MaxStack();
+
+    stk.push(5);
+    stk.push(1);
+    stk.push(5);
+    assertEquals(5, stk.top());
+    assertEquals(5, stk.popMax());
+    assertEquals(1, stk.top());
+    assertEquals(5, stk.peekMax());
+    assertEquals(1, stk.pop());
+    assertEquals(5, stk.top());
+  }
+
   static class RecentCounter {
 
     Queue<Integer> q;

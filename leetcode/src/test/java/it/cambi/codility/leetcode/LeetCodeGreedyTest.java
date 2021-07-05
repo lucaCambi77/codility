@@ -5,10 +5,32 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /** @author luca */
 class LeetCodeGreedyTest {
+
+  @Test
+  public void countBits() {
+    assertArrayEquals(new int[] {0, 1, 1}, countBits(2));
+    assertArrayEquals(new int[] {0, 1, 1, 2, 1, 2}, countBits(5));
+  }
+
+  public int[] countBits(int n) {
+
+    int[] sol = new int[n + 1];
+    sol[0] = 0;
+
+    int i = 1;
+    while (i <= n) {
+      int sum =
+          Integer.toBinaryString(i).chars().map(v -> Integer.parseInt(Character.toString(v))).sum();
+      sol[i] = sum;
+      i++;
+    }
+    return sol;
+  }
 
   @Test
   public void balancedStringSplit() {

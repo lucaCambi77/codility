@@ -40,6 +40,34 @@ class LeetCodeHashMapTest {
   }
 
   @Test
+  public void countConsistentStrings() {
+    assertEquals(
+        2, countConsistentStrings("ab", new String[] {"ad", "bd", "aaab", "baa", "badab"}));
+    assertEquals(
+        7, countConsistentStrings("abc", new String[] {"a", "b", "c", "ab", "ac", "bc", "abc"}));
+    assertEquals(
+        4,
+        countConsistentStrings(
+            "cad", new String[] {"cc", "acd", "b", "ba", "bac", "bad", "ac", "d"}));
+  }
+
+  private int countConsistentStrings(String allowed, String[] words) {
+    Set<Integer> allowedChars = new HashSet<>();
+
+    allowed.chars().forEach(c -> allowedChars.add(c - 'a'));
+
+    int count = 0;
+    for (String word : words) {
+
+      int countChars = (int) word.chars().filter(c -> allowedChars.contains(c - 'a')).count();
+
+      if (countChars - word.length() == 0) count++;
+    }
+
+    return count;
+  }
+
+  @Test
   public void areSentencesSimilar() {
     assertTrue(
         areSentencesSimilar(

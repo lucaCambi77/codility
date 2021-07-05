@@ -55,6 +55,88 @@ class LeetCodeStringTest {
       };
 
   @Test
+  public void numUniqueEmails() {
+    assertEquals(
+        2,
+        numUniqueEmails(
+            new String[] {
+              "test.email+alex@leetcode.com",
+              "test.e.mail+bob.cathy@leetcode.com",
+              "testemail+david@lee.tcode.com"
+            }));
+
+    assertEquals(
+        3, numUniqueEmails(new String[] {"a@leetcode.com", "b@leetcode.com", "c@leetcode.com"}));
+
+    assertEquals(
+        2,
+        numUniqueEmails(
+            new String[] {"test.email+alex@leetcode.com", "test.email.leet+alex@code.com"}));
+  }
+
+  public int numUniqueEmails(String[] emails) {
+
+    Set<String> seen = new HashSet<>();
+
+    for (String email : emails) {
+
+      StringBuilder stringBuilder = new StringBuilder();
+
+      String[] split = email.split("@");
+
+      for (int i = 0; i < split[0].length(); i++) {
+
+        if (email.charAt(i) == '.') continue;
+
+        if (email.charAt(i) == '+') break;
+
+        stringBuilder.append(email.charAt(i));
+      }
+
+      seen.add(stringBuilder.append("@").append(split[1]).toString());
+    }
+
+    return seen.size();
+  }
+
+  @Test
+  public void maxDepth() {
+    assertEquals(3, maxDepth("(1+(2*3)+((8)/4))+1"));
+    assertEquals(3, maxDepth("(1)+((2))+(((3)))"));
+    assertEquals(1, maxDepth("1+(2*3)/(2-1)"));
+    assertEquals(0, maxDepth("1"));
+    assertEquals(0, maxDepth(")("));
+    assertEquals(0, maxDepth("()("));
+  }
+
+  public int maxDepth(String s) {
+
+    Stack<Character> stack = new Stack<>();
+
+    int count = 0;
+    int sol = 0;
+    for (int i = 0; i < s.length(); i++) {
+
+      if (!stack.isEmpty() && stack.peek() == '(') {
+        if (s.charAt(i) == ')') {
+          count--;
+          stack.pop();
+          continue;
+        }
+      }
+
+      if (s.charAt(i) == '(') {
+        count++;
+        sol = Math.max(sol, count);
+      }
+
+      if (s.charAt(i) == ')' || s.charAt(i) == '(') stack.push(s.charAt(i));
+    }
+
+    return stack.isEmpty() ? sol : 0;
+  }
+
+  @Test
   public void makeGood() {
     assertEquals("leetcode", makeGood("leEeetcode"));
     assertEquals("", makeGood("abBAcC"));
