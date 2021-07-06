@@ -37,7 +37,8 @@ allprojects {
 configure(subprojects) {
 
     apply plugin: 'java'
-    apply plugin: "jacoco"
+    apply plugin: 'jacoco'
+    apply plugin: 'groovy'
 
     sourceCompatibility = '1.11'
     targetCompatibility = '1.11'
@@ -54,6 +55,9 @@ configure(subprojects) {
         testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.10.0'
         testImplementation 'javax.xml.bind:jaxb-api:2.3.0'
         testImplementation 'org.springframework:spring-test:5.1.2.RELEASE'
+
+        testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
+        testImplementation 'org.codehaus.groovy:groovy-all:3.0.8'
     }
 
     test {
