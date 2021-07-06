@@ -21,7 +21,7 @@ import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.*;
 
 /** @author luca */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class LeetCodeArrayTest {
 
   private ObjectMapper mapper = new ObjectMapper();
