@@ -10,6 +10,20 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LeetCodeArray2Test {
 
   @Test
+  public void sortSentence() {
+    assertEquals("This is a sentence", sortSentence("is2 sentence4 This1 a3"));
+    assertEquals("Me Myself and I", sortSentence("Myself2 Me1 I4 and3"));
+  }
+
+  private String sortSentence(String s) {
+
+    return Arrays.stream(s.split("\\s"))
+        .sorted(Comparator.comparing(s12 -> s12.substring(s12.length() - 1)))
+        .collect(Collectors.joining(" "))
+        .replaceAll("\\d", "");
+  }
+
+  @Test
   public void checkIfPangram() {
     assertTrue(checkIfPangram("thequickbrownfoxjumpsoverthelazydog"));
     assertFalse(checkIfPangram("leetcode"));

@@ -11,10 +11,65 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.junit.jupiter.api.Assertions.*;
 
 /** @author luca */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class LeetCodeDataStructTest {
 
-  class MaxStack {
+  public class ZigzagIterator {
+
+    Queue<Iterator<Integer>> q;
+
+    public ZigzagIterator(List<Integer> v1, List<Integer> v2) {
+      q = new LinkedList();
+      if (!v1.isEmpty()) q.offer(v1.iterator());
+      if (!v2.isEmpty()) q.offer(v2.iterator());
+    }
+
+    public int next() {
+      Iterator<Integer> cur = q.poll();
+      int res = cur.next();
+      if (cur.hasNext()) q.offer(cur);
+      return res;
+    }
+
+    public boolean hasNext() {
+      return q.peek() != null;
+    }
+  }
+
+  @Test
+  public void ZigzagIteratorTest() {
+    List<Integer> v1 = Arrays.asList(1, 2);
+    List<Integer> v2 = Arrays.asList(3, 4, 5, 6);
+    ZigzagIterator zigzagIterator = new ZigzagIterator(v1, v2);
+
+    int[] sol = new int[v1.size() + v2.size()];
+    int i = 0;
+    while (zigzagIterator.hasNext()) sol[i++] = zigzagIterator.next();
+
+    assertArrayEquals(new int[] {1, 3, 2, 4, 5, 6}, sol);
+
+    v1 = Collections.singletonList(1);
+    v2 = Collections.emptyList();
+    zigzagIterator = new ZigzagIterator(v1, v2);
+
+    sol = new int[v1.size() + v2.size()];
+    i = 0;
+    while (zigzagIterator.hasNext()) sol[i++] = zigzagIterator.next();
+
+    assertArrayEquals(new int[] {1}, sol);
+
+    v1 = Collections.emptyList();
+    v2 = Collections.singletonList(1);
+    zigzagIterator = new ZigzagIterator(v1, v2);
+
+    sol = new int[v1.size() + v2.size()];
+    i = 0;
+    while (zigzagIterator.hasNext()) sol[i++] = zigzagIterator.next();
+
+    assertArrayEquals(new int[] {1}, sol);
+  }
+
+  static class MaxStack {
 
     private final Stack<Integer> stack;
     private Integer max = Integer.MIN_VALUE;
