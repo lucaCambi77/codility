@@ -678,26 +678,32 @@ class LeetCodeStringTest {
 
   @Test
   public void removeOuterParentheses() {
-    assertEquals("(()())(())", removeOuterParentheses("()()()"));
+    assertEquals("()()()", removeOuterParentheses("(()())(())"));
     assertEquals("()()()()(())", removeOuterParentheses("(()())(())(()(()))"));
     assertEquals("", removeOuterParentheses("()()"));
   }
 
-  private String removeOuterParentheses(String S) {
+  private String removeOuterParentheses(String s) {
     Stack<Character> stack = new Stack<>();
-    char c = S.charAt(0);
-    boolean isOuterMost = false;
+    StringBuilder stringBuilder = new StringBuilder();
 
-    for (int i = 1; i < S.length(); i++) {
-      if (c == '(' && !isOuterMost) {
-        stack.add(S.charAt(i));
-        isOuterMost = true;
-      } else if (c == '(') {
-
+    for (int i = 0; i < s.length(); i++) {
+      if (stack.isEmpty()) {
+        stack.push(s.charAt(i));
+      } else {
+        if (stack.peek() == '(' && s.charAt(i) == '(') {
+          stringBuilder.append(s.charAt(i));
+          stack.push(s.charAt(i));
+        } else if (s.charAt(i) == ')' && stack.size() > 1) {
+          stringBuilder.append(s.charAt(i));
+          stack.pop();
+        } else {
+          stack.pop();
+        }
       }
     }
 
-    return null;
+    return stringBuilder.toString();
   }
 
   @Test
