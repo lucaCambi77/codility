@@ -10,6 +10,22 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LeetCodeArray2Test {
 
   @Test
+  public void buildArray() {
+    assertArrayEquals(new int[] {0, 1, 2, 4, 5, 3}, buildArray(new int[] {0, 2, 1, 5, 3, 4}));
+    assertArrayEquals(new int[] {4, 5, 0, 1, 2, 3}, buildArray(new int[] {5, 0, 1, 2, 3, 4}));
+  }
+
+  public int[] buildArray(int[] nums) {
+    int[] sol = new int[nums.length];
+
+    for (int i = 0; i < nums.length; i++) {
+      sol[i] = nums[nums[i]];
+    }
+
+    return sol;
+  }
+
+  @Test
   public void sortSentence() {
     assertEquals("This is a sentence", sortSentence("is2 sentence4 This1 a3"));
     assertEquals("Me Myself and I", sortSentence("Myself2 Me1 I4 and3"));
