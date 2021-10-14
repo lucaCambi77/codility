@@ -9,13 +9,28 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.math.BigInteger;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Queue;
+import java.util.Set;
+import java.util.Stack;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /** @author luca */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
@@ -53,6 +68,49 @@ class LeetCodeStringTest {
           put('z', 101);
         }
       };
+
+  @Test
+  public void replaceDigits() {
+    assertEquals("abcdef", replaceDigits("a1c1e1"));
+    assertEquals("abbdcfdhe", replaceDigits("a1b2c3d4e"));
+  }
+
+  private String replaceDigits(String s) {
+
+    String[] split = s.split("[a-z]+");
+    int j = 1;
+    StringBuilder stringBuilder = new StringBuilder();
+
+    for (int i = 0; i < s.length(); i++) {
+      if (Character.isLetter(s.charAt(i))) {
+        stringBuilder.append(s.charAt(i));
+
+        if (j < split.length) {
+          int c = s.charAt(i) + Integer.parseInt(split[j]);
+          stringBuilder.append((char) c);
+          j++;
+        }
+      }
+    }
+
+    return stringBuilder.toString();
+  }
+
+  @Test
+  public void truncateSentence() {
+    assertEquals("Hello how are you", truncateSentence("Hello how are you Contestant", 4));
+    assertEquals(
+        "What is the solution", truncateSentence("What is the solution to this problem", 4));
+    assertEquals("chopper is not a tanuki", truncateSentence("chopper is not a tanuki", 5));
+  }
+
+  private String truncateSentence(String s, int k) {
+    String[] split = s.split("\\s");
+
+    if (split.length == k) return s;
+
+    return Arrays.stream(split, 0, k).collect(Collectors.joining(" "));
+  }
 
   @Test
   public void numUniqueEmails() {

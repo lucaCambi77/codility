@@ -7,11 +7,37 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /** @author luca */
 class LeetCodeMathTest {
   long k;
+
+  @Test
+  public void numWaterBottles() {
+    assertEquals(13, numWaterBottles(9, 3));
+    assertEquals(19, numWaterBottles(15, 4));
+    assertEquals(6, numWaterBottles(5, 5));
+    assertEquals(2, numWaterBottles(2, 3));
+    assertEquals(17, numWaterBottles(15, 7));
+  }
+
+  public int numWaterBottles(int numBottles, int numExchange) {
+
+    if (numBottles < numExchange) return numBottles;
+
+    int sol = numBottles;
+
+    while (numBottles >= numExchange) {
+      sol += numBottles / numExchange;
+      numBottles =
+          numBottles - ((numBottles / numExchange) * numExchange) + numBottles / numExchange;
+    }
+
+    return sol;
+  }
 
   @Test
   public void countBalls() {

@@ -5,10 +5,23 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Queue;
+import java.util.Stack;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /** @author luca */
 @TestMethodOrder(MethodOrderer.MethodName.class)
@@ -42,6 +55,90 @@ class LeetCodeDataStructTest {
 
       return false;
     }
+  }
+
+  class StringIteratorBean {
+    private char c;
+    private int freq;
+
+    public StringIteratorBean(char c, int freq) {
+      this.c = c;
+      this.freq = freq;
+    }
+  }
+
+  class StringIterator {
+
+    LinkedList<StringIteratorBean> characters = new LinkedList<>();
+
+    public StringIterator(String compressedString) {
+
+      for (int j = 0; j < compressedString.length(); j++) {
+        char c = compressedString.charAt(j);
+        StringBuilder s = new StringBuilder();
+        while (j + 1 < compressedString.length()
+            && Character.isDigit(compressedString.charAt(j + 1)))
+          s.append(compressedString.charAt(++j));
+
+        StringIteratorBean stringIteratorBean =
+            new StringIteratorBean(c, Integer.parseInt(s.toString()));
+        characters.addLast(stringIteratorBean);
+      }
+    }
+
+    public char next() {
+      if (characters.isEmpty()) return ' ';
+      StringIteratorBean stringIteratorBean = characters.peek();
+      char c = stringIteratorBean.c;
+      stringIteratorBean.freq--;
+      if (stringIteratorBean.freq == 0) {
+        characters.poll();
+      } else {
+        characters.set(0, stringIteratorBean);
+      }
+
+      return c;
+    }
+
+    public boolean hasNext() {
+      return !characters.isEmpty();
+    }
+  }
+
+  @Test
+  public void stringIterator() {
+    StringIterator stringIterator = new StringIterator("L1e2t1C1o1d1e1");
+    assertEquals('L', stringIterator.next());
+    assertEquals('e', stringIterator.next());
+    assertEquals('e', stringIterator.next());
+    assertEquals('t', stringIterator.next());
+    assertEquals('C', stringIterator.next());
+    assertEquals('o', stringIterator.next());
+    assertTrue(stringIterator.hasNext());
+    assertEquals('d', stringIterator.next());
+    assertTrue(stringIterator.hasNext());
+
+    StringIterator stringIterator1 = new StringIterator("L10e2t1C1o1d1e11");
+    assertEquals('L', stringIterator1.next());
+    assertEquals('L', stringIterator1.next());
+    assertEquals('L', stringIterator1.next());
+    assertEquals('L', stringIterator1.next());
+    assertEquals('L', stringIterator1.next());
+    assertEquals('L', stringIterator1.next());
+    assertTrue(stringIterator1.hasNext());
+    assertEquals('L', stringIterator1.next());
+    assertTrue(stringIterator1.hasNext());
+
+    StringIterator stringIterator2 = new StringIterator("z82d333333333");
+    assertEquals('z', stringIterator2.next());
+    assertEquals('z', stringIterator2.next());
+    assertEquals('z', stringIterator2.next());
+    assertEquals('z', stringIterator2.next());
+    assertEquals('z', stringIterator2.next());
+    assertEquals('z', stringIterator2.next());
+    assertTrue(stringIterator2.hasNext());
+    assertEquals('z', stringIterator2.next());
+    assertTrue(stringIterator2.hasNext());
   }
 
   @Test

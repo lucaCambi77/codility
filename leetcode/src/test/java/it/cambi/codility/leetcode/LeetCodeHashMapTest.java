@@ -4,11 +4,22 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class LeetCodeHashMapTest {
@@ -37,6 +48,46 @@ class LeetCodeHashMapTest {
 
       return false;
     }
+  }
+
+  @Test
+  public void buddyStrings() {
+    assertFalse(buddyStrings("abcd", "badc"));
+    assertFalse(buddyStrings("ab", "cd"));
+    assertFalse(buddyStrings("abc", "cd"));
+    assertTrue(buddyStrings("abcde", "ebcda"));
+    assertTrue(buddyStrings("abdca", "abdca"));
+    assertFalse(buddyStrings("aadca", "abdca"));
+    assertTrue(buddyStrings("ab", "ba"));
+    assertFalse(buddyStrings("ab", "ab"));
+    assertTrue(buddyStrings("aa", "aa"));
+    assertTrue(buddyStrings("aaaaaaabc", "aaaaaaacb"));
+  }
+
+  private boolean buddyStrings(String a, String b) {
+
+    if (a.length() != b.length()) return false;
+
+    int[] list = new int[26];
+
+    for (int i = 0; i < a.length(); i++) {
+      list[a.charAt(i) - 'a']++;
+    }
+
+    int count = 0;
+    for (int i = 0; i < a.length(); i++) {
+      if (a.charAt(i) != b.charAt(i)) {
+
+        int pos = b.charAt(i) - 'a';
+        if (list[pos] > 0) {
+          list[pos]--;
+          count++;
+        }
+      }
+    }
+
+
+    return count == 2;
   }
 
   @Test
