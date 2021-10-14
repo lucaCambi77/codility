@@ -18,7 +18,7 @@ public class WeightedUnion {
     for (int i = 0; i < elements.length; i++) elements[i] = i;
   }
 
-  private int root(int i) {
+  public int root(int i) {
     while (i != elements[i]) i = elements[i];
 
     return i;
