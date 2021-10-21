@@ -70,6 +70,25 @@ class LeetCodeStringTest {
       };
 
   @Test
+  public void reversePrefix() {
+    assertEquals("dcbaefd", reversePrefix("abcdefd", 'd'));
+    assertEquals("zxyxxe", reversePrefix("xyxzxe", 'z'));
+  }
+
+  private String reversePrefix(String word, char ch) {
+
+    StringBuilder stringBuilder = new StringBuilder();
+
+    int i;
+    for (i = 0; i < word.length(); i++) {
+      stringBuilder.append(word.charAt(i));
+      if (word.charAt(i) == ch) break;
+    }
+
+    return i == word.length() ? word : stringBuilder.reverse().toString() + word.substring(i + 1);
+  }
+
+  @Test
   public void replaceDigits() {
     assertEquals("abcdef", replaceDigits("a1c1e1"));
     assertEquals("abbdcfdhe", replaceDigits("a1b2c3d4e"));

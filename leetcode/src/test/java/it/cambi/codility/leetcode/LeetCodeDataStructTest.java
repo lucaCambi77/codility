@@ -57,7 +57,7 @@ class LeetCodeDataStructTest {
     }
   }
 
-  class StringIteratorBean {
+  static class StringIteratorBean {
     private char c;
     private int freq;
 
@@ -67,7 +67,7 @@ class LeetCodeDataStructTest {
     }
   }
 
-  class StringIterator {
+  static class StringIterator {
 
     LinkedList<StringIteratorBean> characters = new LinkedList<>();
 
@@ -103,6 +103,60 @@ class LeetCodeDataStructTest {
     public boolean hasNext() {
       return !characters.isEmpty();
     }
+  }
+
+  static class FindSumPairs {
+    private int[] nums2;
+    private HashMap<Integer, Integer> map = new HashMap<>();
+    private HashMap<Integer, Integer> map2 = new HashMap<>();
+
+    public FindSumPairs(int[] nums1, int[] nums2) {
+      this.nums2 = nums2;
+      for (int j : nums1) {
+        map.put(j, map.getOrDefault(j, 0) + 1);
+      }
+
+      for (int j : nums2) {
+        map2.put(j, map2.getOrDefault(j, 0) + 1);
+      }
+    }
+
+    public void add(int index, int val) {
+      int before = nums2[index];
+      nums2[index] = nums2[index] + val;
+      map2.put(before, map2.get(before) - 1);
+      map2.put(nums2[index], map2.getOrDefault(nums2[index], 0) + 1);
+    }
+
+    public int count(int tot) {
+      int count = 0;
+
+      for (Map.Entry<Integer, Integer> entrySet : map.entrySet()) {
+        if (map2.containsKey(tot - entrySet.getKey()))
+          count += map2.get(tot - entrySet.getKey()) * entrySet.getValue();
+      }
+
+      return count;
+    }
+  }
+
+  @Test
+  public void findSumPairs() {
+
+    FindSumPairs findSumPairs =
+            new FindSumPairs(new int[]{1, 1, 2, 2, 2, 3}, new int[]{1, 4, 5, 2, 5, 4});
+
+    assertEquals(8, findSumPairs.count(7));
+
+    findSumPairs.add(3, 2);
+
+    assertEquals(2, findSumPairs.count(8));
+    assertEquals(1, findSumPairs.count(4));
+
+    findSumPairs.add(0, 1);
+    findSumPairs.add(1, 1);
+
+    assertEquals(11, findSumPairs.count(7));
   }
 
   @Test

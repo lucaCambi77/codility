@@ -23,6 +23,57 @@ public class LeetCodeArray2Test {
   private static final char O = 'O';
 
   @Test
+  public void countKDifference() {
+    assertEquals(4, countKDifference(new int[] {1, 2, 2, 1}, 1));
+    assertEquals(0, countKDifference(new int[] {1, 3}, 3));
+    assertEquals(3, countKDifference(new int[] {3, 2, 1, 5, 4}, 2));
+  }
+
+  private int countKDifference(int[] nums, int k) {
+
+    int count = 0;
+
+    Map<Integer, Integer> map = new HashMap<>();
+
+    for (int num : nums) {
+      count += map.getOrDefault(num + k, 0) + map.getOrDefault(num - k, 0);
+      map.put(num, map.getOrDefault(num, 0) + 1);
+    }
+
+    return count;
+  }
+
+  @Test
+  public void maximumUnits() {
+    assertEquals(8, maximumUnits(new int[][] {{1, 3}, {2, 2}, {3, 1}}, 4));
+    assertEquals(91, maximumUnits(new int[][] {{5, 10}, {2, 5}, {4, 7}, {3, 9}}, 10));
+  }
+
+  private int maximumUnits(int[][] boxTypes, int truckSize) {
+
+    Arrays.sort(boxTypes, (t1, t2) -> Integer.compare(t2[1], t1[1]));
+
+    int i = 0;
+    int sol = 0;
+    int maxBoxes = 0;
+
+    while (i < boxTypes.length && maxBoxes < truckSize) {
+
+      int[] box = boxTypes[i];
+
+      int boxesToAdd = box[0] + maxBoxes <= truckSize ? box[0] : truckSize - maxBoxes;
+
+      maxBoxes = maxBoxes + boxesToAdd;
+
+      sol = sol + box[1] * boxesToAdd;
+
+      i++;
+    }
+
+    return sol;
+  }
+
+  @Test
   public void findCenter() {
     assertEquals(2, findCenter(new int[][] {{1, 2}, {2, 3}, {4, 2}}));
     assertEquals(1, findCenter(new int[][] {{1, 2}, {5, 1}, {1, 3}, {1, 4}}));
