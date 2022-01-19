@@ -75,9 +75,8 @@ class EqualsTest {
             DataKey other = (DataKey) obj;
             if (id != other.getId()) return false;
             if (name == null) {
-              if (other.getName() != null) return false;
-            } else if (!name.equals(other.getName())) return false;
-            return true;
+              return other.getName() == null;
+            } else return name.equals(other.getName());
           }
         };
 
@@ -111,9 +110,8 @@ class EqualsTest {
             DataKey other = (DataKey) obj;
             if (id != other.getId()) return false;
             if (name == null) {
-              if (other.getName() != null) return false;
-            } else if (!name.equals(other.getName())) return false;
-            return true;
+              return other.getName() == null;
+            } else return name.equals(other.getName());
           }
         };
 
