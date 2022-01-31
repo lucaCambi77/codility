@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -21,6 +22,434 @@ public class LeetCodeArray2Test {
 
   private static final char X = 'X';
   private static final char O = 'O';
+
+  @Test
+  public void invalidTransactions() {
+    assertTrue(
+        invalidTransactions(new String[] {"alice,20,800,mtv", "alice,50,100,beijing"})
+            .containsAll(Arrays.asList("alice,20,800,mtv", "alice,50,100,beijing")));
+
+    assertTrue(
+        invalidTransactions(
+                new String[] {"alice,20,800,mtv", "alice,50,100,mtv", "alice,51,100,frankfurt"})
+            .containsAll(
+                Arrays.asList("alice,20,800,mtv", "alice,50,100,mtv", "alice,51,100,frankfurt")));
+
+    assertTrue(
+        invalidTransactions(new String[] {"alice,20,800,mtv", "alice,50,1200,mtv"})
+            .containsAll(Arrays.asList("alice,50,1200,mtv")));
+
+    assertTrue(
+        invalidTransactions(new String[] {"alice,20,800,mtv", "bob,50,1200,mtv"})
+            .containsAll(Arrays.asList("bob,50,1200,mtv")));
+
+    assertTrue(
+        invalidTransactions(new String[] {"alice,20,1220,mtv", "alice,20,1220,mtv"})
+            .containsAll(Arrays.asList("alice,20,1220,mtv", "alice,20,1220,mtv")));
+
+    assertTrue(
+        invalidTransactions(
+                new String[] {
+                  "bob,55,173,barcelona",
+                  "lee,113,952,zurich",
+                  "maybe,115,1973,madrid",
+                  "chalicefy,229,283,istanbul",
+                  "bob,24,874,shanghai",
+                  "alex,568,412,tokyo",
+                  "alex,242,1710,milan",
+                  "iris,722,879,shenzhen",
+                  "chalicefy,281,1586,warsaw",
+                  "maybe,246,778,bangkok",
+                  "xnova,605,166,newdelhi",
+                  "iris,631,991,hongkong",
+                  "chalicefy,500,620,tokyo",
+                  "chalicefy,380,428,istanbul",
+                  "iris,905,180,barcelona",
+                  "alex,810,732,shenzhen",
+                  "iris,689,389,paris",
+                  "xnova,475,298,singapore",
+                  "lee,58,709,amsterdam",
+                  "xnova,717,546,guangzhou",
+                  "maybe,78,435,shenzhen",
+                  "maybe,333,145,hongkong",
+                  "lee,405,1230,hongkong",
+                  "lee,456,1440,tokyo",
+                  "chalicefy,286,1071,amsterdam",
+                  "alex,55,271,shanghai",
+                  "bob,91,273,warsaw",
+                  "iris,195,1825,tokyo",
+                  "maybe,639,417,madrid",
+                  "maybe,305,882,chicago",
+                  "lee,443,47,chicago",
+                  "chalicefy,958,840,budapest",
+                  "lee,162,1239,budapest",
+                  "bob,701,505,montreal",
+                  "alex,52,1575,munich",
+                  "bob,533,1407,amsterdam",
+                  "lee,621,491,tokyo",
+                  "chalicefy,866,622,rome",
+                  "alex,925,455,hongkong",
+                  "lee,968,164,moscow",
+                  "chalicefy,31,1119,newdelhi",
+                  "iris,527,700,warsaw",
+                  "bob,286,1694,dubai",
+                  "maybe,903,29,barcelona",
+                  "maybe,474,1606,prague",
+                  "maybe,851,648,beijing",
+                  "lee,48,655,chicago",
+                  "maybe,378,25,toronto",
+                  "lee,922,691,munich",
+                  "maybe,411,903,taipei",
+                  "lee,651,112,guangzhou",
+                  "lee,664,506,dubai",
+                  "chalicefy,704,924,milan",
+                  "maybe,333,1264,budapest",
+                  "chalicefy,587,1112,singapore",
+                  "maybe,428,437,moscow",
+                  "lee,721,366,newdelhi",
+                  "iris,824,1962,beijing",
+                  "chalicefy,834,489,istanbul",
+                  "alex,639,1473,zurich",
+                  "xnova,898,738,tokyo",
+                  "chalicefy,585,1313,frankfurt",
+                  "xnova,730,759,beijing",
+                  "alex,69,892,montreal",
+                  "lee,77,91,barcelona",
+                  "lee,722,611,taipei",
+                  "chalicefy,706,1982,jakarta",
+                  "chalicefy,743,584,luxembourg",
+                  "xnova,683,322,istanbul",
+                  "chalicefy,60,861,prague",
+                  "alex,366,871,shenzhen",
+                  "chalicefy,77,870,shenzhen",
+                  "iris,913,1501,warsaw",
+                  "iris,846,1176,warsaw",
+                  "bob,873,69,zurich",
+                  "alex,601,181,chicago",
+                  "chalicefy,118,145,hongkong",
+                  "bob,879,982,montreal",
+                  "lee,994,950,chicago",
+                  "maybe,885,1900,shanghai",
+                  "lee,717,1447,shanghai",
+                  "chalicefy,71,434,istanbul",
+                  "bob,870,968,toronto",
+                  "maybe,718,51,beijing",
+                  "alex,669,896,istanbul",
+                  "chalicefy,639,506,rome",
+                  "alex,594,934,frankfurt",
+                  "maybe,3,89,jakarta",
+                  "xnova,328,1710,rome",
+                  "alex,611,571,chicago",
+                  "chalicefy,31,458,montreal",
+                  "iris,973,696,toronto",
+                  "iris,863,148,rome",
+                  "chalicefy,926,511,warsaw",
+                  "alex,218,1411,zurich",
+                  "chalicefy,544,1296,shenzhen",
+                  "iris,27,23,montreal",
+                  "chalicefy,295,263,prague",
+                  "maybe,575,31,munich",
+                  "alex,215,174,prague"
+                })
+            .containsAll(
+                Arrays.asList(
+                    "bob,55,173,barcelona",
+                    "lee,113,952,zurich",
+                    "maybe,115,1973,madrid",
+                    "chalicefy,229,283,istanbul",
+                    "bob,24,874,shanghai",
+                    "alex,568,412,tokyo",
+                    "alex,242,1710,milan",
+                    "iris,722,879,shenzhen",
+                    "chalicefy,281,1586,warsaw",
+                    "maybe,246,778,bangkok",
+                    "iris,631,991,hongkong",
+                    "chalicefy,500,620,tokyo",
+                    "iris,905,180,barcelona",
+                    "iris,689,389,paris",
+                    "lee,58,709,amsterdam",
+                    "xnova,717,546,guangzhou",
+                    "maybe,78,435,shenzhen",
+                    "maybe,333,145,hongkong",
+                    "lee,405,1230,hongkong",
+                    "lee,456,1440,tokyo",
+                    "chalicefy,286,1071,amsterdam",
+                    "alex,55,271,shanghai",
+                    "bob,91,273,warsaw",
+                    "iris,195,1825,tokyo",
+                    "maybe,305,882,chicago",
+                    "lee,443,47,chicago",
+                    "chalicefy,958,840,budapest",
+                    "lee,162,1239,budapest",
+                    "alex,52,1575,munich",
+                    "bob,533,1407,amsterdam",
+                    "lee,621,491,tokyo",
+                    "chalicefy,866,622,rome",
+                    "lee,968,164,moscow",
+                    "chalicefy,31,1119,newdelhi",
+                    "bob,286,1694,dubai",
+                    "maybe,903,29,barcelona",
+                    "maybe,474,1606,prague",
+                    "maybe,851,648,beijing",
+                    "lee,48,655,chicago",
+                    "maybe,378,25,toronto",
+                    "lee,922,691,munich",
+                    "maybe,411,903,taipei",
+                    "lee,651,112,guangzhou",
+                    "lee,664,506,dubai",
+                    "chalicefy,704,924,milan",
+                    "maybe,333,1264,budapest",
+                    "chalicefy,587,1112,singapore",
+                    "maybe,428,437,moscow",
+                    "lee,721,366,newdelhi",
+                    "iris,824,1962,beijing",
+                    "chalicefy,834,489,istanbul",
+                    "alex,639,1473,zurich",
+                    "chalicefy,585,1313,frankfurt",
+                    "xnova,730,759,beijing",
+                    "alex,69,892,montreal",
+                    "lee,77,91,barcelona",
+                    "lee,722,611,taipei",
+                    "chalicefy,706,1982,jakarta",
+                    "chalicefy,743,584,luxembourg",
+                    "xnova,683,322,istanbul",
+                    "chalicefy,60,861,prague",
+                    "chalicefy,77,870,shenzhen",
+                    "iris,913,1501,warsaw",
+                    "iris,846,1176,warsaw",
+                    "bob,873,69,zurich",
+                    "alex,601,181,chicago",
+                    "chalicefy,118,145,hongkong",
+                    "bob,879,982,montreal",
+                    "lee,994,950,chicago",
+                    "maybe,885,1900,shanghai",
+                    "lee,717,1447,shanghai",
+                    "chalicefy,71,434,istanbul",
+                    "bob,870,968,toronto",
+                    "alex,669,896,istanbul",
+                    "chalicefy,639,506,rome",
+                    "alex,594,934,frankfurt",
+                    "xnova,328,1710,rome",
+                    "alex,611,571,chicago",
+                    "chalicefy,31,458,montreal",
+                    "iris,973,696,toronto",
+                    "iris,863,148,rome",
+                    "chalicefy,926,511,warsaw",
+                    "alex,218,1411,zurich",
+                    "chalicefy,544,1296,shenzhen",
+                    "chalicefy,295,263,prague",
+                    "alex,215,174,prague")));
+
+    assertTrue(
+        invalidTransactions(
+                new String[] {
+                  "alice,20,800,mtv",
+                  "bob,50,1200,mtv",
+                  "alice,20,800,mtv",
+                  "alice,50,1200,mtv",
+                  "alice,20,800,mtv",
+                  "alice,50,100,beijing"
+                })
+            .containsAll(
+                Arrays.asList(
+                    "alice,20,800,mtv",
+                    "bob,50,1200,mtv",
+                    "alice,20,800,mtv",
+                    "alice,50,1200,mtv",
+                    "alice,20,800,mtv",
+                    "alice,50,100,beijing")));
+  }
+
+  class Transaction {
+
+    public String getTransaction() {
+      return transaction;
+    }
+
+    public Transaction(String transaction) {
+      this.transaction = transaction;
+    }
+
+    private final String transaction;
+    private boolean isValid = true;
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      Transaction that = (Transaction) o;
+      return Objects.equals(transaction, that.transaction);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(transaction);
+    }
+
+    public boolean isValid() {
+      return isValid;
+    }
+
+    public void setValid(boolean valid) {
+      isValid = valid;
+    }
+  }
+
+  private List<String> invalidTransactions(String[] transactions) {
+
+    List<String> sol = new ArrayList<>();
+    List<Transaction> transactionList = new ArrayList<>();
+
+    for (String transaction : transactions) {
+      transactionList.add(new Transaction(transaction));
+    }
+
+    for (int i = 0; i < transactionList.size(); i++) {
+      Transaction transaction = transactionList.get(i);
+      String[] s = transaction.getTransaction().split(",");
+
+      if (Integer.parseInt(s[2]) - 1000 > 0) transaction.setValid(false);
+
+      for (int j = i + 1; j < transactionList.size(); j++) {
+        Transaction transaction1 = transactionList.get(j);
+        String[] s1 = transaction1.getTransaction().split(",");
+
+        if (s[0].equals(s1[0])
+            && !s[3].equals(s1[3])
+            && Math.abs(Integer.parseInt(s[1]) - Integer.parseInt(s1[1])) <= 60) {
+          transaction.setValid(false);
+          transaction1.setValid(false);
+        }
+
+        if (Integer.parseInt(s1[2]) - 1000 > 0) transaction1.setValid(false);
+      }
+    }
+
+    for (Transaction t : transactionList) {
+      if (!t.isValid()) sol.add(t.getTransaction());
+    }
+    return new ArrayList<>(sol);
+  }
+
+  @Test
+  public void makeEqual() {
+    assertTrue(makeEqual(new String[] {"abc", "aabc", "bc"}));
+    assertTrue(
+        makeEqual(
+            new String[] {
+              "caaaaa",
+              "aaaaaaaaa",
+              "a",
+              "bbb",
+              "bbbbbbbbb",
+              "bbb",
+              "cc",
+              "cccccccccccc",
+              "ccccccc",
+              "ccccccc",
+              "cc",
+              "cccc",
+              "c",
+              "cccccccc",
+              "c"
+            }));
+    assertFalse(makeEqual(new String[] {"ab", "a"}));
+    assertFalse(makeEqual(new String[] {"a", "b"}));
+  }
+
+  private boolean makeEqual(String[] words) {
+    int[] map = new int[26];
+
+    for (String s : words) {
+      for (int i = 0; i < s.length(); i++) {
+        ++map[s.charAt(i) - 'a'];
+      }
+    }
+
+    for (int freq : map) {
+      if (freq != 0 && freq % words.length != 0) return false;
+    }
+
+    return true;
+  }
+
+  @Test
+  public void areOccurrencesEqual() {
+    assertTrue(areOccurrencesEqual("abacbc"));
+    assertFalse(areOccurrencesEqual("aaabb"));
+  }
+
+  public boolean areOccurrencesEqual(String s) {
+
+    int[] dict = new int[256];
+
+    for (int i = 0; i < s.length(); i++) {
+
+      dict[s.charAt(i)]++;
+    }
+
+    int count = 0;
+
+    for (int i = 0; i < s.length(); i++) {
+
+      if (dict[s.charAt(i)] > 0) {
+        if (count == 0) count = dict[s.charAt(i)];
+        else if (count != dict[s.charAt(i)]) return false;
+      }
+    }
+
+    return true;
+  }
+
+  @Test
+  public void summaryRanges() {
+    assertEquals(Arrays.asList("0->2", "4->5", "7"), summaryRanges(new int[] {0, 1, 2, 4, 5, 7}));
+    assertEquals(
+        Arrays.asList("0", "2->4", "6", "8->9"), summaryRanges(new int[] {0, 2, 3, 4, 6, 8, 9}));
+  }
+
+  private List<String> summaryRanges(int[] nums) {
+
+    if (nums.length == 0) return new ArrayList<>();
+
+    List<String> result = new ArrayList<>();
+
+    int start = nums[0];
+    int temp = nums[0];
+
+    for (int i = 1; i < nums.length; i++) {
+      if (nums[i] == temp + 1) {
+        temp = nums[i];
+        continue;
+      }
+      result.add(start == temp ? String.valueOf(start) : start + "->" + temp);
+      start = nums[i];
+      temp = nums[i];
+    }
+
+    result.add(start == temp ? String.valueOf(start) : start + "->" + temp);
+
+    return result;
+  }
+
+  @Test
+  public void canAttendMeetings() {
+    assertFalse(canAttendMeetings(new int[][] {{0, 30}, {5, 10}, {15, 20}}));
+    assertTrue(canAttendMeetings(new int[][] {{7, 10}, {2, 4}}));
+    assertFalse(canAttendMeetings(new int[][] {{6, 15}, {13, 20}, {6, 17}}));
+    assertFalse(canAttendMeetings(new int[][] {{19, 20}, {1, 10}, {5, 14}}));
+  }
+
+  private boolean canAttendMeetings(int[][] intervals) {
+
+    Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
+
+    for (int i = 0; i < intervals.length - 1; i++) {
+      if (intervals[i][1] > intervals[i + 1][0]) return false;
+    }
+
+    return true;
+  }
 
   @Test
   public void countKDifference() {
