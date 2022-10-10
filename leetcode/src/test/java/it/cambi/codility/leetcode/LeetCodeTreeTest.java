@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class LeetCodeTreeTest {
 
-  class NodeNAry {
+   class NodeNAry {
     public int val;
     public List<NodeNAry> children;
 
@@ -56,6 +56,13 @@ class LeetCodeTreeTest {
       this.left = left;
       this.right = right;
     }
+  }
+
+  @Test
+  public void tree2str() {}
+
+  public String tree2str(TreeNode root) {
+    return null;
   }
 
   @Test

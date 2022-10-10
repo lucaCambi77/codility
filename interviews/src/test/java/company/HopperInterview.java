@@ -25,14 +25,17 @@ class HopperInterview {
     Set<String> set = new HashSet<>();
     set.add(input[0]);
 
+    int l;
+    int minLength;
+
     for (int i = 1; i < input.length; i++) {
       //
-      int l = 0;
+      l = 0;
       StringBuilder stringBuilder = new StringBuilder();
 
-      while (l < input[i].length()
-          && l < input[i - 1].length()
-          && input[i].charAt(l) == input[i - 1].charAt(l)) {
+      minLength = Math.min(input[i].length(), input[i - 1].length());
+
+      while (l < minLength && input[i].charAt(l) == input[i - 1].charAt(l)) {
         stringBuilder.append(input[i].charAt(l));
         l++;
       }

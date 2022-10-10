@@ -6,7 +6,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class SabreTest {
+class SabreInterview {
 
   @Test
   public void sumOfFirstEvenMoreThan5ValueFromEachList() {

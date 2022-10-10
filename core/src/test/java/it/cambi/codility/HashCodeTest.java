@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 /** @author luca */
 @TestMethodOrder(OrderAnnotation.class)
-class EqualsTest {
+class HashCodeTest {
 
   /**
    * Object are not equals as no {@link java.lang.Object#hashCode()}} is not implemented so two

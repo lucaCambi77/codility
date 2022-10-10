@@ -1,6 +1,9 @@
 package it.cambi.codility.leetcode;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,20 +11,424 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 public class LeetCodeArray2Test {
 
   private static final char X = 'X';
   private static final char O = 'O';
+
+  @Test
+  public void validWordSquare() {
+    assertTrue(validWordSquare(List.of("abcd", "bnrt", "crmy", "dtye")));
+    assertTrue(validWordSquare(List.of("abcd", "bnrt", "crm", "dt")));
+    assertFalse(validWordSquare(List.of("ball", "area", "read", "lady")));
+    assertFalse(validWordSquare(List.of("ball", "asee", "let", "lep")));
+    assertFalse(validWordSquare(List.of("ball", "asee", "lett", "le")));
+    assertFalse(validWordSquare(List.of("abc", "b")));
+    assertFalse(validWordSquare(List.of("a", "abc")));
+    assertFalse(validWordSquare(List.of("abc", "bde", "cefg", "g")));
+    assertFalse(validWordSquare(List.of("abcd", "bef", "cfga", "d")));
+  }
+
+  private boolean validWordSquare(List<String> words) {
+
+    int y = 0;
+    int x;
+
+    for (String word : words) {
+
+      for (x = 0; x < word.length(); x++) {
+        if (x == words.size() || y >= words.get(x).length()) return false; // x or y outbound
+
+        if (word.charAt(x) != words.get(x).charAt(y)) return false;
+      }
+
+      if (x < words.size() && words.get(x).length() > y) return false; // y has greater length than x
+
+      y++;
+    }
+
+    return true;
+  }
+
+  @Test
+  public void minProductSum() {
+    assertEquals(40, minProductSum(new int[] {5, 3, 4, 2}, new int[] {4, 2, 2, 5}));
+    assertEquals(65, minProductSum(new int[] {2, 1, 4, 5, 7}, new int[] {3, 2, 4, 8, 6}));
+  }
+
+  private int minProductSum(int[] nums1, int[] nums2) {
+    Arrays.sort(nums1);
+    nums2 =
+        IntStream.of(nums2).boxed().sorted(Comparator.reverseOrder()).mapToInt(i -> i).toArray();
+
+    int sum = 0;
+
+    for (int i = 0; i < nums1.length; i++) {
+      sum += nums1[i] * nums2[i];
+    }
+
+    return sum;
+  }
+
+  @Test
+  public void findKDistantIndices() {
+    assertEquals(
+        List.of(1, 2, 3, 4, 5, 6), findKDistantIndices(new int[] {3, 4, 9, 1, 3, 9, 5}, 9, 1));
+    assertEquals(List.of(0, 1, 2, 3, 4), findKDistantIndices(new int[] {2, 2, 2, 2, 2}, 2, 2));
+  }
+
+  public List<Integer> findKDistantIndices(int[] nums, int key, int k) {
+
+    List<Integer> list = new ArrayList<>();
+    LinkedHashSet<Integer> sol = new LinkedHashSet<>();
+
+    for (int i = 0; i < nums.length; i++) {
+      if (nums[i] - key == 0) list.add(i);
+    }
+
+    for (int i = 0; i < nums.length; i++) {
+      for (Integer integer : list) {
+        if (Math.abs(i - integer) <= k) sol.add(i);
+      }
+    }
+
+    return new ArrayList<>(sol);
+  }
+
+  @Test
+  public void timeRequiredToBuy() {
+
+    assertEquals(6, timeRequiredToBuy(new int[] {2, 3, 2}, 2));
+    assertEquals(154, timeRequiredToBuy(new int[] {84, 49, 5, 24, 70, 77, 87, 8}, 3));
+    assertEquals(
+        1457,
+        timeRequiredToBuy(
+            new int[] {
+              15, 66, 3, 47, 71, 27, 54, 43, 97, 34, 94, 33, 54, 26, 15, 52, 20, 71, 88, 42, 50, 6,
+              66, 88, 36, 99, 27, 82, 7, 72
+            },
+            18));
+    assertEquals(
+        8,
+        timeRequiredToBuy(
+            new int[] {
+              5, 1, 1, 1,
+            },
+            0));
+    assertEquals(
+        6,
+        timeRequiredToBuy(
+            new int[] {
+              5, 2, 3, 1,
+            },
+            1));
+  }
+
+  private int timeRequiredToBuy(int[] tickets, int k) {
+
+    int steps = 0;
+
+    int personKTickets = tickets[k];
+
+    for (int i = 0; i < tickets.length; i++) {
+
+      if (i == k) continue;
+
+      steps +=
+          i > k && tickets[i] >= personKTickets
+              ? personKTickets - 1
+              : Math.min(tickets[i], personKTickets);
+    }
+
+    return steps + personKTickets;
+  }
+
+  @Test
+  public void majorityElement() {
+    assertTrue(majorityElement(new int[] {3, 2, 3}).contains(3));
+    assertTrue(majorityElement(new int[] {1}).contains(1));
+    assertTrue(majorityElement(new int[] {1, 2}).containsAll(List.of(1, 2)));
+
+    assertTrue(majorityElementBoyerMoore(new int[] {3, 2, 3}).contains(3));
+    assertTrue(majorityElementBoyerMoore(new int[] {1}).contains(1));
+    assertTrue(majorityElementBoyerMoore(new int[] {1, 2}).containsAll(List.of(1, 2)));
+  }
+
+  private List<Integer> majorityElement(int[] nums) {
+
+    List<Integer> sol = new ArrayList<>();
+
+    Map<Integer, Integer> map = new HashMap<>();
+
+    for (int value : nums) {
+      map.put(value, map.getOrDefault(value, 0) + 1);
+    }
+
+    for (Map.Entry<Integer, Integer> value : map.entrySet()) {
+      if (value.getValue() > nums.length / 3) sol.add(value.getKey());
+    }
+
+    return sol;
+  }
+
+  public List<Integer> majorityElementBoyerMoore(int[] nums) {
+
+    // 1st pass
+    int count1 = 0;
+    int count2 = 0;
+
+    Integer candidate1 = null;
+    Integer candidate2 = null;
+
+    for (int n : nums) {
+      if (candidate1 != null && candidate1 == n) {
+        count1++;
+      } else if (candidate2 != null && candidate2 == n) {
+        count2++;
+      } else if (count1 == 0) {
+        candidate1 = n;
+        count1++;
+      } else if (count2 == 0) {
+        candidate2 = n;
+        count2++;
+      } else {
+        count1--;
+        count2--;
+      }
+    }
+
+    // 2nd pass
+    List<Integer> result = new ArrayList<>();
+
+    count1 = 0;
+    count2 = 0;
+
+    for (int n : nums) {
+      if (candidate1 != null && n == candidate1) count1++;
+      if (candidate2 != null && n == candidate2) count2++;
+    }
+
+    int n = nums.length;
+    if (count1 > n / 3) result.add(candidate1);
+    if (count2 > n / 3) result.add(candidate2);
+
+    return result;
+  }
+
+  @Test
+  public void isMajorityElement() {
+    assertTrue(isMajorityElement(new int[] {2, 4, 5, 5, 5, 5, 5, 6, 6}, 5));
+    assertFalse(isMajorityElement(new int[] {10, 100, 101, 101}, 101));
+    assertFalse(isMajorityElement(new int[] {10, 100, 101, 101}, 101));
+    assertFalse(isMajorityElement(new int[] {438885258}, 786460391));
+  }
+
+  private boolean isMajorityElement(int[] nums, int target) {
+
+    int start = -10;
+    int end = -11;
+
+    for (int i = 0; i < nums.length; i++) {
+      if (nums[i] - target == 0) {
+        start = i;
+        break;
+      }
+    }
+
+    for (int i = nums.length - 1; i > 0; i--) {
+      if (nums[i] - target == 0) {
+        end = i;
+        break;
+      }
+    }
+
+    return end - start + 1 > (nums.length / 2);
+  }
+
+  @Test
+  public void minMovesToSeat() {
+    assertEquals(4, minMovesToSeat(new int[] {3, 1, 5}, new int[] {2, 7, 4}));
+    assertEquals(7, minMovesToSeat(new int[] {4, 1, 5, 9}, new int[] {1, 3, 2, 6}));
+    assertEquals(4, minMovesToSeat(new int[] {2, 2, 6, 6}, new int[] {1, 3, 2, 6}));
+
+    assertEquals(0, minMovesToSeat(new int[] {1, 2, 3}, new int[] {1, 2, 3}));
+    assertEquals(2, minMovesToSeat(new int[] {1, 3, 4}, new int[] {1, 2, 3}));
+    assertEquals(2, minMovesToSeat(new int[] {1, 1, 4}, new int[] {1, 2, 3}));
+
+    assertEquals(6, minMovesToSeat(new int[] {2, 4, 4}, new int[] {5, 5, 6}));
+    assertEquals(9, minMovesToSeat(new int[] {2, 2, 4, 4}, new int[] {5, 5, 5, 6}));
+    assertEquals(8, minMovesToSeat(new int[] {2}, new int[] {10}));
+    assertEquals(19, minMovesToSeat(new int[] {12, 14, 19, 19, 12}, new int[] {19, 2, 17, 20, 7}));
+  }
+
+  private int minMovesToSeat(int[] seats, int[] students) {
+
+    Arrays.sort(seats);
+    Arrays.sort(students);
+
+    int moves = 0;
+
+    for (int i = 0; i < students.length; i++) {
+      moves += Math.abs(seats[i] - students[i]);
+    }
+
+    return moves;
+  }
+
+  @Test
+  public void arraySign() {
+    assertEquals(1, arraySign(new int[] {-1, -2, -3, -4, 3, 2, 1}));
+    assertEquals(0, arraySign(new int[] {1, 5, 0, 2, -3}));
+    assertEquals(-1, arraySign(new int[] {-1, 1, -1, 1, -1}));
+  }
+
+  private int arraySign(int[] nums) {
+
+    boolean countNeg = true;
+
+    for (int num : nums) {
+      if (num == 0) return 0;
+
+      if (num < 0) countNeg = !countNeg;
+    }
+
+    return countNeg ? 1 : -1;
+  }
+
+  @Test
+  public void searchRange() {
+    assertArrayEquals(new int[] {3, 4}, searchRange(new int[] {5, 7, 7, 8, 8, 10}, 8));
+    assertArrayEquals(new int[] {-1, -1}, searchRange(new int[] {5, 7, 7, 8, 8, 10}, 6));
+    assertArrayEquals(new int[] {-1, -1}, searchRange(new int[] {}, 0));
+    assertArrayEquals(new int[] {0, 0}, searchRange(new int[] {1}, 1));
+  }
+
+  public int[] searchRange(int[] nums, int target) {
+
+    int[] sol = new int[] {-1, -1};
+
+    for (int i = 0; i < nums.length; i++) {
+      if (nums[i] == target) {
+        sol[0] = i;
+        break;
+      }
+    }
+
+    for (int i = nums.length - 1; i >= 0; i--) {
+      if (nums[i] == target) {
+        sol[1] = i;
+        break;
+      }
+    }
+
+    return sol;
+  }
+
+  @Test
+  public void targetIndices() {
+    assertEquals(List.of(1, 2), targetIndices(new int[] {1, 2, 5, 2, 3}, 2));
+    assertEquals(List.of(3), targetIndices(new int[] {1, 2, 5, 2, 3}, 3));
+    assertEquals(List.of(4), targetIndices(new int[] {1, 2, 5, 2, 3}, 5));
+  }
+
+  private List<Integer> targetIndices(int[] nums, int target) {
+    Arrays.sort(nums);
+
+    LinkedList<Integer> integers = new LinkedList<>();
+
+    for (int i = 0; i < nums.length; i++) {
+      if (nums[i] == target) integers.add(i);
+    }
+    return integers;
+  }
+
+  @Test
+  public void maxDistance() {
+    assertEquals(3, maxDistance(new int[] {1, 1, 1, 6, 1, 1, 1}));
+    assertEquals(4, maxDistance(new int[] {1, 8, 3, 8, 3}));
+    assertEquals(1, maxDistance(new int[] {0, 1}));
+    assertEquals(8, maxDistance(new int[] {4, 4, 4, 11, 4, 4, 11, 4, 4, 4, 4, 4}));
+  }
+
+  public int maxDistance(int[] colors) {
+
+    if (colors.length < 2) return 0;
+
+    int maxDist = 0;
+
+    for (int i = 1; i < colors.length; i++) {
+      if (colors[i] != colors[0]) maxDist = Math.max(i, maxDist);
+
+      if (colors[colors.length - i] != colors[colors.length - 1])
+        maxDist = Math.max(colors.length - (colors.length - i) - 1, maxDist);
+    }
+
+    return maxDist;
+  }
+
+  @Test
+  public void maximumDifference() {
+    assertEquals(4, maximumDifference(new int[] {7, 1, 5, 4}));
+    assertEquals(-1, maximumDifference(new int[] {9, 4, 3, 2}));
+    assertEquals(9, maximumDifference(new int[] {1, 5, 2, 10}));
+    assertEquals(9, maximumDifference(new int[] {2, 5, 2, 1, 10}));
+    assertEquals(-1, maximumDifference(new int[] {5, 2}));
+    assertEquals(-1, maximumDifference(new int[] {5}));
+  }
+
+  private int maximumDifference(int[] nums) {
+
+    if (nums.length < 2) return -1;
+
+    int minDiff = -1;
+    int min = nums[0];
+
+    for (int i = 1; i < nums.length; i++) {
+      if (nums[i] > nums[i - 1]) minDiff = Math.max(nums[i] - min, minDiff);
+      min = Math.min(nums[i], min);
+    }
+
+    return minDiff;
+  }
+
+  @Test
+  public void shortestDistance() {
+    assertEquals(
+        3,
+        shortestDistance(
+            new String[] {"practice", "makes", "perfect", "coding", "makes"},
+            "coding",
+            "practice"));
+
+    assertEquals(
+        1,
+        shortestDistance(
+            new String[] {"practice", "makes", "perfect", "coding", "makes"}, "makes", "coding"));
+  }
+
+  private int shortestDistance(String[] wordsDict, String word1, String word2) {
+
+    int prev = -1, min = Integer.MAX_VALUE;
+
+    for (int i = 0; i < wordsDict.length; i++) {
+      if (wordsDict[i].equals(word1) || wordsDict[i].equals(word2)) {
+        if (prev >= 0 && !wordsDict[prev].equals(wordsDict[i])) min = Math.min(min, i - prev);
+        prev = i;
+      }
+    }
+    return min;
+  }
 
   @Test
   public void invalidTransactions() {

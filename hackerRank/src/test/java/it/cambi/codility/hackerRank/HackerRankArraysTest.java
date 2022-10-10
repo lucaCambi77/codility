@@ -36,7 +36,9 @@ import java.util.stream.LongStream;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/** @author luca */
+/**
+ * @author luca
+ */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class HackerRankArraysTest extends TestUtil {
   private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -54,6 +56,52 @@ class HackerRankArraysTest extends TestUtil {
   public void restoreStreams() {
     System.setOut(originalOut);
     System.setErr(originalErr);
+  }
+
+  @Test
+  void riddle() {
+
+    assertArrayEquals(new long[] {12, 2, 1, 1}, riddle(new long[] {2, 6, 1, 12}));
+  }
+
+  private long[] riddle(long[] arr) {
+
+    int size = arr.length;
+    int groupLength = size;
+
+    int right;
+    int left;
+    int rightLoop;
+
+    long[] sol = new long[arr.length];
+    long[] rowSol = new long[arr.length];
+
+    int permut;
+    long rowMin;
+
+    while (groupLength > 0) {
+      right = size;
+      permut = 0;
+
+      while (right - groupLength >= 0) {
+        left = right - groupLength;
+        rightLoop = right - 1;
+
+        rowMin = Integer.MAX_VALUE;
+
+        while (rightLoop >= left) {
+          rowMin = Math.min(rowMin, arr[rightLoop]);
+          rightLoop--;
+        }
+
+        right--;
+        rowSol[permut++] = rowMin;
+      }
+
+      sol[--groupLength] = Arrays.stream(rowSol).max().orElse(0);
+   }
+
+    return sol;
   }
 
   @Test
@@ -242,7 +290,7 @@ class HackerRankArraysTest extends TestUtil {
 
     if (arr == null || arr.size() == 0) return "NO";
 
-    int sum = arr.stream().reduce(0, (a, b) -> a + b);
+    int sum = arr.stream().reduce(0, Integer::sum);
     int partialSum = 0;
 
     for (Integer integer : arr) {

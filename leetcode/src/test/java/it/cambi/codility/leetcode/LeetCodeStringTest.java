@@ -1,12 +1,9 @@
 /** */
 package it.cambi.codility.leetcode;
 
-import it.cambi.codility.model.Strings;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -28,9 +25,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import it.cambi.codility.model.Strings;
 
 /** @author luca */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
@@ -68,6 +69,362 @@ class LeetCodeStringTest {
           put('z', 101);
         }
       };
+
+  private final Map<String, String> monthMap =
+      new HashMap<>() {
+        {
+          put("Jan", "01");
+          put("Feb", "02");
+          put("Mar", "03");
+          put("Apr", "04");
+          put("May", "05");
+          put("Jun", "06");
+          put("Jul", "07");
+          put("Aug", "08");
+          put("Sep", "09");
+          put("Oct", "10");
+          put("Nov", "11");
+          put("Dec", "12");
+        }
+      };
+
+  @Test
+  public void equationsPossible() {
+    assertFalse(equationsPossible(new String[] {"a==b", "b!=a"}));
+    assertTrue(equationsPossible(new String[] {"a==b", "b==a"}));
+    assertTrue(equationsPossible(new String[] {"c==c", "b==d", "x!=z"}));
+    assertFalse(equationsPossible(new String[] {"b!=b"}));
+    assertFalse(equationsPossible(new String[] {"a==b", "b!=c", "c==a"}));
+    assertFalse(equationsPossible(new String[] {"a!=b", "b!=c", "c!=a"}));
+    assertFalse(equationsPossible(new String[] {"a==b", "e==c", "b==c", "a!=e"}));
+    assertFalse(equationsPossible(new String[] {"b==a", "e==c", "b==c", "a!=e"}));
+    assertFalse(equationsPossible(new String[] {"a!=e", "b==a", "e==c", "b==c"}));
+
+    // a -> ( b ) b -> ( a ) e -> ( c ) c -> ( e )
+    // a -> ( b , c, e ) b -> ( a, c, e) c -> ( b, a, e) e -> ( c, b, a )
+
+  }
+
+  private boolean equationsPossible(String[] equations) {
+
+    return true;
+  }
+
+
+  @Test
+  public void countValidWords() {
+    assertEquals(2, countValidWords("sx  1,  x"));
+    assertEquals(3, countValidWords("cat and  dog"));
+    assertEquals(5, countValidWords("alice and  bob are playing stone-game10"));
+    assertEquals(0, countValidWords("!this  1-s b8d!"));
+    assertEquals(1, countValidWords("!this  a-s b8d!"));
+    assertEquals(6, countValidWords("he bought 2 pencils, 3 erasers, and 1  pencil-sharpener."));
+    assertEquals(0, countValidWords("-"));
+    assertEquals(1, countValidWords("!"));
+    assertEquals(1, countValidWords(" o6 t"));
+  }
+
+  private int countValidWords(String sentence) {
+    String[] split = sentence.split("\\s+");
+
+    int count = 0;
+
+    for (String s : split) {
+
+      if (s.isEmpty() || s.matches("\\d+")) continue;
+
+      if (s.matches("^([a-z]+-[a-z]+)?([!,.])?$")) count++;
+      if (s.matches("^[a-z]+([!,.])?$")) count++;
+    }
+
+    return count;
+  }
+
+  @Test
+  public void findComplement() {
+    assertEquals(2, findComplement(5));
+  }
+
+  private int findComplement(int num) {
+
+    String s = Integer.toBinaryString(num);
+
+    StringBuilder strinBuilder = new StringBuilder();
+
+    for (int i = 0; i < s.length(); i++) {
+      strinBuilder.append(s.charAt(i) == '0' ? '1' : '0');
+    }
+
+    return Integer.parseInt(strinBuilder.toString(), 2);
+  }
+
+  @Test
+  public void reverseOnlyLetters() {
+    assertEquals("dc-ba", reverseOnlyLetters("ab-cd"));
+    assertEquals("j-Ih-gfE-dCba", reverseOnlyLetters("a-bC-dEf-ghIj"));
+    assertEquals("Qedo1ct-eeLg=ntse-T!", reverseOnlyLetters("Test1ng-Leet=code-Q!"));
+  }
+
+  public String reverseOnlyLetters(String s) {
+
+    char[] chars = s.toCharArray();
+    char[] sol = new char[s.length()];
+    int right = chars.length - 1;
+
+    for (int i = 0; i < chars.length; i++) {
+      if ((chars[i] < 91 && chars[i] > 64) || (chars[i] < 123 && chars[i] > 96)) {
+
+        while (chars[right] < 65
+            || chars[right] > 122
+            || (chars[right] > 90 && chars[right] < 97)) {
+          right--;
+        }
+        sol[right--] = chars[i];
+
+      } else {
+        sol[i] = chars[i];
+      }
+    }
+
+    StringBuilder stringBuilder = new StringBuilder();
+    for (char c : sol) {
+      stringBuilder.append(c);
+    }
+
+    return stringBuilder.toString();
+  }
+
+  @Test
+  public void reformatDate() {
+    assertEquals("2052-10-20", reformatDate("20th Oct 2052"));
+    assertEquals("1933-06-06", reformatDate("6th Jun 1933"));
+    assertEquals("1960-05-26", reformatDate("26th May 1960"));
+  }
+
+  private String reformatDate(String date) {
+    String[] s = date.split("\\s");
+
+    return new StringBuilder()
+        .append(s[2])
+        .append("-")
+        .append(monthMap.get(s[1]))
+        .append("-")
+        .append(String.format("%02d", Integer.parseInt(s[0].replaceAll("[^0-9]", ""))))
+        .toString();
+  }
+
+  @Test
+  public void stringShift() {
+    assertEquals("cab", stringShift("abc", new int[][] {{0, 1}, {1, 2}}));
+    assertEquals("bca", stringShift("abc", new int[][] {{1, 2}}));
+    assertEquals("abc", stringShift("abc", new int[][] {{1, 3}}));
+    assertEquals("bca", stringShift("abc", new int[][] {{0, 1}}));
+    assertEquals("abc", stringShift("abc", new int[][] {{0, 3}}));
+    assertEquals("bca", stringShift("abc", new int[][] {{0, 4}}));
+    assertEquals("efgabcd", stringShift("abcdefg", new int[][] {{1, 1}, {1, 1}, {0, 2}, {1, 3}}));
+  }
+
+  private String stringShift(String s, int[][] shift) {
+
+    int k = 0;
+
+    for (int[] ints : shift) {
+      if (ints[0] == 0) k -= ints[1];
+      else k += ints[1];
+    }
+
+    if (k > 0) k = s.length() - (k % s.length());
+    else k = Math.abs(k) % s.length();
+
+    return s.substring(k) + s.substring(0, k);
+  }
+
+  @Test
+  public void reverseWords1() {
+    assertEquals("blue is sky the", reverseWords1("the sky is blue"));
+    assertEquals("example good a", reverseWords1("a good   example"));
+  }
+
+  private String reverseWords1(String s) {
+
+    StringBuilder stringBuilder = new StringBuilder();
+    StringBuilder stringBuilder1;
+
+    for (int i = s.length() - 1; i >= 0; i--) {
+      if (s.charAt(i) != ' ') {
+        stringBuilder1 = new StringBuilder();
+        while (i >= 0 && s.charAt(i) != ' ') stringBuilder1.insert(0, s.charAt(i--));
+        stringBuilder.append(stringBuilder1).append(" ");
+      }
+    }
+
+    return stringBuilder.toString().trim();
+  }
+
+  @Test
+  public void isSumEqual() {
+    assertTrue(isSumEqual("acb", "cba", "cdb"));
+    assertFalse(isSumEqual("aaa", "a", "cdb"));
+    assertTrue(isSumEqual("aaa", "a", "aaaa"));
+  }
+
+  private boolean isSumEqual(String firstWord, String secondWord, String targetWord) {
+
+    int first = 0, second = 0, sum = 0;
+    for (int i = 0; i < firstWord.length(); i++) {
+      first = first * 10 + firstWord.charAt(i) - 'a';
+    }
+    for (int i = 0; i < secondWord.length(); i++) {
+      second = second * 10 + secondWord.charAt(i) - 'a';
+    }
+    for (int i = 0; i < targetWord.length(); i++) {
+      sum = sum * 10 + targetWord.charAt(i) - 'a';
+    }
+    return first + second == sum;
+  }
+
+  @Test
+  public void squareIsWhite() {
+    assertFalse(squareIsWhite("a1"));
+    assertTrue(squareIsWhite("h3"));
+    assertFalse(squareIsWhite("c7"));
+    assertFalse(squareIsWhite("h2"));
+    assertTrue(squareIsWhite("c2"));
+  }
+
+  private boolean squareIsWhite(String coordinates) {
+
+    boolean sol = (coordinates.charAt(0) - 'a') % 2 != 0;
+
+    var numberDiff = (coordinates.charAt(1) - 1) % 2;
+
+    return sol && numberDiff == 0 || !sol && numberDiff != 0;
+  }
+
+  @Test
+  public void checkZeroOnes() {
+    assertTrue(checkZeroOnes("1101"));
+    assertFalse(checkZeroOnes("111000"));
+    assertFalse(checkZeroOnes("110100010"));
+  }
+
+  private boolean checkZeroOnes(String s) {
+
+    int maxSeqZero = 0;
+    int maxSeqOne = 0;
+
+    int tmpSeqZero = 0;
+    int tmpSeqOne = 0;
+
+    for (int i = 0; i < s.length(); i++) {
+      if (s.charAt(i) == '0') {
+        tmpSeqZero++;
+        maxSeqZero = Math.max(maxSeqZero, tmpSeqZero);
+        tmpSeqOne = 0;
+      } else {
+        tmpSeqOne++;
+        maxSeqOne = Math.max(maxSeqOne, tmpSeqOne);
+        tmpSeqZero = 0;
+      }
+    }
+
+    return maxSeqOne > maxSeqZero;
+  }
+
+  @Test
+  public void maxScore() {
+    assertEquals(5, maxScore("011101"));
+    assertEquals(5, maxScore("00111"));
+    assertEquals(3, maxScore("1111"));
+    assertEquals(1, maxScore("00"));
+
+    assertEquals(5, maxScore1("011101"));
+    assertEquals(5, maxScore1("00111"));
+    assertEquals(3, maxScore1("1111"));
+    assertEquals(1, maxScore1("00"));
+  }
+
+  private int maxScore(String s) {
+
+    int sumLeft = 0;
+    int maxScore = 0;
+    int sumRight = 0;
+
+    for (int i = 0; i < s.length(); i++) {
+      sumRight += Character.getNumericValue(s.charAt(i));
+    }
+
+    for (int i = 0; i < s.length() - 1; i++) {
+      if (s.charAt(i) == '0') {
+        sumLeft++;
+      } else {
+        sumRight--;
+      }
+      maxScore = Math.max(maxScore, sumLeft + sumRight);
+    }
+
+    return maxScore;
+  }
+
+  private int maxScore1(String s) {
+    int max = Integer.MIN_VALUE;
+    int zeros = 0, ones = 0;
+    for (int i = 0; i < s.length(); i++) {
+      if (s.charAt(i) == '0') zeros++;
+      else ones++;
+      if (i != s.length() - 1) max = Math.max(zeros - ones, max);
+    }
+    return max + ones;
+  }
+
+  @Test
+  public void secondHighest() {
+
+    assertEquals(2, secondHighest("dfa12321afd"));
+    assertEquals(-1, secondHighest("abc1111"));
+  }
+
+  public int secondHighest(String s) {
+    int a = -1;
+    int b = -1;
+    for (char c : s.toCharArray()) {
+      if (Character.isDigit(c)) {
+
+        int x = Character.getNumericValue(c);
+        if (x > a) {
+          b = a;
+          a = x;
+        } else if (x != a && x > b) {
+          b = x;
+        }
+      }
+    }
+    return b;
+  }
+
+  @Test
+  public void countPoints() {
+
+    assertEquals(1, countPoints("B0B6G0R6R0R6G9"));
+    assertEquals(1, countPoints("B0R0G0R9R0B0G0"));
+    assertEquals(0, countPoints("G4"));
+  }
+
+  private int countPoints(String rings) {
+
+    Map<Integer, Set<Character>> map = new HashMap<>();
+
+    for (int i = 0; i < rings.length(); i++) {
+      int value = Character.getNumericValue(rings.charAt(i + 1));
+
+      Set<Character> set = map.getOrDefault(value, new HashSet<>());
+      set.add(rings.charAt(i));
+      map.put(value, set);
+      i++;
+    }
+
+    return (int) map.values().stream().filter(v -> v.size() == 3).count();
+  }
 
   @Test
   public void reversePrefix() {

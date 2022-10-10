@@ -5,6 +5,10 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,13 +21,18 @@ import java.util.Objects;
 import java.util.Queue;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/** @author luca */
+/**
+ * @author luca
+ */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class LeetCodeDataStructTest {
 
@@ -32,7 +41,7 @@ class LeetCodeDataStructTest {
 
     /** Initialize your data structure here. */
     public TwoSum() {
-      this.num_counts = new HashMap<Integer, Integer>();
+      this.num_counts = new HashMap<>();
     }
 
     /** Add the number to an internal data structure.. */
@@ -140,11 +149,115 @@ class LeetCodeDataStructTest {
     }
   }
 
+  class SparseVector {
+
+    private int[] indexToNotZeroValue;
+
+    SparseVector(int[] nums) {
+      this.indexToNotZeroValue = nums;
+    }
+
+    // Return the dotProduct of two sparse vectors
+    public int dotProduct(SparseVector vec) {
+
+      int product = 0;
+
+      for (int i = 0; i < vec.getIndexToNotZeroValue().length; i++) {
+        if (vec.getIndexToNotZeroValue()[i] == 0 || this.indexToNotZeroValue[i] == 0) continue;
+
+        product = product + (vec.getIndexToNotZeroValue()[i] * this.indexToNotZeroValue[i]);
+      }
+
+      return product;
+    }
+
+    public int[] getIndexToNotZeroValue() {
+      return indexToNotZeroValue;
+    }
+  }
+
+  class Row {
+    int row;
+
+    public int getRow() {
+      return row;
+    }
+
+    public List<String> getColumns() {
+      return columns;
+    }
+
+    List<String> columns;
+
+    public Row(int i, List<String> columns) {
+      this.row = i;
+      this.columns = columns;
+    }
+  }
+
+  class SQL {
+
+    Map<String, List<Row>> map = new HashMap<>();
+
+    public SQL(List<String> names, List<Integer> columns) {}
+
+    public void insertRow(String name, List<String> row) {
+      if (!map.containsKey(name)) {
+        map.put(name, new ArrayList<>());
+      }
+
+      List<Row> rowList = map.get(name);
+
+      rowList.add(rowList.size(), new Row(rowList.size() + 1, row));
+
+      map.put(name, rowList);
+    }
+
+    public void deleteRow(String name, int rowId) {}
+
+    public String selectCell(String name, int rowId, int columnId) {
+      return map.get(name).stream()
+          .filter(r -> r.getRow() - rowId == 0)
+          .map(r -> r.getColumns().get(columnId - 1))
+          .findFirst()
+          .orElse(null);
+    }
+  }
+
+  @Test
+  void designSql() {
+    first();
+  }
+
+  private void first() {
+    SQL sql = new SQL(List.of("one", "two", "three"), List.of(2, 3, 1));
+    sql.insertRow("two", List.of("first", "second", "third"));
+    assertEquals("third", sql.selectCell("two", 1, 3));
+    sql.insertRow("two", List.of("fourth", "fifth", "sixth"));
+    sql.deleteRow("two", 1);
+    assertEquals("fifth", sql.selectCell("two", 2, 2));
+  }
+
+  @Test
+  public void DotProductTwoSparseVectors() {
+    SparseVector v1 = new SparseVector(new int[] {1, 0, 0, 2, 3});
+    SparseVector v2 = new SparseVector(new int[] {0, 3, 0, 4, 0});
+    assertEquals(8, v1.dotProduct(v2));
+
+    v1 = new SparseVector(new int[] {0, 1, 0, 0, 0});
+    v2 = new SparseVector(new int[] {0, 0, 0, 0, 2});
+    assertEquals(0, v1.dotProduct(v2));
+
+    v1 = new SparseVector(new int[] {0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0});
+    v2 = new SparseVector(new int[] {0, 0, 2, 0, 0, 4, 3, 0, 0, 2, 0, 0, 0});
+    assertEquals(15, v1.dotProduct(v2));
+  }
+
   @Test
   public void findSumPairs() {
 
     FindSumPairs findSumPairs =
-            new FindSumPairs(new int[]{1, 1, 2, 2, 2, 3}, new int[]{1, 4, 5, 2, 5, 4});
+        new FindSumPairs(new int[] {1, 1, 2, 2, 2, 3}, new int[] {1, 4, 5, 2, 5, 4});
 
     assertEquals(8, findSumPairs.count(7));
 

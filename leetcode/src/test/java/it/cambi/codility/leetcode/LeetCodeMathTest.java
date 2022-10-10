@@ -1,19 +1,137 @@
 /** */
 package it.cambi.codility.leetcode;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /** @author luca */
 class LeetCodeMathTest {
-  long k;
+
+  @Test
+  public void isRectangleOverlap() {
+    assertTrue(isRectangleOverlap(new int[] {0, 0, 2, 2}, new int[] {1, 1, 3, 3}));
+    assertFalse(isRectangleOverlap(new int[] {0, 0, 1, 1}, new int[] {1, 0, 2, 1}));
+    assertFalse(isRectangleOverlap(new int[] {0, 0, 1, 1}, new int[] {2, 2, 3, 3}));
+    assertTrue(isRectangleOverlap(new int[] {7, 8, 13, 15}, new int[] {10, 8, 12, 20}));
+    assertTrue(isRectangleOverlap(new int[] {7, 8, 13, 15}, new int[] {7, 8, 13, 15}));
+    assertTrue(isRectangleOverlap(new int[] {4, 4, 14, 7}, new int[] {4, 3, 8, 8}));
+  }
+
+  private boolean isRectangleOverlap(int[] rec1, int[] rec2) {
+
+    return !(rec1[2] <= rec2[0]
+        || // left
+        rec1[3] <= rec2[1]
+        || // bottom
+        rec1[0] >= rec2[2]
+        || // right
+        rec1[1] >= rec2[3]); // top
+  }
+
+  @Test
+  public void maxValue() {
+    assertEquals("999", maxValue("99", 9));
+    assertEquals("998", maxValue("99", 8));
+    assertEquals("87", maxValue("8", 7));
+    assertEquals("787", maxValue("78", 7));
+    assertEquals("98", maxValue("8", 9));
+    assertEquals("-123", maxValue("-13", 2));
+    assertEquals("-12", maxValue("-1", 2));
+    assertEquals("828824579515", maxValue("28824579515", 8));
+  }
+
+  private String maxValue(String n, int x) {
+    StringBuilder v;
+    int i;
+
+    if (n.charAt(0) != '-') {
+      v = new StringBuilder(n);
+      for (i = 0; i < v.length(); i++) {
+        if (x > Character.getNumericValue(v.charAt(i))) {
+          v.insert(i, x);
+          return v.toString();
+        }
+      }
+    } else {
+      v = new StringBuilder(n);
+
+      for (i = 1; i < v.length(); i++) {
+        if (x < Character.getNumericValue(v.charAt(i))) {
+          v.insert(i, x);
+          return v.toString();
+        }
+      }
+    }
+
+    return v.append(x).toString();
+  }
+
+  // Jump 1 or 2 steps, min cost to climb stairs
+  @Test
+  public void minCostClimbingStairs() {
+    assertEquals(15, minCostClimbingStairs(new int[] {10, 15, 20}));
+    assertEquals(6, minCostClimbingStairs(new int[] {1, 100, 1, 1, 1, 100, 1, 1, 100, 1}));
+    assertEquals(6, minCostClimbingStairs1(new int[] {1, 100, 1, 1, 1, 100, 1, 1, 100, 1}));
+    assertEquals(6, minCostClimbingStairs2(new int[] {1, 100, 1, 1, 1, 100, 1, 1, 100, 1}));
+  }
+
+  private int minCostClimbingStairs(int[] cost) {
+    int[] minimumCost = new int[cost.length + 1];
+
+    // Start iteration from step 2, since the minimum cost of reaching
+    // step 0 and step 1 is 0
+    for (int i = 2; i < minimumCost.length; i++) {
+      int takeOneStep = minimumCost[i - 1] + cost[i - 1];
+      int takeTwoSteps = minimumCost[i - 2] + cost[i - 2];
+      minimumCost[i] = Math.min(takeOneStep, takeTwoSteps);
+    }
+
+    // The final element in minimumCost refers to the top floor
+    return minimumCost[minimumCost.length - 1];
+  }
+
+  private HashMap<Integer, Integer> memo = new HashMap<>();
+
+  private int minCostClimbingStairs1(int[] cost) {
+    return minimumCost(cost.length, cost);
+  }
+
+  private int minimumCost(int i, int[] cost) {
+    // Base case, we are allowed to start at either step 0 or step 1
+    if (i <= 1) {
+      return 0;
+    }
+
+    // Check if we have already calculated minimumCost(i)
+    if (memo.containsKey(i)) {
+      return memo.get(i);
+    }
+
+    // If not, cache the result in our hash map and return it
+    int downOne = cost[i - 1] + minimumCost(i - 1, cost);
+    int downTwo = cost[i - 2] + minimumCost(i - 2, cost);
+    memo.put(i, Math.min(downOne, downTwo));
+    return memo.get(i);
+  }
+
+  private int minCostClimbingStairs2(int[] cost) {
+    int downOne = 0;
+    int downTwo = 0;
+    for (int i = 2; i < cost.length + 1; i++) {
+      int temp = downOne;
+      downOne = Math.min(downOne + cost[i - 1], downTwo + cost[i - 2]);
+      downTwo = temp;
+    }
+
+    return downOne;
+  }
 
   @Test
   public void numWaterBottles() {
@@ -235,19 +353,6 @@ class LeetCodeMathTest {
     return res;
   }
 
-  private int countZeros(String numberToString) {
-
-    int count = 0;
-    int index = numberToString.length() - 1;
-    int end = numberToString.length();
-    while (numberToString.substring(index, end).contains("0")) {
-      index--;
-      end--;
-      count++;
-    }
-    return count;
-  }
-
   /**
    * This runs in linear time but it is interesting to see. In creates an array of the factorial
    * number in reverse order where a single digit is shifted by the reminder of 10
@@ -273,6 +378,19 @@ class LeetCodeMathTest {
     return countZeros(builder.toString());
   }
 
+  private int countZeros(String numberToString) {
+
+    int count = 0;
+    int index = numberToString.length() - 1;
+    int end = numberToString.length();
+    while (numberToString.substring(index, end).contains("0")) {
+      index--;
+      end--;
+      count++;
+    }
+    return count;
+  }
+
   static int multiply(int x, int[] res, int res_size) {
     int carry = 0; // Initialize carry
 
@@ -294,15 +412,14 @@ class LeetCodeMathTest {
     return res_size;
   }
 
+  // Jump 1 or 2 steps, possible ways to climb stairs
   @Test
   public void climbStairs() {
     assertEquals(2, climbStairs(2));
     assertEquals(3, climbStairs(3));
     assertEquals(5, climbStairs(4));
     assertEquals(8, climbStairs(5));
-
-    // assertEquals(1134903170, climbStairs(44));
-
+    assertEquals(1134903170, climbStairs(44));
   }
 
   private int climbStairs(int n) {
@@ -355,6 +472,8 @@ class LeetCodeMathTest {
 
     return false;
   }
+
+  long k;
 
   @Test
   public void guessNumber() {
