@@ -28,7 +28,6 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.Stack;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -59,8 +58,59 @@ class HackerRankArraysTest extends TestUtil {
   }
 
   @Test
-  void riddle() {
+  void findZigZagSequence() {
+    // 2,3,5,1,4
+    // 1,2,3,4,5
+    // 1,2,3,5,4
+    // 1,2,4,5,3
 
+    assertArrayEquals(new int[] {1, 2, 5, 4, 3}, findZigZagSequence(new int[] {2, 3, 5, 1, 4}, 5));
+    assertArrayEquals(
+        new int[] {1, 2, 3, 6, 5, 4}, findZigZagSequence(new int[] {2, 3, 5, 1, 4, 6}, 6));
+  }
+
+  int[] findZigZagSequence(int[] a, int n) {
+    Arrays.sort(a);
+    int mid = (n & 1) == 0 ? (n + 1) / 2 : n / 2;
+    int temp = a[mid];
+    a[mid] = a[n - 1];
+    a[n - 1] = temp;
+
+    int st = mid + 1;
+    int ed = n - 2;
+    while (st <= ed) {
+      temp = a[st];
+      a[st] = a[ed];
+      a[ed] = temp;
+      st = st + 1;
+      ed = ed - 1;
+    }
+
+    return a;
+  }
+
+  @Test
+  void lonelyInteger() {
+    assertEquals(95, lonelyInteger(List.of(4, 9, 95, 93, 57, 4, 57, 93, 9)));
+  }
+
+  int lonelyInteger(List<Integer> a) {
+    int[] freq = new int[101];
+    for (Integer i : a) {
+      freq[i] = freq[i] + 1;
+    }
+    int sol = 0;
+    for (int i = 0; i < freq.length - 1; i++) {
+      if (freq[i] == 1) {
+        sol = i;
+        break;
+      }
+    }
+    return sol;
+  }
+
+  @Test
+  void riddle() {
     assertArrayEquals(new long[] {12, 2, 1, 1}, riddle(new long[] {2, 6, 1, 12}));
   }
 
@@ -99,7 +149,7 @@ class HackerRankArraysTest extends TestUtil {
       }
 
       sol[--groupLength] = Arrays.stream(rowSol).max().orElse(0);
-   }
+    }
 
     return sol;
   }
@@ -193,26 +243,28 @@ class HackerRankArraysTest extends TestUtil {
 
   @Test
   public void countingSort() {
-    assertArrayEquals(new int[] {1, 1, 1, 2, 3}, countingSort(new int[] {1, 1, 3, 2, 1}));
+    assertEquals(
+        List.of(
+            0, 2, 0, 2, 0, 0, 1, 0, 1, 2, 1, 0, 1, 1, 0, 0, 2, 0, 1, 0, 1, 2, 1, 1, 1, 3, 0, 2, 0,
+            0, 2, 0, 3, 3, 1, 0, 0, 0, 0, 2, 2, 1, 1, 1, 2, 0, 2, 0, 1, 0, 1, 0, 0, 1, 0, 0, 2, 1,
+            0, 1, 1, 1, 0, 1, 0, 1, 0, 2, 1, 3, 2, 0, 0, 2, 1, 2, 1, 0, 2, 2, 1, 2, 1, 2, 1, 1, 2,
+            2, 0, 3, 2, 1, 1, 0, 1, 1, 1, 0, 2, 2),
+        countingSort(
+            List.of(
+                63, 25, 73, 1, 98, 73, 56, 84, 86, 57, 16, 83, 8, 25, 81, 56, 9, 53, 98, 67, 99, 12,
+                83, 89, 80, 91, 39, 86, 76, 85, 74, 39, 25, 90, 59, 10, 94, 32, 44, 3, 89, 30, 27,
+                79, 46, 96, 27, 32, 18, 21, 92, 69, 81, 40, 40, 34, 68, 78, 24, 87, 42, 69, 23, 41,
+                78, 22, 6, 90, 99, 89, 50, 30, 20, 1, 43, 3, 70, 95, 33, 46, 44, 9, 69, 48, 33, 60,
+                65, 16, 82, 67, 61, 32, 21, 79, 75, 75, 13, 87, 70, 33)));
   }
 
-  static int[] countingSort(int[] arr) {
+  static List<Integer> countingSort(List<Integer> arr) {
 
     int[] array = new int[100];
 
     for (int i : arr) array[i] = ++array[i];
 
-    int x = 0;
-    int[] arraySol = new int[arr.length];
-
-    for (int i = 0; i < array.length; i++) {
-      if (array[i] != 0) {
-        int j = 0;
-        while (j++ < array[i]) arraySol[x++] = i;
-      }
-    }
-
-    return arraySol;
+    return Arrays.stream(array).boxed().collect(Collectors.toList());
   }
 
   @Test
@@ -1503,24 +1555,6 @@ class HackerRankArraysTest extends TestUtil {
   }
 
   @Test
-  public void lonelyInteger() {
-    assertEquals(4, lonelyInteger(new int[] {1, 2, 3, 4, 3, 2, 1}));
-    assertEquals(1, lonelyInteger(new int[] {1}));
-    assertEquals(2, lonelyInteger(new int[] {1, 1, 2}));
-    assertEquals(2, lonelyInteger(new int[] {0, 0, 1, 2, 1}));
-  }
-
-  private int lonelyInteger(int[] a) {
-
-    Map<Integer, Long> map =
-        IntStream.of(a)
-            .boxed()
-            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-
-    return map.entrySet().stream().filter(e -> e.getValue() == 1).findFirst().orElse(null).getKey();
-  }
-
-  @Test
   public void alternate() {
     assertEquals(5, alternate("beabeefeab"));
     assertEquals(4, alternate("abaacdabd"));
@@ -1668,55 +1702,22 @@ class HackerRankArraysTest extends TestUtil {
 
   @Test
   public void diagonalDifference() {
-    List<List<Integer>> arr =
-        new ArrayList<List<Integer>>() {
-          {
-            add(
-                new ArrayList<Integer>() {
-                  {
-                    add(11);
-                    add(2);
-                    add(4);
-                  }
-                });
-
-            add(
-                new ArrayList<Integer>() {
-                  {
-                    add(4);
-                    add(5);
-                    add(6);
-                  }
-                });
-
-            add(
-                new ArrayList<Integer>() {
-                  {
-                    add(10);
-                    add(8);
-                    add(-12);
-                  }
-                });
-          }
-        };
-
-    assertEquals(15, diagonalDifference(arr));
+    assertEquals(
+        15, diagonalDifference(List.of(List.of(11, 2, 4), List.of(4, 5, 6), List.of(10, 8, -12))));
+    assertEquals(
+        2, diagonalDifference(List.of(List.of(1, 2, 3), List.of(4, 5, 6), List.of(9, 8, 9))));
   }
 
   private int diagonalDifference(List<List<Integer>> arr) {
     double leftDiag = 0;
     double righttDiag = 0;
 
-    int j = arr.size() - 1;
-
     for (int i = 0; i < arr.size(); i++) {
 
       List<Integer> innList = arr.get(i);
 
-      righttDiag += innList.get(j);
-      leftDiag += innList.get(arr.size() - 1 - j);
-
-      j--;
+      righttDiag += innList.get(arr.size() - 1 - i);
+      leftDiag += innList.get(i);
     }
 
     return (int) Math.abs(leftDiag - righttDiag);

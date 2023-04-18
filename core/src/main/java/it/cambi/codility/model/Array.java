@@ -19,11 +19,11 @@ public class Array {
   }
 
   public int binarySearchWithRecursion(int[] sortedArray, int key, int low, int high) {
-    int middle = (low + high) / 2;
-
     if (high < low) {
       return -1;
     }
+
+    int middle = (low + high) / 2;
 
     if (key == sortedArray[middle]) {
       return middle;

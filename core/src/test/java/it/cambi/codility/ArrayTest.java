@@ -62,6 +62,7 @@ class ArrayTest {
     assertEquals(-1, this.array.binarySearch(array, 0, array.length - 1, 9));
     assertEquals(1, this.array.binarySearchWithRecursion(array, 2, 0, array.length - 1));
     assertEquals(-1, this.array.binarySearchWithRecursion(array, 3, 0, array.length - 1));
+    assertEquals(-1, this.array.binarySearchWithRecursion(array, 11, 0, array.length - 1));
   }
 
   @Test

@@ -1,4 +1,4 @@
-package it.cambi.codility.hire;
+package hire;
 
 import org.junit.jupiter.api.Test;
 
@@ -53,7 +53,7 @@ class AmazonDemoTest {
     return result;
   }
 
-  int findGCD(int arr[], int n) {
+  int findGCD(int[] arr, int n) {
     if (null == arr || arr.length == 0) return 0;
 
     int result = arr[0];

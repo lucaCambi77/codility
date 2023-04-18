@@ -7,7 +7,34 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class HackerRankStringTest {
 
   @Test
-  public void palindromeIndex() {
+  void timeConversion() {
+    // Write your code here
+    assertEquals("19:05:45", timeConversion("07:05:45PM"));
+    assertEquals("12:00:01", timeConversion("12:00:01PM"));
+    assertEquals("00:00:01", timeConversion("12:00:01AM"));
+    assertEquals("13:00:01", timeConversion("01:00:01PM"));
+  }
+
+  String timeConversion(String s) {
+    boolean am = s.contains("AM");
+
+    String[] split = s.split("AM|PM");
+
+    String[] time = split[0].split(":");
+
+    if (am) {
+      return time[0].equals("12")
+          ? "00" + ":" + time[1] + ":" + time[2]
+          : time[0] + ":" + time[1] + ":" + time[2];
+    } else {
+      return time[0].equals("12")
+          ? time[0] + ":" + time[1] + ":" + time[2]
+          : (Integer.parseInt(time[0]) + 12) + ":" + time[1] + ":" + time[2];
+    }
+  }
+
+  @Test
+  void palindromeIndex() {
     assertEquals(3, palindromeIndex("aaab"));
     assertEquals(0, palindromeIndex("baa"));
     assertEquals(-1, palindromeIndex("aaa"));
