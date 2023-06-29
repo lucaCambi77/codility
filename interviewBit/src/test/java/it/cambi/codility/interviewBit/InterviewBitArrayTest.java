@@ -2,13 +2,17 @@ package it.cambi.codility.interviewBit;
 
 import org.junit.jupiter.api.Test;
 
+import it.cambi.codility.present.JavaCoreTest.A;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,8 +33,10 @@ class InterviewBitArrayTest {
 
     @Override
     public boolean equals(Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
+      if (this == o)
+        return true;
+      if (o == null || getClass() != o.getClass())
+        return false;
       Interval interval = (Interval) o;
       return start == interval.start && end == interval.end;
     }
@@ -42,8 +48,60 @@ class InterviewBitArrayTest {
   }
 
   @Test
+  public void twoSum() {
+    assertArrayEquals(new int[] { 1, 2 }, twoSum(new int[] { 2, 7, 11, 15 }, 9));
+    assertArrayEquals(
+        new int[] { 4, 8 },
+        twoSum(
+            new int[] {
+                4, 7, -4, 2, 2, 2, 3, -5, -3, 9, -4, 9, -7, 7, -1, 9, 9, 4, 1, -4, -2, 3, -3, -5, 4,
+                -7, 7, 9, -4, 4, -8
+            },
+            -3));
+    assertArrayEquals(new int[] { 1, 2 }, twoSum(new int[] { 1, 1, 1 }, 2));
+    assertArrayEquals(
+        new int[] { 3, 4 },
+        twoSum(
+            new int[] {
+                10, -3, 5, -7, -4, 5, 6, -7, 8, -5, 8, 0, 8, -5, -10, -1, 1, -6, 4, -1, -2, -2, 10,
+                -2, -4, -7, 5, 1, 7, -10, 0, 5, 8, 6, -8, 8, -8, -8, 3, -9, -10, -5, -5, -10, 10, -4,
+                8, 0, -6, -2, 3, 7, -5, 5, 1, -7, 0, -5, 1, -3, 10, -4, -3, 3, 3, 5, 1, -2, -6, 3, -4,
+                10, -10, -3, -8, 2, -2, -3, 0, 10, -6, -8, -10, 6, 7, 0, 3, 9, -10, -7, 8, -7, -7
+            },
+            -2));
+    assertArrayEquals(
+        new int[] { 4, 5 },
+        twoSum(
+            new int[] {
+                9, -8, -10, -7, 7, -8, 2, -7, 4, 7, 0, -3, -4, -5, -1, -4, 5, 8, 1, 9, -2, 5, 10, -5,
+                -7, -1, -6, 4, 1, -5, 3, 8, -4, -10, -9, -3, 10, 0, 7, 9, -8, 10, -9, 7, 8, 0, 6, -6,
+                -7, 6, -4, 2, 0, 10, 1, -2, 5, -2
+            },
+            0));
+    assertArrayEquals(
+        new int[] { 10, 15 },
+        twoSum(
+            new int[] {
+                -7, 7, -10, 6, -3, -10, 9, 1, 10, 5, 6, 7, -3, 9, 0, -5, 5, 8, -6, -10, 10, -4, -7, 7,
+                2, -5, 5, -7, -7, 8, 5, -3, 5, 10, 10, -8, -2, -3, -2, -2, -7, 8, -7, 1, -2, -8, -10,
+                -5, -5
+            },
+            5));
+  }
+
+  int[] twoSum(final int[] A, int B) {
+    Map<Integer, Integer> v = new HashMap<>();
+    for (int i = 0; i < A.length; i++) {
+      if (v.get(B - A[i]) != null)
+        return new int[] { v.get(B - A[i]), i + 1 };
+      v.putIfAbsent(A[i], i + 1);
+    }
+    return new int[] {};
+  }
+
+  @Test
   public void wave() {
-    assertArrayEquals(new int[] {2, 1, 4, 3}, wave(new int[] {1, 2, 3, 4}));
+    assertArrayEquals(new int[] { 2, 1, 4, 3 }, wave(new int[] { 1, 2, 3, 4 }));
   }
 
   public int[] wave(int[] A) {
@@ -63,23 +121,24 @@ class InterviewBitArrayTest {
   public void pascaleTriangle() {
 
     assertArrayEquals(new int[][] {}, pascalTriangle(0));
-    assertArrayEquals(new int[][] {{1}}, pascalTriangle(1));
-    assertArrayEquals(new int[][] {{1}, {1, 1}}, pascalTriangle(2));
-    assertArrayEquals(new int[][] {{1}, {1, 1}, {1, 2, 1}}, pascalTriangle(3));
-    assertArrayEquals(new int[][] {{1}, {1, 1}, {1, 2, 1}, {1, 3, 3, 1}}, pascalTriangle(4));
+    assertArrayEquals(new int[][] { { 1 } }, pascalTriangle(1));
+    assertArrayEquals(new int[][] { { 1 }, { 1, 1 } }, pascalTriangle(2));
+    assertArrayEquals(new int[][] { { 1 }, { 1, 1 }, { 1, 2, 1 } }, pascalTriangle(3));
+    assertArrayEquals(new int[][] { { 1 }, { 1, 1 }, { 1, 2, 1 }, { 1, 3, 3, 1 } }, pascalTriangle(4));
     assertArrayEquals(
-        new int[][] {{1}, {1, 1}, {1, 2, 1}, {1, 3, 3, 1}, {1, 4, 6, 4, 1}}, pascalTriangle(5));
+        new int[][] { { 1 }, { 1, 1 }, { 1, 2, 1 }, { 1, 3, 3, 1 }, { 1, 4, 6, 4, 1 } }, pascalTriangle(5));
     assertArrayEquals(
-        new int[][] {{1}, {1, 1}, {1, 2, 1}, {1, 3, 3, 1}, {1, 4, 6, 4, 1}, {1, 5, 10, 10, 5, 1}},
+        new int[][] { { 1 }, { 1, 1 }, { 1, 2, 1 }, { 1, 3, 3, 1 }, { 1, 4, 6, 4, 1 }, { 1, 5, 10, 10, 5, 1 } },
         pascalTriangle(6));
   }
 
   public int[][] pascalTriangle(int A) {
 
-    if (A == 0) return new int[][] {};
+    if (A == 0)
+      return new int[][] {};
 
     int[][] triangle = new int[A][];
-    triangle[0] = new int[] {1};
+    triangle[0] = new int[] { 1 };
 
     int i = 1;
     while (i < A) {
@@ -88,7 +147,8 @@ class InterviewBitArrayTest {
       sol[0] = 1;
       sol[sol.length - 1] = 1;
 
-      for (int j = 0; j < sol.length - 2; j++) sol[j + 1] = row[j] + row[j + 1];
+      for (int j = 0; j < sol.length - 2; j++)
+        sol[j + 1] = row[j] + row[j + 1];
 
       triangle[i++] = sol;
     }
@@ -98,13 +158,13 @@ class InterviewBitArrayTest {
 
   @Test
   public void maxset() {
-    assertArrayEquals(new int[] {1, 2, 5}, maxset(new int[] {1, 2, 5, -7, 2, 3}));
-    assertArrayEquals(new int[] {2, 3, 9}, maxset(new int[] {1, 2, 5, -7, 2, 3, 9}));
-    assertArrayEquals(new int[] {1, 2, 5}, maxset(new int[] {1, 2, 5, -7, 2, 3, 3}));
-    assertArrayEquals(new int[] {2, 3, 2, 1}, maxset(new int[] {1, 2, 5, -7, 2, 3, 2, 1}));
+    assertArrayEquals(new int[] { 1, 2, 5 }, maxset(new int[] { 1, 2, 5, -7, 2, 3 }));
+    assertArrayEquals(new int[] { 2, 3, 9 }, maxset(new int[] { 1, 2, 5, -7, 2, 3, 9 }));
+    assertArrayEquals(new int[] { 1, 2, 5 }, maxset(new int[] { 1, 2, 5, -7, 2, 3, 3 }));
+    assertArrayEquals(new int[] { 2, 3, 2, 1 }, maxset(new int[] { 1, 2, 5, -7, 2, 3, 2, 1 }));
     assertArrayEquals(
-        new int[] {1967513926, 1540383426},
-        maxset(new int[] {1967513926, 1540383426, -1303455736, -521595368}));
+        new int[] { 1967513926, 1540383426 },
+        maxset(new int[] { 1967513926, 1540383426, -1303455736, -521595368 }));
   }
 
   public int[] maxset(int[] A) {
@@ -138,14 +198,14 @@ class InterviewBitArrayTest {
 
   /*
    * Move to BairesDev company
-   * */
+   */
   @Test
   public void mostFrequent() {
 
-    assertEquals(34, mostFrequent(new int[] {34, 31, 34, 77, 82}, 5));
-    assertEquals(66, mostFrequent(new int[] {66}, 1));
-    assertEquals(101, mostFrequent(new int[] {22, 101, 102, 101, 102, 525, 88}, 7));
-    assertEquals(102, mostFrequent(new int[] {22, 102, 102, 101, 101, 102, 102}, 7));
+    assertEquals(34, mostFrequent(new int[] { 34, 31, 34, 77, 82 }, 5));
+    assertEquals(66, mostFrequent(new int[] { 66 }, 1));
+    assertEquals(101, mostFrequent(new int[] { 22, 101, 102, 101, 102, 525, 88 }, 7));
+    assertEquals(102, mostFrequent(new int[] { 22, 102, 102, 101, 101, 102, 102 }, 7));
   }
 
   private int mostFrequent(int[] array, int value) {
@@ -156,7 +216,8 @@ class InterviewBitArrayTest {
     int compare = array[0];
     int count = 0;
     for (int i = 1; i < value; i++) {
-      if (array[i] == array[i - 1]) countTmp++;
+      if (array[i] == array[i - 1])
+        countTmp++;
       else {
         if (countTmp > count) {
           count = countTmp;
@@ -171,9 +232,9 @@ class InterviewBitArrayTest {
 
   @Test
   public void firstMissingPositive() {
-    assertEquals(3, firstMissingPositive(new int[] {1, 2, 0}));
-    assertEquals(2, firstMissingPositive(new int[] {3, 4, -1, 1}));
-    assertEquals(1, firstMissingPositive(new int[] {-8, -7, -6}));
+    assertEquals(3, firstMissingPositive(new int[] { 1, 2, 0 }));
+    assertEquals(2, firstMissingPositive(new int[] { 3, 4, -1, 1 }));
+    assertEquals(1, firstMissingPositive(new int[] { -8, -7, -6 }));
   }
 
   public int firstMissingPositive(int[] A) {
@@ -183,11 +244,14 @@ class InterviewBitArrayTest {
 
     int i = 0;
 
-    while (i < A.length && A[i] < start) i++;
+    while (i < A.length && A[i] < start)
+      i++;
 
     for (; i < A.length; i++) {
-      if (A[i] == start) start++;
-      else return start;
+      if (A[i] == start)
+        start++;
+      else
+        return start;
     }
 
     return A[A.length - 1] < 0 ? 1 : start;
@@ -295,24 +359,24 @@ class InterviewBitArrayTest {
 
   @Test
   public void longestCommonPrefix() {
-    assertEquals("a", longestCommonPrefix(new String[] {"abcdefgh", "aefghijk", "abcefgh"}));
+    assertEquals("a", longestCommonPrefix(new String[] { "abcdefgh", "aefghijk", "abcefgh" }));
     assertEquals(
         "aaaaa",
         longestCommonPrefix(
             new String[] {
-              "aaaaaaaaaaaaaaaaaaaaaaa",
-              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-              "aaaaaaaaaaaaaaaaaaaaaaaaaa",
-              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-              "aaaaaa",
-              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-              "aaaaa",
-              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-              "aaaaaaaaaaaaaaaaaaaaaa",
-              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                "aaaaaaaaaaaaaaaaaaaaaaa",
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "aaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "aaaaaa",
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "aaaaa",
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "aaaaaaaaaaaaaaaaaaaaaa",
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
             }));
   }
 
@@ -325,7 +389,8 @@ class InterviewBitArrayTest {
 
       for (int j = 0; j < common.length(); j++) {
 
-        if (A[i].charAt(j) == common.charAt(j)) builder.append(A[i].charAt(j));
+        if (A[i].charAt(j) == common.charAt(j))
+          builder.append(A[i].charAt(j));
       }
       common = builder.toString();
       builder = new StringBuilder();
@@ -335,7 +400,8 @@ class InterviewBitArrayTest {
   }
 
   @Test
-  public void amazingSubArrays() {}
+  public void amazingSubArrays() {
+  }
 
   public int amazingSubArrays(String A) {
 
@@ -343,7 +409,8 @@ class InterviewBitArrayTest {
 
     for (int i = 0; i < A.length(); i++) {
       char c = Character.toLowerCase(A.charAt(i));
-      if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') co += A.length() - i;
+      if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')
+        co += A.length() - i;
     }
     return co % 10003;
   }
@@ -357,11 +424,13 @@ class InterviewBitArrayTest {
   }
 
   public int lengthOfLastWord(final String A) {
-    if (A.trim().length() == 0) return 0;
+    if (A.trim().length() == 0)
+      return 0;
 
     String[] split = A.split(" ");
 
-    if (split.length == 1) return A.trim().length();
+    if (split.length == 1)
+      return A.trim().length();
 
     return split[split.length - 1].length();
   }
@@ -425,23 +494,23 @@ class InterviewBitArrayTest {
   @Test
   public void perfectPeakArray() {
 
-    assertEquals(1, perfectPeakArray(new int[] {5, 1, 4, 3, 6, 8, 10, 7, 9}));
-    assertEquals(0, perfectPeakArray(new int[] {5, 1, 4, 4}));
-    assertEquals(0, perfectPeakArray(new int[] {1}));
-    assertEquals(0, perfectPeakArray(new int[] {10549, 15882, 24856, 301, 16642, 14414, 19856}));
+    assertEquals(1, perfectPeakArray(new int[] { 5, 1, 4, 3, 6, 8, 10, 7, 9 }));
+    assertEquals(0, perfectPeakArray(new int[] { 5, 1, 4, 4 }));
+    assertEquals(0, perfectPeakArray(new int[] { 1 }));
+    assertEquals(0, perfectPeakArray(new int[] { 10549, 15882, 24856, 301, 16642, 14414, 19856 }));
     assertEquals(
         1,
         perfectPeakArray(
             new int[] {
-              9895, 30334, 17674, 23812, 20038, 25668, 6869, 1870, 4665, 27645, 7712, 17036, 31323,
-              8724, 28254, 28704, 26300, 25548, 15142, 12860, 19913, 32663, 32758
+                9895, 30334, 17674, 23812, 20038, 25668, 6869, 1870, 4665, 27645, 7712, 17036, 31323,
+                8724, 28254, 28704, 26300, 25548, 15142, 12860, 19913, 32663, 32758
             }));
     assertEquals(
         0,
         perfectPeakArray(
             new int[] {
-              5706, 26963, 24465, 29359, 16828, 26501, 28146, 18468, 9962, 2996, 492, 11479, 23282,
-              19170, 15725, 6335
+                5706, 26963, 24465, 29359, 16828, 26501, 28146, 18468, 9962, 2996, 492, 11479, 23282,
+                19170, 15725, 6335
             }));
   }
 
@@ -451,10 +520,13 @@ class InterviewBitArrayTest {
     int[] right = new int[A.length];
     left[0] = A[0];
     right[A.length - 1] = A[(A.length - 1)];
-    for (int i = 1; i < A.length; i++) left[i] = Math.max(left[i - 1], A[i]);
-    for (int i = A.length - 2; i >= 0; i--) right[i] = Math.min(right[i + 1], A[i]);
+    for (int i = 1; i < A.length; i++)
+      left[i] = Math.max(left[i - 1], A[i]);
+    for (int i = A.length - 2; i >= 0; i--)
+      right[i] = Math.min(right[i + 1], A[i]);
     for (int i = 1; i < A.length - 1; i++) {
-      if (A[i] - left[i - 1] > 0 && A[i] - right[i + 1] < 0) return 1;
+      if (A[i] - left[i - 1] > 0 && A[i] - right[i + 1] < 0)
+        return 1;
     }
     return 0;
   }
@@ -462,8 +534,8 @@ class InterviewBitArrayTest {
   @Test
   public void leaderInArray() {
 
-    assertArrayEquals(new int[] {2, 5, 17}, leaderInArray(new int[] {16, 17, 4, 3, 5, 2}));
-    assertArrayEquals(new int[] {2}, leaderInArray(new int[] {1, 2}));
+    assertArrayEquals(new int[] { 2, 5, 17 }, leaderInArray(new int[] { 16, 17, 4, 3, 5, 2 }));
+    assertArrayEquals(new int[] { 2 }, leaderInArray(new int[] { 1, 2 }));
   }
 
   public int[] leaderInArray(int[] A) {
@@ -487,26 +559,26 @@ class InterviewBitArrayTest {
         73,
         duplicateNumber(
             new int[] {
-              247, 240, 303, 9, 304, 105, 44, 204, 291, 26, 242, 2, 358, 264, 176, 289, 196, 329,
-              189, 102, 45, 111, 115, 339, 74, 200, 34, 201, 215, 173, 107, 141, 71, 125, 6, 241,
-              275, 88, 91, 58, 171, 346, 219, 238, 246, 10, 118, 163, 287, 179, 123, 348, 283, 313,
-              226, 324, 203, 323, 28, 251, 69, 311, 330, 316, 320, 312, 50, 157, 342, 12, 253, 180,
-              112, 90, 16, 288, 213, 273, 57, 243, 42, 168, 55, 144, 131, 38, 317, 194, 355, 254,
-              202, 351, 62, 80, 134, 321, 31, 127, 232, 67, 22, 124, 271, 231, 162, 172, 52, 228,
-              87, 174, 307, 36, 148, 302, 198, 24, 338, 276, 327, 150, 110, 188, 309, 354, 190, 265,
-              3, 108, 218, 164, 145, 285, 99, 60, 286, 103, 119, 29, 75, 212, 290, 301, 151, 17,
-              147, 94, 138, 272, 279, 222, 315, 116, 262, 1, 334, 41, 54, 208, 139, 332, 89, 18,
-              233, 268, 7, 214, 20, 46, 326, 298, 101, 47, 236, 216, 359, 161, 350, 5, 49, 122, 345,
-              269, 73, 76, 221, 280, 322, 149, 318, 135, 234, 82, 120, 335, 98, 274, 182, 129, 106,
-              248, 64, 121, 258, 113, 349, 167, 192, 356, 51, 166, 77, 297, 39, 305, 260, 14, 63,
-              165, 85, 224, 19, 27, 177, 344, 33, 259, 292, 100, 43, 314, 170, 97, 4, 78, 310, 61,
-              328, 199, 255, 159, 185, 261, 229, 11, 295, 353, 186, 325, 79, 142, 223, 211, 152,
-              266, 48, 347, 21, 169, 65, 140, 83, 156, 340, 56, 220, 130, 117, 143, 277, 235, 59,
-              205, 153, 352, 300, 114, 84, 183, 333, 230, 197, 336, 244, 195, 37, 23, 206, 86, 15,
-              187, 181, 308, 109, 293, 128, 66, 270, 209, 158, 32, 25, 227, 191, 35, 40, 13, 175,
-              146, 299, 207, 217, 281, 30, 357, 184, 133, 245, 284, 343, 53, 210, 306, 136, 132,
-              239, 155, 73, 193, 278, 257, 126, 331, 294, 250, 252, 263, 92, 267, 282, 72, 95, 337,
-              154, 319, 341, 70, 81, 68, 160, 8, 249, 96, 104, 137, 256, 93, 178, 296, 225, 237
+                247, 240, 303, 9, 304, 105, 44, 204, 291, 26, 242, 2, 358, 264, 176, 289, 196, 329,
+                189, 102, 45, 111, 115, 339, 74, 200, 34, 201, 215, 173, 107, 141, 71, 125, 6, 241,
+                275, 88, 91, 58, 171, 346, 219, 238, 246, 10, 118, 163, 287, 179, 123, 348, 283, 313,
+                226, 324, 203, 323, 28, 251, 69, 311, 330, 316, 320, 312, 50, 157, 342, 12, 253, 180,
+                112, 90, 16, 288, 213, 273, 57, 243, 42, 168, 55, 144, 131, 38, 317, 194, 355, 254,
+                202, 351, 62, 80, 134, 321, 31, 127, 232, 67, 22, 124, 271, 231, 162, 172, 52, 228,
+                87, 174, 307, 36, 148, 302, 198, 24, 338, 276, 327, 150, 110, 188, 309, 354, 190, 265,
+                3, 108, 218, 164, 145, 285, 99, 60, 286, 103, 119, 29, 75, 212, 290, 301, 151, 17,
+                147, 94, 138, 272, 279, 222, 315, 116, 262, 1, 334, 41, 54, 208, 139, 332, 89, 18,
+                233, 268, 7, 214, 20, 46, 326, 298, 101, 47, 236, 216, 359, 161, 350, 5, 49, 122, 345,
+                269, 73, 76, 221, 280, 322, 149, 318, 135, 234, 82, 120, 335, 98, 274, 182, 129, 106,
+                248, 64, 121, 258, 113, 349, 167, 192, 356, 51, 166, 77, 297, 39, 305, 260, 14, 63,
+                165, 85, 224, 19, 27, 177, 344, 33, 259, 292, 100, 43, 314, 170, 97, 4, 78, 310, 61,
+                328, 199, 255, 159, 185, 261, 229, 11, 295, 353, 186, 325, 79, 142, 223, 211, 152,
+                266, 48, 347, 21, 169, 65, 140, 83, 156, 340, 56, 220, 130, 117, 143, 277, 235, 59,
+                205, 153, 352, 300, 114, 84, 183, 333, 230, 197, 336, 244, 195, 37, 23, 206, 86, 15,
+                187, 181, 308, 109, 293, 128, 66, 270, 209, 158, 32, 25, 227, 191, 35, 40, 13, 175,
+                146, 299, 207, 217, 281, 30, 357, 184, 133, 245, 284, 343, 53, 210, 306, 136, 132,
+                239, 155, 73, 193, 278, 257, 126, 331, 294, 250, 252, 263, 92, 267, 282, 72, 95, 337,
+                154, 319, 341, 70, 81, 68, 160, 8, 249, 96, 104, 137, 256, 93, 178, 296, 225, 237
             }));
   }
 
@@ -514,7 +586,8 @@ class InterviewBitArrayTest {
     Set<Integer> seen = new HashSet<>();
 
     for (int value : A) {
-      if (!seen.add(value)) return value;
+      if (!seen.add(value))
+        return value;
     }
 
     return -1;
@@ -522,13 +595,14 @@ class InterviewBitArrayTest {
 
   @Test
   public void pickFromBothSides() {
-    assertEquals(8, pickFromBothSides(new int[] {5, -2, 3, 1, 2}, 3));
+    assertEquals(8, pickFromBothSides(new int[] { 5, -2, 3, 1, 2 }, 3));
   }
 
   private int pickFromBothSides(int[] A, int B) {
     int sum = 0;
 
-    for (int i = 0; i < B; i++) sum += A[i];
+    for (int i = 0; i < B; i++)
+      sum += A[i];
 
     int sum_last = 0, sum_first = 0;
     int actual_sum = sum;
@@ -545,31 +619,34 @@ class InterviewBitArrayTest {
 
   @Test
   public void repeatedNumber() {
-    assertArrayEquals(new int[] {3, 4}, repeatedNumber(new int[] {3, 1, 2, 5, 3}));
+    assertArrayEquals(new int[] { 3, 4 }, repeatedNumber(new int[] { 3, 1, 2, 5, 3 }));
   }
 
   private int[] repeatedNumber(final int[] A) {
     Arrays.parallelSort(A);
 
     int i = 1;
-    while (i++ < A.length) if (i != A[i - 1]) return new int[] {A[i - 1], A[i - 1] + 1};
+    while (i++ < A.length)
+      if (i != A[i - 1])
+        return new int[] { A[i - 1], A[i - 1] + 1 };
 
     return new int[] {};
   }
 
   @Test
   public void plusOne() {
-    assertArrayEquals(new int[] {1, 2, 4}, plusOne(new int[] {1, 2, 3}));
+    assertArrayEquals(new int[] { 1, 2, 4 }, plusOne(new int[] { 1, 2, 3 }));
     assertArrayEquals(
-        new int[] {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        plusOne(new int[] {9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9}));
+        new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        plusOne(new int[] { 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9 }));
   }
 
   private int[] plusOne(int[] A) {
 
     StringBuilder builder = new StringBuilder();
 
-    for (int value : A) builder.append(value);
+    for (int value : A)
+      builder.append(value);
 
     BigInteger value = new BigInteger(builder.toString());
     value = value.add(new BigInteger("1"));

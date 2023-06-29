@@ -2011,18 +2011,9 @@ class LeetCodeArrayTest {
 
     @Test
     public void sortedSquares() {
-
         assertArrayEquals(new int[]{0, 1, 9, 16, 100}, sortedSquares(new int[]{-4, -1, 0, 3, 10}));
-        assertArrayEquals(new int[]{0, 1, 9, 16, 100}, sortedSquares1(new int[]{-4, -1, 0, 3, 10}));
-    }
-
-    private int[] sortedSquares(int[] A) {
-        int[] solution = new int[A.length];
-
-        for (int i = 0; i < A.length; i++) solution[i] = A[i] * A[i];
-
-        Arrays.parallelSort(solution);
-        return solution;
+        assertArrayEquals(new int[]{4, 9, 9, 49, 121}, sortedSquares(new int[]{-7, -3, 2, 3, 11}));
+        assertArrayEquals(new int[]{4, 9, 49, 121}, sortedSquares(new int[]{-7, 2, 3, 11}));
     }
 
     /**
@@ -2031,7 +2022,7 @@ class LeetCodeArrayTest {
      * @param A
      * @return
      */
-    public int[] sortedSquares1(int[] A) {
+    public int[] sortedSquares(int[] A) {
         int N = A.length;
         int j = 0;
         while (j < N && A[j] < 0) j++;
@@ -2495,51 +2486,24 @@ class LeetCodeArrayTest {
         assertArrayEquals(new int[]{3, 99, -1, -100}, array);
 
         array = new int[]{1, 2, 3, 4, 5, 6};
-        rotate1(array, 3);
+        rotate(array, 3);
         assertArrayEquals(new int[]{4, 5, 6, 1, 2, 3}, array);
-    }
-
-    private void rotate1(int[] nums, int k) {
-        int length = nums.length;
-
-        while (length < k) k = k - length;
-
-        int[] newArray = new int[length];
-        for (int i = 0; i < length; i++) {
-            int value = nums[i];
-            int newPosition = i + k < length ? i + k : i + k - length;
-            newArray[newPosition] = value;
-        }
-
-        System.arraycopy(newArray, 0, nums, 0, newArray.length);
     }
 
     private void rotate(int[] nums, int k) {
         int length = nums.length;
 
-        while (length < k) k = k - length;
+        k = k % nums.length;
 
-        Map<Integer, Integer> map = new HashMap<>();
+        int[] newArray = new int[length];
 
         for (int i = 0; i < length; i++) {
-            if (null != map.get(i)) {
-
-                int value = map.get(i);
-                int newPosition = i + k < length ? i + k : i + k - length;
-
-                map.computeIfAbsent(newPosition, p -> nums[p]);
-
-                nums[newPosition] = value;
-                continue;
-            }
-
             int value = nums[i];
-            int newPosition = i + k < length ? i + k : i + k - length;
-
-            map.put(newPosition, nums[newPosition]);
-
-            nums[newPosition] = value;
+            int newPosition = (i + k) % nums.length;
+            newArray[newPosition] = value;
         }
+
+        System.arraycopy(newArray, 0, nums, 0, newArray.length);
     }
 
     @Test
@@ -2550,8 +2514,8 @@ class LeetCodeArrayTest {
     }
 
     private int[] intersection(int[] nums1, int[] nums2) {
-        Set<Integer> set = IntStream.of(nums1).boxed().distinct().collect(Collectors.toSet());
-        Set<Integer> set2 = IntStream.of(nums2).boxed().distinct().collect(Collectors.toSet());
+        Set<Integer> set = IntStream.of(nums1).boxed().collect(Collectors.toSet());
+        Set<Integer> set2 = IntStream.of(nums2).boxed().collect(Collectors.toSet());
 
         set.retainAll(set2);
 
@@ -3184,11 +3148,12 @@ class LeetCodeArrayTest {
     }
 
     private int searchInsert(int[] nums, int target) {
-        return search(nums, 0, nums.length - 1, target);
+        return search(nums, nums.length - 1, target);
     }
 
-    int search(int[] nums, int left, int right, int target) {
+    int search(int[] nums, int right, int target) {
         if (nums.length == 0) return 0;
+        int left = 0;
 
         // Binary search
         int middle;
@@ -3198,29 +3163,20 @@ class LeetCodeArrayTest {
 
             int middleEl = nums[middle];
 
-            if (middleEl == target) return middle;
-            else if (middleEl < target) left = middle + 1;
-            else right = middle - 1;
-        }
-
-        int length = nums.length;
-
-        // If index not exists it is first, last or iterate to find the match between
-        // lower and higher
-        if (target >= nums[length - 1]) return length;
-        else if (target <= nums[0]) return 0;
-        else {
-
-            int tmp = 0;
-
-            while (tmp < length) {
-                if (target > nums[tmp] && target < nums[tmp + 1]) return tmp + 1;
-
-                tmp++;
+            if (middleEl == target) {
+                return middle;
+            } else if (middleEl < target) {
+                if (middle + 1 < nums.length && target < nums[middle + 1])
+                    return middle + 1;
+                left = middle + 1;
+            } else {
+                if (middle - 1 >= 0 && target > nums[middle - 1])
+                    return middle;
+                right = middle - 1;
             }
         }
 
-        return -1;
+        return left;
     }
 
     @Test

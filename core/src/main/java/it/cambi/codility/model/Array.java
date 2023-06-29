@@ -2,7 +2,7 @@ package it.cambi.codility.model;
 
 public class Array {
 
-  public int binarySearch(int[] a, int fromIndex, int toIndex, int key) {
+  public static int binarySearch(int[] a, int fromIndex, int toIndex, int key) {
     int low = fromIndex;
     int high = toIndex - 1;
 

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static it.cambi.codility.model.Array.binarySearch;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -58,8 +59,8 @@ class ArrayTest {
 
     this.array.quickSort(array, 0, array.length - 1);
 
-    assertEquals(1, this.array.binarySearch(array, 0, array.length - 1, 2));
-    assertEquals(-1, this.array.binarySearch(array, 0, array.length - 1, 9));
+    assertEquals(1, binarySearch(array, 0, array.length - 1, 2));
+    assertEquals(-1, binarySearch(array, 0, array.length - 1, 9));
     assertEquals(1, this.array.binarySearchWithRecursion(array, 2, 0, array.length - 1));
     assertEquals(-1, this.array.binarySearchWithRecursion(array, 3, 0, array.length - 1));
     assertEquals(-1, this.array.binarySearchWithRecursion(array, 11, 0, array.length - 1));
