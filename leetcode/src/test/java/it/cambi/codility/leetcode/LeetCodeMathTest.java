@@ -173,66 +173,6 @@ class LeetCodeMathTest {
         return v.append(x).toString();
     }
 
-    // Jump 1 or 2 steps, min cost to climb stairs
-    @Test
-    public void minCostClimbingStairs() {
-        assertEquals(15, minCostClimbingStairs(new int[]{10, 15, 20}));
-        assertEquals(6, minCostClimbingStairs(new int[]{1, 100, 1, 1, 1, 100, 1, 1, 100, 1}));
-        assertEquals(6, minCostClimbingStairs1(new int[]{1, 100, 1, 1, 1, 100, 1, 1, 100, 1}));
-        assertEquals(6, minCostClimbingStairs2(new int[]{1, 100, 1, 1, 1, 100, 1, 1, 100, 1}));
-    }
-
-    private int minCostClimbingStairs(int[] cost) {
-        int[] minimumCost = new int[cost.length + 1];
-
-        // Start iteration from step 2, since the minimum cost of reaching
-        // step 0 and step 1 is 0
-        for (int i = 2; i < minimumCost.length; i++) {
-            int takeOneStep = minimumCost[i - 1] + cost[i - 1];
-            int takeTwoSteps = minimumCost[i - 2] + cost[i - 2];
-            minimumCost[i] = Math.min(takeOneStep, takeTwoSteps);
-        }
-
-        // The final element in minimumCost refers to the top floor
-        return minimumCost[minimumCost.length - 1];
-    }
-
-    private HashMap<Integer, Integer> memo = new HashMap<>();
-
-    private int minCostClimbingStairs1(int[] cost) {
-        return minimumCost(cost.length, cost);
-    }
-
-    private int minimumCost(int i, int[] cost) {
-        // Base case, we are allowed to start at either step 0 or step 1
-        if (i <= 1) {
-            return 0;
-        }
-
-        // Check if we have already calculated minimumCost(i)
-        if (memo.containsKey(i)) {
-            return memo.get(i);
-        }
-
-        // If not, cache the result in our hash map and return it
-        int downOne = cost[i - 1] + minimumCost(i - 1, cost);
-        int downTwo = cost[i - 2] + minimumCost(i - 2, cost);
-        memo.put(i, Math.min(downOne, downTwo));
-        return memo.get(i);
-    }
-
-    private int minCostClimbingStairs2(int[] cost) {
-        int downOne = 0;
-        int downTwo = 0;
-        for (int i = 2; i < cost.length + 1; i++) {
-            int temp = downOne;
-            downOne = Math.min(downOne + cost[i - 1], downTwo + cost[i - 2]);
-            downTwo = temp;
-        }
-
-        return downOne;
-    }
-
     @Test
     public void numWaterBottles() {
         assertEquals(13, numWaterBottles(9, 3));
@@ -510,36 +450,6 @@ class LeetCodeMathTest {
             res_size++;
         }
         return res_size;
-    }
-
-    // Jump 1 or 2 steps, possible ways to climb stairs
-    @Test
-    public void climbStairs() {
-        assertEquals(2, climbStairs(2));
-        assertEquals(3, climbStairs(3));
-        assertEquals(5, climbStairs(4));
-        assertEquals(8, climbStairs(5));
-        assertEquals(1134903170, climbStairs(44));
-    }
-
-    private int climbStairs(int n) {
-        int[] memo = new int[n + 1];
-        return climbStairsRec(0, n, memo);
-    }
-
-    public int climbStairsRec(int i, int n, int[] memo) {
-        if (i > n) {
-            return 0;
-        }
-        if (i == n) {
-            return 1;
-        }
-        if (memo[i] > 0) {
-            return memo[i];
-        }
-
-        memo[i] = climbStairsRec(i + 1, n, memo) + climbStairsRec(i + 2, n, memo);
-        return memo[i];
     }
 
     @Test

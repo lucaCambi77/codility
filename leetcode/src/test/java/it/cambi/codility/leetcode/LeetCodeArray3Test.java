@@ -6,9 +6,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class LeetCodeArrayTest3 {
+
+class LeetCodeArray3Test {
 
     @Test
     void findAnagrams() {

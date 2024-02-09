@@ -1076,7 +1076,7 @@ class HackerRankArraysTest extends TestUtil {
   }
 
   private int[] circularArrayRotation(int[] a, int k, int[] queries) {
-    Stack<Integer> stack = new Stack<Integer>();
+    Stack<Integer> stack = new Stack<>();
 
     for (int i : a) {
       stack.push(i);

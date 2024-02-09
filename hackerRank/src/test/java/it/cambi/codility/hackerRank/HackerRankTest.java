@@ -41,6 +41,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
@@ -90,7 +91,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void superReducedString() {
+  void superReducedString() {
     assertEquals("abd", superReducedString("aaabccddd"));
     assertEquals("Empty String", superReducedString("aa"));
     assertEquals("Empty String", superReducedString("baab"));
@@ -120,7 +121,7 @@ class HackerRankTest {
 
   @ParameterizedTest
   @ValueSource(strings = {"src/test/resources/bitWiseAnd/bitWiseAnd"})
-  public void bitWiseAnd(String path) throws IOException {
+  void bitWiseAnd(String path) throws IOException {
 
     InputStream is = new FileInputStream(path + ".txt");
     BufferedReader buf = new BufferedReader(new InputStreamReader(is));
@@ -141,7 +142,7 @@ class HackerRankTest {
     }
   }
 
-  public int getMaxBitWiseAnd(String input) {
+  int getMaxBitWiseAnd(String input) {
 
     String[] nk = input.split(" ");
 
@@ -171,7 +172,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void sortNameByEmailRegEx() {
+  void sortNameByEmailRegEx() {
 
     assertEquals(
         Arrays.asList(
@@ -198,7 +199,7 @@ class HackerRankTest {
                 })));
   }
 
-  public List<String> sortNameByEmailRegEx(List<String> list) {
+  List<String> sortNameByEmailRegEx(List<String> list) {
 
     List<String> sol = new ArrayList<>();
 
@@ -218,7 +219,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void nestedLogic() {
+  void nestedLogic() {
 
     nestedLogic("31 8 2004", "20 1 2004");
     verify(out, times(1)).println(3500L);
@@ -236,7 +237,7 @@ class HackerRankTest {
     verify(out, times(1)).println(210L);
   }
 
-  public void nestedLogic(String returnedDate, String expectedDate) {
+  void nestedLogic(String returnedDate, String expectedDate) {
 
     String[] returnedDateString = returnedDate.split(" ");
     String[] expectedDatedDateString = expectedDate.split(" ");
@@ -280,7 +281,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void countConsecutivesOnesInBinaryString() {
+  void countConsecutivesOnesInBinaryString() {
     countConsecutivesOnesInBinaryString(5);
     verify(out, times(1)).println(1);
     out.flush();
@@ -288,7 +289,7 @@ class HackerRankTest {
     verify(out, times(1)).println(3);
   }
 
-  public void countConsecutivesOnesInBinaryString(int n) {
+  void countConsecutivesOnesInBinaryString(int n) {
     String bin = Integer.toBinaryString(n);
 
     int i = 0;
@@ -312,7 +313,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void happyLadybugs() {
+  void happyLadybugs() {
     assertEquals("YES", happyLadybugs("RBY_YBR"));
     assertEquals("NO", happyLadybugs("X_Y__X"));
     assertEquals("YES", happyLadybugs("__"));
@@ -369,7 +370,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void dayOfProgrammer() {
+  void dayOfProgrammer() {
     assertEquals("12.09.2008", dayOfProgrammer(2008));
     assertEquals("13.09.2007", dayOfProgrammer(2007));
     assertEquals("12.09.1800", dayOfProgrammer(1800));
@@ -395,7 +396,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void flatlandSpaceStations() {
+  void flatlandSpaceStations() {
     assertEquals(2, flatlandSpaceStations(5, new int[] {0, 4}));
     assertEquals(3, flatlandSpaceStations(8, new int[] {0, 4}));
     assertEquals(5, flatlandSpaceStations(8, new int[] {0, 2}));
@@ -442,7 +443,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void appendAndDelete() {
+  void appendAndDelete() {
     assertEquals("Yes", appendAndDelete("hackerhappy", "hackerrank", 9));
     assertEquals("Yes", appendAndDelete("aba", "aba", 7));
     assertEquals("No", appendAndDelete("ashley", "ash", 2));
@@ -450,7 +451,7 @@ class HackerRankTest {
     assertEquals("Yes", appendAndDelete("aaaaaaaaaa", "aaaaa", 7));
   }
 
-  public String appendAndDelete(String s, String t, int k) {
+  String appendAndDelete(String s, String t, int k) {
     int length1 = s.length();
 
     int length = t.length();
@@ -486,7 +487,7 @@ class HackerRankTest {
         "src/test/resources/saveThePrisoner/saveThePrisoner1",
         "src/test/resources/saveThePrisoner/saveThePrisoner2"
       })
-  public void saveThePrisoner(String path) throws IOException {
+  void saveThePrisoner(String path) throws IOException {
     InputStream is = new FileInputStream(path + ".txt");
     BufferedReader buf = new BufferedReader(new InputStreamReader(is));
 
@@ -528,7 +529,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void viralAdvertising() {
+  void viralAdvertising() {
     assertEquals(24, viralAdvertising(5));
   }
 
@@ -546,7 +547,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void abbreviation() {
+  void abbreviation() {
 
     assertEquals(
         "NO",
@@ -672,7 +673,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void simpleTextEditor() throws IOException {
+  void simpleTextEditor() throws IOException {
     simpleTextEditor(new String[] {"1 abc", "3 3", "2 3", "1 xy", "3 2", "4", "4", "3 1"});
 
     InOrder orderVerifier = Mockito.inOrder(out);
@@ -723,7 +724,7 @@ class HackerRankTest {
      */
   }
 
-  public void simpleTextEditor(String[] array) {
+  void simpleTextEditor(String[] array) {
     Stack<String> stack = new Stack<String>();
     StringBuilder currentWord = new StringBuilder();
 
@@ -763,14 +764,14 @@ class HackerRankTest {
   }
 
   @Test
-  public void counterGame() {
+  void counterGame() {
 
     assertEquals("Louise", counterGame(132));
     assertEquals("Richard", counterGame(1));
     assertEquals("Richard", counterGame(6));
   }
 
-  public String counterGame(long n) {
+  String counterGame(long n) {
     if (n == 1) return "Richard";
 
     double[] power = new double[65];
@@ -807,7 +808,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void minimumNumber() {
+  void minimumNumber() {
 
     assertEquals(3, minimumNumber("Ab1"));
     assertEquals(1, minimumNumber("#HackerRank"));
@@ -840,7 +841,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void camelcase() {
+  void camelcase() {
     assertEquals(3, camelcase("oneTwoThree"));
     assertEquals(5, camelcase("saveChangesInTheEditor"));
   }
@@ -858,7 +859,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void pageCount() {
+  void pageCount() {
 
     assertEquals(1, pageCount(6, 2));
     assertEquals(0, pageCount(5, 4));
@@ -879,7 +880,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void birthday() {
+  void birthday() {
 
     assertEquals(2, birthday(Arrays.asList(new Integer[] {1, 2, 1, 3, 2}), 3, 2));
 
@@ -905,7 +906,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void breakingRecords() {
+  void breakingRecords() {
 
     assertEquals(
         true,
@@ -935,7 +936,7 @@ class HackerRankTest {
 
   @SuppressWarnings("serial")
   @Test
-  public void getTotalX() {
+  void getTotalX() {
 
     assertEquals(
         3,
@@ -987,7 +988,7 @@ class HackerRankTest {
             }));
   }
 
-  public int getTotalX(List<Integer> a, List<Integer> b) {
+  int getTotalX(List<Integer> a, List<Integer> b) {
 
     // We assume arrays are sorted ascending
     int last = b.get(0);
@@ -1031,7 +1032,7 @@ class HackerRankTest {
 
   @SuppressWarnings("serial")
   @Test
-  public void gradingStudent() {
+  void gradingStudent() {
 
     assertEquals(
         new LinkedList<Integer>() {
@@ -1075,7 +1076,7 @@ class HackerRankTest {
     return list;
   }
 
-  public void kangaroo() {
+  void kangaroo() {
 
     assertEquals("YES", calculateIntersectionPoint(0, 3, 4, 2));
     assertEquals("NO", calculateIntersectionPoint(0, 2, 5, 3));
@@ -1095,7 +1096,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void countApplesAndOranges() {
+  void countApplesAndOranges() {
 
     countApplesAndOranges(7, 11, 5, 15, new int[] {-2, 2, 1}, new int[] {5, -6});
     countApplesAndOranges(2, 3, 1, 1, new int[] {-2}, new int[] {-1});
@@ -1123,7 +1124,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void timeConversion() {
+  void timeConversion() {
 
     assertEquals("19:05:45", timeConversion("07:05:45PM"));
     assertEquals("07:05:45", timeConversion("07:05:45AM"));
@@ -1160,13 +1161,15 @@ class HackerRankTest {
   }
 
   @Test
-  public void staircase() {
+  void staircase() {
     int n = 10;
 
     stairCase(n);
   }
 
-  /** @param n */
+  /**
+   * @param n
+   */
   private void stairCase(int n) {
     int spaces = n - 1;
 
@@ -1186,13 +1189,15 @@ class HackerRankTest {
   }
 
   @Test
-  public void plusMinus() {
+  void plusMinus() {
 
     int[] arr = new int[] {-4, 3, -9, 0, 4, 1};
     plusMinus(arr);
   }
 
-  /** @param arr */
+  /**
+   * @param arr
+   */
   private void plusMinus(int[] arr) {
     double size = arr.length;
 
@@ -1211,7 +1216,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void isValid() {
+  void isValid() {
     assertEquals("YES", isValidString("abc"));
     assertEquals("NO", isValidString("aaaabbcc"));
     assertEquals("YES", isValidString("abcdefghhgfedecba"));
@@ -1269,7 +1274,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void stringConstruction() {
+  void stringConstruction() {
     assertEquals(3, stringConstruction("abcabc"));
     assertEquals(4, stringConstruction("abcd"));
     assertEquals(2, stringConstruction("bccb"));
@@ -1297,7 +1302,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void makingAnagrams() {
+  void makingAnagrams() {
     String s1 = "cde";
     String s2 = "abc";
     Map<Character, Integer> secPartMap = new HashMap<Character, Integer>();
@@ -1312,7 +1317,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void anagram() {
+  void anagram() {
 
     assertEquals(3, anagram("aaabbb"));
 
@@ -1371,7 +1376,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void hourglassSum() {
+  void hourglassSum() {
 
     assertEquals(
         19,
@@ -1433,7 +1438,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void luckBalance() {
+  void luckBalance() {
     int k = 2;
     int[][] contests = {{5, 1}, {1, 1}, {4, 0}};
     int total = 0;
@@ -1462,7 +1467,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void countTriplets() {
+  void countTriplets() {
     @SuppressWarnings("serial")
     List<Long> arr =
         new ArrayList<Long>() {
@@ -1493,7 +1498,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void countSwaps() {
+  void countSwaps() {
 
     int[] a = {4, 2, 3, 1};
 
@@ -1519,7 +1524,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void chocolateFeast() {
+  void chocolateFeast() {
     int n = 10;
     int c = 2;
     int m = 5;
@@ -1538,7 +1543,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void theLoveLetterMystery() {
+  void theLoveLetterMystery() {
     String s = "cde";
 
     int lengthOf = s.length();
@@ -1563,7 +1568,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void beautifulBinaryString() {
+  void beautifulBinaryString() {
     String B = "0100101010";
     System.out.println((B.length() - B.replaceAll("010", "").length()) / 3);
 
@@ -1581,7 +1586,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void alternatingCharacters() throws IOException {
+  void alternatingCharacters() throws IOException {
     String s = new String(Files.readAllBytes(Paths.get("src/test/resources/veryLongWord.txt")));
     int stringLength = s.toCharArray().length;
     char c = s.charAt(0);
@@ -1602,7 +1607,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void gemstones() {
+  void gemstones() {
 
     String[] arr = new String[] {"abcdde", "baccd", "eeabg"};
 
@@ -1636,7 +1641,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void funnyString() {
+  void funnyString() {
     String s = "acxz";
     int[] diffAsc = new int[s.length() - 1];
     int[] diffDesc = new int[s.length() - 1];
@@ -1654,7 +1659,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void separateNumbers() {
+  void separateNumbers() {
     String s = "101103";
     boolean valid = false;
     long firstx = -1;
@@ -1677,7 +1682,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void weightedUniformStrings() {
+  void weightedUniformStrings() {
     char[] alphaBet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 
     Map<Character, Integer> map = new HashMap<>();
@@ -1719,7 +1724,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void pangram() {
+  void pangram() {
     String s =
         "We promptly judged antique ivory buckles for the prize"
             .toLowerCase()
@@ -1735,7 +1740,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void hackerrankInString() {
+  void hackerrankInString() {
 
     String hack = "hackerrank";
     Queue<Character> queue = new LinkedList<Character>();
@@ -1755,7 +1760,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void marsExploration() {
+  void marsExploration() {
     String s = "SOSSOT";
     int cycleOfThree = 0;
     boolean isOdd = true;
@@ -1784,7 +1789,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void caesarCipher() {
+  void caesarCipher() {
 
     char[] alphaBet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
     int length = alphaBet.length;
@@ -1817,7 +1822,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void cavityMap() {
+  void cavityMap() {
     String[] grid = new String[] {"1112", "1912", "1892", "1234"};
 
     int length = grid.length;
@@ -1843,7 +1848,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void theTimeInWords() {
+  void theTimeInWords() {
 
     int h = 7;
     int m = 29;
@@ -1884,7 +1889,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void halloweenSale() {
+  void halloweenSale() {
     int p = 100;
     int d = 19;
     int m = 1;
@@ -1914,7 +1919,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void minimumDistances() {
+  void minimumDistances() {
 
     int[] a = new int[] {7, 1, 3, 4, 1, 7};
 
@@ -1935,7 +1940,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void beautifulTriplets() {
+  void beautifulTriplets() {
 
     // int[] arr = new int[] { 2, 2, 3, 6, 5 };
     int[] arr = new int[] {1, 2, 4, 5, 7, 8, 10};
@@ -1984,7 +1989,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void kaprekarNumbers() {
+  void kaprekarNumbers() {
 
     int p = 1;
     int q = 100;
@@ -2016,7 +2021,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void taumAndBday() {
+  void taumAndBday() {
 
     int b = 27984;
     int w = 1402;
@@ -2043,7 +2048,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void twoStrings() {
+  void twoStrings() {
     String s1 = "hi";
     String s2 = "World";
     int[] chars = new int[128];
@@ -2060,7 +2065,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void hashTablesRansomNote() {
+  void hashTablesRansomNote() {
 
     String[] note = new String[] {"two", "times", "two", "is", "four"};
     String[] magazine = new String[] {"two", "times", "three", "is", "not", "four"};
@@ -2094,7 +2099,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void sockMerchant() {
+  void sockMerchant() {
 
     int[] ar = {
       44, 55, 11, 15, 4, 72, 26, 91, 80, 14, 43, 78, 70, 75, 36, 83, 78, 91, 17, 17, 54, 65, 60, 21,
@@ -2124,7 +2129,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void countingValleys() {
+  void countingValleys() {
 
     String s = "DDUUDDUDUUUD";
 
@@ -2151,7 +2156,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void jumpingOnTheClouds() {
+  void jumpingOnTheClouds() {
 
     // int[] c = { 0, 0, 1, 0, 0, 0, 0, 1, 0, 0 };
     // int[] c = { 0, 0, 0, 1, 0, 0 };
@@ -2187,7 +2192,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void repeatedString() {
+  void repeatedString() {
 
     String s = "aba";
     long n = 10;
@@ -2221,10 +2226,10 @@ class HackerRankTest {
   }
 
   @Test
-  public void electronicsShop() {}
+  void electronicsShop() {}
 
   @Test
-  public void catsAndAMouse() {
+  void catsAndAMouse() {
 
     int x = 0;
     int y = 0;
@@ -2245,28 +2250,13 @@ class HackerRankTest {
   }
 
   @Test
-  public void arraysLeftRotation() {
+  void arraysLeftRotation() {
 
     int d = 4;
     int[] a = {1, 2, 3, 4, 5};
     int arrayLength = a.length;
 
     int[] finalArray = new int[arrayLength];
-
-    // Slow solution O(n*n)
-    for (int i = 0; i < arrayLength; i++) {
-
-      int posTmp = i;
-
-      for (int j = 0; j < d; j++) {
-
-        if (posTmp == 0) posTmp = arrayLength;
-
-        posTmp--;
-      }
-
-      finalArray[posTmp] = a[i];
-    }
 
     // Faster O(n)
     for (int i = 0; i < arrayLength; i++) {
@@ -2276,12 +2266,11 @@ class HackerRankTest {
       finalArray[newLocation] = a[i];
     }
 
-    System.out.println(
-        "Array ruotato a sinistra di " + d + " times :" + Arrays.toString(finalArray));
+    assertArrayEquals(new int[] {5, 1, 2, 3, 4}, finalArray);
   }
 
   @Test
-  public void newYearChaos() {
+  void newYearChaos() {
     // int[] q = { 2, 1, 5, 3, 4 };
     // int[] q = { 5, 1, 2, 3, 7, 8, 6, 4 };
     int[] q = {1, 2, 5, 3, 7, 8, 6, 4};
@@ -2301,7 +2290,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void pickingNumbers() {
+  void pickingNumbers() {
 
     // int[] arr = { 1, 3, 5, 2, 4, 6, 7 };
     /*
@@ -2333,7 +2322,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void climbingTheLeaderboard() throws IOException {
+  void climbingTheLeaderboard() throws IOException {
 
     int[] alice = new int[] {5, 25, 50, 120};
 
@@ -2395,7 +2384,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void theHurdleRace() {
+  void theHurdleRace() {
 
     int k = 2;
     int[] height = new int[] {1, 6, 3, 5, 2};
@@ -2410,7 +2399,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void designerPDFViewer() {
+  void designerPDFViewer() {
 
     assertEquals(
         28,
@@ -2421,7 +2410,7 @@ class HackerRankTest {
             "zaba"));
   }
 
-  public int designerPDFViewer(int[] h, String word) {
+  int designerPDFViewer(int[] h, String word) {
 
     String alphaBet = "abcdefghijklmnopqrstuvwxyz";
 
@@ -2436,7 +2425,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void utopianTree() {
+  void utopianTree() {
     int n = 10;
 
     int i = 1, height = 1;
@@ -2453,7 +2442,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void beautifilDays() {
+  void beautifilDays() {
 
     int i = 20, j = 23, k = 6;
     int countBeautiful = 0;
@@ -2479,7 +2468,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void extraLongFactorial() {
+  void extraLongFactorial() {
     Integer n = 25;
     System.out.println("Fattoriale di " + n + "--> " + factorial(BigInteger.valueOf(n)));
   }
@@ -2492,7 +2481,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void sherlockAndSquares() {
+  void sherlockAndSquares() {
 
     int a = 24;
     int b = 49;
@@ -2503,7 +2492,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void libraryFine() {
+  void libraryFine() {
     int d1 = 28;
     int m1 = 2;
     int y1 = 2015;
@@ -2532,7 +2521,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void cutTheSticks() {
+  void cutTheSticks() {
     int[] arr = new int[] {5, 4, 4, 2, 2, 8};
 
     int[] arr1 = new int[1000];
@@ -2562,7 +2551,7 @@ class HackerRankTest {
   }
 
   @Test
-  public void nonDivisibleSum() {
+  void nonDivisibleSum() {
     // int[] S = new int[] { 278, 576, 496, 727, 410, 124, 338, 149, 209, 702, 282,
     // 718, 771, 575, 436 };
     int[] S = new int[] {1, 7, 2, 4};
@@ -2591,7 +2580,9 @@ class HackerRankTest {
     System.out.println("nonDivisibleSum max array length" + res);
   }
 
-  /** @return */
+  /**
+   * @return
+   */
   private LinkedList<Character> getSolution() {
     @SuppressWarnings("serial")
     LinkedList<Character> solution =

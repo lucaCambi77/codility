@@ -24,15 +24,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/** @author luca */
+/**
+ * @author luca
+ */
 class Geeks4GeeksArrayTest {
 
   @Test
-  public void reverseArrayInGroup() {
+  void reverseArrayInGroup() {
     reverseArrayInGroup("1 2 3 4 5", 3, 5);
   }
 
-  public void reverseArrayInGroup(String array, int k, int n) {
+  void reverseArrayInGroup(String array, int k, int n) {
     int[] arr = new int[n];
 
     String[] inputLine = array.split("\\s");
@@ -70,7 +72,7 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void leaderInArray() {
+  void leaderInArray() {
     assertEquals("17 5 2 ", leaderInArray("16 17 4 3 5 2", 6));
     assertEquals("4 0 ", leaderInArray("1 2 3 4 0", 5));
     assertEquals("7 7 3 ", leaderInArray("7 4 5 7 3", 5));
@@ -101,7 +103,7 @@ class Geeks4GeeksArrayTest {
 
   @SuppressWarnings("serial")
   @Test
-  public void find3Numbers() {
+  void find3Numbers() {
     assertEquals(Arrays.asList(1, 2, 3), find3Numbers(new int[] {1, 2, 1, 1, 3}, 5));
     assertEquals(new ArrayList<Integer>(), find3Numbers(new int[] {1, 1, 3}, 3));
     assertEquals(new ArrayList<Integer>(), find3Numbers(new int[] {5, 6, 1}, 3));
@@ -145,7 +147,7 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void segregateEvenOdd() {
+  void segregateEvenOdd() {
     assertEquals(
         "8 12 34 90 3 9 45",
         segregateEvenOdd(7, new String[] {"12", "34", "45", "9", "8", "90", "3"}));
@@ -168,7 +170,7 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void sortBinaryArray() {
+  void sortBinaryArray() {
     assertEquals("0 0 1 1 1", sortBinaryArray(5, new String[] {"1", "0", "1", "1", "0"}));
     assertEquals(
         "0 0 0 0 1 1 1 1 1 1",
@@ -205,7 +207,7 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void checkTwoArraysEquals() {
+  void checkTwoArraysEquals() {
     assertTrue(checkTwoArraysEquals(Arrays.asList(1, 2, 4, 5, 0), Arrays.asList(0, 5, 4, 2, 1)));
     assertFalse(checkTwoArraysEquals(Arrays.asList(1, 4, 5, 0), Arrays.asList(0, 5, 4, 2, 1)));
   }
@@ -219,7 +221,7 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void repeatChar() {
+  void repeatChar() {
     assertEquals("b", repeatChar("bbccdefbbaa"));
     assertEquals("g", repeatChar("geeksforgeeks"));
     assertEquals("-1", repeatChar("card"));
@@ -238,7 +240,7 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void sort() {
+  void sort() {
     assertEquals("aabbbbccdef", sort("bbccdefbbaa"));
     assertEquals("eeeefggkkorss", sort("geeksforgeeks"));
   }
@@ -264,7 +266,7 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void multiplyLeftRightSum() {
+  void multiplyLeftRightSum() {
 
     assertEquals(
         21,
@@ -292,7 +294,7 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void num() {
+  void num() {
     assertEquals(6, num(new int[] {11, 12, 13, 14, 15}, 5, 1));
     assertEquals(4, num(new int[] {0, 10, 20, 30}, 4, 0));
   }
@@ -312,7 +314,7 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void sortEmployee() {
+  void sortEmployee() {
     assertEquals("geek 50 xbnnskd 100", sortEmployee("xbnnskd 100 geek 50"));
     assertEquals("ram 50 shyam 50", sortEmployee("shyam 50 ram 50"));
     assertEquals("ram 50 shyam 50 xbnnskd 100", sortEmployee("xbnnskd 100 shyam 50 ram 50"));
@@ -342,7 +344,7 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void checkIfFreqCanBeEqual() {
+  void checkIfFreqCanBeEqual() {
 
     assertFalse(checkIfFreqCanBeEqual("xxxxyyzz"));
     assertTrue(checkIfFreqCanBeEqual("xyyz"));
@@ -383,7 +385,7 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void permutationsOfAGivenString() {
+  void permutationsOfAGivenString() {
 
     String s = "ABC";
     TreeSet<String> set = permuteString(s, 0, s.length() - 1, new TreeSet<String>());
@@ -422,14 +424,14 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void reverseWordsInAGivenString() {
+  void reverseWordsInAGivenString() {
 
     assertEquals(
         "much.very.program.this.like.i",
         reverseWordsInAGivenString("i.like.this.program.very.much"));
   }
 
-  public String reverseWordsInAGivenString(String s) {
+  String reverseWordsInAGivenString(String s) {
 
     String[] split = s.split("\\.");
 
@@ -439,11 +441,11 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void reverseStringUsingStack() {
+  void reverseStringUsingStack() {
     assertEquals("ziuQskeeG", reverseStringUsingStack("GeeksQuiz"));
   }
 
-  public String reverseStringUsingStack(String str) {
+  String reverseStringUsingStack(String str) {
 
     Stack<Character> stack = new Stack<>();
 
@@ -457,13 +459,13 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void reverseFirstKElementsOfQueue() {
+  void reverseFirstKElementsOfQueue() {
 
     assertEquals(
         Arrays.asList(2, 1, 3, 4, 5), reverseFirstKElementsOfQueue(new int[] {3, 1, 2, 4, 5}, 3));
   }
 
-  public Deque<Integer> reverseFirstKElementsOfQueue(int[] array, int k) {
+  Deque<Integer> reverseFirstKElementsOfQueue(int[] array, int k) {
 
     Deque<Integer> q = new LinkedList<>();
     for (int i : array) q.add(i);
@@ -492,7 +494,7 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void stackOperations() {
+  void stackOperations() {
 
     Stack<Integer> stack = new Stack<>();
 
@@ -507,7 +509,7 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void operationsOnPriorityQueue() {
+  void operationsOnPriorityQueue() {
 
     PriorityQueue<Integer> queue = new PriorityQueue<Integer>();
 
@@ -526,7 +528,7 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void queueOperations() {
+  void queueOperations() {
 
     Queue<Integer> queue = new LinkedList<>();
 
@@ -543,7 +545,7 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void arrayListOperation() {
+  void arrayListOperation() {
 
     List<Character> cList = new ArrayList<>();
 
@@ -561,7 +563,7 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void operationsOnArrayList() {
+  void operationsOnArrayList() {
 
     List<Integer> list = new LinkedList<>();
 
@@ -590,7 +592,7 @@ class Geeks4GeeksArrayTest {
    * @param key
    * @return
    */
-  public static int findFirstOccurrence(int[] a, int start, int end, int key) {
+  static int findFirstOccurrence(int[] a, int start, int end, int key) {
 
     while (start < end) {
       int mid = start + (end - start) / 2;
@@ -605,7 +607,7 @@ class Geeks4GeeksArrayTest {
   }
 
   @Test
-  public void kthMissingElement() {
+  void kthMissingElement() {
     assertEquals(9, kthMissingElement(new int[] {2, 4, 10, 7}, 5));
   }
 
@@ -646,5 +648,126 @@ class Geeks4GeeksArrayTest {
     }
 
     return thElement;
+  }
+
+  @Test
+  void checkGivenStringIsRotationOfAnotherString() {
+    assertFalse(doubledOriginContainsRotation("aaaa", "bbbb"));
+    assertTrue(doubledOriginContainsRotation("abcd", "cdab"));
+    assertTrue(doubledOriginContainsRotation("abcd", "abcd"));
+
+    assertFalse(fromCommonStartWithOrigin("aaaa", "bbbb"));
+    assertTrue(fromCommonStartWithOrigin("abcd", "cdab"));
+    assertTrue(fromCommonStartWithOrigin("abcd", "abcd"));
+
+    assertFalse(withQueue("aaaa", "bbbb"));
+    assertTrue(withQueue("abcd", "cdab"));
+    assertTrue(withQueue("abcd", "abcd"));
+
+    assertFalse(withSuffixAndPrefix("aaaa", "bbbb"));
+    assertTrue(withSuffixAndPrefix("abcd", "cdab"));
+    assertTrue(withSuffixAndPrefix("abcd", "abcd"));
+  }
+
+  boolean doubledOriginContainsRotation(String origin, String rotation) {
+    if (origin.length() == rotation.length()) {
+      return origin.concat(origin).contains(rotation);
+    }
+
+    return false;
+  }
+
+  boolean fromCommonStartWithOrigin(String origin, String rotation) {
+
+    if (origin.length() == rotation.length()) {
+
+      // Collect indexes where the rotation could start with the first letter of the original string
+      List<Integer> indexes =
+          IntStream.range(0, origin.length())
+              .filter(i -> rotation.charAt(i) == origin.charAt(0))
+              .boxed()
+              .toList();
+
+      for (int foundAt : indexes) {
+        if (isRotation(origin, rotation, foundAt)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  boolean isRotation(String origin, String rotation, int foundAt) {
+
+    for (int i = 0; i < origin.length(); i++) {
+      if (origin.charAt(i) != rotation.charAt((foundAt + i) % origin.length())) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  boolean withQueue(String origin, String rotation) {
+
+    if (origin.length() == rotation.length()) {
+      return isRotation(origin, rotation);
+    }
+
+    return false;
+  }
+
+  boolean isRotation(String origin, String rotation) {
+
+    if (origin.length() == rotation.length()) {
+
+      Queue<Character> originQueue = getCharactersQueue(origin);
+
+      Queue<Character> rotationQueue = getCharactersQueue(rotation);
+
+      int k = rotation.length();
+      while (k > 0 && null != rotationQueue.peek()) {
+        k--;
+        char ch = rotationQueue.peek();
+        rotationQueue.remove();
+        rotationQueue.add(ch);
+        if (rotationQueue.equals(originQueue)) return true;
+      }
+    }
+
+    return false;
+  }
+
+  private Queue<Character> getCharactersQueue(String origin) {
+    return origin.chars().mapToObj(c -> (char) c).collect(Collectors.toCollection(LinkedList::new));
+  }
+
+  boolean withSuffixAndPrefix(String origin, String rotation) {
+
+    if (origin.length() == rotation.length()) {
+      return areRotations(origin, rotation);
+    }
+
+    return false;
+  }
+
+  boolean areRotations(String origin, String rotation) {
+    if (origin.length() == rotation.length()) {
+
+      for (int i = 0; i < origin.length(); i++) {
+        if (origin.charAt(i) == rotation.charAt(0)) {
+          // checking prefix of s2 with suffix of
+          // s1
+          if (origin.substring(i).equals(rotation.substring(0, origin.length() - i))) {
+            // checking prefix of s1 with suffix
+            // of s2
+            if (origin.substring(0, i).equals(rotation.substring(origin.length() - i))) return true;
+          }
+        }
+      }
+    }
+
+    return false;
   }
 }
