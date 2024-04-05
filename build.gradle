@@ -1,109 +1,108 @@
 plugins {
-    id 'java'
-    id "io.freefair.lombok" version "8.0.1"
-    id 'groovy'
-    id "com.diffplug.spotless" version "6.3.0"
+  id 'java'
+  id "io.freefair.lombok" version "8.0.1"
+  id 'groovy'
+  id "com.diffplug.spotless" version "6.25.0"
 }
 
-check.dependsOn spotlessCheck
 gradle.startParameter.continueOnFailure = true
 
+check.dependsOn spotlessCheck
+
 spotless {
-    java {
-        googleJavaFormat().reflowLongStrings()
-        importOrder()
-        removeUnusedImports()
-        trimTrailingWhitespace()
-        endWithNewline()
+  java {
+    googleJavaFormat().reflowLongStrings()
+    importOrder()
+    removeUnusedImports()
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+  groovy {
+    excludeJava()
+    greclipse()
+    indentWithSpaces(2)
+    importOrder()
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+  groovyGradle {
+    target '*.gradle'
+    greclipse()
+    indentWithSpaces(2)
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+  format 'misc', {
+    target fileTree('.') {
+      include '**/*.md', '**/.gitignore'
+      exclude '**/build/**', '**/build-*/**'
     }
-    groovy {
-        excludeJava()
-        greclipse()
-        indentWithSpaces(2)
-        importOrder()
-        trimTrailingWhitespace()
-        endWithNewline()
-    }
-    groovyGradle {
-        target '*.gradle'
-        greclipse()
-        indentWithSpaces(2)
-        trimTrailingWhitespace()
-        endWithNewline()
-    }
-    format 'misc', {
-        target fileTree('.') {
-            include '**/*.md', '**/.gitignore'
-            exclude '**/build/**', '**/build-*/**'
-        }
-        trimTrailingWhitespace()
-        indentWithSpaces(2)
-        endWithNewline()
-    }
+    trimTrailingWhitespace()
+    indentWithSpaces(2)
+    endWithNewline()
+  }
 }
+
+
 
 allprojects {
 
-    group = 'it.cambi'
+  group = 'it.cambi'
 
-    repositories {
-        mavenLocal()
-        maven {
-            url = 'https://repo.maven.apache.org/maven2'
-        }
+  repositories {
+    mavenLocal()
+    maven {
+      url = 'https://repo.maven.apache.org/maven2'
     }
+  }
 
-    gradle.projectsEvaluated {
-        tasks.withType(JavaCompile).tap {
-            configureEach {
-                options.compilerArgs << "-Xlint:unchecked"
-                options.compilerArgs << "-Xlint:deprecation"
-            }
-        }
+  gradle.projectsEvaluated {
+    tasks.withType(JavaCompile).tap {
+      configureEach {
+        options.compilerArgs << "-Xlint:unchecked"
+        options.compilerArgs << "-Xlint:deprecation"
+      }
     }
+  }
+  java {
 
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(17)
-        }
+    toolchain {
+      languageVersion = JavaLanguageVersion.of(17)
     }
+  }
 }
 
 configure(subprojects) {
 
-    apply plugin: 'java'
-    apply plugin: 'jacoco'
-    apply plugin: 'groovy'
-    apply plugin: 'io.freefair.lombok'
+  apply plugin: 'java'
+  apply plugin: 'jacoco'
+  apply plugin: 'groovy'
+  apply plugin: 'io.freefair.lombok'
 
-    dependencies {
-        implementation 'org.slf4j:slf4j-simple:1.7.5'
-        testImplementation 'org.junit.jupiter:junit-jupiter:5.6.2'
-        testImplementation 'org.mockito:mockito-junit-jupiter:3.5.15'
+  dependencies {
+    implementation 'org.slf4j:slf4j-simple:1.7.5'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.6.2'
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.5.15'
 
-        testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.10.0'
-        testImplementation 'javax.xml.bind:jaxb-api:2.3.0'
-        testImplementation 'org.springframework:spring-test:5.1.2.RELEASE'
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.10.0'
+    testImplementation 'javax.xml.bind:jaxb-api:2.3.0'
+    testImplementation 'org.springframework:spring-test:5.1.2.RELEASE'
 
-        testImplementation 'org.spockframework:spock-core:2.4-M1-groovy-4.0'
-        testImplementation 'org.codehaus.groovy:groovy-all:3.0.18'
+    testImplementation 'org.spockframework:spock-core:2.4-M1-groovy-4.0'
+    testImplementation 'org.apache.groovy:groovy-all:4.0.17'
+  }
+
+  test {
+    useJUnitPlatform()
+
+    finalizedBy jacocoTestReport // report is always generated after tests run
+
+    testLogging {
+      events "started", "passed", "skipped", "failed"
+      showExceptions true
+      exceptionFormat "full"
+      showCauses true
+      showStackTraces true
     }
-
-    test {
-        useJUnitPlatform()
-
-        jacoco.destinationFile = file("$buildDir/coverage-reports/jacoco-ut.exec")
-        finalizedBy jacocoTestReport
-
-        testLogging {
-            events "started", "passed", "skipped", "failed"
-            showExceptions true
-            exceptionFormat "full"
-            showCauses true
-            showStackTraces true
-
-            info.events = debug.events
-            info.exceptionFormat = debug.exceptionFormat
-        }
-    }
+  }
 }

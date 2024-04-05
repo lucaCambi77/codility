@@ -461,12 +461,12 @@ class LeetCodeDataStructTest {
         assertFalse(twoSum.find(7));
     }
 
-    public class ZigzagIterator {
+    public static class ZigzagIterator {
 
         Queue<Iterator<Integer>> q;
 
         public ZigzagIterator(List<Integer> v1, List<Integer> v2) {
-            q = new LinkedList();
+            q = new LinkedList<>();
             if (!v1.isEmpty()) q.offer(v1.iterator());
             if (!v2.isEmpty()) q.offer(v2.iterator());
         }

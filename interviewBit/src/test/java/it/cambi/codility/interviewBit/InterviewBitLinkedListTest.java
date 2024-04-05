@@ -2,6 +2,9 @@ package it.cambi.codility.interviewBit;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -232,6 +235,88 @@ class InterviewBitLinkedListTest {
     headSol1.next.next.next.next = new ListNode(1);
 
     assertTrue(areIdentical(headSol1, sol1));
+  }
+
+  @Test
+  public void partition() {
+
+    ListNode node = new ListNode(1);
+    node.next = new ListNode(4);
+    node.next.next = new ListNode(3);
+    node.next.next.next = new ListNode(2);
+    node.next.next.next.next = new ListNode(5);
+    node.next.next.next.next.next = new ListNode(2);
+
+    ListNode sol = partition(node, 3);
+
+    ListNode headSol1 = new ListNode(1);
+    headSol1.next = new ListNode(2);
+    headSol1.next.next = new ListNode(2);
+    headSol1.next.next.next = new ListNode(4);
+    headSol1.next.next.next.next = new ListNode(3);
+    headSol1.next.next.next.next.next = new ListNode(5);
+
+    assertTrue(areIdentical(headSol1, sol));
+
+    node = new ListNode(1);
+    node.next = new ListNode(10);
+    node.next.next = new ListNode(3);
+    node.next.next.next = new ListNode(4);
+    node.next.next.next.next = new ListNode(5);
+
+    sol = partition(node, 5);
+
+    headSol1 = new ListNode(1);
+    headSol1.next = new ListNode(3);
+    headSol1.next.next = new ListNode(4);
+    headSol1.next.next.next = new ListNode(10);
+    headSol1.next.next.next.next = new ListNode(5);
+
+    assertTrue(areIdentical(headSol1, sol));
+
+    node = new ListNode(10);
+    node.next = new ListNode(1);
+    node.next.next = new ListNode(3);
+    node.next.next.next = new ListNode(4);
+    node.next.next.next.next = new ListNode(5);
+
+    sol = partition(node, 5);
+
+    headSol1 = new ListNode(1);
+    headSol1.next = new ListNode(3);
+    headSol1.next.next = new ListNode(4);
+    headSol1.next.next.next = new ListNode(10);
+    headSol1.next.next.next.next = new ListNode(5);
+
+    assertTrue(areIdentical(headSol1, sol));
+  }
+
+  public ListNode partition(ListNode A, int B) {
+
+    ListNode lessThan = A;
+    ListNode greatherThan = A;
+    LinkedList<Integer> list = new LinkedList<>();
+
+    while (greatherThan != null && lessThan != null) {
+
+      if (greatherThan.val < B) {
+        lessThan.val = greatherThan.val;
+        lessThan = lessThan.next;
+      } else {
+        list.add(greatherThan.val);
+      }
+
+      greatherThan = greatherThan.next;
+    }
+
+    Iterator<Integer> itr = list.iterator();
+
+    while (lessThan != null && itr.hasNext()) {
+      lessThan.val = itr.next();
+      lessThan = lessThan.next;
+    }
+
+    return A;
   }
 
   public ListNode sortBinaryLinkedList(ListNode A) {
