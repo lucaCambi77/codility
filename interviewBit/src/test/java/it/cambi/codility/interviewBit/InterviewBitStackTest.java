@@ -232,24 +232,123 @@ class InterviewBitStackTest {
         firstNonRepeatingChar("jyhrcwuengcbnuchctluxjgtxqtfvrebveewgasluuwooupcyxwgl"));
   }
 
-  private String firstNonRepeatingChar(String A) {
+  private String firstNonRepeatingChar(String s) {
 
     Queue<Character> queue = new LinkedList<>();
 
-    String alphaBet = "abcdefghijklmnopqrstuvwxyz";
     int[] chars = new int[26];
 
-    StringBuilder s = new StringBuilder();
+    StringBuilder builder = new StringBuilder();
 
-    for (int i = 0; i < A.length(); i++) {
-      ++chars[alphaBet.indexOf(A.charAt(i))];
-      queue.add(A.charAt(i));
+    for (int i = 0; i < s.length(); i++) {
+      ++chars[s.charAt(i) - 'a'];
+      queue.add(s.charAt(i));
 
-      while (!queue.isEmpty() && chars[alphaBet.indexOf(queue.peek())] > 1) queue.poll();
+      while (!queue.isEmpty() && chars[queue.peek() - 'a'] > 1) queue.poll();
 
-      s.append(queue.isEmpty() ? '#' : queue.peek());
+      builder.append(queue.isEmpty() ? '#' : queue.peek());
     }
 
-    return s.toString();
+    return builder.toString();
+  }
+
+  @Test
+  public void nearestHotel() {
+    assertArrayEquals(
+        new int[] {1, 0, 2},
+        nearestHotel(new int[][] {{0, 0}, {1, 0}}, new int[][] {{1, 1}, {2, 1}, {1, 2}}));
+    assertArrayEquals(
+        new int[] {1, 1}, nearestHotel(new int[][] {{1, 0, 0, 1}}, new int[][] {{1, 2}, {1, 3}}));
+    assertArrayEquals(
+        new int[] {1, 1}, nearestHotel(new int[][] {{1, 0},{0, 0},{0, 1}}, new int[][] {{1, 2}, {1, 3}}));
+  }
+
+  public class Pair {
+
+    private final int key;
+    private final int value;
+
+    public int getKey() {
+      return key;
+    }
+
+    public Pair(int key, int value) {
+      this.key = key;
+      this.value = value;
+    }
+
+    public int getValue() {
+      return value;
+    }
+  }
+
+  public int[] nearestHotel(int[][] a, int[][] b) {
+    int length = a[0].length;
+    int height = a.length;
+    int[][] adj = new int[height + 1][length + 1];
+    boolean[][] vis = new boolean[height + 1][length + 1];
+    Queue<Pair> q = new LinkedList<>();
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < length; j++) {
+        if (a[i][j] == 1) {
+          vis[i][j] = true;
+          q.add(new Pair(i, j));
+        }
+      }
+    }
+
+    // Check the adjacent positions of the ones we already marked as visited and with an hotel.
+    // If we find a place we have not visited and inside the grid, we add one step to the adjacent
+    // position so we sum up the distance
+    while (!q.isEmpty()) {
+      Pair p = q.poll();
+
+      int x = p.getKey();
+      int j = p.getValue();
+
+      // right and left
+      if (x + 1 < height) {
+        if (!vis[x + 1][j]) {
+          adj[x + 1][j] = 1 + adj[x][j];
+          q.add(new Pair(x + 1, j));
+          vis[x + 1][j] = true;
+        }
+      }
+      if (x - 1 >= 0) {
+        if (!vis[x - 1][j]) {
+          adj[x - 1][j] = 1 + adj[x][j];
+          q.add(new Pair(x - 1, j));
+          vis[x - 1][j] = true;
+        }
+      }
+      // down and up
+      if (j + 1 < length) {
+        if (!vis[x][j + 1]) {
+          adj[x][j + 1] = 1 + adj[x][j];
+          q.add(new Pair(x, j + 1));
+          vis[x][j + 1] = true;
+        }
+      }
+      if (j - 1 >= 0) {
+        if (!vis[x][j - 1]) {
+          adj[x][j - 1] = 1 + adj[x][j];
+          q.add(new Pair(x, j - 1));
+          vis[x][j - 1] = true;
+        }
+      }
+    }
+
+    // We should now have a map of the distances from the nearest hotel given the 1's we marked in
+    // the first place plus the iteration over the surrounding distances
+    int[] v = new int[b.length];
+    int row = b.length;
+    for (int l = 0; l < row; l++) {
+      int i = b[l][0] - 1;
+      int j = b[l][1] - 1;
+      v[l] = (adj[i][j]);
+    }
+
+    return v;
   }
 }

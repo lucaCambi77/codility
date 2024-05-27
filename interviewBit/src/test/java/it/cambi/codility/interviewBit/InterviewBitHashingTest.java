@@ -3,16 +3,18 @@ package it.cambi.codility.interviewBit;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static java.lang.Integer.max;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class InterviewBitMapTest {
+class InterviewBitHashingTest {
 
   @Test
   public void checkPalindrome() {
@@ -36,10 +38,8 @@ class InterviewBitMapTest {
 
     for (int aChar : chars) {
       if ((aChar & 1) == 1) {
-        if (countOdd >= 1)
-          return 0;
-        else
-          countOdd++;
+        if (countOdd >= 1) return 0;
+        else countOdd++;
       }
     }
 
@@ -48,9 +48,9 @@ class InterviewBitMapTest {
 
   @Test
   public void longestSubarrayLength() {
-    assertEquals(5, longestSubarrayLength(new int[] { 0, 1, 1, 0, 0, 1 }));
-    assertEquals(1, longestSubarrayLength(new int[] { 1, 0, 0, 1, 0 }));
-    assertEquals(11, longestSubarrayLength(new int[] { 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1 }));
+    assertEquals(5, longestSubarrayLength(new int[] {0, 1, 1, 0, 0, 1}));
+    assertEquals(1, longestSubarrayLength(new int[] {1, 0, 0, 1, 0}));
+    assertEquals(11, longestSubarrayLength(new int[] {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1}));
   }
 
   private int longestSubarrayLength(int[] arr) {
@@ -64,16 +64,13 @@ class InterviewBitMapTest {
       sum += arr[i] == 0 ? -1 : 1;
 
       // when subarray starts from index '0'
-      if (sum == 1)
-        maxLen = i + 1;
-      else
-        um.putIfAbsent(sum, i);
+      if (sum == 1) maxLen = i + 1;
+      else um.putIfAbsent(sum, i);
 
       // check if 'sum-1' is present in 'um' or not
       if (um.get(sum - 1) != null) {
         // update maxLength
-        if (maxLen < (i - um.get(sum - 1)))
-          maxLen = i - um.get(sum - 1);
+        if (maxLen < (i - um.get(sum - 1))) maxLen = i - um.get(sum - 1);
       }
     }
 
@@ -99,10 +96,8 @@ class InterviewBitMapTest {
         long a = s.charAt(y) - '0';
         p = p * a;
 
-        if (mp.get(p) != null)
-          return 0;
-        else
-          mp.put(p, mp.getOrDefault(p, 0L) + 1L);
+        if (mp.get(p) != null) return 0;
+        else mp.put(p, mp.getOrDefault(p, 0L) + 1L);
       }
     }
 
@@ -119,8 +114,7 @@ class InterviewBitMapTest {
       while (num > 0) {
         prod = prod * (num % 10);
         num = num / 10;
-        if (mp.getOrDefault(prod, 0) == 1)
-          return 0;
+        if (mp.getOrDefault(prod, 0) == 1) return 0;
         mp.put(prod, 1);
       }
       A = A / 10;
@@ -130,9 +124,9 @@ class InterviewBitMapTest {
 
   @Test
   public void subArrayWithEqualOccurrence() {
-    assertEquals(2, subArrayWithEqualOccurrence(new int[] { 1, 2, 1 }, 1, 2));
-    assertEquals(6, subArrayWithEqualOccurrence(new int[] { 1, 2, 1 }, 4, 6));
-    assertEquals(10, subArrayWithEqualOccurrence(new int[] { 1, 2, 1, 1, 3, 4, 2, 5 }, 1, 2));
+    assertEquals(2, subArrayWithEqualOccurrence(new int[] {1, 2, 1}, 1, 2));
+    assertEquals(6, subArrayWithEqualOccurrence(new int[] {1, 2, 1}, 4, 6));
+    assertEquals(10, subArrayWithEqualOccurrence(new int[] {1, 2, 1, 1, 3, 4, 2, 5}, 1, 2));
   }
 
   private int subArrayWithEqualOccurrence(int[] a, int b, int c) {
@@ -142,10 +136,8 @@ class InterviewBitMapTest {
     m.put(0, 1);
 
     for (int i : a) {
-      if (i == b)
-        sum += 1;
-      else if (i == c)
-        sum += -1;
+      if (i == b) sum += 1;
+      else if (i == c) sum += -1;
       ans += m.getOrDefault(sum, 0);
       m.put(sum, m.getOrDefault(sum, 0) + 1);
     }
@@ -154,11 +146,11 @@ class InterviewBitMapTest {
 
   @Test
   public void incrementProblem() {
-    assertArrayEquals(new int[] { 2, 1 }, incrementProblem(new int[] { 1, 1 }));
-    assertArrayEquals(new int[] { 1, 2 }, incrementProblem(new int[] { 1, 2 }));
+    assertArrayEquals(new int[] {2, 1}, incrementProblem(new int[] {1, 1}));
+    assertArrayEquals(new int[] {1, 2}, incrementProblem(new int[] {1, 2}));
     assertArrayEquals(
-        new int[] { 4, 5, 3, 2, 3, 2, 4, 2, 1, 3 },
-        incrementProblem(new int[] { 1, 2, 3, 2, 3, 1, 4, 2, 1, 3 }));
+        new int[] {4, 5, 3, 2, 3, 2, 4, 2, 1, 3},
+        incrementProblem(new int[] {1, 2, 3, 2, 3, 1, 4, 2, 1, 3}));
   }
 
   public int[] incrementProblem(int[] a) {
@@ -180,7 +172,7 @@ class InterviewBitMapTest {
   @Test
   public void pairGivenXor() {
     assertEquals(
-        5, pairGivenXor(new int[] { 17, 18, 8, 13, 15, 7, 11, 5, 4, 9, 12, 6, 10, 14, 16, 3 }, 9));
+        5, pairGivenXor(new int[] {17, 18, 8, 13, 15, 7, 11, 5, 4, 9, 12, 6, 10, 14, 16, 3}, 9));
   }
 
   public int pairGivenXor(int[] A, int B) {
@@ -189,8 +181,7 @@ class InterviewBitMapTest {
     int count = 0;
     for (int i : A) {
 
-      if (!seen.add(B ^ i))
-        count++;
+      if (!seen.add(B ^ i)) count++;
 
       seen.add(i);
     }
@@ -200,7 +191,7 @@ class InterviewBitMapTest {
 
   @Test
   public void subArrayBOddNumber() {
-    assertEquals(4, subArrayBOddNumber(new int[] { 4, 3, 2, 3, 4 }, 2));
+    assertEquals(4, subArrayBOddNumber(new int[] {4, 3, 2, 3, 4}, 2));
   }
 
   private int subArrayBOddNumber(int[] A, int B) {
@@ -209,17 +200,15 @@ class InterviewBitMapTest {
     int n = A.length;
     int ans = 0;
     for (int i = 0; i < n; i++) {
-      if ((A[i] & 1) == 1)
-        A[i] = 1;
-      else
-        A[i] = 0;
+      if ((A[i] & 1) == 1) A[i] = 1;
+      else A[i] = 0;
     }
 
     ump.put(0, 1);
     int sum = 0;
-    for (int i = 0; i < n; i++) {
+    for (int j : A) {
 
-      sum += A[i];
+      sum += j;
 
       if (ump.get(sum - B) != null) {
         ans += ump.get(sum - B);
@@ -233,8 +222,8 @@ class InterviewBitMapTest {
 
   @Test
   public void findRepeatingElement() {
-    assertEquals(5, findRepeatingElement(new int[] { 10, 5, 3, 4, 3, 5, 6 }));
-    assertEquals(-1, findRepeatingElement(new int[] { 6, 10, 5, 4, 9, 120 }));
+    assertEquals(5, findRepeatingElement(new int[] {10, 5, 3, 4, 3, 5, 6}));
+    assertEquals(-1, findRepeatingElement(new int[] {6, 10, 5, 4, 9, 120}));
   }
 
   private int findRepeatingElement(int[] A) {
@@ -251,8 +240,7 @@ class InterviewBitMapTest {
       map.put(A[i], i);
     }
 
-    if (duplicates.size() == 0)
-      return -1;
+    if (duplicates.isEmpty()) return -1;
 
     int result = Integer.MAX_VALUE;
 
@@ -266,9 +254,9 @@ class InterviewBitMapTest {
   @Test
   public void twoOutOfThree() {
     assertArrayEquals(
-        new int[] { 2, 3 }, twoOutOfThree(new int[] { 1, 1, 2 }, new int[] { 2, 3 }, new int[] { 3 }));
+        new int[] {2, 3}, twoOutOfThree(new int[] {1, 1, 2}, new int[] {2, 3}, new int[] {3}));
     assertArrayEquals(
-        new int[] { 1, 2, 3 }, twoOutOfThree(new int[] { 1, 2 }, new int[] { 1, 3 }, new int[] { 2, 3 }));
+        new int[] {1, 2, 3}, twoOutOfThree(new int[] {1, 2}, new int[] {1, 3}, new int[] {2, 3}));
   }
 
   public int[] twoOutOfThree(int[] A, int[] B, int[] C) {
@@ -280,32 +268,59 @@ class InterviewBitMapTest {
     for (int i : A) {
       if (a.containsKey(i)) {
         a.put(i, a.get(i) + 1);
-      } else
-        a.put(i, 1);
+      } else a.put(i, 1);
     }
     for (int i : B) {
       if (b.containsKey(i)) {
         b.put(i, b.get(i) + 1);
-      } else
-        b.put(i, 1);
+      } else b.put(i, 1);
     }
     for (int i : C) {
       if (c.containsKey(i)) {
         c.put(i, c.get(i) + 1);
-      } else
-        c.put(i, 1);
+      } else c.put(i, 1);
     }
-    for (int i : a.keySet())
-      if (b.containsKey(i) || c.containsKey(i))
-        set.add(i);
-    for (int i : b.keySet())
-      if (a.containsKey(i) || c.containsKey(i))
-        set.add(i);
-    for (int i : c.keySet())
-      if (b.containsKey(i) || a.containsKey(i))
-        set.add(i);
+    for (int i : a.keySet()) if (b.containsKey(i) || c.containsKey(i)) set.add(i);
+    for (int i : b.keySet()) if (a.containsKey(i) || c.containsKey(i)) set.add(i);
+    for (int i : c.keySet()) if (b.containsKey(i) || a.containsKey(i)) set.add(i);
     ArrayList<Integer> ans = new ArrayList<>(set);
     Collections.sort(ans);
     return ans.stream().mapToInt(i -> i).toArray();
+  }
+
+  @Test
+  public void longestConsecutive() {
+    assertEquals(4, longestConsecutive(new int[] {100, 4, 200, 1, 3, 2}));
+    assertEquals(5, longestConsecutive(new int[] {-6, -4, -5, -2, -3}));
+    assertEquals(
+        4,
+        longestConsecutive(
+            new int[] {
+              113, 107, 10, 56, 111, 97, 29, 65, 70, 112, 99, 55, 73, 75, 24, 90, 117, 1, 78, 16,
+              108, 2, -5, 50, 48, 41, 69, 86, 26, 77, 89, 19, 25, 57, 106, 49, 44, 11, 52, 47, 109,
+              21, 17, 53
+            }));
+  }
+
+  public int longestConsecutive(final int[] A) {
+
+    Set<Integer> numsElem = new HashSet<>();
+    int maxSeries = 0;
+    for (int num : A) {
+      numsElem.add(num);
+    }
+
+    for (int num : A) {
+      if (!numsElem.contains(num - 1)) {
+        int count = 1;
+        int currentElem = num;
+        while (numsElem.contains(currentElem + 1)) {
+          currentElem += 1;
+          count += 1;
+        }
+        maxSeries = Math.max(maxSeries, count);
+      }
+    }
+    return maxSeries;
   }
 }

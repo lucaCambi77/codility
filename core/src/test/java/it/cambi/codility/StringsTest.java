@@ -7,7 +7,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/** @author luca */
+/**
+ * @author luca
+ */
 class StringsTest {
 
   @Test
@@ -27,35 +29,18 @@ class StringsTest {
   }
 
   private boolean isAnagram(String a, String b) {
-    int length = a.length();
-
-    String alphaBet = "abcdefghijklmnopqrstuvwxyz";
+    if (a.length() != b.length()) {
+      return false;
+    }
 
     int[] chars = new int[26];
 
-    for (int i = 0; i < length; i++) {
-      char c = Character.toLowerCase(a.charAt(i));
-
-      int index = alphaBet.indexOf(c);
-
-      chars[index] += 1;
+    for (int i = 0; i < b.length(); i++) {
+      chars[Character.toLowerCase(b.charAt(i)) - 'a']++;
+      chars[Character.toLowerCase(a.charAt(i)) - 'a']--;
     }
 
-    length = b.length();
-
-    for (int i = 0; i < length; i++) {
-      char c = Character.toLowerCase(b.charAt(i));
-
-      int index = alphaBet.indexOf(c);
-
-      int freq = chars[index];
-
-      if (freq == 0) return false;
-
-      chars[index] -= 1;
-    }
-
-    for (int aChar : chars) if (aChar != 0) return false;
+    for (int c : chars) if (c != 0) return false;
 
     return true;
   }

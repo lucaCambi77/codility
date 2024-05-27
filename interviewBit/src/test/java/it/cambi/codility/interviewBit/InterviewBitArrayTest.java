@@ -1,5 +1,6 @@
 package it.cambi.codility.interviewBit;
 
+import com.google.common.primitives.Ints;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
@@ -410,7 +411,7 @@ class InterviewBitArrayTest {
   }
 
   public int lengthOfLastWord(final String A) {
-    if (A.trim().length() == 0) return 0;
+    if (A.trim().isEmpty()) return 0;
 
     String[] split = A.split(" ");
 
@@ -616,6 +617,105 @@ class InterviewBitArrayTest {
     assertArrayEquals(
         new int[] {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         plusOne(new int[] {9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9}));
+  }
+
+  @Test
+  public void segregate() {
+    assertArrayEquals(
+        new int[] {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        segregate(new int[] {1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1}));
+  }
+
+  public int[] segregate(int[] A) {
+
+    for (int l = 0, r = 0; r < A.length; r++) {
+      if (A[l] == 1 && A[r] == 0) {
+        A[l] = 0; // swap
+        A[r] = 1;
+        l++;
+      }
+      if (A[l] == 0) {
+        l++;
+      }
+    }
+    return A;
+  }
+
+  @Test
+  public void addArrays() {
+    assertArrayEquals(new int[] {1, 0, 0, 0}, addArrays(new int[] {9, 9, 9}, new int[] {1}));
+    assertArrayEquals(new int[] {3, 7, 8}, addArrays(new int[] {1, 2, 3}, new int[] {2, 5, 5}));
+    assertArrayEquals(
+        new int[] {4, 3, 6, 8, 0, 6, 7, 6, 7},
+        addArrays(new int[] {4, 3, 6, 7, 9, 9, 1, 7, 8}, new int[] {7, 5, 8, 9}));
+  }
+
+  public int[] addArrays(int[] A, int[] B) {
+
+    int max = Math.max(A.length, B.length);
+
+    int lengthA = A.length - 1;
+    int lengthB = B.length - 1;
+
+    int[] sol = new int[max];
+
+    int pos;
+    int rem = 0;
+
+    while (lengthA >= 0 && lengthB >= 0) {
+      pos = A[lengthA] + B[lengthB] + rem;
+
+      if (pos >= 10) {
+        rem = 1;
+        pos = pos % 10;
+      } else {
+        rem = 0;
+      }
+
+      sol[--max] = pos;
+
+      lengthA--;
+      lengthB--;
+    }
+
+    if (lengthA >= 0) {
+      while (lengthA >= 0) {
+        pos = A[lengthA] + rem;
+
+        if (pos >= 10) {
+          rem = 1;
+          pos = pos % 10;
+        } else {
+          rem = 0;
+        }
+
+        sol[--max] = pos;
+        lengthA--;
+      }
+    } else if (lengthB >= 0) {
+      while (lengthB >= 0) {
+        pos = B[lengthB] + rem;
+
+        if (pos >= 10) {
+          rem = 1;
+          pos = pos % 10;
+        } else {
+          rem = 0;
+        }
+
+        sol[--max] = pos;
+        lengthB--;
+      }
+    }
+
+    if (rem == 1) {
+      int[] temp = new int[sol.length + 1];
+      temp[0] = 1;
+      System.arraycopy(sol, 0, temp, 1, sol.length);
+      sol = temp;
+    }
+
+    return sol;
   }
 
   private int[] plusOne(int[] A) {
