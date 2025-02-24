@@ -1,12 +1,15 @@
 /** */
 package it.cambi.codility.gfg;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -15,14 +18,10 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
-import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author luca
@@ -388,18 +387,21 @@ class Geeks4GeeksArrayTest {
   void permutationsOfAGivenString() {
 
     String s = "ABC";
-    TreeSet<String> set = permuteString(s, 0, s.length() - 1, new TreeSet<String>());
-    StringBuilder sb = new StringBuilder();
 
-    set.forEach(
-        x -> {
-          sb.append(x).append(" ");
-        });
-
-    assertEquals("ABC ACB BAC BCA CAB CBA", sb.toString().substring(0, sb.toString().length() - 1));
+    assertEquals(
+        "ABC ACB BAC BCA CAB CBA",
+        permuteString(s, 0, s.length() - 1, new ArrayList<>()).stream()
+            .sorted()
+            .collect(Collectors.joining(" ")));
+    assertEquals(
+        "ABC ACB BAC BCA CAB CBA",
+        permutations(s).stream().sorted().collect(Collectors.joining(" ")));
+    assertEquals(
+        "aabb abab abba baab baba bbaa",
+        permutations("aabb").stream().sorted().collect(Collectors.joining(" ")));
   }
 
-  private static TreeSet<String> permuteString(String str, int l, int r, TreeSet<String> set) {
+  private List<String> permuteString(String str, int l, int r, List<String> set) {
 
     if (l == r) {
       set.add(str);
@@ -414,13 +416,32 @@ class Geeks4GeeksArrayTest {
     return set;
   }
 
-  private static String swap(String a, int i, int j) {
+  private String swap(String a, int i, int j) {
     char temp;
     char[] charArray = a.toCharArray();
     temp = charArray[i];
     charArray[i] = charArray[j];
     charArray[j] = temp;
     return String.valueOf(charArray);
+  }
+
+  private Set<String> permutations(String s) {
+    Set<String> permutations = new HashSet<>();
+
+    if (s.length() == 1) {
+      permutations.add(s);
+      return permutations;
+    }
+
+    for (int i = 0; i < s.length(); i++) {
+      char currentChar = s.charAt(i);
+
+      String remaining = s.substring(0, i) + s.substring(i + 1);
+      for (String perm : permutations(remaining)) {
+        permutations.add(currentChar + perm);
+      }
+    }
+    return permutations;
   }
 
   @Test

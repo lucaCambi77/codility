@@ -2,7 +2,9 @@ package it.cambi.codility.pattern.adapter;
 
 import it.cambi.codility.pattern.Shape;
 
-/** @author luca */
+/**
+ * @author luca
+ */
 public class TriangleAdapter extends Triangle implements Shape {
 
   public TriangleAdapter() {

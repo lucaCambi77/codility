@@ -18,7 +18,7 @@ public class BinaryTree {
     else return (size(node.getLeft()) + 1 + size(node.getRight()));
   }
 
-  void insert(int key) {
+  public void insert(int key) {
     root = insertRec(root, key);
   }
 

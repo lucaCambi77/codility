@@ -1,13 +1,12 @@
 package company;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 class SoshaceInterview {
 
@@ -90,7 +89,7 @@ class SoshaceInterview {
       System.arraycopy(sec, 0, prim, 0, MAX_CHAR);
     }
 
-    List<Character> sol = new ArrayList<Character>();
+    List<Character> sol = new ArrayList<>();
 
     for (int i = 0; i < 26; i++)
       if (prim[i]) {

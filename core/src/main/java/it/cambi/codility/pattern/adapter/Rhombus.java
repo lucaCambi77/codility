@@ -1,7 +1,9 @@
 /** */
 package it.cambi.codility.pattern.adapter;
 
-/** @author luca */
+/**
+ * @author luca
+ */
 // Part of Extra-Geometric-Shape API
 public class Rhombus implements AbstractGeometricShape, GeometricShape {
 

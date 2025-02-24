@@ -2,7 +2,7 @@ plugins {
   id 'java'
   id "io.freefair.lombok" version "8.0.1"
   id 'groovy'
-  id "com.diffplug.spotless" version "6.25.0"
+  id("com.diffplug.spotless") version "5.0.0"
 }
 
 gradle.startParameter.continueOnFailure = true
@@ -11,7 +11,6 @@ check.dependsOn spotlessCheck
 
 spotless {
   java {
-    googleJavaFormat().reflowLongStrings()
     importOrder()
     removeUnusedImports()
     trimTrailingWhitespace()

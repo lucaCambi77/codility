@@ -1,15 +1,14 @@
 /** */
 package it.cambi.codility.leetcode;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.cambi.codility.model.Array;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,11 +26,11 @@ import java.util.Stack;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 /**
  * @author luca
@@ -2422,23 +2421,56 @@ class LeetCodeArrayTest {
 
   private int majorityElement(int[] nums) {
 
-    Map<Integer, Integer> mapToFreq = new HashMap<Integer, Integer>();
+    int[] frequencies = new int[101];
+
     int max = 0;
     int maxFreq = 0;
 
     for (int value : nums) {
-      int freq = mapToFreq.getOrDefault(value, 0) + 1;
+      frequencies[value]++;
+
+      int freq = frequencies[value];
 
       if (freq > maxFreq) {
 
         max = value;
         maxFreq = freq;
       }
-
-      mapToFreq.put(value, freq);
     }
 
     return max;
+  }
+
+  @Test
+  public void maxFrequencyElements() {
+    assertEquals(4, maxFrequencyElements(new int[] {1, 2, 2, 3, 1, 4}));
+    assertEquals(5, maxFrequencyElements(new int[] {1,2,3,4,5}));
+  }
+
+  private int maxFrequencyElements(int[] nums) {
+    int[] frequencies = new int[101];
+
+    int maxFreq = 0;
+
+    for (int value : nums) {
+      frequencies[value]++;
+
+      int freq = frequencies[value];
+
+      if (freq > maxFreq) {
+        maxFreq = freq;
+      }
+    }
+
+    int count = 0;
+
+    for (int value : frequencies) {
+      if (value == maxFreq) {
+        count++;
+      }
+    }
+
+    return count * maxFreq;
   }
 
   private int majorityElement1(int[] nums) {

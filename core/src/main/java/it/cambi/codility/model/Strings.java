@@ -3,7 +3,7 @@ package it.cambi.codility.model;
 public class Strings {
 
   private Strings() {}
-  /** @return */
+
   public static boolean isPalindrome(String palindromeString) {
     boolean isPalindrome = true;
 

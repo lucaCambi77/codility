@@ -1,13 +1,11 @@
 /** */
 package it.cambi.codility.leetcode;
 
-import it.cambi.codility.model.Strings;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import it.cambi.codility.model.Strings;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -27,10 +26,11 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * @author luca
@@ -2397,7 +2397,7 @@ class LeetCodeStringTest {
     assertFalse(rotateString("abcde", "abcdg"));
   }
 
-  public boolean rotateString(String s, String goal) {
+  private boolean rotateString(String s, String goal) {
 
     if (s.length() != goal.length()) {
       return false;
@@ -2414,5 +2414,148 @@ class LeetCodeStringTest {
     }
 
     return false;
+  }
+
+  @Test
+  public void reformatNumber() {
+    assertEquals("123-456", reformatNumber("1-23-45 6"));
+    assertEquals("123-45-67", reformatNumber("123 4-567"));
+    assertEquals("123-456-78", reformatNumber("123 4-5678"));
+  }
+
+  private String reformatNumber(String number) {
+    number = number.replaceAll("[\\s-]", "");
+
+    StringBuilder sol = new StringBuilder();
+    int i = 0;
+    StringBuilder s;
+
+    while (i < number.length()) {
+      s = new StringBuilder();
+
+      if (number.length() - i <= 4) {
+
+        if (number.length() - i == 4) {
+
+          while (i < number.length()) {
+            s.append(number.charAt(i));
+            if (s.length() == 2) {
+              sol.append(chain(sol, s));
+              s = new StringBuilder();
+            }
+            i++;
+          }
+
+        } else {
+
+          while (i < number.length()) {
+            s.append(number.charAt(i));
+            i++;
+          }
+          sol.append(chain(sol, s));
+        }
+
+        break;
+      } else {
+        int next = i + 3;
+
+        while (i < next) {
+          s.append(number.charAt(i));
+          i++;
+        }
+
+        sol.append(chain(sol, s));
+
+        i--;
+      }
+
+      i++;
+    }
+
+    return sol.toString();
+  }
+
+  private String chain(StringBuilder sol, StringBuilder s) {
+    return sol.length() > 0 ? "-" + s : s.toString();
+  }
+
+  @Test
+  public void reorganizeString() {
+    assertEquals("acacbcba", reorganizeString("aaabbccc"));
+    assertEquals("ababac", reorganizeString("aaabbc"));
+    assertEquals("", reorganizeString("aaaabc"));
+    assertEquals("acab", reorganizeString("aabc"));
+    assertEquals("aba", reorganizeString("aab"));
+    assertEquals("aba", reorganizeString("aab"));
+    assertEquals("aba", reorganizeString("baa"));
+    assertEquals("ab", reorganizeString("ab"));
+    assertEquals("", reorganizeString("aa"));
+    assertEquals("a", reorganizeString("a"));
+    assertEquals("vlvov", reorganizeString("vvvlo"));
+  }
+
+  private String reorganizeString(String s) {
+
+    var charCounts = new int[26];
+    for (char c : s.toCharArray()) {
+      charCounts[c - 'a']++;
+    }
+
+    // Max heap ordered by character counts
+    var pq = new PriorityQueue<int[]>((a, b) -> Integer.compare(b[1], a[1]));
+    for (int i = 0; i < 26; i++) {
+      if (charCounts[i] > 0) {
+        pq.offer(new int[] {i + 'a', charCounts[i]});
+      }
+    }
+
+    var sb = new StringBuilder();
+    while (!pq.isEmpty()) {
+      var first = pq.poll();
+      if (sb.length() == 0 || first[0] != sb.charAt(sb.length() - 1)) {
+        sb.append((char) first[0]);
+        if (--first[1] > 0) {
+          pq.offer(first);
+        }
+      } else {
+        if (pq.isEmpty()) {
+          return "";
+        }
+
+        var second = pq.poll();
+        sb.append((char) second[0]);
+        if (--second[1] > 0) {
+          pq.offer(second);
+        }
+
+        pq.offer(first);
+      }
+    }
+
+    return sb.toString();
+  }
+
+  @Test
+  public void maxLengthBetweenEqualCharacters() {
+    assertEquals(0, maxLengthBetweenEqualCharacters("aa"));
+    assertEquals(2, maxLengthBetweenEqualCharacters("abca"));
+    assertEquals(-1, maxLengthBetweenEqualCharacters("cbzxy"));
+  }
+
+  public int maxLengthBetweenEqualCharacters(String s) {
+
+    Map<Character, Integer> map = new HashMap<>();
+    int max = -1;
+
+    for (int i = 0; i < s.length(); i++) {
+      Integer firstPos = map.get(s.charAt(i));
+      if (firstPos == null) {
+        map.put(s.charAt(i), i);
+      } else {
+        max = Math.max(i - firstPos - 1, max);
+      }
+    }
+
+    return max;
   }
 }

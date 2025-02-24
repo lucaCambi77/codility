@@ -1,7 +1,6 @@
 /** */
 package it.cambi.codility.model;
 
-/** @author luca */
 import lombok.Getter;
 import lombok.Setter;
 

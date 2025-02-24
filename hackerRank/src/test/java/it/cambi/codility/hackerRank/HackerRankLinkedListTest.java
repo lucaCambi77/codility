@@ -1,10 +1,12 @@
 /** */
 package it.cambi.codility.hackerRank;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -16,15 +18,14 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-/** @author luca */
+/**
+ * @author luca
+ */
 @ExtendWith(MockitoExtension.class)
 class HackerRankLinkedListTest {
   private PrintStream out;
@@ -164,30 +165,28 @@ class HackerRankLinkedListTest {
   }
 
   @Test
-  public void hasCycle() throws IOException {
+  public void linkedListHasCycle() {
 
-    InputStream is = new FileInputStream("src/test/resources/listWithCycle.txt");
-    BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+    SinglyLinkedListNode head = new SinglyLinkedListNode(3);
 
-    String line = buf.readLine();
-    SinglyLinkedListNode head = new SinglyLinkedListNode(1);
+    head.next = new SinglyLinkedListNode(2);
+    head.next.next = new SinglyLinkedListNode(0);
+    head.next.next.next = new SinglyLinkedListNode(-4);
+    head.next.next.next.next = head.next;
 
-    int pos = 0;
+    assertTrue(hasCycle(head));
 
-    while (line != null) {
-      insertAtPos(pos, Integer.valueOf(line), head);
+    head = new SinglyLinkedListNode(3);
+    head.next = new SinglyLinkedListNode(2);
 
-      line = buf.readLine();
-      pos++;
+    assertFalse(hasCycle(head));
+  }
+
+  private static boolean hasCycle(SinglyLinkedListNode head) {
+
+    if (head == null) {
+      return false;
     }
-
-    buf.close();
-
-    boolean hasCycle = false;
-
-    /*
-     * if (head == null){ hasCycle = false; }
-     */
 
     SinglyLinkedListNode slow = head;
     SinglyLinkedListNode fast = head;
@@ -197,11 +196,10 @@ class HackerRankLinkedListTest {
       fast = fast.next.next;
 
       if (slow == fast) {
-        hasCycle = true;
+        return true;
       }
     }
-
-    assertFalse(hasCycle);
+    return false;
   }
 
   @Test
@@ -227,7 +225,7 @@ class HackerRankLinkedListTest {
 
     // check no duplicates
     Set<Integer> seen = new HashSet<>();
-    boolean check = true;
+    boolean check;
     while (head2 != null) {
       check = seen.add(head2.data);
       assertTrue(check);

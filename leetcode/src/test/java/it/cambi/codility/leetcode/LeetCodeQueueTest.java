@@ -1,6 +1,6 @@
 package it.cambi.codility.leetcode;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -9,8 +9,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 public class LeetCodeQueueTest {
 
