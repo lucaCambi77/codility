@@ -19,7 +19,7 @@ class CodeChefArrayTest extends Specification {
         new int[]{5, 6, 7, 8, 9, 10} | 5
     }
 
-    private int cardRemoval(int[] arr) {
+    private static int cardRemoval(int[] arr) {
 
         int[] ints = new int[11];
 

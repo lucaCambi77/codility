@@ -62,9 +62,8 @@ class HackerRankLinkedListTest {
     DoublyLinkedListNode node = new DoublyLinkedListNode(1);
     DoublyLinkedListNode node1 = new DoublyLinkedListNode(3);
     DoublyLinkedListNode node2 = new DoublyLinkedListNode(4);
-    DoublyLinkedListNode node3 = new DoublyLinkedListNode(10);
 
-    node2.next = node3;
+    node2.next = new DoublyLinkedListNode(10);
     node1.next = node2;
     node.next = node1;
 
@@ -72,9 +71,8 @@ class HackerRankLinkedListTest {
 
     DoublyLinkedListNode anode = new DoublyLinkedListNode(2);
     DoublyLinkedListNode anode1 = new DoublyLinkedListNode(3);
-    DoublyLinkedListNode anode2 = new DoublyLinkedListNode(4);
 
-    anode1.next = anode2;
+    anode1.next = new DoublyLinkedListNode(4);
     anode.next = anode1;
 
     sortedInsert(anode, 1);
@@ -86,14 +84,14 @@ class HackerRankLinkedListTest {
 
     while (pointer != null) {
 
-      if (data >= pointer.data && (null == pointer.next || data <= pointer.next.data)) {
+      if (data >= pointer.data) {
 
         DoublyLinkedListNode newNode = new DoublyLinkedListNode(data);
         newNode.next = pointer.next;
 
         pointer.next = newNode;
         break;
-      } else if (pointer.prev == null && data <= pointer.data) {
+      } else if (pointer.prev == null) {
         DoublyLinkedListNode newNode = new DoublyLinkedListNode(data);
         newNode.next = pointer;
 
@@ -107,8 +105,8 @@ class HackerRankLinkedListTest {
     return head;
   }
 
-  Stack<Integer> s1 = new Stack<Integer>();
-  Stack<Integer> s2 = new Stack<Integer>();
+  Stack<Integer> s1 = new Stack<>();
+  Stack<Integer> s2 = new Stack<>();
 
   @Test
   public void queueUsingTwoStacks() {

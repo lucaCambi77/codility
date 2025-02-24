@@ -8,8 +8,10 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -25,6 +27,11 @@ class LeetCodeLinkedListTest {
     public ListNode(int val) {
       this.val = val;
       this.next = null;
+    }
+
+    public ListNode(int val, ListNode next) {
+      this.val = val;
+      this.next = next;
     }
   }
 
@@ -594,5 +601,53 @@ class LeetCodeLinkedListTest {
     copy.next = copy.next.next;
 
     return head;
+  }
+
+  @Test
+  public void frequenciesOfElements() {
+    ListNode l1 = new ListNode(1);
+    l1.next = new ListNode(1);
+    l1.next.next = new ListNode(2);
+    l1.next.next.next = new ListNode(1);
+    l1.next.next.next.next = new ListNode(2);
+    l1.next.next.next.next.next = new ListNode(3);
+
+    ListNode sol = frequenciesOfElements(l1);
+
+    List<Integer> integers = new ArrayList<>();
+    integers.add(1);
+    integers.add(2);
+    integers.add(3);
+
+    while (sol != null) {
+      integers.remove((Integer) sol.val);
+      sol = sol.next;
+    }
+
+    assertTrue(integers.isEmpty());
+  }
+
+  public ListNode frequenciesOfElements(ListNode head) {
+
+    Map<Integer, Integer> frequencies = new HashMap<>();
+
+    while (head != null) {
+      frequencies.put(head.val, frequencies.getOrDefault(head.val, 0) + 1);
+      head = head.next;
+    }
+
+    ListNode solution = null;
+    ListNode tmp = null;
+
+    for (Map.Entry<Integer, Integer> entry : frequencies.entrySet()) {
+      if (solution == null) {
+        solution = new ListNode(entry.getValue());
+      } else {
+        solution = new ListNode(entry.getValue(), tmp);
+      }
+      tmp = solution;
+    }
+
+    return solution;
   }
 }
