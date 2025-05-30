@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class QuickFind {
 
-  private int[] elements;
+  private final int[] elements;
 
   public QuickFind(int n) {
     elements = new int[n];

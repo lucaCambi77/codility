@@ -2,6 +2,8 @@
 package it.cambi.codility.leetcode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import it.cambi.codility.model.BinaryTree;
 import it.cambi.codility.model.Node;
@@ -12,17 +14,21 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Queue;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.Getter;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-/** @author luca */
+/**
+ * @author luca
+ */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class LeetCodeTreeTest {
 
-   class NodeNAry {
+  class NodeNAry {
     public int val;
     public List<NodeNAry> children;
 
@@ -55,6 +61,198 @@ class LeetCodeTreeTest {
       this.left = left;
       this.right = right;
     }
+  }
+
+  @Test
+  void findTilt() {
+    TreeNode treeNode = new TreeNode(1);
+    TreeNode treeNodeLeft = new TreeNode(2);
+    TreeNode treeNodeRight = new TreeNode(3);
+
+    treeNode.left = treeNodeLeft;
+    treeNode.right = treeNodeRight;
+
+    assertEquals(1, findTilt(treeNode));
+
+    treeNode = new TreeNode(4);
+    treeNodeLeft = new TreeNode(2);
+    treeNodeRight = new TreeNode(9);
+
+    TreeNode treeNodeLeft1 = new TreeNode(3);
+    TreeNode treeNodeRight1 = new TreeNode(5);
+    treeNodeRight.right = new TreeNode(7);
+
+    treeNodeLeft.left = treeNodeLeft1;
+    treeNodeLeft.right = treeNodeRight1;
+
+    treeNode.left = treeNodeLeft;
+    treeNode.right = treeNodeRight;
+
+    assertEquals(15, findTilt(treeNode));
+
+    treeNode = new TreeNode(1);
+    treeNodeLeft = new TreeNode(2);
+    treeNodeLeft1 = new TreeNode(3);
+    TreeNode treeNodeLeft2 = new TreeNode(4);
+
+    treeNodeLeft2.left = new TreeNode(5);
+
+    treeNodeLeft1.left = treeNodeLeft2;
+
+    treeNodeLeft.left = treeNodeLeft1;
+
+    treeNode.left = treeNodeLeft;
+
+    assertEquals(40, findTilt(treeNode));
+
+    assertEquals(0, findTilt(null));
+  }
+
+  private int findTilt(TreeNode root) {
+    tilt(root);
+
+    return traverse(root);
+  }
+
+  int tilt(TreeNode root) {
+    if (root == null) return 0;
+
+    TreeNode l = root.left;
+    TreeNode r = root.right;
+
+    int tiltL = tilt(l);
+    int tiltR = tilt(r);
+
+    int s = tiltL + tiltR + root.val;
+
+    root.val = Math.abs(tiltL - tiltR);
+
+    return s;
+  }
+
+  private int traverse(TreeNode root) {
+
+    if (root == null) return 0;
+
+    return root.val + traverse(root.left) + traverse(root.right);
+  }
+
+  @Test
+  public void averageOfLevels() {
+
+    Integer[] list = new Integer[] {3, 9, 20, null, null, 15, 7};
+    TreeNode t = createFromArray(list);
+    List<Double> result = new ArrayList<>();
+    List<Double> sumList = new ArrayList<>();
+    List<Integer> countList = new ArrayList<>();
+
+    averageOfLevels(t, 0, sumList, countList);
+
+    for (int i = 0; i < sumList.size(); i++) {
+      result.add(sumList.get(i) / countList.get(i)); // Compute average
+    }
+
+    assertEquals(List.of(3.00000, 14.50000, 11.00000), result);
+  }
+
+  private void averageOfLevels(
+      TreeNode node, int level, List<Double> sumList, List<Integer> countList) {
+    if (node == null) return;
+
+    if (level == sumList.size()) {
+      sumList.add(0.0);
+      countList.add(0);
+    }
+
+    sumList.set(level, sumList.get(level) + node.val);
+    countList.set(level, countList.get(level) + 1);
+
+    averageOfLevels(node.left, level + 1, sumList, countList);
+    averageOfLevels(node.right, level + 1, sumList, countList);
+  }
+
+  @Test
+  public void createFromArray() {
+    Integer[] list = new Integer[] {0, 1, 2, 3, null, null, null, 4, null, 5};
+
+    TreeNode res = createFromArray(list);
+
+    TreeNode treeNode = new TreeNode(list[0]);
+
+    TreeNode treeNodeLeft = new TreeNode(1);
+
+    TreeNode treeNodeRight = new TreeNode(2);
+
+    TreeNode treeNodeL1 = new TreeNode(3);
+
+    TreeNode treeNodeL2 = new TreeNode(4);
+
+    treeNodeL2.left = new TreeNode(5);
+
+    treeNodeL1.left = treeNodeL2;
+
+    treeNodeLeft.left = treeNodeL1;
+
+    treeNode.left = treeNodeLeft;
+
+    treeNode.right = treeNodeRight;
+
+    assertTrue(isSameTreeNode(treeNode, res));
+
+    list = new Integer[] {0, 1, null, 2, null, 3, null, 4, null, 5};
+
+    res = createFromArray(list);
+
+    treeNode = new TreeNode(list[0]);
+
+    treeNodeLeft = new TreeNode(1);
+
+    TreeNode treeNodeL = new TreeNode(2);
+
+    treeNodeL1 = new TreeNode(3);
+
+    treeNodeL2 = new TreeNode(4);
+
+    treeNodeL2.left = new TreeNode(5);
+
+    treeNodeL1.left = treeNodeL2;
+
+    treeNodeL.left = treeNodeL1;
+
+    treeNodeLeft.left = treeNodeL;
+
+    treeNode.left = treeNodeLeft;
+
+    assertTrue(isSameTreeNode(treeNode, res));
+  }
+
+  private TreeNode createFromArray(Integer[] arr) {
+    if (arr == null || arr.length == 0 || arr[0] == null) return null;
+
+    TreeNode root = new TreeNode(arr[0]);
+    Queue<TreeNode> queue = new LinkedList<>();
+    queue.add(root);
+
+    int i = 1;
+    while (i < arr.length && !queue.isEmpty()) {
+      TreeNode curr = queue.poll(); // Current node to assign children
+
+      // Assign left child
+      if (arr[i] != null) {
+        curr.left = new TreeNode(arr[i]);
+        queue.add(curr.left);
+      }
+      i++;
+
+      // Assign right child
+      if (i < arr.length && arr[i] != null) {
+        curr.right = new TreeNode(arr[i]);
+        queue.add(curr.right);
+      }
+      i++;
+    }
+
+    return root;
   }
 
   @Test
@@ -144,9 +342,9 @@ class LeetCodeTreeTest {
   @Test
   public void isSymmetric() {
 
-    assertEquals(true, isSymmetric(isSimmetricNode()));
-    assertEquals(false, isSymmetric(isSimmetricNode1()));
-    assertEquals(true, isSymmetric(isSimmetricNode2()));
+    assertTrue(isSymmetric(isSimmetricNode()));
+    assertFalse(isSymmetric(isSymmetricNode1()));
+    assertTrue(isSymmetric(isSimmetricNode2()));
   }
 
   public boolean isSymmetric(Node root) {
@@ -163,7 +361,7 @@ class LeetCodeTreeTest {
       List<Integer> list = entrySet.next().getValue();
 
       for (int i = list.size() - 1; i >= list.size() / 2; i--) {
-        if (list.get(i) != list.get(list.size() - 1 - i)) return false;
+        if (!Objects.equals(list.get(i), list.get(list.size() - 1 - i))) return false;
       }
     }
 
@@ -202,7 +400,7 @@ class LeetCodeTreeTest {
     return head;
   }
 
-  private Node isSimmetricNode1() {
+  private Node isSymmetricNode1() {
     Node head = new Node(1);
     Node left2 = new Node(2);
     Node right2 = new Node(2);
@@ -286,7 +484,7 @@ class LeetCodeTreeTest {
     List<Integer> sol = new ArrayList<>();
     preorderNAry(root, sol);
 
-    assertEquals(Arrays.asList(1, 3, 5, 6, 2, 4), Arrays.asList(sol));
+    assertEquals(Arrays.asList(1, 3, 5, 6, 2, 4), List.of(sol));
   }
 
   public void preorderNAry(NodeNAry root, List<Integer> list) {
@@ -349,16 +547,16 @@ class LeetCodeTreeTest {
 
   @Test
   public void hasPathSum() {
-    assertEquals(true, hasPathSum(BinaryTree.getBSTExample(), 100));
-    assertEquals(true, hasPathSum(BinaryTree.getBSTExample(), 200));
-    assertEquals(false, hasPathSum(BinaryTree.getBSTExample(), 101));
-    assertEquals(false, hasPathSum(BinaryTree.getBSTExample(), 183));
-    assertEquals(true, hasPathSum(new Node(1), 1));
+    assertTrue(hasPathSum(BinaryTree.getBSTExample(), 100));
+    assertTrue(hasPathSum(BinaryTree.getBSTExample(), 200));
+    assertFalse(hasPathSum(BinaryTree.getBSTExample(), 101));
+    assertFalse(hasPathSum(BinaryTree.getBSTExample(), 183));
+    assertTrue(hasPathSum(new Node(1), 1));
 
     Node node = new Node(1);
     node.setLeft(new Node(2));
 
-    assertEquals(false, hasPathSum(node, 1));
+    assertFalse(hasPathSum(node, 1));
   }
 
   private boolean hasPathSum(Node root, int sum) {
@@ -417,13 +615,13 @@ class LeetCodeTreeTest {
 
     t3.setRight(right3);
 
-    assertEquals(true, isSameTree(t1, t3));
+    assertTrue(isSameTree(t1, t3));
 
     Node node = new Node(1);
 
     mergeTrees(node, null);
 
-    assertEquals(true, isSameTree(new Node(1), node));
+    assertTrue(isSameTree(new Node(1), node));
 
     Node nodeX = new Node(1);
 
@@ -453,7 +651,7 @@ class LeetCodeTreeTest {
 
     node4.setRight(node6);
 
-    assertEquals(true, isSameTree(nodeX, node4));
+    assertTrue(isSameTree(nodeX, node4));
   }
 
   public Node mergeTrees(Node t1, Node t2) {
@@ -477,19 +675,17 @@ class LeetCodeTreeTest {
 
   @Test
   public void isSameTree() {
-    assertEquals(true, isSameTree(BinaryTree.getBSTExample(), BinaryTree.getBSTExample()));
+    assertTrue(isSameTree(BinaryTree.getBSTExample(), BinaryTree.getBSTExample()));
   }
 
   private boolean isSameTree(Node p, Node q) {
     if (p == null && q == null) return true;
 
-    if (null != p
+    return null != p
         && null != q
         && p.getData() == q.getData()
         && isSameTree(p.getLeft(), q.getLeft())
-        && isSameTree(p.getRight(), q.getRight())) return true;
-
-    return false;
+        && isSameTree(p.getRight(), q.getRight());
   }
 
   @Test
@@ -535,7 +731,7 @@ class LeetCodeTreeTest {
     listLeft.addAll(listRight);
     listLeft.add(root.getData());
 
-    assertEquals(true, twoSum(listLeft, 110));
+    assertTrue(twoSum(listLeft, 110));
   }
 
   private void branchList(Node root, List<Integer> listLeft) {
@@ -570,11 +766,10 @@ class LeetCodeTreeTest {
   private boolean isSameTreeNode(TreeNode p, TreeNode q) {
     if (p == null && q == null) return true;
 
-    if (null != p
+    return null != p
         && null != q
         && p.val == q.val
         && isSameTreeNode(p.left, q.left)
-        && isSameTreeNode(p.right, q.right)) return true;
-    return false;
+        && isSameTreeNode(p.right, q.right);
   }
 }

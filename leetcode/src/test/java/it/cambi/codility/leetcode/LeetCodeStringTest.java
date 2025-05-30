@@ -90,6 +90,42 @@ class LeetCodeStringTest {
       };
 
   @Test
+  void canBeEqual() {
+    assertTrue(canBeEqual("abcd", "cdab"));
+    assertFalse(canBeEqual("abcd", "dacb"));
+    assertTrue(canBeEqual("bnxw", "bwxn"));
+    assertTrue(canBeEqual("tina", "tina"));
+  }
+
+  boolean canBeEqual(String s1, String s2) {
+    if (s1.equals(s2)) return true;
+
+    char[] chars = s1.toCharArray();
+
+    char c = chars[0];
+    char c1 = chars[2];
+    chars[0] = c1;
+    chars[2] = c;
+
+    char[] chars2 = s1.toCharArray();
+
+    char c2 = chars2[1];
+    char c3 = chars2[3];
+    chars2[1] = c3;
+    chars2[3] = c2;
+
+    char[] chars3 = s1.toCharArray();
+    chars3[0] = c1;
+    chars3[2] = c;
+    chars3[1] = c3;
+    chars3[3] = c2;
+
+    return Arrays.equals(chars, s2.toCharArray())
+        || Arrays.equals(chars2, s2.toCharArray())
+        || Arrays.equals(chars3, s2.toCharArray());
+  }
+
+  @Test
   public void addStrings() {
     assertEquals("134", addStrings("11", "123"));
     assertEquals("533", addStrings("456", "77"));

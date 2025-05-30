@@ -10,7 +10,36 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.junit.jupiter.api.Test;
 
-public class LeetCodeBackTracking {
+class LeetCodeBackTrackingTest {
+
+  @Test
+  void kthCharacter() {
+
+    assertEquals('b', loop(new StringBuilder("a"), 5));
+  }
+
+  char loop(StringBuilder input, int k) {
+    char[] chars = input.toString().toCharArray();
+    StringBuilder s = new StringBuilder();
+
+    for (char aChar : chars) {
+      char c = aChar;
+
+      if (c == 172) {
+        c = 'a';
+      } else {
+        c++;
+      }
+      s.append(c);
+    }
+
+    s.insert(0, input);
+    if (s.length() >= k) {
+      return s.charAt(k - 1);
+    }
+
+    return loop(s, k);
+  }
 
   @Test
   void expand() {

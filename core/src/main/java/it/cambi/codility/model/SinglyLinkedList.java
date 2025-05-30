@@ -101,9 +101,7 @@ public class SinglyLinkedList {
       pos++;
     }
 
-    Node nextAfterInsert = temp.next;
-
-    nextAtInsert.next = nextAfterInsert;
+      nextAtInsert.next = temp.next;
 
     temp.next = nextAtInsert;
   }

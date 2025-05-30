@@ -11,6 +11,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.Arrays;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /** @author luca */
@@ -25,12 +27,12 @@ class UnionFindTest {
     unionFind.union(1, 2);
     unionFind.union(2, 3);
 
-    assertTrue(Arrays.equals(new int[] {0, 3, 3, 3, 4, 5, 6, 7, 8, 9}, unionFind.getElements()));
-    assertTrue(unionFind.areConnected(1, 2));
+    assertArrayEquals(new int[]{0, 3, 3, 3, 4, 5, 6, 7, 8, 9}, unionFind.getElements());
+    assertTrue(unionFind.areConnected(1, 3));
 
     unionFind.union(6, 7);
     unionFind.union(7, 2);
-    assertTrue(Arrays.equals(new int[] {0, 3, 3, 3, 4, 5, 3, 3, 8, 9}, unionFind.getElements()));
+    assertArrayEquals(new int[]{0, 3, 3, 3, 4, 5, 3, 3, 8, 9}, unionFind.getElements());
   }
 
   @Test
@@ -42,19 +44,19 @@ class UnionFindTest {
     unionFind.union(1, 2);
     unionFind.union(2, 3);
 
-    assertTrue(Arrays.equals(new int[] {0, 2, 3, 3, 4, 5, 6, 7, 8, 9}, unionFind.getElements()));
+    assertArrayEquals(new int[]{0, 2, 3, 3, 4, 5, 6, 7, 8, 9}, unionFind.getElements());
     assertTrue(unionFind.areConnected(1, 2));
 
     unionFind.union(6, 7);
     unionFind.union(7, 8);
     unionFind.union(9, 7);
 
-    assertTrue(Arrays.equals(new int[] {0, 2, 3, 3, 4, 5, 7, 8, 8, 8}, unionFind.getElements()));
+    assertArrayEquals(new int[]{0, 2, 3, 3, 4, 5, 7, 8, 8, 8}, unionFind.getElements());
 
     // We assign the root of 2 to the root of 7
     unionFind.union(6, 2);
 
-    assertTrue(Arrays.equals(new int[] {0, 2, 3, 3, 4, 5, 7, 8, 3, 8}, unionFind.getElements()));
+    assertArrayEquals(new int[]{0, 2, 3, 3, 4, 5, 7, 8, 3, 8}, unionFind.getElements());
   }
 
   @Test
@@ -66,7 +68,7 @@ class UnionFindTest {
     unionFind.union(1, 2);
     unionFind.union(2, 3);
 
-    assertTrue(Arrays.equals(new int[] {0, 1, 1, 1, 4, 5, 6, 7, 8, 9}, unionFind.getElements()));
+    assertArrayEquals(new int[]{0, 1, 1, 1, 4, 5, 6, 7, 8, 9}, unionFind.getElements());
 
     assertTrue(unionFind.areConnected(1, 2));
 
@@ -74,12 +76,12 @@ class UnionFindTest {
     unionFind.union(7, 8);
     unionFind.union(9, 7);
 
-    assertTrue(Arrays.equals(new int[] {0, 1, 1, 1, 4, 5, 6, 6, 6, 6}, unionFind.getElements()));
+    assertArrayEquals(new int[]{0, 1, 1, 1, 4, 5, 6, 6, 6, 6}, unionFind.getElements());
 
     unionFind.union(7, 2);
 
-    assertTrue(Arrays.equals(new int[] {0, 6, 1, 1, 4, 5, 6, 6, 6, 6}, unionFind.getElements()));
+    assertArrayEquals(new int[]{0, 6, 1, 1, 4, 5, 6, 6, 6, 6}, unionFind.getElements());
 
-    assertTrue(unionFind.root(4) == 1);
+    assertEquals(1, unionFind.root(4));
   }
 }

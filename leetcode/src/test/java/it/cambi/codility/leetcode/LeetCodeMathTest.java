@@ -6,13 +6,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
@@ -21,6 +25,36 @@ import org.junit.jupiter.api.Test;
  * @author luca
  */
 class LeetCodeMathTest {
+
+  @Test
+  void myPow() {
+    assertEquals(1024.00000, myPow(2.0, 10));
+    assertEquals(9.26100, myPow(2.1, 3));
+    assertEquals(0.25000, myPow(2.0, -2));
+    assertEquals(0.00391, myPow(2.0, -8));
+    assertEquals(0.19827, myPow(0.44528, 2));
+    assertEquals(0.00000, myPow(2.0, -2147483648));
+  }
+
+  public double myPow(double base, int exponent) {
+    double result = 1.0;
+    long exp = exponent;
+
+    if (exp < 0) {
+      base = 1 / base;
+      exp = -exp;
+    }
+
+    while (exp > 0) {
+      if ((exp & 1) == 1) { // check if the least significant bit is 1
+        result *= base;
+      }
+      base *= base; // square the base
+      exp >>= 1; // right shift the exponent
+    }
+
+    return Math.round(result * 100000.0) / 100000.0;
+  }
 
   @Test
   public void isHappy() {

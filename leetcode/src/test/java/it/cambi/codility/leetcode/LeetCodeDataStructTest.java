@@ -801,8 +801,6 @@ class LeetCodeDataStructTest {
         }
     }
 
-    AtomicInteger sum;
-
     @Test
     public void getImportance() {
         List<Employee> list =
@@ -811,31 +809,8 @@ class LeetCodeDataStructTest {
                         new Employee(2, 3, Collections.emptyList()),
                         new Employee(3, 3, Collections.emptyList()));
 
-        setImportance(list, 1);
-        assertEquals(11, sum.get());
-
         // Depth-First Search
         assertEquals(11, getImportance(list, 1));
-    }
-
-    /**
-     * @param list
-     * @return
-     */
-    private AtomicInteger setImportance(List<Employee> list, int id) {
-        Employee employee = list.stream().filter(e -> e.id == id).findAny().get();
-        sum = new AtomicInteger(employee.importance);
-        sumImportance(list, employee.subordinates, sum);
-
-        return sum;
-    }
-
-    public void sumImportance(List<Employee> employees, List<Integer> sub, AtomicInteger sum) {
-        for (Integer integer : sub) {
-            Employee employee = employees.stream().filter(e -> e.id == integer).findAny().get();
-            sum.getAndAdd(employee.importance);
-            sumImportance(employees, employee.subordinates, sum);
-        }
     }
 
     Map<Integer, Employee> emap = new HashMap<>();

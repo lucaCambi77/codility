@@ -147,7 +147,7 @@ public class AltoTest {
 
     restManager = new RestManager(list);
 
-    // Group of 1 seats at table of 2  leaving 1 seat free
+    // Group of 1 seats at table of 2 leaving 1 seat free
     ClientsGroup clientsGroup = new ClientsGroup(1);
 
     restManager.onArrive(clientsGroup);

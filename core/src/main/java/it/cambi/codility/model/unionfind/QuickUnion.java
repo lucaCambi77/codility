@@ -5,7 +5,7 @@ import lombok.Getter;
 /** @author luca */
 @Getter
 public class QuickUnion {
-  private int[] elements;
+  private final int[] elements;
 
   public QuickUnion(int n) {
     elements = new int[n];

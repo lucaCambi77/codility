@@ -6,11 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.TreeSet;
 
 public class RestManager {
   private final List<Table> tables = new ArrayList<>();
-  private final PriorityQueue<ClientsGroup> queue =
-      new PriorityQueue<>(); // always serve smaller groups
+  private final TreeSet<ClientsGroup> queue =
+      new TreeSet<>(); // always serve smaller groups
   private final Map<ClientsGroup, Table> groupTableMap = new HashMap<>();
 
   public RestManager(List<Table> tables) {
@@ -21,46 +22,63 @@ public class RestManager {
     // table with nearest group size
   }
 
-  // new client(s) show up
+  /**
+   * Group should be seated according to the rule:
+   *
+   * <p>- Seat first in the free tables even if the group is less than the total seats
+   *
+   * <p>- Share a table with other guest if possible
+   *
+   * <p>- Queue if no seats are available
+   *
+   * @param group New guests
+   */
   public void onArrive(ClientsGroup group) {
 
     if (null == group) {
       return;
     }
 
-    Table table;
-
-    // try to seat the client(s) in the first empty table
-    int j = 0;
-    while (j < this.tables.size()) {
-      table = this.tables.get(j);
-      if (group.getSize() <= table.getSize() && table.isEmpty()) {
-        if (table.addGroup(group)) {
-          this.groupTableMap.put(group, table);
-          System.out.printf("%s can seat at %s%n", group, table);
-          return;
-        }
-      }
-      j++;
-    }
-
-    // try to seat the client(s) in the first shared table
-    j = 0;
-    while (j < this.tables.size()) {
-      table = this.tables.get(j);
-      if (table.addGroup(group)) {
-        this.groupTableMap.put(group, table);
-        System.out.printf("%s can seat at %s%n", group, table);
-        return;
-      }
-      j++;
-    }
+    if (customerHasSeat(group)) return;
 
     // otherwise add to the queue
     queue.add(group);
   }
 
-  // client(s) leave, either served or simply abandoning the queue
+  private boolean customerHasSeat(ClientsGroup group) {
+    Table potentialSharedTable = null;
+    boolean foundSharedTable = false;
+
+    for (Table table : this.tables) {
+      if (!foundSharedTable && !table.isEmpty() && table.canSeat(group)) {
+        potentialSharedTable = table;
+        foundSharedTable = true;
+      }
+
+      if (table.isEmpty() && table.canSeat(group)) {
+        this.groupTableMap.put(group, table);
+        System.out.printf("%s can seat at %s%n", group, table);
+        table.addGroup(group);
+        return true;
+      }
+    }
+
+    if (potentialSharedTable != null) {
+      potentialSharedTable.addGroup(group);
+      this.groupTableMap.put(group, potentialSharedTable);
+      System.out.printf("%s can seat at %s%n", group, potentialSharedTable);
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Clients leaving, remove them from the queue in case they were waiting. Finally, process waiting
+   * costumers
+   *
+   * @param group Leaving guests
+   */
   public void onLeave(ClientsGroup group) {
     // client(s) served
     if (this.groupTableMap.containsKey(group)) {
@@ -68,16 +86,16 @@ public class RestManager {
       table.removeGroup(group);
       this.groupTableMap.remove(group);
     } else {
-      // client(s) leaves the queue
-      for (ClientsGroup c : this.queue) {
-        if (c.equals(group)) {
-          this.queue.remove(c);
-          break;
-        }
+      this.queue.remove(group);
+    }
+
+    // seat client(s) from the queue
+    for (ClientsGroup c : this.queue) {
+      if (customerHasSeat(c)) {
+        this.queue.remove(c);
+        return;
       }
     }
-    // seat client(s) from the queue
-    onArrive(queue.poll());
   }
 
   // return table where a given client group is seated,
@@ -86,7 +104,7 @@ public class RestManager {
     return this.groupTableMap.get(group);
   }
 
-  public PriorityQueue<ClientsGroup> getQueue() {
+  public TreeSet<ClientsGroup> getQueue() {
     return this.queue;
   }
 

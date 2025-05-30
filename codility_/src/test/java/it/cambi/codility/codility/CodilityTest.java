@@ -662,6 +662,7 @@ class CodilityTest {
     assertFalse(brackets("{[()]"));
     assertFalse(brackets("}[])]"));
     assertTrue(brackets("{[()]}"));
+    assertTrue(brackets(""));
   }
 
   public boolean brackets(String s) {

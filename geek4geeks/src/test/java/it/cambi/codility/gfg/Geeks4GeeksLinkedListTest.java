@@ -1,16 +1,18 @@
 /** */
 package it.cambi.codility.gfg;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-/** @author luca */
+/**
+ * @author luca
+ */
 class Geeks4GeeksLinkedListTest {
 
   class Node {
@@ -95,11 +97,17 @@ class Geeks4GeeksLinkedListTest {
 
   @Test
   public void reverseList() {
-    Node head = new Node(5);
-    head.next = new Node(4);
-    head.next.next = new Node(6);
+    Node head = new Node(1);
+    head.next = new Node(2);
+    head.next.next = new Node(3);
+    head.next.next.next = new Node(4);
 
-    reverseList(head);
+    Node sol = new Node(4);
+    sol.next = new Node(3);
+    sol.next.next = new Node(2);
+    sol.next.next.next = new Node(1);
+
+    assertTrue(areIdentical(sol, reverseList(head)));
   }
 
   private Node reverseList(Node node) {
@@ -112,8 +120,21 @@ class Geeks4GeeksLinkedListTest {
       prev = current;
       current = next;
     }
-    node = prev;
-    return node;
+    return prev;
+  }
+
+  boolean areIdentical(Node lista, Node listb) {
+    if (lista == null && listb == null) return true;
+
+    Node a = lista, b = listb;
+    while (a != null && b != null) {
+      if (a.data != b.data) return false;
+
+      a = a.next;
+      b = b.next;
+    }
+
+    return (a == null && b == null);
   }
 
   @Test

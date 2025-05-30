@@ -96,8 +96,8 @@ public class BinaryTree {
   private void postOrderTrasv(Node root) {
 
     if (root != null) {
-      preOrderTrasv(root.getLeft());
-      preOrderTrasv(root.getRight());
+      postOrderTrasv(root.getLeft());
+      postOrderTrasv(root.getRight());
       System.out.println(root.getData());
     }
   }

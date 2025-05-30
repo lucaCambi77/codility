@@ -6,17 +6,18 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Table implements Comparable<Table> {
-  private final Set<Integer> allowedTables = Set.of(2, 3, 4, 5, 6); // allowed tables
   private final int size; // number of chairs
   private int freeSeats;
   private final List<ClientsGroup> clientsGroups = new ArrayList<>();
 
   public Table(int size) {
-    if (!this.allowedTables.contains(size)) {
+    // allowed tables
+    Set<Integer> allowedTables = Set.of(2, 3, 4, 5, 6);
+    if (!allowedTables.contains(size)) {
       throw new IllegalArgumentException(
           String.format(
               "Allowed Table sizes are : %s",
-              this.allowedTables.stream().map(Object::toString).collect(Collectors.toSet())));
+              allowedTables.stream().map(Object::toString).collect(Collectors.toSet())));
     }
     this.size = size;
     this.freeSeats = size;
@@ -38,13 +39,15 @@ public class Table implements Comparable<Table> {
     return this.freeSeats - this.size == 0;
   }
 
-  public boolean addGroup(ClientsGroup group) {
+  public void addGroup(ClientsGroup group) {
     if (this.freeSeats - group.getSize() >= 0) {
       this.freeSeats -= group.getSize();
       this.clientsGroups.add(group);
-      return true;
     }
-    return false;
+  }
+
+  public boolean canSeat(ClientsGroup group) {
+    return this.freeSeats - group.getSize() >= 0;
   }
 
   public void removeGroup(ClientsGroup group) {

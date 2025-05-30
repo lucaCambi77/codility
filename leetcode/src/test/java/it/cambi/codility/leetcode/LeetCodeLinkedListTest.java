@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -162,7 +163,7 @@ class LeetCodeLinkedListTest {
     sol.next.next.next = new ListNode(4);
     sol.next.next.next.next = new ListNode(5);
 
-    assertTrue(areIdentical(removeElements(head, 6), sol));
+    assertTrue(areIdentical(sol, removeElements(head, 6)));
 
     head = new ListNode(1);
     head.next = new ListNode(1);
@@ -636,18 +637,67 @@ class LeetCodeLinkedListTest {
       head = head.next;
     }
 
-    ListNode solution = null;
-    ListNode tmp = null;
+    ListNode solution = new ListNode(0);
+    ListNode tmp = solution;
 
     for (Map.Entry<Integer, Integer> entry : frequencies.entrySet()) {
-      if (solution == null) {
-        solution = new ListNode(entry.getValue());
-      } else {
-        solution = new ListNode(entry.getValue(), tmp);
-      }
-      tmp = solution;
+      tmp.next = new ListNode(entry.getValue());
+      tmp = tmp.next;
     }
 
-    return solution;
+    return solution.next;
+  }
+
+  @Test
+  void removeNodes() {
+    ListNode l1 = new ListNode(5);
+    l1.next = new ListNode(2);
+    l1.next.next = new ListNode(13);
+    l1.next.next.next = new ListNode(3);
+    l1.next.next.next.next = new ListNode(8);
+
+    ListNode sol = new ListNode(13);
+    sol.next = new ListNode(8);
+
+    assertTrue(areIdentical(sol, removeNodes(l1)));
+
+    l1 = new ListNode(1);
+    l1.next = new ListNode(1);
+    l1.next.next = new ListNode(1);
+    l1.next.next.next = new ListNode(1);
+
+    assertTrue(areIdentical(l1, removeNodes(l1)));
+  }
+
+  public ListNode removeNodes(ListNode head) {
+    Stack<Integer> stack = new Stack<>();
+
+    while (head != null) {
+      stack.push(head.val);
+      head = head.next;
+    }
+
+    int maxSoFar = -1;
+
+    LinkedList<Integer> stackSol = new LinkedList<>();
+
+    while (!stack.isEmpty()) {
+      int val = stack.pop();
+
+      if (val >= maxSoFar) {
+        stackSol.addFirst(val);
+        maxSoFar = val;
+      }
+    }
+
+    ListNode solution = new ListNode(0);
+    ListNode tmp = solution;
+
+    for (Integer integer : stackSol) {
+      tmp.next = new ListNode(integer);
+      tmp = tmp.next;
+    }
+
+    return solution.next;
   }
 }
