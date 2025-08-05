@@ -1,8 +1,11 @@
 /** */
 package it.cambi.codility.leetcode;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -56,7 +59,6 @@ class LeetCodeGraphTest {
             new int[][] {
               {4, 3}, {1, 4}, {4, 8}, {1, 7}, {6, 4}, {4, 2}, {7, 4}, {4, 0}, {0, 9}, {5, 4}
             },
-            10,
             5,
             9,
             true),
@@ -64,20 +66,21 @@ class LeetCodeGraphTest {
             new int[][] {
               {0, 7}, {0, 8}, {6, 1}, {2, 0}, {0, 4}, {5, 8}, {4, 7}, {1, 3}, {3, 5}, {6, 5}
             },
-            10,
             7,
             5,
             true),
-        Arguments.of(new int[][] {{0, 1}, {1, 2}, {2, 0}}, 3, 0, 2, true));
+        Arguments.of(new int[][] {{0, 1}, {1, 2}, {2, 0}}, 0, 2, true));
   }
 
   @ParameterizedTest
   @MethodSource("matrixProvider")
-  void validPath(int[][] matrix, int n, int source, int dest, boolean expected) {
-    assertEquals(expected, validPath(n, matrix, source, dest));
+  void validPath(int[][] matrix, int source, int dest, boolean expected) {
+    assertEquals(expected, validPath(matrix, source, dest));
   }
 
-  boolean validPath(int n, int[][] edges, int source, int destination) {
+  boolean validPath(int[][] edges, int source, int destination) {
+    int n = edges.length;
+
     int[] parent = new int[n];
     int[] rank = new int[n];
 
@@ -123,4 +126,114 @@ class LeetCodeGraphTest {
     }
   }
 
+  @Test
+  void wallsAndGates() {
+    int[][] rooms =
+        new int[][] {
+          {2147483647, -1, 0, 2147483647},
+          {2147483647, 2147483647, 2147483647, -1},
+          {2147483647, -1, 2147483647, -1},
+          {0, -1, 2147483647, 2147483647}
+        };
+
+    wallsAndGates(rooms);
+
+    assertArrayEquals(
+        new int[][] {{3, -1, 0, 1}, {2, 2, 1, -1}, {1, -1, 2, -1}, {0, -1, 3, 4}}, rooms);
+  }
+
+  public void wallsAndGates(int[][] rooms) {
+    if (rooms == null || rooms.length == 0 || rooms[0].length == 0) return;
+
+    int m = rooms.length;
+    int n = rooms[0].length;
+    Queue<int[]> queue = new LinkedList<>();
+
+    // Step 1: Enqueue all gates (cells with value 0)
+    for (int i = 0; i < m; i++) {
+      for (int j = 0; j < n; j++) {
+        if (rooms[i][j] == 0) {
+          queue.offer(new int[] {i, j});
+        }
+      }
+    }
+
+    // Direction vectors for moving up, down, left, right
+    int[][] dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
+    // Step 2: BFS from all gates
+    while (!queue.isEmpty()) {
+      int[] cell = queue.poll();
+      int row = cell[0];
+      int col = cell[1];
+
+      for (int[] dir : dirs) {
+        int r = row + dir[0];
+        int c = col + dir[1];
+
+        // Skip out-of-bounds or walls or already visited cells
+        if (r < 0 || c < 0 || r >= m || c >= n || rooms[r][c] != Integer.MAX_VALUE) {
+          continue;
+        }
+
+        // Update distance and add to queue
+        rooms[r][c] = rooms[row][col] + 1;
+        queue.offer(new int[] {r, c});
+      }
+    }
+  }
+
+  @Test
+  void numIslands() {
+    assertEquals(
+        3,
+        numIslands(
+            new char[][] {
+              {'1', '1', '0', '0', '0'},
+              {'1', '1', '0', '0', '0'},
+              {'0', '0', '1', '0', '0'},
+              {'0', '0', '0', '1', '1'}
+            }));
+    assertEquals(
+        1,
+        numIslands(
+            new char[][] {
+              {'1', '1', '1', '1', '0'},
+              {'1', '1', '0', '1', '0'},
+              {'1', '1', '0', '0', '0'},
+              {'0', '0', '0', '0', '0'}
+            }));
+  }
+
+  int[][] dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
+  private int numIslands(char[][] grid) {
+    int m = grid.length;
+    int n = grid[0].length;
+
+    int numIslands = 0;
+    for (int i = 0; i < grid.length; i++) {
+      for (int j = 0; j < grid[i].length; j++) {
+        if (grid[i][j] == '1' && grid[i][j] != 'x') {
+          bfs(grid, i, j, m, n);
+          numIslands++;
+        }
+      }
+    }
+    return numIslands;
+  }
+
+  void bfs(char[][] grid, int i, int j, int m, int n) {
+
+    grid[i][j] = 'x';
+    for (int[] dir : dirs) {
+
+      int r = i + dir[0];
+      int c = j + dir[1];
+
+      if (r < 0 || c < 0 || r >= m || c >= n) continue;
+
+      if (grid[r][c] == '1') bfs(grid, r, c, m, n);
+    }
+  }
 }

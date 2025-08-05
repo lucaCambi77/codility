@@ -73,4 +73,38 @@ public class LeetCodeRecursionTest {
       Collections.swap(combo, i, start); // backtrack
     }
   }
+
+  @Test
+  void countGoodNumbers() {
+    assertEquals(5, countGoodNumbers(1));
+    assertEquals(400, countGoodNumbers(4));
+    assertEquals(564908303, countGoodNumbers(50));
+  }
+
+  private static final int MOD = 1_000_000_007;
+
+  public int countGoodNumbers(long n) {
+    long evenPositions = (n + 1) / 2; // positions 0, 2, 4, ...
+    long oddPositions = n / 2; // positions 1, 3, 5, ...
+
+    long evens = powMod(5, evenPositions);
+    long odds = powMod(4, oddPositions);
+
+    return (int) ((evens * odds) % MOD);
+  }
+
+  private long powMod(long base, long exp) {
+    long result = 1;
+    base %= MOD;
+
+    while (exp > 0) {
+      if ((exp & 1) == 1) {
+        result = (result * base) % MOD;
+      }
+      base = (base * base) % MOD;
+      exp >>= 1;
+    }
+
+    return result;
+  }
 }

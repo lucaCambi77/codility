@@ -2177,9 +2177,8 @@ class LeetCodeStringTest {
   }
 
   private int romanToInt(String s) {
-    @SuppressWarnings("serial")
     Map<Character, Integer> romanToIntMap =
-        new HashMap<Character, Integer>() {
+        new HashMap<>() {
           {
             put('I', 1);
             put('V', 5);
